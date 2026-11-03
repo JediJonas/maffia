@@ -3,7 +3,7 @@ import { PlayerPicker } from './PlayerPicker.jsx';
 
 /** @type {Record<import('../game/types.js').Role, string>} */
 const NIGHT_INSTRUCTIONS = {
-  mafia: 'Välj vem maffian ska döda. Ni måste välja samma person.',
+  mafia: 'Välj vem maffian ska mörda. Ni måste välja samma person.',
   detective: 'Välj vem du vill undersöka. Svaret får du när staden vaknar.',
   doctor: 'Välj vem du vill skydda i natt.',
   citizen: 'Välj vem du misstänker mest.',
@@ -22,7 +22,7 @@ export function NightScreen({ view, sendAction }) {
     return (
       <section aria-labelledby="night-title">
         <h1 id="night-title">Natt {view.round}</h1>
-        <p>Du är död. Håll tyst och vänta på morgonen.</p>
+        <p>Du är ute ur spelet. Håll tyst och vänta på morgonen.</p>
         {progress}
       </section>
     );

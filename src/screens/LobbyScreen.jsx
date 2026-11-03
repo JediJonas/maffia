@@ -28,7 +28,7 @@ export function LobbyScreen({ view, host, sendAction }) {
           <li key={player.id}>
             <span className="player-name">
               <PlayerAvatar player={player} />
-              {player.name}{player.id === view.me.id && ' (du)'}
+              {player.name}
             </span>
             {!player.isConnected && <span className="muted">frånkopplad</span>}
             {host && player.id !== view.me.id && (

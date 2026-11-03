@@ -38,11 +38,11 @@ export function DayScreen({ view, sendAction }) {
             aria-pressed={myVote === SKIP_VOTE}
             onClick={() => sendAction({ type: 'vote', targetId: SKIP_VOTE })}
           >
-            Avstå från att rösta ut någon
+            Avstå från att rösta
           </button>
         </>
       ) : (
-        <p>Du är död och får inte rösta eller prata.</p>
+        <p>Du är ute ur spelet och får inte rösta eller prata.</p>
       )}
       <p className="muted">{votedCount} av {living.length} har röstat.</p>
     </section>
@@ -84,7 +84,7 @@ function MorningNews({ view }) {
   return (
     <div className="secret-card verdict-card">
       <PlayerAvatar player={killed} sizePx={LARGE_AVATAR_PX} isDead />
-      <p className="secret-headline">I natt dog {killed.id === view.me.id ? 'du' : killed.name}</p>
+      <p className="secret-headline">{killed.id === view.me.id ? 'Du' : killed.name} blev mördad av maffian</p>
       {killed.revealedRole && <p>{killed.name} var {ROLE_INFO[killed.revealedRole].name.toLowerCase()}.</p>}
       {view.isRoleRevealPending && <RoleCountdown />}
     </div>
