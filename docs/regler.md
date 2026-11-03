@@ -50,9 +50,9 @@ Appen, berättarrösten och dokumentationen använder samma ord:
   till exempel "Du blev utvisad ur staden". Om ingen fick flest röster står det
   "Ingen blev utvisad". Själva omröstningen heter fortfarande att rösta.
 - **Kort och långt.** Den stora rubriken vid avataren är kort, "Anna blev
-  mördad" och "Anna blev utvisad". Berättartexten i rutan överst och rösten
-  säger hela meningen, "Anna blev mördad av maffian" och "Anna blev utvisad ur
-  staden".
+  mördad" och "Anna blev utvisad", och så säger även berättarrösten.
+  Berättartexten i rutan överst säger hela meningen, "Anna blev mördad av
+  maffian" och "Anna blev utvisad ur staden".
 - **Ute ur spelet.** Både den som blev mördad och den som blev utvisad är ute
   ur spelet. Det är vad skärmen säger till den spelaren, inte "död".
 
