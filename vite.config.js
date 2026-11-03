@@ -9,4 +9,6 @@ export default defineConfig({
   base: './',
   // Wake Lock kräver https, även när telefonerna testar mot datorn på wifi.
   plugins: [react(), basicSsl()],
+  // Visas i felsökningsloggen, så att det syns om telefonen kör en gammal sida ur cachen.
+  define: { 'import.meta.env.VITE_BUILD_TIME': JSON.stringify(new Date().toISOString()) },
 });

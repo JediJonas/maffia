@@ -1,6 +1,6 @@
 // @ts-check
 // Hur telefonerna märker att fasen byts, utöver skärmens färgbyte.
-// Berättarröst kommer senare; texten finns redan i narration.js.
+// Berättarrösten finns i narratorVoice.js och talar bara på värdens telefon.
 
 // Två korta stötar: vibrera, paus, vibrera.
 // eslint-disable-next-line no-magic-numbers -- ett mönster, inte tal med var sin betydelse
