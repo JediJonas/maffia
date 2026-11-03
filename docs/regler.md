@@ -87,7 +87,7 @@ alla går att ändra i `src/game/rules.js`:
 - Döda spelares roller visas för alla.
 - Läkaren får skydda sig själv, men inte samma spelare två nätter i rad.
 - Maffian kan inte välja en annan maffia som offer.
-- På morgonen syns först bara vem som blev mördad i natt. Efter en nedräkning på fem
+- På morgonen syns först bara vem som blev mördad i natt. Efter en nedräkning på tio
   sekunder visas rollen för alla samtidigt. Omröstningen är öppen hela tiden.
   Blev ingen mördad finns inget att räkna ned till.
 - Avgör nattens mord spelet visas morgonen ändå, med nedräkningen. Några
@@ -96,7 +96,8 @@ alla går att ändra i `src/game/rules.js`:
 - Omröstningen avgörs när alla levande har röstat, och man kan ändra sin röst
   fram till dess. Alla ser hela tiden vem som har röstat på vem.
 - Efter omröstningen visas ett domslut. Först syns bara vem som blev utvisad, och
-  rollen visas efter samma nedräkning. Värden bestämmer när spelet fortsätter,
-  ungefär som en spelledare, och knappen ser likadan ut även när spelet är
-  avgjort, så att värden inte ser resultatet före de andra.
+  rollen visas efter samma nedräkning. Sedan räknar "Spelet fortsätter om …"
+  ned i tio sekunder till, så att alla hinner se rösterna, och det blir natt
+  eller slut av sig självt. Texten är densamma även när spelet är avgjort, så
+  att ingen ser resultatet i förväg.
 - Spelet väntar på frånkopplade spelare, eftersom deras val behövs.

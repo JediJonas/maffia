@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { endDecidedMorning, findHiddenDeathId, isMorningDecided, showDeathRole } from './deathReveal.js';
+import { endDecidedMorning, findHiddenDeathId, isMorningDecided, isVerdictShown, showDeathRole } from './deathReveal.js';
 import { buildPlayerView } from './playerView.js';
 import { RuleError } from './rules.js';
 import { createTestGame, playDay, playNight } from './testGame.js';
@@ -51,6 +51,16 @@ describe('domslutet', () => {
     const shown = showDeathRole(verdict);
     expect(roleSeenBy(shown, 'p1', 'p4')).toBe('citizen');
     expect(buildPlayerView(shown, 'p1').isRoleRevealPending).toBe(false);
+  });
+
+  it('går vidare först när rollen har visats', () => {
+    expect(isVerdictShown(verdict)).toBe(false);
+    expect(isVerdictShown(showDeathRole(verdict))).toBe(true);
+  });
+
+  it('går vidare direkt när ingen blev utvisad', () => {
+    const noOne = playDay(day, { p1: 'skip', p2: 'skip', p3: 'skip', p4: 'skip', p5: 'skip' });
+    expect(isVerdictShown(noOne)).toBe(true);
   });
 
   it('visar fortfarande nattens offer under domslutet', () => {
