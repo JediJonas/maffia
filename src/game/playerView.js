@@ -34,7 +34,7 @@ import { findHiddenDeathId } from './deathReveal.js';
  * @property {import('./types.js').Investigation[]} investigations Tom för alla utom detektiven.
  * @property {Record<string, string>} dayVotes Omröstningen är öppen, som i klassisk maffia.
  * @property {import('./settings.js').GameSettings} settings Alla får se inställningarna.
- * @property {boolean} canShowDeathRole Sant på morgonen och i domslutet tills värden har vänt fram den dödas roll.
+ * @property {boolean} isRoleRevealPending Sant på morgonen och i domslutet medan nedräkningen till den dödas roll pågår.
  * @property {import('./types.js').NightOutcome | null} lastNight
  * @property {import('./types.js').DayOutcome | null} lastDay
  * @property {import('./types.js').Team | null} winner
@@ -85,6 +85,6 @@ export function buildPlayerView(state, playerId) {
     lastDay: state.lastDay,
     winner: state.winner,
     settings: state.settings,
-    canShowDeathRole: Boolean(hiddenDeathId),
+    isRoleRevealPending: Boolean(hiddenDeathId),
   };
 }

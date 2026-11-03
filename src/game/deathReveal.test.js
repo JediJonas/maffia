@@ -14,13 +14,13 @@ describe('morgonens offer', () => {
 
   it('visar först bara namnet', () => {
     expect(roleSeenBy(morning, 'p5', 'p4')).toBeNull();
-    expect(buildPlayerView(morning, 'p5').canShowDeathRole).toBe(true);
+    expect(buildPlayerView(morning, 'p5').isRoleRevealPending).toBe(true);
   });
 
   it('visar rollen för alla när värden vänder fram den', () => {
     const shown = showDeathRole(morning);
     expect(roleSeenBy(shown, 'p5', 'p4')).toBe('citizen');
-    expect(buildPlayerView(shown, 'p5').canShowDeathRole).toBe(false);
+    expect(buildPlayerView(shown, 'p5').isRoleRevealPending).toBe(false);
   });
 
   it('låter omröstningen pågå medan rollen är dold', () => {
@@ -47,10 +47,10 @@ describe('domslutet', () => {
 
   it('döljer rollen tills värden vänder fram den', () => {
     expect(roleSeenBy(verdict, 'p1', 'p4')).toBeNull();
-    expect(buildPlayerView(verdict, 'p1').canShowDeathRole).toBe(true);
+    expect(buildPlayerView(verdict, 'p1').isRoleRevealPending).toBe(true);
     const shown = showDeathRole(verdict);
     expect(roleSeenBy(shown, 'p1', 'p4')).toBe('citizen');
-    expect(buildPlayerView(shown, 'p1').canShowDeathRole).toBe(false);
+    expect(buildPlayerView(shown, 'p1').isRoleRevealPending).toBe(false);
   });
 
   it('visar fortfarande nattens offer under domslutet', () => {

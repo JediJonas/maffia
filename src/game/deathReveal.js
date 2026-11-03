@@ -1,7 +1,10 @@
 // @ts-check
-// Den som dött visas först bara med namn. Värden vänder sedan fram rollen
-// för alla samtidigt, så att det blir en liten cliffhanger.
+// Den som dött visas först bara med namn. Efter en kort nedräkning vänder
+// värdens telefon fram rollen för alla samtidigt, som en liten cliffhanger.
 import { RuleError } from './rules.js';
+
+/** Fem sekunder räcker för att bygga spänning utan att spelet stannar upp. */
+export const ROLE_REVEAL_DELAY_MS = 5000;
 
 /** @typedef {import('./types.js').GameState} GameState */
 
@@ -19,7 +22,7 @@ export function findHiddenDeathId(state) {
 }
 
 /**
- * Värden vänder fram rollen på den som dog i natt eller röstades ut.
+ * Vänder fram rollen på den som dog i natt eller röstades ut.
  * @param {GameState} state
  * @returns {GameState}
  */
