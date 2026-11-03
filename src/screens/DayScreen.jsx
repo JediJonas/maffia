@@ -37,7 +37,7 @@ export function DayScreen({ view, sendAction }) {
             aria-pressed={myVote === SKIP_VOTE}
             onClick={() => sendAction({ type: 'vote', targetId: SKIP_VOTE })}
           >
-            Avstå från att utvisa någon
+            Avstå från att rösta
           </button>
         </>
       ) : (
