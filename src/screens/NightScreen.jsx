@@ -4,7 +4,7 @@ import { PlayerPicker } from './PlayerPicker.jsx';
 /** @type {Record<import('../game/types.js').Role, string>} */
 const NIGHT_INSTRUCTIONS = {
   mafia: 'Välj vem maffian ska döda. Ni måste välja samma person.',
-  detective: 'Välj vem du vill undersöka.',
+  detective: 'Välj vem du vill undersöka. Svaret får du när staden vaknar.',
   doctor: 'Välj vem du vill skydda i natt.',
   citizen: 'Välj vem du misstänker mest.',
 };

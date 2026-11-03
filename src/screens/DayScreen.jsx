@@ -1,6 +1,7 @@
 // @ts-check
 import { SKIP_VOTE } from '../game/rules.js';
 import { PlayerPicker } from './PlayerPicker.jsx';
+import { SecretCard } from './SecretCard.jsx';
 
 /**
  * @param {object} props
@@ -54,22 +55,25 @@ function describeVotes(count) {
 }
 
 /**
- * Bara detektiven har resultat. Visas diskret så att grannen inte läser med.
+ * Bara detektiven har resultat. Visas som rollkortet, så att grannen inte läser med.
  * @param {{ view: import('../game/playerView.js').PlayerView }} props
  */
 function Investigations({ view }) {
   if (!view.investigations.length) return null;
+  const nameOf = (/** @type {string} */ id) => view.players.find((p) => p.id === id)?.name;
+  const describe = (/** @type {import('../game/types.js').Investigation} */ result) =>
+    `${nameOf(result.targetId)} ${result.isMafia ? 'är maffia' : 'är inte maffia'}`;
+  const latest = view.investigations[view.investigations.length - 1];
+  const earlier = view.investigations.slice(0, -1);
   return (
-    <details className="secret">
-      <summary>Dina undersökningar</summary>
-      <ul>
-        {view.investigations.map((result) => (
-          <li key={result.round}>
-            Natt {result.round}: {view.players.find((p) => p.id === result.targetId)?.name}{' '}
-            {result.isMafia ? 'är maffia.' : 'är inte maffia.'}
-          </li>
-        ))}
-      </ul>
-    </details>
+    // Nyckeln vänder tillbaka kortet varje ny dag.
+    <SecretCard key={latest.round} revealLabel="Tryck för att se vad din undersökning visade">
+      <p className="secret-headline">{describe(latest)}.</p>
+      {earlier.length > 0 && (
+        <ul className="earlier-results">
+          {earlier.map((result) => <li key={result.round}>Natt {result.round}: {describe(result)}.</li>)}
+        </ul>
+      )}
+    </SecretCard>
   );
 }

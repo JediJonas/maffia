@@ -235,7 +235,7 @@ button:disabled {
   font-weight: 400;
 }
 
-.role-card {
+.secret-card {
   display: block;
   width: 100%;
   min-height: 12rem;
@@ -246,29 +246,22 @@ button:disabled {
   text-align: center;
 }
 
-.role-hidden {
+.secret-hidden {
   font-size: 1.2rem;
 }
 
-.role-name {
+.secret-headline {
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
 }
 
-.secret {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 0.6rem;
-  padding: 0.5rem 1rem;
-  margin-bottom: 1rem;
+.secret-card + * {
+  margin-top: 1rem;
 }
 
-.secret summary {
-  min-height: 2.75rem;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+.earlier-results {
+  text-align: left;
 }
 
 .dead {
