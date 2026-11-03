@@ -60,7 +60,7 @@ export function narrateAloud(previous, next) {
     case 'verdict':
       return `Alla har röstat. ${describeExecution(next, SPOKEN_EXECUTION)}`;
     case 'gameOver':
-      return narratePhaseChange(previous, next);
+      return `Spelet är slut. ${next.winner === 'mafia' ? 'Maffian har tagit över.' : 'Staden har vunnit.'}`;
     default:
       return null;
   }

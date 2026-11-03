@@ -71,6 +71,8 @@ skärmen. Till exempel:
 | Natten faller. Alla tittar i sin telefon och gör sitt val. | Natten faller. Gör ditt val. |
 | Staden vaknar. Anna blev mördad av maffian. Diskutera och rösta om vem som ska utvisas. | Staden vaknar. Anna blev mördad. |
 | Alla har röstat. Anna blev utvisad ur staden. | Alla har röstat. Anna blev utvisad. |
+| Spelet är slut. Maffian har tagit över staden. | Spelet är slut. Maffian har tagit över. |
+| Spelet är slut. Staden har besegrat maffian. | Spelet är slut. Staden har vunnit. |
 
 Efter nedräkningen säger rösten rollen, till exempel "Anna var läkare". Den
 säger bara det som alla får veta, och samma ord som i listan ovan. Texterna

@@ -107,6 +107,12 @@ describe('narrateAloud', () => {
     expect(aloud(night, morning)).not.toContain('av maffian');
   });
 
+  it('säger kort vem som vann', () => {
+    const over = (/** @type {'mafia' | 'town'} */ winner) => ({ ...morning, phase: 'gameOver', winner });
+    expect(aloud(morning, over('mafia'))).toBe('Spelet är slut. Maffian har tagit över.');
+    expect(aloud(morning, over('town'))).toBe('Spelet är slut. Staden har vunnit.');
+  });
+
   it('säger att natten faller', () => {
     expect(aloud({ ...night, phase: 'verdict' }, night)).toBe('Natten faller. Gör ditt val.');
   });
