@@ -34,7 +34,7 @@ export function AvatarEditor({ playerId, avatar, onChange, onClose }) {
           </li>
         ))}
       </ul>
-      <button type="button" className="primary" onClick={onClose}>Klar</button>
+      <button type="button" className="secondary" onClick={onClose}>Klar</button>
     </section>
   );
 }
