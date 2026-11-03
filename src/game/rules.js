@@ -247,7 +247,7 @@ function resolveNight(state) {
   return withWinnerCheck({
     ...afterKill,
     phase: 'day',
-    lastNight: { killedId },
+    lastNight: { killedId, isRoleShown: false },
     dayVotes: {},
   });
 }
@@ -295,16 +295,6 @@ export function findExecutedId(votes) {
 function resolveDay(state) {
   const executedId = findExecutedId(state.dayVotes);
   return { ...killPlayer(state, executedId), phase: 'verdict', lastDay: { executedId, isRoleShown: false } };
-}
-
-/**
- * Värden vänder fram rollen på den som röstades ut.
- * @param {GameState} state
- * @returns {GameState}
- */
-export function showVerdictRole(state) {
-  if (state.phase !== 'verdict' || !state.lastDay) throw new RuleError('Det finns ingen roll att visa.');
-  return { ...state, lastDay: { ...state.lastDay, isRoleShown: true } };
 }
 
 /**

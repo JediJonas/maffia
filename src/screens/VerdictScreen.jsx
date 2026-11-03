@@ -28,7 +28,7 @@ export function VerdictScreen({ view, host }) {
       {host && <VerdictHostButton view={view} host={host} />}
       {!host && (
         <p className="muted">
-          {view.canShowVerdictRole ? 'Värden visar snart rollen …' : 'Värden fortsätter när alla är redo.'}
+          {view.canShowDeathRole ? 'Värden visar snart rollen …' : 'Värden fortsätter när alla är redo.'}
         </p>
       )}
     </section>
@@ -42,8 +42,8 @@ export function VerdictScreen({ view, host }) {
  * @param {import('../host/useHostGame.js').HostControls} props.host
  */
 function VerdictHostButton({ view, host }) {
-  if (view.canShowVerdictRole) {
-    return <button type="button" className="primary" onClick={host.showVerdictRole}>Visa rollen</button>;
+  if (view.canShowDeathRole) {
+    return <button type="button" className="primary" onClick={host.showDeathRole}>Visa rollen</button>;
   }
   // Samma knapp oavsett om spelet är avgjort, så att värden inte ser
   // resultatet före de andra.

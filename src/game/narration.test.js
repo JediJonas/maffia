@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { narratePhaseChange } from './narration.js';
 import { buildPlayerView } from './playerView.js';
 import { applyAction } from './rules.js';
-import { createTestGame } from './testGame.js';
+import { createTestGame, playNight } from './testGame.js';
 
 const ROLES = ['mafia', 'detective', 'doctor', 'citizen', 'citizen'];
 
@@ -14,13 +14,11 @@ describe('narratePhaseChange', () => {
     expect(narratePhaseChange(view, view)).toBeNull();
   });
 
-  it('berättar vem som dog och vilken roll den hade', () => {
-    let state = night;
-    const choices = { p1: 'p3', p2: 'p4', p3: 'p4', p4: 'p2', p5: 'p2' };
-    for (const [id, targetId] of Object.entries(choices)) state = applyAction(state, id, { type: 'nightChoice', targetId });
-    for (const id of Object.keys(choices)) state = applyAction(state, id, { type: 'nightDone' });
+  it('berättar vem som dog men sparar rollen till värden vänder fram den', () => {
+    const state = playNight(night, { p1: 'p3', p2: 'p4', p3: 'p4', p4: 'p2', p5: 'p2' });
     const text = narratePhaseChange(buildPlayerView(night, 'p1'), buildPlayerView(state, 'p1'));
-    expect(text).toContain('I natt dog Spelare 3, som var läkare.');
+    expect(text).toContain('I natt dog Spelare 3.');
+    expect(text).not.toContain('läkare');
   });
 
   it('avslöjar aldrig värdens egen roll', () => {

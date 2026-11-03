@@ -5,8 +5,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { buildPlayerView } from '../game/playerView.js';
 import { completeSettings } from '../game/settings.js';
 import {
-  RuleError, addPlayer, applyAction, changeSettings, createGame, endVerdict, showVerdictRole, removePlayer, returnToLobby, setConnected, startGame,
+  RuleError, addPlayer, applyAction, changeSettings, createGame, endVerdict, removePlayer, returnToLobby, setConnected, startGame,
 } from '../game/rules.js';
+import { showDeathRole } from '../game/deathReveal.js';
 import { openHostNetwork } from '../network/hostNetwork.js';
 import { createSecret, loadHostGame, saveHostGame } from '../device/savedSession.js';
 import { keepScreenAwake } from '../device/wakeLock.js';
@@ -21,7 +22,7 @@ import { keepScreenAwake } from '../device/wakeLock.js';
  * @property {() => void} startGame
  * @property {() => void} returnToLobby
  * @property {() => void} endVerdict
- * @property {() => void} showVerdictRole
+ * @property {() => void} showDeathRole
  * @property {(changes: Partial<import('../game/settings.js').GameSettings>) => void} changeSettings
  * @property {(playerId: string) => void} removePlayer
  */
@@ -157,7 +158,7 @@ export function useHostGame(roomCode, hostName) {
     startGame: () => tryRule((s) => startGame(s, Math.random), setNotice),
     returnToLobby: () => tryRule(returnToLobby, setNotice),
     endVerdict: () => tryRule(endVerdict, setNotice),
-    showVerdictRole: () => tryRule(showVerdictRole, setNotice),
+    showDeathRole: () => tryRule(showDeathRole, setNotice),
     changeSettings: (/** @type {Partial<import('../game/settings.js').GameSettings>} */ changes) => tryRule((s) => changeSettings(s, changes), setNotice),
     removePlayer(/** @type {string} */ playerId) {
       const game = gameRef.current;

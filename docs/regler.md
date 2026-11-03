@@ -47,6 +47,9 @@ alla går att ändra i `src/game/rules.js`:
 - Döda spelares roller visas för alla.
 - Läkaren får skydda sig själv, men inte samma spelare två nätter i rad.
 - Maffian kan inte välja en annan maffia som offer.
+- På morgonen syns först bara vem som dog i natt. Värden vänder sedan fram
+  rollen för alla samtidigt. Omröstningen är öppen hela tiden. Dog ingen
+  finns inget att vända fram.
 - Omröstningen avgörs när alla levande har röstat, och man kan ändra sin röst
   fram till dess. Alla ser hela tiden vem som har röstat på vem.
 - Efter omröstningen visas ett domslut. Först syns bara vem som åkte ut, och

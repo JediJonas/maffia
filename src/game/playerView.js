@@ -2,6 +2,7 @@
 // Det enda som skickas till en telefon. Varje fält här är något just den
 // spelaren får veta, så att ingen kan läsa andras roller i nätverkstrafiken.
 import { canConfirmNight, listNightTargets } from './rules.js';
+import { findHiddenDeathId } from './deathReveal.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
 /** @typedef {import('./types.js').Role} Role */
@@ -33,7 +34,7 @@ import { canConfirmNight, listNightTargets } from './rules.js';
  * @property {import('./types.js').Investigation[]} investigations Tom för alla utom detektiven.
  * @property {Record<string, string>} dayVotes Omröstningen är öppen, som i klassisk maffia.
  * @property {import('./settings.js').GameSettings} settings Alla får se inställningarna.
- * @property {boolean} canShowVerdictRole Sant under domslutet tills värden har vänt fram rollen.
+ * @property {boolean} canShowDeathRole Sant på morgonen och i domslutet tills värden har vänt fram den dödas roll.
  * @property {import('./types.js').NightOutcome | null} lastNight
  * @property {import('./types.js').DayOutcome | null} lastDay
  * @property {import('./types.js').Team | null} winner
@@ -50,9 +51,9 @@ export function buildPlayerView(state, playerId) {
   const isGameOver = state.phase === 'gameOver';
   const isNight = state.phase === 'night';
   const isMafia = me.role === 'mafia';
-  const hiddenVerdictId = state.phase === 'verdict' && !state.lastDay?.isRoleShown ? state.lastDay?.executedId : null;
+  const hiddenDeathId = findHiddenDeathId(state);
   const canSeeRoleOf = (/** @type {import('./types.js').Player} */ p) =>
-    isGameOver || (!p.isAlive && state.settings.revealsRoleOnDeath && p.id !== hiddenVerdictId);
+    isGameOver || (!p.isAlive && state.settings.revealsRoleOnDeath && p.id !== hiddenDeathId);
 
   return {
     phase: state.phase,
@@ -84,6 +85,6 @@ export function buildPlayerView(state, playerId) {
     lastDay: state.lastDay,
     winner: state.winner,
     settings: state.settings,
-    canShowVerdictRole: Boolean(hiddenVerdictId) && state.settings.revealsRoleOnDeath,
+    canShowDeathRole: Boolean(hiddenDeathId),
   };
 }

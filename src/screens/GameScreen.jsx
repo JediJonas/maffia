@@ -48,7 +48,7 @@ function PhaseContent({ view, sendAction, host }) {
     case 'night':
       return <NightScreen view={view} sendAction={sendAction} />;
     case 'day':
-      return <DayScreen view={view} sendAction={sendAction} />;
+      return <DayScreen view={view} sendAction={sendAction} host={host} />;
     case 'verdict':
       return <VerdictScreen view={view} host={host} />;
     case 'gameOver':
