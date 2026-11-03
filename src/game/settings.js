@@ -10,6 +10,7 @@
  * @property {boolean} hasDetective
  * @property {boolean} hasDoctor
  * @property {boolean} revealsRoleOnDeath Av gör spelet svårare: rollerna visas först när spelet är slut.
+ * @property {boolean} hasNarratorVoice Värdens telefon läser upp vem som dog och rollen.
  */
 
 /** @type {GameSettings} */
@@ -18,6 +19,7 @@ export const DEFAULT_SETTINGS = {
   hasDetective: true,
   hasDoctor: true,
   revealsRoleOnDeath: true,
+  hasNarratorVoice: true,
 };
 
 // Fler än tre maffia kräver fler spelare än en vanlig sällskapskväll har.

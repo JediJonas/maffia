@@ -22,6 +22,11 @@ varje gång något hamnar i main.
 - **Värdens skärm** hålls tänd med Wake Lock API.
 - **Fasbyten** syns genom att skärmen blir mörk på natten och ljus på dagen,
   med en berättartext, och telefonerna vibrerar (inte på iPhone).
+- **Berättarröst.** Värdens telefon läser upp vem som dog eller röstades ut,
+  och rollen när nedräkningen är slut, med webbläsarens talsyntes. Bara
+  värden talar, och bara om sådant som alla får veta. Stängs av bland
+  inställningarna i lobbyn. Lägg till `?debug=1` i adressen för en
+  felsökningslogg i telefonen.
 
 ## Mappar
 
@@ -29,7 +34,7 @@ varje gång något hamnar i main.
 - `src/network/` PeerJS för värd och spelare
 - `src/host/` och `src/player/` React-hookar som kopplar ihop regler och nätverk
 - `src/screens/` vyerna
-- `src/device/` telefonens funktioner: skärmlås, vibration och sparad session
+- `src/device/` telefonens funktioner: skärmlås, vibration, talsyntes och sparad session
 
 ## Kom igång
 
