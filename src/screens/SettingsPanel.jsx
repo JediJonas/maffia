@@ -1,22 +1,40 @@
 // @ts-check
+import { useState } from 'react';
 import { MIN_PLAYERS } from '../game/roles.js';
 import { MAFIA_COUNT_CHOICES, buildRoleList, findSettingsProblem } from '../game/settings.js';
 
 /** @typedef {import('../game/settings.js').GameSettings} GameSettings */
 
 /**
- * Värden ändrar inställningarna, de andra ser vad som gäller.
+ * Alla ser en sammanfattning. Värden öppnar formuläret med Ändra, så att lobbyn
+ * blir kort och samma för alla, som i Låtquiz.
  * @param {object} props
  * @param {GameSettings} props.settings
  * @param {number} props.playerCount
  * @param {((changes: Partial<GameSettings>) => void) | null} props.onChange Null för de som inte är värd.
  */
 export function SettingsPanel({ settings, playerCount, onChange }) {
+  const [isEditing, setIsEditing] = useState(false);
   const problem = playerCount >= MIN_PLAYERS ? findSettingsProblem(settings, playerCount) : null;
   return (
     <section className="settings" aria-labelledby="settings-title">
       <h2 id="settings-title">Inställningar</h2>
-      {onChange ? <SettingsForm settings={settings} onChange={onChange} /> : <SettingsSummary settings={settings} />}
+      {onChange && isEditing ? (
+        <SettingsForm settings={settings} onChange={onChange} />
+      ) : (
+        <SettingsSummary settings={settings} />
+      )}
+      {onChange && (
+        // Samma knapp byter text i stället för att bytas ut, så att fokus stannar kvar.
+        <button
+          type="button"
+          className="secondary"
+          aria-expanded={isEditing}
+          onClick={() => setIsEditing(!isEditing)}
+        >
+          {isEditing ? 'Klar' : 'Ändra'}
+        </button>
+      )}
       {playerCount >= MIN_PLAYERS && !problem && (
         <p className="muted">Roller: {describeRoles(buildRoleList(settings, playerCount))}.</p>
       )}
