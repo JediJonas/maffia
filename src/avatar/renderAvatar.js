@@ -7,9 +7,10 @@ import { AVATAR_PARTS, NO_CHOICE } from './avatarParts.js';
 
 /** @typedef {import('./avatarParts.js').Avatar} Avatar */
 
-// Vit hud och bakgrund i stället för genomskinligt, så att avatarerna syns
+// Avatarerna är svartvita, som Lorelei är ritad, så färgerna går inte att
+// välja. Bakgrunden är vit i stället för genomskinlig, så att avatarerna syns
 // även mot nattens mörka bakgrund.
-const FIXED_COLORS = { skinColor: ['ffffff'], backgroundColor: ['ffffff'] };
+const FIXED_COLORS = { hairColor: ['000000'], skinColor: ['ffffff'], backgroundColor: ['ffffff'] };
 const ALWAYS_PERCENT = 100;
 const NEVER_PERCENT = 0;
 
@@ -41,10 +42,7 @@ export function toDiceBearOptions(avatar) {
  * @returns {Record<string, string[] | string>}
  */
 function buildSeededOptions(seed) {
-  const colorChoices = Object.fromEntries(
-    AVATAR_PARTS.filter((part) => part.kind === 'color').map((part) => [part.key, [...part.choices]]),
-  );
-  return { seed, ...FIXED_COLORS, ...colorChoices };
+  return { seed, ...FIXED_COLORS };
 }
 
 /** @type {Map<string, string>} Samma avatar ritas på många ställen, så bilden sparas. */

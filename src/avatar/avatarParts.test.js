@@ -11,7 +11,7 @@ function sequence(values) {
 
 describe('AVATAR_PARTS', () => {
   it('har samma former som Lorelei', () => {
-    for (const part of AVATAR_PARTS.filter((p) => p.kind !== 'color')) {
+    for (const part of AVATAR_PARTS) {
       const known = /** @type {any} */ (schema.properties)[part.key].items.enum;
       const ownChoices = part.choices.filter((c) => c !== NO_CHOICE);
       expect([...ownChoices].sort(), part.key).toEqual([...known].sort());
@@ -37,7 +37,7 @@ describe('sanitizeAvatar', () => {
 
   it('nekar okända värden', () => {
     expect(sanitizeAvatar({ ...valid, hair: '<script>' })).toBeNull();
-    expect(sanitizeAvatar({ ...valid, hairColor: 'ff0000' })).toBeNull();
+    expect(sanitizeAvatar({ ...valid, glasses: 'variant99' })).toBeNull();
     expect(sanitizeAvatar('hår')).toBeNull();
     expect(sanitizeAvatar(null)).toBeNull();
   });
@@ -65,8 +65,9 @@ describe('stepAvatarPart', () => {
 });
 
 describe('renderAvatar', () => {
-  it('ritar hud och bakgrund i vitt', () => {
+  it('ritar svartvitt', () => {
     const options = toDiceBearOptions(createRandomAvatar(Math.random));
+    expect(options.hairColor).toEqual(['000000']);
     expect(options.skinColor).toEqual(['ffffff']);
     expect(options.backgroundColor).toEqual(['ffffff']);
   });

@@ -11,7 +11,7 @@
  * @property {string} key Samma namn som DiceBear-stilens alternativ.
  * @property {string} label
  * @property {readonly string[]} choices
- * @property {'shape' | 'color' | 'optional'} kind optional har NO_CHOICE som första alternativ.
+ * @property {'shape' | 'optional'} kind optional har NO_CHOICE som första alternativ.
  */
 
 export const NO_CHOICE = 'none';
@@ -30,11 +30,6 @@ function withNoChoice(choices) {
   return [NO_CHOICE, ...choices];
 }
 
-// Avatarerna är svartvita, som Lorelei är ritad. Bara håret får en grå
-// skala, så att frisyrerna skiljer sig mer åt. Helt vitt hår går inte,
-// eftersom håret saknar kontur och då försvinner mot den vita bakgrunden.
-const HAIR_COLORS = ['000000', '4d4d4d', '8c8c8c', 'cccccc'];
-
 // Antalet former av varje del i Lorelei. Ett test jämför med stilens egen lista.
 const LORELEI_SHAPE_COUNTS = {
   hair: 48,
@@ -52,7 +47,6 @@ const LORELEI_SHAPE_COUNTS = {
 /** @type {readonly AvatarPart[]} I den ordning de visas i byggaren. */
 export const AVATAR_PARTS = [
   { key: 'hair', label: 'Frisyr', kind: 'shape', choices: listVariants('variant', LORELEI_SHAPE_COUNTS.hair) },
-  { key: 'hairColor', label: 'Hårfärg', kind: 'color', choices: HAIR_COLORS },
   { key: 'head', label: 'Ansikte', kind: 'shape', choices: listVariants('variant', LORELEI_SHAPE_COUNTS.head) },
   { key: 'eyes', label: 'Ögon', kind: 'shape', choices: listVariants('variant', LORELEI_SHAPE_COUNTS.eyes) },
   { key: 'eyebrows', label: 'Ögonbryn', kind: 'shape', choices: listVariants('variant', LORELEI_SHAPE_COUNTS.eyebrows) },
