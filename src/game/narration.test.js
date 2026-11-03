@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { narrateAloud, narratePhaseChange } from './narration.js';
 import { showDeathRole } from './deathReveal.js';
 import { buildPlayerView } from './playerView.js';
-import { applyAction } from './rules.js';
+import { applyAction, endVerdict } from './rules.js';
 import { createTestGame, playDay, playNight } from './testGame.js';
 
 const ROLES = ['mafia', 'detective', 'doctor', 'citizen', 'citizen'];
@@ -33,6 +33,22 @@ describe('narratePhaseChange', () => {
     for (const id of ['p1', 'p2', 'p3', 'p4', 'p5']) state = applyAction(state, id, { type: 'vote', targetId: 'skip' });
     const text = narratePhaseChange(buildPlayerView(day, 'p1'), buildPlayerView(state, 'p1'));
     expect(text).toBe('Alla har röstat. Ingen blev utvisad.');
+  });
+});
+
+describe('slutet på spelet', () => {
+  it('säger att spelet är slut före vem som vann', () => {
+    const day = { ...createTestGame(ROLES), phase: /** @type {const} */ ('day') };
+    const verdict = playDay(day, { p1: 'p2', p2: 'p1', p3: 'p1', p4: 'p1', p5: 'p1' });
+    const text = narratePhaseChange(buildPlayerView(verdict, 'p2'), buildPlayerView(endVerdict(verdict), 'p2'));
+    expect(text).toBe('Spelet är slut. Staden har besegrat maffian.');
+  });
+
+  it('berättar om nattens mord först när maffian vinner på natten', () => {
+    const night = createTestGame(['mafia', 'mafia', 'citizen', 'citizen']);
+    const over = playNight(night, { p1: 'p3', p2: 'p3', p3: 'p1', p4: 'p1' });
+    const text = narratePhaseChange(buildPlayerView(night, 'p4'), buildPlayerView(over, 'p4'));
+    expect(text).toBe('Staden vaknar. Spelare 3 blev mördad av maffian. Spelare 3 var medborgare. Spelet är slut. Maffian har tagit över staden.');
   });
 });
 

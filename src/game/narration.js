@@ -24,6 +24,7 @@ export function narratePhaseChange(previous, next) {
     case 'gameOver':
       return [
         previous?.phase === 'night' ? `Staden vaknar. ${describeKill(next)}` : null,
+        'Spelet är slut.',
         next.winner === 'mafia' ? 'Maffian har tagit över staden.' : 'Staden har besegrat maffian.',
       ].filter(Boolean).join(' ');
     default:
@@ -77,7 +78,7 @@ function describeShownRole(view) {
 function describeKill(view) {
   const killedId = view.lastNight?.killedId;
   if (!killedId) return 'Ingen blev mördad.';
-  return `${describePlayer(view, killedId)} blev mördad av maffian.`;
+  return describeDeath(view, killedId, 'blev mördad av maffian');
 }
 
 /**
@@ -87,17 +88,20 @@ function describeKill(view) {
 function describeExecution(view) {
   const executedId = view.lastDay?.executedId;
   if (!executedId) return 'Ingen blev utvisad.';
-  return `${describePlayer(view, executedId)} blev utvisad ur staden.`;
+  return describeDeath(view, executedId, 'blev utvisad ur staden');
 }
 
 /**
+ * Namnet först och rollen i en egen mening, så att meningen blir lika
+ * lätt att läsa och höra oavsett om rollen redan är framvänd.
  * @param {PlayerView} view
  * @param {string} playerId
- * @returns {string}
+ * @param {string} whatHappened Till exempel "blev mördad av maffian".
+ * @returns {string} Till exempel "Anna blev mördad av maffian. Anna var läkare."
  */
-function describePlayer(view, playerId) {
+function describeDeath(view, playerId, whatHappened) {
   const player = view.players.find((p) => p.id === playerId);
-  if (!player) return 'någon';
-  const role = player.revealedRole ? ROLE_INFO[player.revealedRole].name.toLowerCase() : null;
-  return role ? `${player.name}, som var ${role}` : player.name;
+  if (!player) return `Någon ${whatHappened}.`;
+  const roleSentence = player.revealedRole ? ` ${player.name} var ${ROLE_INFO[player.revealedRole].name.toLowerCase()}.` : '';
+  return `${player.name} ${whatHappened}.${roleSentence}`;
 }
