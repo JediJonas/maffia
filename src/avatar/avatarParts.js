@@ -44,7 +44,6 @@ const LORELEI_SHAPE_COUNTS = {
   happyMouth: 18,
   sadMouth: 9,
   glasses: 5,
-  earrings: 3,
   beard: 2,
 };
 
@@ -62,10 +61,7 @@ export const AVATAR_PARTS = [
     choices: [...listVariants('happy', LORELEI_SHAPE_COUNTS.happyMouth), ...listVariants('sad', LORELEI_SHAPE_COUNTS.sadMouth)],
   },
   { key: 'glasses', label: 'Glasögon', kind: 'optional', choices: withNoChoice(listVariants('variant', LORELEI_SHAPE_COUNTS.glasses)) },
-  { key: 'earrings', label: 'Örhängen', kind: 'optional', choices: withNoChoice(listVariants('variant', LORELEI_SHAPE_COUNTS.earrings)) },
   { key: 'beard', label: 'Skägg', kind: 'optional', choices: withNoChoice(listVariants('variant', LORELEI_SHAPE_COUNTS.beard)) },
-  { key: 'freckles', label: 'Fräknar', kind: 'optional', choices: withNoChoice(['variant01']) },
-  { key: 'hairAccessories', label: 'Blommor i håret', kind: 'optional', choices: withNoChoice(['flowers']) },
   { key: 'backgroundColor', label: 'Bakgrund', kind: 'color', choices: BACKGROUND_COLORS },
 ];
 

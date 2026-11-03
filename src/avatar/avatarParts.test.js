@@ -68,6 +68,13 @@ describe('stepAvatarPart', () => {
 });
 
 describe('renderAvatar', () => {
+  it('ritar aldrig de borttagna delarna', () => {
+    const options = toDiceBearOptions(createRandomAvatar(Math.random));
+    expect(options.earringsProbability).toBe(0);
+    expect(options.frecklesProbability).toBe(0);
+    expect(options.hairAccessoriesProbability).toBe(0);
+  });
+
   it('ritar svartvitt med vald bakgrund', () => {
     const options = toDiceBearOptions({ ...createRandomAvatar(Math.random), backgroundColor: 'cfe3f2' });
     expect(options.hairColor).toEqual(['000000']);
