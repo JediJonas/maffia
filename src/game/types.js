@@ -37,6 +37,7 @@
 /**
  * @typedef {object} DayOutcome
  * @property {string | null} executedId Null vid oavgjort eller när de flesta röstade att avstå.
+ * @property {boolean} isRoleShown Domslutet visar först bara vem som åkte ut, och värden vänder sedan fram rollen för spänningens skull.
  */
 
 /**

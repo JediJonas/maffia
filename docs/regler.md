@@ -49,6 +49,8 @@ alla går att ändra i `src/game/rules.js`:
 - Maffian kan inte välja en annan maffia som offer.
 - Omröstningen avgörs när alla levande har röstat, och man kan ändra sin röst
   fram till dess. Alla ser hela tiden vem som har röstat på vem.
-- Efter omröstningen visas ett domslut med resultatet. Värden bestämmer när
-  natten faller, ungefär som en spelledare.
+- Efter omröstningen visas ett domslut. Först syns bara vem som åkte ut, och
+  värden vänder sedan fram rollen. Värden bestämmer när spelet fortsätter,
+  ungefär som en spelledare, och knappen ser likadan ut även när spelet är
+  avgjort, så att värden inte ser resultatet före de andra.
 - Spelet väntar på frånkopplade spelare, eftersom deras val behövs.

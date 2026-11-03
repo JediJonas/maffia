@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { DEFAULT_SETTINGS, buildRoleList } from './settings.js';
 import {
-  RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, endVerdict, findExecutedId, startGame,
+  RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, endVerdict, findExecutedId, showVerdictRole, startGame,
 } from './rules.js';
+import { buildPlayerView } from './playerView.js';
 import { createTestGame } from './testGame.js';
 
 /** Spelarna p1 maffia, p2 detektiv, p3 läkare, p4–p5 medborgare. */
@@ -122,7 +123,7 @@ describe('dagen', () => {
     const day = { ...createTestGame(ROLES), phase: /** @type {const} */ ('day') };
     const verdict = playDay(day, { p1: 'p2', p2: 'p4', p3: 'p4', p4: 'p1', p5: 'p4' });
     expect(verdict.phase).toBe('verdict');
-    expect(verdict.lastDay).toEqual({ executedId: 'p4' });
+    expect(verdict.lastDay).toEqual({ executedId: 'p4', isRoleShown: false });
     expect(verdict.players.find((p) => p.id === 'p4')?.isAlive).toBe(false);
     expect(verdict.dayVotes.p2).toBe('p4');
   });
@@ -131,6 +132,17 @@ describe('dagen', () => {
     const day = { ...createTestGame(ROLES), phase: /** @type {const} */ ('day') };
     const verdict = playDay(day, { p1: 'p2', p2: 'p4', p3: 'p4', p4: 'p1', p5: 'p4' });
     expect(() => applyAction(verdict, 'p1', { type: 'vote', targetId: 'p3' })).toThrow(RuleError);
+  });
+
+  it('döljer rollen i domslutet tills värden vänder fram den', () => {
+    const day = { ...createTestGame(ROLES), phase: /** @type {const} */ ('day') };
+    const verdict = playDay(day, { p1: 'p2', p2: 'p4', p3: 'p4', p4: 'p1', p5: 'p4' });
+    const hiddenView = buildPlayerView(verdict, 'p1');
+    expect(hiddenView.players.find((p) => p.id === 'p4')?.revealedRole).toBeNull();
+    expect(hiddenView.canShowVerdictRole).toBe(true);
+    const shownView = buildPlayerView(showVerdictRole(verdict), 'p1');
+    expect(shownView.players.find((p) => p.id === 'p4')?.revealedRole).toBe('citizen');
+    expect(shownView.canShowVerdictRole).toBe(false);
   });
 
   it('går till nästa natt när värden avslutar domslutet', () => {
