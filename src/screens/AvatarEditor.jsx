@@ -44,7 +44,7 @@ export function AvatarEditor({ playerId, avatar, onChange, onClose }) {
  * @param {{ part: AvatarPart, value: string }} props
  */
 function PartValue({ part, value }) {
-  if (value === NO_CHOICE) return <span className="avatar-part-value">Inga</span>;
+  if (value === NO_CHOICE) return <span className="avatar-part-value">Nej</span>;
   const choices = part.kind === 'optional' ? part.choices.slice(1) : part.choices;
   const position = `${choices.indexOf(value) + 1} av ${choices.length}`;
   if (part.kind === 'color') {
