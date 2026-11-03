@@ -229,6 +229,10 @@ button:disabled {
   margin: 0.25rem 0;
 }
 
+.my-avatar {
+  margin-top: 1.5rem;
+}
+
 .room-code {
   font-size: 3rem;
   font-weight: 700;

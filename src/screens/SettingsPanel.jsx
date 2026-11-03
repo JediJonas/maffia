@@ -32,7 +32,7 @@ export function SettingsPanel({ settings, playerCount, onChange }) {
           aria-expanded={isEditing}
           onClick={() => setIsEditing(!isEditing)}
         >
-          {isEditing ? 'Klar' : 'Ändra'}
+          {isEditing ? 'Klar' : 'Ändra inställningar'}
         </button>
       )}
       {playerCount >= MIN_PLAYERS && !problem && (
