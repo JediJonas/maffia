@@ -98,7 +98,7 @@ describe('narrateAloud', () => {
   });
 
   it('säger att spelet börjar', () => {
-    expect(aloud({ ...night, phase: 'lobby' }, { ...night, phase: 'roleReveal' })).toBe('Spelet börjar.');
+    expect(aloud({ ...night, phase: 'lobby' }, { ...night, phase: 'roleReveal' })).toBe('Spelet börjar. Titta på din roll.');
   });
 
   it('läser kortare än rutan överst', () => {
@@ -108,6 +108,6 @@ describe('narrateAloud', () => {
   });
 
   it('säger att natten faller', () => {
-    expect(aloud({ ...night, phase: 'verdict' }, night)).toBe('Natten faller.');
+    expect(aloud({ ...night, phase: 'verdict' }, night)).toBe('Natten faller. Gör ditt val.');
   });
 });

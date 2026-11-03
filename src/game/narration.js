@@ -52,9 +52,9 @@ export function narrateAloud(previous, next) {
   }
   switch (next.phase) {
     case 'roleReveal':
-      return 'Spelet börjar.';
+      return 'Spelet börjar. Titta på din roll.';
     case 'night':
-      return 'Natten faller.';
+      return 'Natten faller. Gör ditt val.';
     case 'day':
       return `Staden vaknar. ${describeKill(next, SPOKEN_KILL)}`;
     case 'verdict':
