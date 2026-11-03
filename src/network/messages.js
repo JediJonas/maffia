@@ -4,15 +4,16 @@
 
 /**
  * @typedef {{ type: 'join', name: string, secret: string }
- *   | { type: 'action', action: import('../game/types.js').PlayerAction }
+ *   | { type: 'action', id: number, action: import('../game/types.js').PlayerAction }
  *   | { type: 'pong' }} ClientMessage
  */
 
 /**
- * @typedef {{ type: 'view', view: import('../game/playerView.js').PlayerView }
- *   | { type: 'error', message: string }
+ * @typedef {{ type: 'view', view: import('../game/playerView.js').PlayerView, handledActionId?: number }
+ *   | { type: 'error', message: string, handledActionId?: number }
  *   | { type: 'rejected', message: string }
  *   | { type: 'ping' }} HostMessage
+ * handledActionId är den senaste handlingen värden har tagit emot från telefonen.
  * rejected betyder att anslutningen inte fick gå med, till exempel för att spelet redan börjat.
  */
 

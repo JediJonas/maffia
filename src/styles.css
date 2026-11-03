@@ -256,8 +256,33 @@ button:disabled {
   margin: 0;
 }
 
+.verdict-card {
+  min-height: 0;
+}
+
 .secret-card + * {
   margin-top: 1rem;
+}
+
+.tally {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  padding: 0 1rem 0.5rem;
+  margin: 1rem 0;
+}
+
+.tally h2 {
+  margin: 0.75rem 0 0.25rem;
+}
+
+.tally ul {
+  padding-left: 1.25rem;
+  margin: 0.25rem 0;
+}
+
+.tally-target {
+  font-weight: 600;
 }
 
 .earlier-results {

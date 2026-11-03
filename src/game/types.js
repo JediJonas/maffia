@@ -4,7 +4,11 @@
 
 /** @typedef {'mafia' | 'detective' | 'doctor' | 'citizen'} Role */
 
-/** @typedef {'lobby' | 'roleReveal' | 'night' | 'day' | 'gameOver'} Phase */
+/**
+ * verdict är pausen efter dagens omröstning, då alla ser utfallet innan
+ * värden låter natten falla.
+ * @typedef {'lobby' | 'roleReveal' | 'night' | 'day' | 'verdict' | 'gameOver'} Phase
+ */
 
 /** @typedef {'town' | 'mafia'} Team */
 

@@ -2,6 +2,7 @@
 import { SKIP_VOTE } from '../game/rules.js';
 import { PlayerPicker } from './PlayerPicker.jsx';
 import { SecretCard } from './SecretCard.jsx';
+import { VoteTally } from './VoteTally.jsx';
 
 /**
  * @param {object} props
@@ -11,13 +12,13 @@ import { SecretCard } from './SecretCard.jsx';
 export function DayScreen({ view, sendAction }) {
   const myVote = view.dayVotes[view.me.id] ?? null;
   const votedCount = Object.keys(view.dayVotes).length;
-  const countVotes = (/** @type {string} */ targetId) => Object.values(view.dayVotes).filter((v) => v === targetId).length;
   const living = view.players.filter((p) => p.isAlive);
 
   return (
     <section aria-labelledby="day-title">
       <h1 id="day-title">Dag {view.round}</h1>
       <Investigations view={view} />
+      <VoteTally view={view} />
       {view.me.isAlive ? (
         <>
           <p>Rösta på den ni tror är maffia. Du kan ändra dig tills alla har röstat.</p>
@@ -26,7 +27,6 @@ export function DayScreen({ view, sendAction }) {
             selectableIds={living.filter((p) => p.id !== view.me.id).map((p) => p.id)}
             selectedId={myVote}
             onSelect={(targetId) => sendAction({ type: 'vote', targetId })}
-            describe={(player) => describeVotes(countVotes(player.id))}
           />
           <button
             type="button"
@@ -34,7 +34,7 @@ export function DayScreen({ view, sendAction }) {
             aria-pressed={myVote === SKIP_VOTE}
             onClick={() => sendAction({ type: 'vote', targetId: SKIP_VOTE })}
           >
-            Avstå från att rösta ut någon{countVotes(SKIP_VOTE) ? ` (${describeVotes(countVotes(SKIP_VOTE))})` : ''}
+            Avstå från att rösta ut någon
           </button>
         </>
       ) : (
@@ -43,15 +43,6 @@ export function DayScreen({ view, sendAction }) {
       <p className="muted">{votedCount} av {living.length} har röstat.</p>
     </section>
   );
-}
-
-/**
- * @param {number} count
- * @returns {string | null}
- */
-function describeVotes(count) {
-  if (!count) return null;
-  return count === 1 ? '1 röst' : `${count} röster`;
 }
 
 /**

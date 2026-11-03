@@ -278,9 +278,18 @@ export function findExecutedId(votes) {
  */
 function resolveDay(state) {
   const executedId = findExecutedId(state.dayVotes);
-  const afterExecution = withWinnerCheck({ ...killPlayer(state, executedId), lastDay: { executedId } });
-  if (afterExecution.phase === 'gameOver') return afterExecution;
-  return beginNight(afterExecution, state.round + 1);
+  return { ...killPlayer(state, executedId), phase: 'verdict', lastDay: { executedId } };
+}
+
+/**
+ * Värden avslutar domslutet när alla har hunnit se det.
+ * @param {GameState} state
+ * @returns {GameState}
+ */
+export function endVerdict(state) {
+  if (state.phase !== 'verdict') throw new RuleError('Det finns inget domslut att avsluta.');
+  const checked = withWinnerCheck(state);
+  return checked.phase === 'gameOver' ? checked : beginNight(state, state.round + 1);
 }
 
 /**

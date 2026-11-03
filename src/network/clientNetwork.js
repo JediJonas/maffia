@@ -25,7 +25,7 @@ const CONNECTION_CHECK_MS = 2000;
 
 /**
  * @param {ClientOptions} options
- * @returns {{ send: (message: ClientMessage) => void, close: () => void }}
+ * @returns {{ sendAction: (action: import('../game/types.js').PlayerAction) => void, close: () => void }}
  */
 export function openClientNetwork({ roomCode, name, secret, onMessage, onStatus }) {
   const peer = new Peer(readPeerOptions());
@@ -36,6 +36,12 @@ export function openClientNetwork({ roomCode, name, secret, onMessage, onStatus 
   let isClosed = false;
   /** @type {ReturnType<typeof setTimeout> | undefined} */
   let retryTimer;
+  // En förbindelse kan se öppen ut fast värden har försvunnit, till exempel
+  // när värden laddar om. Handlingar sparas därför tills värden har bekräftat
+  // dem och skickas igen efter återanslutning. Alla tål att komma två gånger.
+  /** @type {Extract<ClientMessage, { type: 'action' }>[]} */
+  let unansweredActions = [];
+  let nextActionId = 1;
 
   function connect() {
     if (isClosed || peer.destroyed) return;
@@ -47,13 +53,21 @@ export function openClientNetwork({ roomCode, name, secret, onMessage, onStatus 
       lastHeardAt = Date.now();
       retryMs = FIRST_RETRY_MS;
       next.send(/** @type {ClientMessage} */ ({ type: 'join', name, secret }));
+      for (const action of unansweredActions) next.send(action);
       onStatus('open');
     });
     next.on('data', (data) => {
       lastHeardAt = Date.now();
       const message = /** @type {HostMessage} */ (data);
-      if (message.type === 'ping') next.send(/** @type {ClientMessage} */ ({ type: 'pong' }));
-      else onMessage(message);
+      if (message.type === 'ping') {
+        next.send(/** @type {ClientMessage} */ ({ type: 'pong' }));
+        return;
+      }
+      if (message.type === 'view' || message.type === 'error') {
+        const handledId = message.handledActionId ?? 0;
+        unansweredActions = unansweredActions.filter((action) => action.id > handledId);
+      }
+      onMessage(message);
     });
     next.on('close', () => scheduleReconnect(next));
     next.on('error', () => scheduleReconnect(next));
@@ -95,7 +109,9 @@ export function openClientNetwork({ roomCode, name, secret, onMessage, onStatus 
   });
 
   return {
-    send(message) {
+    sendAction(action) {
+      const message = /** @type {const} */ ({ type: 'action', id: nextActionId++, action });
+      unansweredActions.push(message);
       if (connection?.open) connection.send(message);
     },
     close() {

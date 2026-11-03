@@ -4,6 +4,7 @@ import { GameOverScreen } from './GameOverScreen.jsx';
 import { LobbyScreen } from './LobbyScreen.jsx';
 import { NightScreen } from './NightScreen.jsx';
 import { RoleScreen } from './RoleScreen.jsx';
+import { VerdictScreen } from './VerdictScreen.jsx';
 import { usePhaseAnnouncement } from './usePhaseAnnouncement.js';
 
 /**
@@ -48,6 +49,8 @@ function PhaseContent({ view, sendAction, host }) {
       return <NightScreen view={view} sendAction={sendAction} />;
     case 'day':
       return <DayScreen view={view} sendAction={sendAction} />;
+    case 'verdict':
+      return <VerdictScreen view={view} host={host} />;
     case 'gameOver':
       return <GameOverScreen view={view} host={host} />;
     default:

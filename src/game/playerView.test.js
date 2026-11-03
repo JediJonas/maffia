@@ -36,4 +36,11 @@ describe('buildPlayerView', () => {
     const over = { ...state, phase: /** @type {const} */ ('gameOver'), winner: /** @type {const} */ ('town') };
     expect(buildPlayerView(over, 'p5').players.every((p) => p.revealedRole)).toBe(true);
   });
+
+  it('säger under domslutet om spelet redan är avgjort', () => {
+    const verdict = { ...state, phase: /** @type {const} */ ('verdict') };
+    expect(buildPlayerView(verdict, 'p5').isGameDecided).toBe(false);
+    const onlyMafiaLeft = { ...verdict, players: verdict.players.map((p) => ({ ...p, isAlive: p.role === 'mafia' })) };
+    expect(buildPlayerView(onlyMafiaLeft, 'p5').isGameDecided).toBe(true);
+  });
 });

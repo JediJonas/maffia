@@ -16,14 +16,14 @@ export function narratePhaseChange(previous, next) {
     case 'roleReveal':
       return 'Spelet börjar. Titta på din roll i hemlighet och tryck sedan på klar.';
     case 'night':
-      return [describeExecution(next, previous), 'Natten faller. Alla tittar i sin telefon och gör sitt val.']
-        .filter(Boolean)
-        .join(' ');
+      return 'Natten faller. Alla tittar i sin telefon och gör sitt val.';
     case 'day':
       return `Staden vaknar. ${describeKill(next)} Diskutera och rösta om vem som ska ut.`;
+    case 'verdict':
+      return `Alla har röstat. ${describeExecution(next)}`;
     case 'gameOver':
       return [
-        previous?.phase === 'night' ? `Staden vaknar. ${describeKill(next)}` : describeExecution(next, previous),
+        previous?.phase === 'night' ? `Staden vaknar. ${describeKill(next)}` : null,
         next.winner === 'mafia' ? 'Maffian har tagit över staden.' : 'Staden har besegrat maffian.',
       ].filter(Boolean).join(' ');
     default:
@@ -43,11 +43,9 @@ function describeKill(view) {
 
 /**
  * @param {PlayerView} view
- * @param {PlayerView | null} previous
- * @returns {string | null}
+ * @returns {string}
  */
-function describeExecution(view, previous) {
-  if (previous?.phase !== 'day') return null;
+function describeExecution(view) {
   const executedId = view.lastDay?.executedId;
   if (!executedId) return 'Ingen röstades ut i dag.';
   return `Staden röstade ut ${describePlayer(view, executedId)}.`;

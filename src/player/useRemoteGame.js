@@ -50,7 +50,7 @@ export function useRemoteGame({ roomCode, name, secret, onRejected }) {
 
   const sendAction = useCallback((/** @type {import('../game/types.js').PlayerAction} */ action) => {
     setNotice(null);
-    networkRef.current?.send({ type: 'action', action });
+    networkRef.current?.sendAction(action);
   }, []);
 
   return { view, status, notice, sendAction, host: null };

@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { buildPlayerView } from '../game/playerView.js';
 import {
-  RuleError, addPlayer, applyAction, createGame, removePlayer, returnToLobby, setConnected, startGame,
+  RuleError, addPlayer, applyAction, createGame, endVerdict, removePlayer, returnToLobby, setConnected, startGame,
 } from '../game/rules.js';
 import { openHostNetwork } from '../network/hostNetwork.js';
 import { createSecret, loadHostGame, saveHostGame } from '../device/savedSession.js';
@@ -19,6 +19,7 @@ import { keepScreenAwake } from '../device/wakeLock.js';
  * @property {string} roomCode
  * @property {() => void} startGame
  * @property {() => void} returnToLobby
+ * @property {() => void} endVerdict
  * @property {(playerId: string) => void} removePlayer
  */
 
@@ -152,6 +153,7 @@ export function useHostGame(roomCode, hostName) {
     roomCode,
     startGame: () => tryRule((s) => startGame(s, Math.random), setNotice),
     returnToLobby: () => tryRule(returnToLobby, setNotice),
+    endVerdict: () => tryRule(endVerdict, setNotice),
     removePlayer(/** @type {string} */ playerId) {
       const game = gameRef.current;
       const entry = Object.entries(game.playerIdsBySecret).find(([, id]) => id === playerId);

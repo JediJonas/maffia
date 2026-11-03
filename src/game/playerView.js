@@ -1,7 +1,7 @@
 // @ts-check
 // Det enda som skickas till en telefon. Varje fält här är något just den
 // spelaren får veta, så att ingen kan läsa andras roller i nätverkstrafiken.
-import { canConfirmNight, listNightTargets } from './rules.js';
+import { canConfirmNight, findWinner, listNightTargets } from './rules.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
 /** @typedef {import('./types.js').Role} Role */
@@ -32,6 +32,7 @@ import { canConfirmNight, listNightTargets } from './rules.js';
  * @property {{ id: string, choiceId: string | null }[]} mafiaTeam Tom för alla utom maffian.
  * @property {import('./types.js').Investigation[]} investigations Tom för alla utom detektiven.
  * @property {Record<string, string>} dayVotes Omröstningen är öppen, som i klassisk maffia.
+ * @property {boolean} isGameDecided Sant under domslutet när ett lag redan har vunnit, så att värden kan visa rätt knapp.
  * @property {import('./types.js').NightOutcome | null} lastNight
  * @property {import('./types.js').DayOutcome | null} lastDay
  * @property {import('./types.js').Team | null} winner
@@ -74,9 +75,10 @@ export function buildPlayerView(state, playerId) {
         .map((p) => ({ id: p.id, choiceId: isNight ? state.nightChoices[p.id] ?? null : null }))
       : [],
     investigations: state.investigations[me.id] ?? [],
-    dayVotes: state.phase === 'day' ? state.dayVotes : {},
+    dayVotes: state.phase === 'day' || state.phase === 'verdict' ? state.dayVotes : {},
     lastNight: state.lastNight,
     lastDay: state.lastDay,
     winner: state.winner,
+    isGameDecided: state.phase === 'verdict' && findWinner(state) !== null,
   };
 }
