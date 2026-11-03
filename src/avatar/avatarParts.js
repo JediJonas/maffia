@@ -30,10 +30,10 @@ function withNoChoice(choices) {
   return [NO_CHOICE, ...choices];
 }
 
-// Lorelei är svartvit som standard, så färgerna väljer vi själva.
-const SKIN_COLORS = ['f9e0cf', 'f2c9a5', 'e0ac85', 'c68e64', '9c6744', '6e4630'];
-const HAIR_COLORS = ['1d1b18', '4a3121', '8b5a2b', 'c68e3f', 'e8c77a', 'a8392b', '9a9a9a', '3f6fb5'];
-const BACKGROUND_COLORS = ['f3dede', 'f6e7b4', 'd7ecd0', 'cfe3f2', 'e3d7f2', 'f2d9c2', 'e4e1da'];
+// Avatarerna är svartvita, som Lorelei är ritad. Bara håret får en grå
+// skala, så att frisyrerna skiljer sig mer åt. Helt vitt hår går inte,
+// eftersom håret saknar kontur och då försvinner mot den vita bakgrunden.
+const HAIR_COLORS = ['000000', '4d4d4d', '8c8c8c', 'cccccc'];
 
 // Antalet former av varje del i Lorelei. Ett test jämför med stilens egen lista.
 const LORELEI_SHAPE_COUNTS = {
@@ -53,7 +53,6 @@ const LORELEI_SHAPE_COUNTS = {
 export const AVATAR_PARTS = [
   { key: 'hair', label: 'Frisyr', kind: 'shape', choices: listVariants('variant', LORELEI_SHAPE_COUNTS.hair) },
   { key: 'hairColor', label: 'Hårfärg', kind: 'color', choices: HAIR_COLORS },
-  { key: 'skinColor', label: 'Hudfärg', kind: 'color', choices: SKIN_COLORS },
   { key: 'head', label: 'Ansikte', kind: 'shape', choices: listVariants('variant', LORELEI_SHAPE_COUNTS.head) },
   { key: 'eyes', label: 'Ögon', kind: 'shape', choices: listVariants('variant', LORELEI_SHAPE_COUNTS.eyes) },
   { key: 'eyebrows', label: 'Ögonbryn', kind: 'shape', choices: listVariants('variant', LORELEI_SHAPE_COUNTS.eyebrows) },
@@ -69,7 +68,6 @@ export const AVATAR_PARTS = [
   { key: 'beard', label: 'Skägg', kind: 'optional', choices: withNoChoice(listVariants('variant', LORELEI_SHAPE_COUNTS.beard)) },
   { key: 'freckles', label: 'Fräknar', kind: 'optional', choices: withNoChoice(['variant01']) },
   { key: 'hairAccessories', label: 'Blommor i håret', kind: 'optional', choices: withNoChoice(['flowers']) },
-  { key: 'backgroundColor', label: 'Bakgrund', kind: 'color', choices: BACKGROUND_COLORS },
 ];
 
 // Slumpen ska ge vanliga ansikten, så tillbehören kommer bara ibland.

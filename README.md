@@ -22,7 +22,7 @@ varje gång något hamnar i main.
 - **Värdens skärm** hålls tänd med Wake Lock API.
 - **Fasbyten** syns genom att skärmen blir mörk på natten och ljus på dagen,
   med en berättartext, och telefonerna vibrerar (inte på iPhone).
-- **Avatarer.** Varje telefon slumpar en avatar som sparas till nästa spel,
+- **Avatarer.** Svartvita, som stilen är ritad. Varje telefon slumpar en avatar som sparas till nästa spel,
   och i lobbyn kan man ändra den del för del. Bara valen skickas, som
   `{ hair: 'variant12', ... }`, och värden kontrollerar dem. Varje telefon
   ritar bilderna själv.

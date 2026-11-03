@@ -7,6 +7,9 @@ import { AVATAR_PARTS, NO_CHOICE } from './avatarParts.js';
 
 /** @typedef {import('./avatarParts.js').Avatar} Avatar */
 
+// Vit hud och bakgrund i stället för genomskinligt, så att avatarerna syns
+// även mot nattens mörka bakgrund.
+const FIXED_COLORS = { skinColor: ['ffffff'], backgroundColor: ['ffffff'] };
 const ALWAYS_PERCENT = 100;
 const NEVER_PERCENT = 0;
 
@@ -18,7 +21,7 @@ const NEVER_PERCENT = 0;
  */
 export function toDiceBearOptions(avatar) {
   /** @type {Record<string, string[] | number>} */
-  const options = {};
+  const options = { ...FIXED_COLORS };
   for (const part of AVATAR_PARTS) {
     const value = avatar[part.key];
     if (part.kind === 'optional') {
@@ -41,7 +44,7 @@ function buildSeededOptions(seed) {
   const colorChoices = Object.fromEntries(
     AVATAR_PARTS.filter((part) => part.kind === 'color').map((part) => [part.key, [...part.choices]]),
   );
-  return { seed, ...colorChoices };
+  return { seed, ...FIXED_COLORS, ...colorChoices };
 }
 
 /** @type {Map<string, string>} Samma avatar ritas på många ställen, så bilden sparas. */

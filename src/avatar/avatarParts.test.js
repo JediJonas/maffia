@@ -37,7 +37,7 @@ describe('sanitizeAvatar', () => {
 
   it('nekar okända värden', () => {
     expect(sanitizeAvatar({ ...valid, hair: '<script>' })).toBeNull();
-    expect(sanitizeAvatar({ ...valid, skinColor: 'ff0000' })).toBeNull();
+    expect(sanitizeAvatar({ ...valid, hairColor: 'ff0000' })).toBeNull();
     expect(sanitizeAvatar('hår')).toBeNull();
     expect(sanitizeAvatar(null)).toBeNull();
   });
@@ -65,6 +65,12 @@ describe('stepAvatarPart', () => {
 });
 
 describe('renderAvatar', () => {
+  it('ritar hud och bakgrund i vitt', () => {
+    const options = toDiceBearOptions(createRandomAvatar(Math.random));
+    expect(options.skinColor).toEqual(['ffffff']);
+    expect(options.backgroundColor).toEqual(['ffffff']);
+  });
+
   it('stänger av delar som saknas och slår på valda', () => {
     const options = toDiceBearOptions({ ...createRandomAvatar(Math.random), glasses: NO_CHOICE, beard: 'variant02' });
     expect(options.glassesProbability).toBe(0);
