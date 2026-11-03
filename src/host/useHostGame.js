@@ -7,7 +7,7 @@ import { completeSettings } from '../game/settings.js';
 import {
   RuleError, addPlayer, applyAction, changeSettings, createGame, endVerdict, removePlayer, returnToLobby, setConnected, startGame,
 } from '../game/rules.js';
-import { showDeathRole } from '../game/deathReveal.js';
+import { ROLE_REVEAL_DELAY_MS, findHiddenDeathId, showDeathRole } from '../game/deathReveal.js';
 import { openHostNetwork } from '../network/hostNetwork.js';
 import { createSecret, loadHostGame, saveHostGame } from '../device/savedSession.js';
 import { keepScreenAwake } from '../device/wakeLock.js';
@@ -22,7 +22,6 @@ import { keepScreenAwake } from '../device/wakeLock.js';
  * @property {() => void} startGame
  * @property {() => void} returnToLobby
  * @property {() => void} endVerdict
- * @property {() => void} showDeathRole
  * @property {(changes: Partial<import('../game/settings.js').GameSettings>) => void} changeSettings
  * @property {(playerId: string) => void} removePlayer
  */
@@ -145,6 +144,15 @@ export function useHostGame(roomCode, hostName) {
 
   useEffect(() => keepScreenAwake(), []);
 
+  // Värden räknar ned och vänder fram rollen. Telefonerna räknar ned var för
+  // sig, så att ingen behöver vänta på nätverket för varje sekund.
+  const hiddenDeathId = findHiddenDeathId(state);
+  useEffect(() => {
+    if (!hiddenDeathId) return undefined;
+    const timer = setTimeout(() => tryRule(showDeathRole, setNotice), ROLE_REVEAL_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [hiddenDeathId, state.phase, tryRule]);
+
   const { hostPlayerId } = initialGame;
   const view = useMemo(() => buildPlayerView(state, hostPlayerId), [state, hostPlayerId]);
 
@@ -158,7 +166,6 @@ export function useHostGame(roomCode, hostName) {
     startGame: () => tryRule((s) => startGame(s, Math.random), setNotice),
     returnToLobby: () => tryRule(returnToLobby, setNotice),
     endVerdict: () => tryRule(endVerdict, setNotice),
-    showDeathRole: () => tryRule(showDeathRole, setNotice),
     changeSettings: (/** @type {Partial<import('../game/settings.js').GameSettings>} */ changes) => tryRule((s) => changeSettings(s, changes), setNotice),
     removePlayer(/** @type {string} */ playerId) {
       const game = gameRef.current;

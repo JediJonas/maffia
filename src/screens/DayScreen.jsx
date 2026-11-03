@@ -2,6 +2,7 @@
 import { ROLE_INFO } from '../game/roles.js';
 import { SKIP_VOTE } from '../game/rules.js';
 import { PlayerPicker } from './PlayerPicker.jsx';
+import { RoleCountdown } from './RoleCountdown.jsx';
 import { SecretCard } from './SecretCard.jsx';
 import { VoteTally } from './VoteTally.jsx';
 
@@ -9,9 +10,8 @@ import { VoteTally } from './VoteTally.jsx';
  * @param {object} props
  * @param {import('../game/playerView.js').PlayerView} props.view
  * @param {(action: import('../game/types.js').PlayerAction) => void} props.sendAction
- * @param {import('../host/useHostGame.js').HostControls | null} props.host
  */
-export function DayScreen({ view, sendAction, host }) {
+export function DayScreen({ view, sendAction }) {
   const myVote = view.dayVotes[view.me.id] ?? null;
   const votedCount = Object.keys(view.dayVotes).length;
   const living = view.players.filter((p) => p.isAlive);
@@ -19,7 +19,7 @@ export function DayScreen({ view, sendAction, host }) {
   return (
     <section aria-labelledby="day-title">
       <h1 id="day-title">Dag {view.round}</h1>
-      <MorningNews view={view} host={host} />
+      <MorningNews view={view} />
       <Investigations view={view} />
       <VoteTally view={view} />
       {view.me.isAlive ? (
@@ -73,22 +73,18 @@ function Investigations({ view }) {
 }
 
 /**
- * Nattens offer, först bara namnet. Omröstningen är öppen under tiden, så
- * att värden kan vänta in spänningen utan att hålla upp spelet.
- * @param {object} props
- * @param {import('../game/playerView.js').PlayerView} props.view
- * @param {import('../host/useHostGame.js').HostControls | null} props.host
+ * Nattens offer, först bara namnet. Omröstningen är öppen under
+ * nedräkningen, så att spänningen inte håller upp spelet.
+ * @param {{ view: import('../game/playerView.js').PlayerView }} props
  */
-function MorningNews({ view, host }) {
+function MorningNews({ view }) {
   const killed = view.players.find((p) => p.id === view.lastNight?.killedId);
   if (!killed) return null;
   return (
     <div className="secret-card verdict-card">
       <p className="secret-headline">I natt dog {killed.id === view.me.id ? 'du' : killed.name}</p>
       {killed.revealedRole && <p>{killed.name} var {ROLE_INFO[killed.revealedRole].name.toLowerCase()}.</p>}
-      {view.canShowDeathRole && (host
-        ? <button type="button" className="primary" onClick={host.showDeathRole}>Visa rollen</button>
-        : <p className="muted">Värden visar snart rollen …</p>)}
+      {view.isRoleRevealPending && <RoleCountdown />}
     </div>
   );
 }

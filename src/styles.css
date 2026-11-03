@@ -185,6 +185,12 @@ button:disabled {
   color: var(--muted);
 }
 
+/* Fasta sifferbredder, så att texten inte hoppar när siffran byts. */
+.countdown {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
 .status,
 .notice,
 .announcement {
