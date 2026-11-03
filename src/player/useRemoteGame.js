@@ -11,6 +11,10 @@ const STATUS_TEXT = {
   connecting: 'Ansluter till värden …',
   open: '',
   reconnecting: 'Tappade kontakten med värden. Ansluter igen …',
+  noServer: 'Når inte anslutningsservern. Kontrollera nätet. Försöker igen …',
+  // Vanligast när värd och spelare sitter på olika nät, eller i olika
+  // webbläsare på samma dator, och ingen väg mellan dem hittas utan TURN-server.
+  unreachable: 'Hittar ingen väg till värdens telefon. Sitter ni på samma wifi? Försöker igen …',
 };
 
 /**
@@ -33,6 +37,10 @@ export function useRemoteGame({ roomCode, name, secret, onRejected }) {
       name,
       secret,
       onStatus: (clientStatus) => setStatus(STATUS_TEXT[clientStatus]),
+      onRoomMissing() {
+        network.close();
+        onRejectedRef.current(`Hittar inget spel med koden ${roomCode}. Kontrollera koden, eller be värden visa QR-koden igen.`);
+      },
       onMessage(message) {
         if (message.type === 'view') {
           setView(message.view);
