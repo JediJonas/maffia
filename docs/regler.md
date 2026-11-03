@@ -58,6 +58,25 @@ Appen, berättarrösten och dokumentationen använder samma ord:
 
 Skriv inte "dog", "åkte ut" eller "röstades ut" i nya texter.
 
+## Berättarrösten
+
+Värdens telefon läser upp berättaren. Rösten läser inte rutan överst ord för
+ord, utan en kortare och lite annorlunda variant av den, så att det inte blir
+samma text två gånger. Rösten säger det viktigaste, och resten står kvar på
+skärmen. Till exempel:
+
+| Rutan överst | Rösten |
+|---|---|
+| Spelet börjar. Titta på din roll i hemlighet och tryck sedan på klar. | Spelet börjar. Titta på din roll. |
+| Natten faller. Alla tittar i sin telefon och gör sitt val. | Natten faller. Gör ditt val. |
+| Staden vaknar. Anna blev mördad av maffian. Diskutera och rösta om vem som ska utvisas. | Staden vaknar. Anna blev mördad. |
+| Alla har röstat. Anna blev utvisad ur staden. | Alla har röstat. Anna blev utvisad. |
+
+Efter nedräkningen säger rösten rollen, till exempel "Anna var läkare". Den
+säger bara det som alla får veta, och samma ord som i listan ovan. Texterna
+finns i `src/game/narration.js`: rutan i `narratePhaseChange` och rösten i
+`narrateAloud`.
+
 ## Val som prototypen har gjort
 
 Klassiska regler skiljer sig mellan grupper. Det här är prototypens val, och
