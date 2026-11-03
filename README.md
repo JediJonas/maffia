@@ -6,6 +6,9 @@ varandra; därefter går all trafik direkt mellan telefonerna.
 
 Reglerna finns i [docs/regler.md](docs/regler.md).
 
+Spela på <https://jedijonas.github.io/maffia/>. Sidan publiceras på nytt
+varje gång något hamnar i main.
+
 ## Så fungerar det
 
 - **Stjärntopologi.** Värdens telefon äger hela spelets tillstånd. De andra
