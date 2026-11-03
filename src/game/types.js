@@ -53,6 +53,7 @@
  * @property {Record<string, Investigation[]>} investigations Detektivens id till detektivens resultat.
  * @property {string | null} lastDoctorTargetId Läkaren får inte skydda samma spelare två nätter i rad.
  * @property {Team | null} winner
+ * @property {import('./settings.js').GameSettings} settings
  */
 
 /**

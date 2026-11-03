@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildRoleList } from './roles.js';
+import { DEFAULT_SETTINGS, buildRoleList } from './settings.js';
 import {
   RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, endVerdict, findExecutedId, startGame,
 } from './rules.js';
@@ -28,12 +28,12 @@ function playDay(state, votes) {
 
 describe('buildRoleList', () => {
   it('ger en maffia, detektiv och läkare för fyra spelare', () => {
-    expect(buildRoleList(4)).toEqual(['mafia', 'detective', 'doctor', 'citizen']);
+    expect(buildRoleList(DEFAULT_SETTINGS, 4)).toEqual(['mafia', 'detective', 'doctor', 'citizen']);
   });
 
   it('ger ungefär en fjärdedel maffia', () => {
-    expect(buildRoleList(8).filter((r) => r === 'mafia')).toHaveLength(2);
-    expect(buildRoleList(12).filter((r) => r === 'mafia')).toHaveLength(3);
+    expect(buildRoleList(DEFAULT_SETTINGS, 8).filter((r) => r === 'mafia')).toHaveLength(2);
+    expect(buildRoleList(DEFAULT_SETTINGS, 12).filter((r) => r === 'mafia')).toHaveLength(3);
   });
 });
 
@@ -54,7 +54,7 @@ describe('lobbyn', () => {
     for (const id of ['a', 'b', 'c', 'd', 'e']) state = addPlayer(state, { id, name: id });
     const started = startGame(state, () => 0);
     expect(started.phase).toBe('roleReveal');
-    expect(started.players.map((p) => p.role).sort()).toEqual(buildRoleList(5).sort());
+    expect(started.players.map((p) => p.role).sort()).toEqual(buildRoleList(DEFAULT_SETTINGS, 5).sort());
   });
 
   it('nekar nya spelare när spelet har börjat', () => {

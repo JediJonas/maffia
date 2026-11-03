@@ -1,0 +1,53 @@
+import { describe, expect, it } from 'vitest';
+import { buildPlayerView } from './playerView.js';
+import { RuleError, addPlayer, changeSettings, createGame, startGame } from './rules.js';
+import { DEFAULT_SETTINGS, buildRoleList, completeSettings, findSettingsProblem } from './settings.js';
+import { createTestGame } from './testGame.js';
+
+describe('inställningar', () => {
+  it('ger valt antal maffia', () => {
+    expect(buildRoleList({ ...DEFAULT_SETTINGS, mafiaCount: 2 }, 6).filter((r) => r === 'mafia')).toHaveLength(2);
+  });
+
+  it('tar bort detektiv och läkare när de är avslagna', () => {
+    const roles = buildRoleList({ ...DEFAULT_SETTINGS, hasDetective: false, hasDoctor: false }, 4);
+    expect(roles).toEqual(['mafia', 'citizen', 'citizen', 'citizen']);
+  });
+
+  it('nekar så mycket maffia att den vinner direkt', () => {
+    expect(findSettingsProblem({ ...DEFAULT_SETTINGS, mafiaCount: 2 }, 4)).toMatch(/för många/);
+    expect(findSettingsProblem({ ...DEFAULT_SETTINGS, mafiaCount: 2 }, 5)).toBeNull();
+  });
+
+  it('stoppar start med ogiltiga inställningar', () => {
+    let state = changeSettings(createGame(), { mafiaCount: 3 });
+    for (const id of ['a', 'b', 'c', 'd', 'e']) state = addPlayer(state, { id, name: id });
+    expect(() => startGame(state, Math.random)).toThrow(RuleError);
+  });
+
+  it('behåller inställningarna när spelet startar', () => {
+    let state = changeSettings(createGame(), { hasDoctor: false });
+    for (const id of ['a', 'b', 'c', 'd']) state = addPlayer(state, { id, name: id });
+    const started = startGame(state, Math.random);
+    expect(started.settings.hasDoctor).toBe(false);
+    expect(started.players.some((p) => p.role === 'doctor')).toBe(false);
+  });
+
+  it('kan inte ändras när spelet har börjat', () => {
+    expect(() => changeSettings(createTestGame(['mafia', 'detective', 'doctor', 'citizen']), { hasDoctor: false })).toThrow(RuleError);
+  });
+
+  it('döljer döda spelares roller när inställningen är av', () => {
+    const state = createTestGame(['mafia', 'detective', 'doctor', 'citizen']);
+    const hidden = {
+      ...state,
+      settings: { ...state.settings, revealsRoleOnDeath: false },
+      players: state.players.map((p) => (p.id === 'p1' ? { ...p, isAlive: false } : p)),
+    };
+    expect(buildPlayerView(hidden, 'p4').players[0].revealedRole).toBeNull();
+  });
+
+  it('fyller i det som saknas i spel sparade av en äldre version', () => {
+    expect(completeSettings(undefined)).toEqual(DEFAULT_SETTINGS);
+  });
+});

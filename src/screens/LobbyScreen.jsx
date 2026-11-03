@@ -1,7 +1,9 @@
 // @ts-check
 import { useEffect, useState } from 'react';
 import { MIN_PLAYERS } from '../game/roles.js';
+import { findSettingsProblem } from '../game/settings.js';
 import { buildJoinUrl } from '../network/roomCode.js';
+import { SettingsPanel } from './SettingsPanel.jsx';
 
 /**
  * @param {object} props
@@ -9,7 +11,8 @@ import { buildJoinUrl } from '../network/roomCode.js';
  * @param {import('../host/useHostGame.js').HostControls | null} props.host
  */
 export function LobbyScreen({ view, host }) {
-  const canStart = view.players.length >= MIN_PLAYERS;
+  const hasEnoughPlayers = view.players.length >= MIN_PLAYERS;
+  const canStart = hasEnoughPlayers && !findSettingsProblem(view.settings, view.players.length);
   return (
     <section aria-labelledby="lobby-title">
       <h1 id="lobby-title">Väntar på spelare</h1>
@@ -28,12 +31,13 @@ export function LobbyScreen({ view, host }) {
           </li>
         ))}
       </ul>
+      <SettingsPanel settings={view.settings} playerCount={view.players.length} onChange={host?.changeSettings ?? null} />
       {host ? (
         <>
           <button type="button" className="primary" disabled={!canStart} onClick={host.startGame}>
             Starta spelet
           </button>
-          {!canStart && <p className="muted">Det behövs minst {MIN_PLAYERS} spelare.</p>}
+          {!hasEnoughPlayers && <p className="muted">Det behövs minst {MIN_PLAYERS} spelare.</p>}
         </>
       ) : (
         <p className="muted">Värden startar spelet när alla är med.</p>

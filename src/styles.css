@@ -127,6 +127,39 @@ button:disabled {
   gap: 0.35rem;
 }
 
+.settings-form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.settings-form select {
+  min-height: 3rem;
+  padding: 0.5rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+}
+
+.toggle input {
+  width: 1.5rem;
+  height: 1.5rem;
+  accent-color: var(--accent);
+}
+
+.settings-summary {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
 .start-form input {
   min-height: 3rem;
   padding: 0.5rem 0.75rem;

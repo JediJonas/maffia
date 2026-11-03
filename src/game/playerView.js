@@ -12,7 +12,7 @@ import { canConfirmNight, findWinner, listNightTargets } from './rules.js';
  * @property {string} name
  * @property {boolean} isAlive
  * @property {boolean} isConnected
- * @property {Role | null} revealedRole Bara för döda spelare och när spelet är slut.
+ * @property {Role | null} revealedRole För döda spelare om inställningen tillåter det, och för alla när spelet är slut.
  */
 
 /**
@@ -32,6 +32,7 @@ import { canConfirmNight, findWinner, listNightTargets } from './rules.js';
  * @property {{ id: string, choiceId: string | null }[]} mafiaTeam Tom för alla utom maffian.
  * @property {import('./types.js').Investigation[]} investigations Tom för alla utom detektiven.
  * @property {Record<string, string>} dayVotes Omröstningen är öppen, som i klassisk maffia.
+ * @property {import('./settings.js').GameSettings} settings Alla får se inställningarna.
  * @property {boolean} isGameDecided Sant under domslutet när ett lag redan har vunnit, så att värden kan visa rätt knapp.
  * @property {import('./types.js').NightOutcome | null} lastNight
  * @property {import('./types.js').DayOutcome | null} lastDay
@@ -59,7 +60,7 @@ export function buildPlayerView(state, playerId) {
       name: p.name,
       isAlive: p.isAlive,
       isConnected: p.isConnected,
-      revealedRole: isGameOver || !p.isAlive ? p.role : null,
+      revealedRole: isGameOver || (!p.isAlive && state.settings.revealsRoleOnDeath) ? p.role : null,
     })),
     readyCount: state.readyIds.length,
     isReady: state.readyIds.includes(me.id),
@@ -79,6 +80,7 @@ export function buildPlayerView(state, playerId) {
     lastNight: state.lastNight,
     lastDay: state.lastDay,
     winner: state.winner,
+    settings: state.settings,
     isGameDecided: state.phase === 'verdict' && findWinner(state) !== null,
   };
 }
