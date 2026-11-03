@@ -25,7 +25,7 @@ export const ROLE_INFO = {
   citizen: {
     name: 'Medborgare',
     team: 'town',
-    description: 'Du har ingen nattroll. Lyssna, misstänk och rösta ut maffian på dagen.',
+    description: 'Du har ingen nattroll. Lyssna, misstänk och rösta för att utvisa maffian på dagen.',
   },
 };
 

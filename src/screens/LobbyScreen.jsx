@@ -21,7 +21,7 @@ export function LobbyScreen({ view, host }) {
       <ul className="player-list">
         {view.players.map((player) => (
           <li key={player.id}>
-            <span>{player.name}{player.id === view.me.id && ' (du)'}</span>
+            <span>{player.name}</span>
             {!player.isConnected && <span className="muted">frånkopplad</span>}
             {host && player.id !== view.me.id && (
               <button type="button" className="link-button" onClick={() => host.removePlayer(player.id)}>
