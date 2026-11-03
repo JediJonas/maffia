@@ -69,18 +69,17 @@ export const AVATAR_PARTS = [
   { key: 'backgroundColor', label: 'Bakgrund', kind: 'color', choices: BACKGROUND_COLORS },
 ];
 
-// Slumpen ska ge vanliga ansikten, så tillbehören kommer bara ibland.
-const OPTIONAL_PART_CHANCE = 0.2;
 
 /**
+ * Slumpen tar bara själva ansiktet och bakgrunden. Tillbehör som skägg och
+ * glasögon förändrar ansiktet mycket, så dem väljer man själv i byggaren.
  * @param {() => number} random Ett tal från 0 till 1, som Math.random.
  * @returns {Avatar}
  */
 export function createRandomAvatar(random) {
   return Object.fromEntries(AVATAR_PARTS.map((part) => {
-    if (part.kind === 'optional' && random() >= OPTIONAL_PART_CHANCE) return [part.key, NO_CHOICE];
-    const choices = part.kind === 'optional' ? part.choices.slice(1) : part.choices;
-    return [part.key, choices[Math.floor(random() * choices.length)]];
+    if (part.kind === 'optional') return [part.key, NO_CHOICE];
+    return [part.key, part.choices[Math.floor(random() * part.choices.length)]];
   }));
 }
 

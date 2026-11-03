@@ -25,10 +25,12 @@ describe('createRandomAvatar', () => {
     expect(sanitizeAvatar(avatar)).toEqual(avatar);
   });
 
-  it('lägger bara till tillbehör ibland', () => {
-    const avatar = createRandomAvatar(sequence([0.99]));
-    expect(avatar.glasses).toBe(NO_CHOICE);
-    expect(avatar.hair).toBe('variant48');
+  it('lägger aldrig till tillbehör', () => {
+    const avatar = createRandomAvatar(sequence([0]));
+    for (const part of AVATAR_PARTS.filter((p) => p.kind === 'optional')) {
+      expect(avatar[part.key], part.key).toBe(NO_CHOICE);
+    }
+    expect(avatar.hair).toBe('variant01');
   });
 });
 

@@ -372,13 +372,6 @@ button:disabled {
   margin: 0 auto 0.75rem;
 }
 
-.start-avatar {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
-}
-
 .avatar-parts {
   list-style: none;
   padding: 0;
