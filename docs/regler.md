@@ -52,7 +52,7 @@ alla går att ändra i `src/game/rules.js`:
   Dog ingen finns inget att räkna ned till.
 - Omröstningen avgörs när alla levande har röstat, och man kan ändra sin röst
   fram till dess. Alla ser hela tiden vem som har röstat på vem.
-- Efter omröstningen visas ett domslut. Först syns bara vem som åkte ut, och
+- Efter omröstningen visas ett domslut. Först syns bara vem som blev utröstad, och
   rollen visas efter samma nedräkning. Värden bestämmer när spelet fortsätter,
   ungefär som en spelledare, och knappen ser likadan ut även när spelet är
   avgjort, så att värden inte ser resultatet före de andra.

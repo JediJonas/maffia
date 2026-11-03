@@ -270,8 +270,8 @@ function castVote(state, player, targetId) {
 }
 
 /**
- * Den som får flest röster åker ut, om det är ensam flest och fler röster
- * än de som valde att avstå. Annars åker ingen ut.
+ * Den som får flest röster blir utröstad, om det är ensam flest och fler röster
+ * än de som valde att avstå. Annars blir ingen utröstad.
  * @param {Record<string, string>} votes
  * @returns {string | null}
  */
