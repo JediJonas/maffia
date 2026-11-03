@@ -18,7 +18,7 @@ export function narratePhaseChange(previous, next) {
     case 'night':
       return 'Natten faller. Alla tittar i sin telefon och gör sitt val.';
     case 'day':
-      return `Staden vaknar. ${describeKill(next)} Diskutera och rösta om vem som ska utvisas.`;
+      return `Staden vaknar. ${describeKill(next)}`;
     case 'verdict':
       return `Alla har röstat. ${describeExecution(next)}`;
     case 'gameOver':
@@ -29,9 +29,9 @@ export function narratePhaseChange(previous, next) {
 }
 
 /**
- * Det som värdens telefon läser upp: att natten faller, vem som blev mördad
- * eller utvisad och, när nedräkningen är slut, vilken roll den hade. Kortare än texten på skärmen, så att rollen
- * kommer direkt efter namnet och inte efter uppmaningen att rösta. När
+ * Det som värdens telefon läser upp: hela rutan överst vid varje fasbyte, och
+ * rollen när nedräkningen är slut. Uppmaningen att diskutera står därför på
+ * dagskärmen och inte i rutan, så att rollen kommer direkt efter namnet. När
  * rösten slås på i lobbyn hörs ett prov, så att värden vet att ljudet fungerar.
  * @param {PlayerView | null} previous Null när sidan just har öppnats, då inget läses upp.
  * @param {PlayerView} next
@@ -39,23 +39,10 @@ export function narratePhaseChange(previous, next) {
  */
 export function narrateAloud(previous, next) {
   if (!previous) return null;
-  const isNewPhase = previous.phase !== next.phase || previous.round !== next.round;
-  if (!isNewPhase) {
-    if (!previous.settings.hasNarratorVoice && next.settings.hasNarratorVoice) return 'Berättarrösten är på.';
-    return previous.isRoleRevealPending && !next.isRoleRevealPending ? describeShownRole(next) : null;
-  }
-  switch (next.phase) {
-    case 'night':
-      return narratePhaseChange(previous, next);
-    case 'day':
-      return `Staden vaknar. ${describeKill(next)}`;
-    case 'verdict':
-      return describeExecution(next);
-    case 'gameOver':
-      return narratePhaseChange(previous, next);
-    default:
-      return null;
-  }
+  const phaseText = narratePhaseChange(previous, next);
+  if (phaseText) return phaseText;
+  if (!previous.settings.hasNarratorVoice && next.settings.hasNarratorVoice) return 'Berättarrösten är på.';
+  return previous.isRoleRevealPending && !next.isRoleRevealPending ? describeShownRole(next) : null;
 }
 
 /**

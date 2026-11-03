@@ -25,7 +25,7 @@ export function DayScreen({ view, sendAction }) {
       <VoteTally view={view} />
       {view.me.isAlive ? (
         <>
-          <p>Rösta på den ni tror är maffia. Du kan ändra dig tills alla har röstat.</p>
+          <p>Diskutera och rösta på den ni tror är maffia. Du kan ändra dig tills alla har röstat.</p>
           <PlayerPicker
             players={view.players}
             selectableIds={living.filter((p) => p.id !== view.me.id).map((p) => p.id)}

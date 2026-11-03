@@ -22,9 +22,9 @@ varje gång något hamnar i main.
 - **Värdens skärm** hålls tänd med Wake Lock API.
 - **Fasbyten** syns genom att skärmen blir mörk på natten och ljus på dagen,
   med en berättartext, och telefonerna vibrerar (inte på iPhone).
-- **Berättarröst.** Värdens telefon läser upp när natten faller, vem som
-  blev mördad eller utvisad och rollen när nedräkningen är slut, med
-  webbläsarens talsyntes. Bara
+- **Berättarröst.** Värdens telefon läser upp texten i rutan överst vid
+  varje fasbyte, och rollen när nedräkningen är slut, med webbläsarens
+  talsyntes. Bara
   värden talar, och bara om sådant som alla får veta. Stängs av bland
   inställningarna i lobbyn. Lägg till `?debug=1` i adressen för en
   felsökningslogg i telefonen.

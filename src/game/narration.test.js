@@ -74,7 +74,7 @@ describe('narrateAloud', () => {
 
   it('säger vem som blev utvisad och sedan rollen', () => {
     const verdict = playDay(morning, { p1: 'p2', p2: 'p1', p3: 'p2', p5: 'p2' });
-    expect(aloud(morning, verdict)).toBe('Spelare 2 blev utvisad ur staden.');
+    expect(aloud(morning, verdict)).toBe('Alla har röstat. Spelare 2 blev utvisad ur staden.');
     expect(aloud(verdict, showDeathRole(verdict))).toBe('Spelare 2 var detektiv.');
   });
 
@@ -96,6 +96,13 @@ describe('narrateAloud', () => {
     const on = { ...off, settings: { ...off.settings, hasNarratorVoice: true } };
     expect(aloud(off, on)).toBe('Berättarrösten är på.');
     expect(aloud(on, off)).toBeNull();
+  });
+
+  it('läser samma text som rutan överst vid varje fasbyte', () => {
+    const lobby = { ...night, phase: 'lobby' };
+    const roleReveal = { ...night, phase: 'roleReveal' };
+    expect(aloud(lobby, roleReveal)).toBe(narratePhaseChange(buildPlayerView(lobby, 'p1'), buildPlayerView(roleReveal, 'p1')));
+    expect(aloud(night, morning)).toBe(narratePhaseChange(buildPlayerView(night, 'p1'), buildPlayerView(morning, 'p1')));
   });
 
   it('säger att natten faller, som på skärmen', () => {
