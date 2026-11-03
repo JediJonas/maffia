@@ -98,7 +98,7 @@ describe('narrateAloud', () => {
     expect(aloud(on, off)).toBeNull();
   });
 
-  it('säger inget när natten börjar', () => {
-    expect(aloud({ ...night, phase: 'verdict' }, night)).toBeNull();
+  it('säger att natten faller, som på skärmen', () => {
+    expect(aloud({ ...night, phase: 'verdict' }, night)).toBe('Natten faller. Alla tittar i sin telefon och gör sitt val.');
   });
 });

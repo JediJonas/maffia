@@ -29,8 +29,8 @@ export function narratePhaseChange(previous, next) {
 }
 
 /**
- * Det som värdens telefon läser upp: vem som blev mördad eller utvisad och, när nedräkningen är
- * slut, vilken roll den hade. Kortare än texten på skärmen, så att rollen
+ * Det som värdens telefon läser upp: att natten faller, vem som blev mördad
+ * eller utvisad och, när nedräkningen är slut, vilken roll den hade. Kortare än texten på skärmen, så att rollen
  * kommer direkt efter namnet och inte efter uppmaningen att rösta. När
  * rösten slås på i lobbyn hörs ett prov, så att värden vet att ljudet fungerar.
  * @param {PlayerView | null} previous Null när sidan just har öppnats, då inget läses upp.
@@ -45,6 +45,8 @@ export function narrateAloud(previous, next) {
     return previous.isRoleRevealPending && !next.isRoleRevealPending ? describeShownRole(next) : null;
   }
   switch (next.phase) {
+    case 'night':
+      return narratePhaseChange(previous, next);
     case 'day':
       return `Staden vaknar. ${describeKill(next)}`;
     case 'verdict':
