@@ -28,11 +28,11 @@ describe('narratePhaseChange', () => {
     expect(text).not.toMatch(/maffia/i);
   });
 
-  it('berättar att ingen röstades ut när dagen slutar utan beslut', () => {
+  it('berättar i domslutet att ingen röstades ut', () => {
     const day = { ...night, phase: /** @type {const} */ ('day') };
     let state = day;
     for (const id of ['p1', 'p2', 'p3', 'p4', 'p5']) state = applyAction(state, id, { type: 'vote', targetId: 'skip' });
     const text = narratePhaseChange(buildPlayerView(day, 'p1'), buildPlayerView(state, 'p1'));
-    expect(text).toMatch(/^Ingen röstades ut i dag\. Natten faller/);
+    expect(text).toBe('Alla har röstat. Ingen röstades ut i dag.');
   });
 });

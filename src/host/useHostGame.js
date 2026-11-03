@@ -3,8 +3,9 @@
 // och skickar var och en sin egen vy. Värden spelar själv via samma regler.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { buildPlayerView } from '../game/playerView.js';
+import { completeSettings } from '../game/settings.js';
 import {
-  RuleError, addPlayer, applyAction, createGame, removePlayer, returnToLobby, setConnected, startGame,
+  RuleError, addPlayer, applyAction, changeSettings, createGame, endVerdict, removePlayer, returnToLobby, setConnected, startGame,
 } from '../game/rules.js';
 import { openHostNetwork } from '../network/hostNetwork.js';
 import { createSecret, loadHostGame, saveHostGame } from '../device/savedSession.js';
@@ -19,6 +20,8 @@ import { keepScreenAwake } from '../device/wakeLock.js';
  * @property {string} roomCode
  * @property {() => void} startGame
  * @property {() => void} returnToLobby
+ * @property {() => void} endVerdict
+ * @property {(changes: Partial<import('../game/settings.js').GameSettings>) => void} changeSettings
  * @property {(playerId: string) => void} removePlayer
  */
 
@@ -38,7 +41,7 @@ import { keepScreenAwake } from '../device/wakeLock.js';
  */
 function loadOrCreateGame(roomCode, hostName) {
   const saved = loadHostGame(roomCode);
-  if (saved) return saved;
+  if (saved) return { ...saved, state: { ...saved.state, settings: completeSettings(saved.state.settings) } };
   const hostPlayerId = createPlayerId();
   return {
     state: addPlayer(createGame(), { id: hostPlayerId, name: hostName }),
@@ -152,6 +155,8 @@ export function useHostGame(roomCode, hostName) {
     roomCode,
     startGame: () => tryRule((s) => startGame(s, Math.random), setNotice),
     returnToLobby: () => tryRule(returnToLobby, setNotice),
+    endVerdict: () => tryRule(endVerdict, setNotice),
+    changeSettings: (/** @type {Partial<import('../game/settings.js').GameSettings>} */ changes) => tryRule((s) => changeSettings(s, changes), setNotice),
     removePlayer(/** @type {string} */ playerId) {
       const game = gameRef.current;
       const entry = Object.entries(game.playerIdsBySecret).find(([, id]) => id === playerId);

@@ -4,7 +4,11 @@
 
 /** @typedef {'mafia' | 'detective' | 'doctor' | 'citizen'} Role */
 
-/** @typedef {'lobby' | 'roleReveal' | 'night' | 'day' | 'gameOver'} Phase */
+/**
+ * verdict är pausen efter dagens omröstning, då alla ser utfallet innan
+ * värden låter natten falla.
+ * @typedef {'lobby' | 'roleReveal' | 'night' | 'day' | 'verdict' | 'gameOver'} Phase
+ */
 
 /** @typedef {'town' | 'mafia'} Team */
 
@@ -49,6 +53,7 @@
  * @property {Record<string, Investigation[]>} investigations Detektivens id till detektivens resultat.
  * @property {string | null} lastDoctorTargetId Läkaren får inte skydda samma spelare två nätter i rad.
  * @property {Team | null} winner
+ * @property {import('./settings.js').GameSettings} settings
  */
 
 /**

@@ -28,7 +28,7 @@ const RECLAIM_ID_RETRY_MS = 3000;
  * @returns {{ send: (secret: string, message: HostMessage) => void, close: () => void }}
  */
 export function openHostNetwork(roomCode, handlers) {
-  /** @type {Map<string, { connection: DataConnection, lastHeardAt: number }>} */
+  /** @type {Map<string, { connection: DataConnection, lastHeardAt: number, handledActionId?: number }>} */
   const players = new Map();
   /** @type {Peer | null} */
   let peer = null;
@@ -78,7 +78,10 @@ export function openHostNetwork(roomCode, handlers) {
       if (!secret) return;
       const entry = players.get(secret);
       if (entry) entry.lastHeardAt = Date.now();
-      if (message.type === 'action') handlers.onAction(secret, message.action);
+      if (message.type === 'action' && entry) {
+        entry.handledActionId = message.id;
+        handlers.onAction(secret, message.action);
+      }
     });
     connection.on('close', () => dropConnection(secret, connection));
     connection.on('error', () => dropConnection(secret, connection));
@@ -111,7 +114,9 @@ export function openHostNetwork(roomCode, handlers) {
   return {
     send(secret, message) {
       const entry = players.get(secret);
-      if (entry?.connection.open) entry.connection.send(message);
+      if (!entry?.connection.open) return;
+      const isReply = message.type === 'view' || message.type === 'error';
+      entry.connection.send(isReply ? { ...message, handledActionId: entry.handledActionId } : message);
     },
     close() {
       isClosed = true;

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { buildRoleList } from './roles.js';
+import { DEFAULT_SETTINGS, buildRoleList } from './settings.js';
 import {
-  RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, findExecutedId, startGame,
+  RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, endVerdict, findExecutedId, startGame,
 } from './rules.js';
 import { createTestGame } from './testGame.js';
 
@@ -28,12 +28,12 @@ function playDay(state, votes) {
 
 describe('buildRoleList', () => {
   it('ger en maffia, detektiv och läkare för fyra spelare', () => {
-    expect(buildRoleList(4)).toEqual(['mafia', 'detective', 'doctor', 'citizen']);
+    expect(buildRoleList(DEFAULT_SETTINGS, 4)).toEqual(['mafia', 'detective', 'doctor', 'citizen']);
   });
 
   it('ger ungefär en fjärdedel maffia', () => {
-    expect(buildRoleList(8).filter((r) => r === 'mafia')).toHaveLength(2);
-    expect(buildRoleList(12).filter((r) => r === 'mafia')).toHaveLength(3);
+    expect(buildRoleList(DEFAULT_SETTINGS, 8).filter((r) => r === 'mafia')).toHaveLength(2);
+    expect(buildRoleList(DEFAULT_SETTINGS, 12).filter((r) => r === 'mafia')).toHaveLength(3);
   });
 });
 
@@ -54,7 +54,7 @@ describe('lobbyn', () => {
     for (const id of ['a', 'b', 'c', 'd', 'e']) state = addPlayer(state, { id, name: id });
     const started = startGame(state, () => 0);
     expect(started.phase).toBe('roleReveal');
-    expect(started.players.map((p) => p.role).sort()).toEqual(buildRoleList(5).sort());
+    expect(started.players.map((p) => p.role).sort()).toEqual(buildRoleList(DEFAULT_SETTINGS, 5).sort());
   });
 
   it('nekar nya spelare när spelet har börjat', () => {
@@ -111,24 +111,38 @@ describe('natten', () => {
 
   it('låter inte läkaren skydda samma spelare två nätter i rad', () => {
     const day = playNight(night, { p1: 'p4', p2: 'p1', p3: 'p5', p4: 'p2', p5: 'p2' });
-    const nextNight = playDay(day, { p1: SKIP_VOTE, p2: SKIP_VOTE, p3: SKIP_VOTE, p5: SKIP_VOTE });
+    const nextNight = endVerdict(playDay(day, { p1: SKIP_VOTE, p2: SKIP_VOTE, p3: SKIP_VOTE, p5: SKIP_VOTE }));
     expect(nextNight.phase).toBe('night');
     expect(() => applyAction(nextNight, 'p3', { type: 'nightChoice', targetId: 'p5' })).toThrow(RuleError);
   });
 });
 
 describe('dagen', () => {
-  it('röstar ut den som får flest röster och går till nästa natt', () => {
+  it('röstar ut den som får flest röster och visar domslutet', () => {
     const day = { ...createTestGame(ROLES), phase: /** @type {const} */ ('day') };
-    const night = playDay(day, { p1: 'p2', p2: 'p4', p3: 'p4', p4: 'p1', p5: 'p4' });
-    expect(night.lastDay).toEqual({ executedId: 'p4' });
+    const verdict = playDay(day, { p1: 'p2', p2: 'p4', p3: 'p4', p4: 'p1', p5: 'p4' });
+    expect(verdict.phase).toBe('verdict');
+    expect(verdict.lastDay).toEqual({ executedId: 'p4' });
+    expect(verdict.players.find((p) => p.id === 'p4')?.isAlive).toBe(false);
+    expect(verdict.dayVotes.p2).toBe('p4');
+  });
+
+  it('låter rösterna vara låsta under domslutet', () => {
+    const day = { ...createTestGame(ROLES), phase: /** @type {const} */ ('day') };
+    const verdict = playDay(day, { p1: 'p2', p2: 'p4', p3: 'p4', p4: 'p1', p5: 'p4' });
+    expect(() => applyAction(verdict, 'p1', { type: 'vote', targetId: 'p3' })).toThrow(RuleError);
+  });
+
+  it('går till nästa natt när värden avslutar domslutet', () => {
+    const day = { ...createTestGame(ROLES), phase: /** @type {const} */ ('day') };
+    const night = endVerdict(playDay(day, { p1: 'p2', p2: 'p4', p3: 'p4', p4: 'p1', p5: 'p4' }));
     expect(night.phase).toBe('night');
     expect(night.round).toBe(2);
   });
 
   it('ger staden vinsten när sista maffian röstas ut', () => {
     const day = { ...createTestGame(ROLES), phase: /** @type {const} */ ('day') };
-    const over = playDay(day, { p1: 'p2', p2: 'p1', p3: 'p1', p4: 'p1', p5: 'p1' });
+    const over = endVerdict(playDay(day, { p1: 'p2', p2: 'p1', p3: 'p1', p4: 'p1', p5: 'p1' }));
     expect(over.phase).toBe('gameOver');
     expect(over.winner).toBe('town');
   });

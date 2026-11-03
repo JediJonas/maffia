@@ -127,6 +127,39 @@ button:disabled {
   gap: 0.35rem;
 }
 
+.settings-form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.settings-form select {
+  min-height: 3rem;
+  padding: 0.5rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+}
+
+.toggle input {
+  width: 1.5rem;
+  height: 1.5rem;
+  accent-color: var(--accent);
+}
+
+.settings-summary {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
 .start-form input {
   min-height: 3rem;
   padding: 0.5rem 0.75rem;
@@ -235,7 +268,7 @@ button:disabled {
   font-weight: 400;
 }
 
-.role-card {
+.secret-card {
   display: block;
   width: 100%;
   min-height: 12rem;
@@ -246,29 +279,47 @@ button:disabled {
   text-align: center;
 }
 
-.role-hidden {
+.secret-hidden {
   font-size: 1.2rem;
 }
 
-.role-name {
+.secret-headline {
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
 }
 
-.secret {
+.verdict-card {
+  min-height: 0;
+}
+
+.secret-card + * {
+  margin-top: 1rem;
+}
+
+.tally {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.6rem;
-  padding: 0.5rem 1rem;
-  margin-bottom: 1rem;
+  padding: 0 1rem 0.5rem;
+  margin: 1rem 0;
 }
 
-.secret summary {
-  min-height: 2.75rem;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+.tally h2 {
+  margin: 0.75rem 0 0.25rem;
+}
+
+.tally ul {
+  padding-left: 1.25rem;
+  margin: 0.25rem 0;
+}
+
+.tally-target {
+  font-weight: 600;
+}
+
+.earlier-results {
+  text-align: left;
 }
 
 .dead {

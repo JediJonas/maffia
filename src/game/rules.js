@@ -1,7 +1,8 @@
 // @ts-check
 // Spelets regler som rena funktioner: tillstånd in, nytt tillstånd ut.
 // Bara värden kör dem. Inget nätverk, ingen klocka och ingen DOM här.
-import { MAX_PLAYERS, MIN_PLAYERS, buildRoleList, shuffle, teamOf } from './roles.js';
+import { MAX_PLAYERS, MIN_PLAYERS, shuffle, teamOf } from './roles.js';
+import { DEFAULT_SETTINGS, buildRoleList, findSettingsProblem } from './settings.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
 /** @typedef {import('./types.js').Player} Player */
@@ -28,6 +29,7 @@ export function createGame() {
     investigations: {},
     lastDoctorTargetId: null,
     winner: null,
+    settings: DEFAULT_SETTINGS,
   };
 }
 
@@ -76,9 +78,12 @@ export function setConnected(state, playerId, isConnected) {
 export function startGame(state, random) {
   if (state.phase !== 'lobby' && state.phase !== 'gameOver') throw new RuleError('Spelet pågår redan.');
   if (state.players.length < MIN_PLAYERS) throw new RuleError(`Det behövs minst ${MIN_PLAYERS} spelare.`);
-  const roles = shuffle(buildRoleList(state.players.length), random);
+  const settingsProblem = findSettingsProblem(state.settings, state.players.length);
+  if (settingsProblem) throw new RuleError(settingsProblem);
+  const roles = shuffle(buildRoleList(state.settings, state.players.length), random);
   return {
     ...createGame(),
+    settings: state.settings,
     phase: 'roleReveal',
     players: state.players.map((p, i) => ({ ...p, role: roles[i], isAlive: true })),
   };
@@ -91,8 +96,19 @@ export function startGame(state, random) {
 export function returnToLobby(state) {
   return {
     ...createGame(),
+    settings: state.settings,
     players: state.players.map((p) => ({ ...p, role: null, isAlive: true })),
   };
+}
+
+/**
+ * @param {GameState} state
+ * @param {Partial<import('./settings.js').GameSettings>} changes
+ * @returns {GameState}
+ */
+export function changeSettings(state, changes) {
+  if (state.phase !== 'lobby') throw new RuleError('Inställningarna kan bara ändras i lobbyn.');
+  return { ...state, settings: { ...state.settings, ...changes } };
 }
 
 /**
@@ -278,9 +294,18 @@ export function findExecutedId(votes) {
  */
 function resolveDay(state) {
   const executedId = findExecutedId(state.dayVotes);
-  const afterExecution = withWinnerCheck({ ...killPlayer(state, executedId), lastDay: { executedId } });
-  if (afterExecution.phase === 'gameOver') return afterExecution;
-  return beginNight(afterExecution, state.round + 1);
+  return { ...killPlayer(state, executedId), phase: 'verdict', lastDay: { executedId } };
+}
+
+/**
+ * Värden avslutar domslutet när alla har hunnit se det.
+ * @param {GameState} state
+ * @returns {GameState}
+ */
+export function endVerdict(state) {
+  if (state.phase !== 'verdict') throw new RuleError('Det finns inget domslut att avsluta.');
+  const checked = withWinnerCheck(state);
+  return checked.phase === 'gameOver' ? checked : beginNight(state, state.round + 1);
 }
 
 /**
