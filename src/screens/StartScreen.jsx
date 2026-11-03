@@ -2,8 +2,6 @@
 import { useState } from 'react';
 import { MAX_NAME_LENGTH } from '../game/rules.js';
 import { normalizeRoomCode } from '../network/roomCode.js';
-import { loadOrCreateAvatar } from '../device/savedSession.js';
-import { PlayerAvatar } from './PlayerAvatar.jsx';
 
 /**
  * Först två val, gå med eller skapa. Den som har skannat en QR-kod hamnar
@@ -104,14 +102,8 @@ function CreateForm({ onCreate, onBack }) {
  * @param {{ value: string, onChange: (name: string) => void, autoFocus?: boolean }} props
  */
 function NameField({ value, onChange, autoFocus }) {
-  // Slumpas första gången och sparas, så att samma avatar följer med till spelet.
-  const [avatar] = useState(loadOrCreateAvatar);
   return (
     <>
-      <div className="start-avatar">
-        <PlayerAvatar player={{ id: 'start', avatar }} />
-        <span className="muted">Din avatar. Du kan ändra den i lobbyn.</span>
-      </div>
       <label htmlFor="name">Ditt namn</label>
       <input
         id="name"
