@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { DEFAULT_SETTINGS, buildRoleList } from './settings.js';
 import {
-  RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, endVerdict, findExecutedId, startGame,
+  RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, endVerdict, findExecutedId, findWinner, startGame,
 } from './rules.js';
 import { createTestGame, playDay, playNight } from './testGame.js';
 import { createRandomAvatar } from '../avatar/avatarParts.js';
@@ -133,8 +133,10 @@ describe('dagen', () => {
   it('ger maffian vinsten när de är lika många som resten', () => {
     const night = createTestGame(['mafia', 'detective', 'citizen', 'doctor']);
     const deadDoctor = { ...night, players: night.players.map((p) => (p.id === 'p4' ? { ...p, isAlive: false } : p)) };
-    const over = playNight(deadDoctor, { p1: 'p2', p2: 'p1', p3: 'p1' });
-    expect(over.winner).toBe('mafia');
+    const morning = playNight(deadDoctor, { p1: 'p2', p2: 'p1', p3: 'p1' });
+    // Morgonen visas först, och spelet tar slut när den är över.
+    expect(morning.phase).toBe('day');
+    expect(findWinner(morning)).toBe('mafia');
   });
 
   it('låter inte en spelare rösta på sig själv', () => {
