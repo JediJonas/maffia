@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildPlayerView } from './playerView.js';
 import { RuleError, addPlayer, changeSettings, createGame, startGame } from './rules.js';
-import { DEFAULT_SETTINGS, buildRoleList, completeSettings, findSettingsProblem } from './settings.js';
+import { DEFAULT_SETTINGS, buildRoleList, completeSettings, describeRoles, findSettingsProblem } from './settings.js';
 import { createTestGame } from './testGame.js';
 
 describe('inställningar', () => {
@@ -49,5 +49,15 @@ describe('inställningar', () => {
 
   it('fyller i det som saknas i spel sparade av en äldre version', () => {
     expect(completeSettings(undefined)).toEqual(DEFAULT_SETTINGS);
+  });
+});
+
+describe('describeRoles', () => {
+  it('skriver antalet för varje roll', () => {
+    expect(describeRoles(['mafia', 'detective', 'doctor', 'citizen'])).toBe('1 maffia, 1 detektiv, 1 läkare och 1 medborgare');
+  });
+
+  it('hoppar över roller som inte är med', () => {
+    expect(describeRoles(['mafia', 'mafia', 'citizen', 'citizen', 'citizen'])).toBe('2 maffia och 3 medborgare');
   });
 });
