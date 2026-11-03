@@ -3,8 +3,11 @@
 // värdens telefon fram rollen för alla samtidigt, som en liten cliffhanger.
 import { RuleError, findWinner } from './rules.js';
 
-/** Fem sekunder räcker för att bygga spänning utan att spelet stannar upp. */
-export const ROLE_REVEAL_DELAY_MS = 5000;
+/** Tio sekunder för att bygga spänning. Ägaren provar om det blir för segt. */
+export const ROLE_REVEAL_DELAY_MS = 10000;
+
+/** Hur länge domslutet syns efter rollen, så att alla hinner se rösterna. */
+export const VERDICT_PAUSE_MS = 10000;
 
 /** Hur länge rollen syns innan en avgjord morgon går vidare till slutet. */
 export const GAME_OVER_PAUSE_MS = 4000;
@@ -34,6 +37,15 @@ export function showDeathRole(state) {
   if (state.phase === 'day' && state.lastNight) return { ...state, lastNight: { ...state.lastNight, isRoleShown: true } };
   if (state.phase === 'verdict' && state.lastDay) return { ...state, lastDay: { ...state.lastDay, isRoleShown: true } };
   return state;
+}
+
+/**
+ * Sant när domslutet är färdigvisat och spelet kan gå vidare.
+ * @param {GameState} state
+ * @returns {boolean}
+ */
+export function isVerdictShown(state) {
+  return state.phase === 'verdict' && !findHiddenDeathId(state);
 }
 
 /**

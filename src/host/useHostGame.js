@@ -8,7 +8,8 @@ import {
   RuleError, addPlayer, applyAction, changeSettings, createGame, endVerdict, removePlayer, returnToLobby, setConnected, startGame,
 } from '../game/rules.js';
 import {
-  GAME_OVER_PAUSE_MS, ROLE_REVEAL_DELAY_MS, endDecidedMorning, findHiddenDeathId, isMorningDecided, showDeathRole,
+  GAME_OVER_PAUSE_MS, ROLE_REVEAL_DELAY_MS, VERDICT_PAUSE_MS, endDecidedMorning, findHiddenDeathId, isMorningDecided,
+  isVerdictShown, showDeathRole,
 } from '../game/deathReveal.js';
 import { openHostNetwork } from '../network/hostNetwork.js';
 import { createSecret, loadHostGame, saveHostGame } from '../device/savedSession.js';
@@ -23,7 +24,6 @@ import { keepScreenAwake } from '../device/wakeLock.js';
  * @property {string} roomCode
  * @property {() => void} startGame
  * @property {() => void} returnToLobby
- * @property {() => void} endVerdict
  * @property {(changes: Partial<import('../game/settings.js').GameSettings>) => void} changeSettings
  * @property {(playerId: string) => void} removePlayer
  */
@@ -166,6 +166,15 @@ export function useHostGame(roomCode, hostName, hostAvatar) {
     return () => clearTimeout(timer);
   }, [isDecided, tryRule]);
 
+  // Domslutet går vidare av sig självt, till natt eller till slutet. Samma
+  // nedräkning i båda fallen, så att ingen ser resultatet i förväg.
+  const isVerdictDone = isVerdictShown(state);
+  useEffect(() => {
+    if (!isVerdictDone) return undefined;
+    const timer = setTimeout(() => tryRule(endVerdict, setNotice), VERDICT_PAUSE_MS);
+    return () => clearTimeout(timer);
+  }, [isVerdictDone, tryRule]);
+
   const { hostPlayerId } = initialGame;
   const view = useMemo(() => buildPlayerView(state, hostPlayerId), [state, hostPlayerId]);
 
@@ -178,7 +187,6 @@ export function useHostGame(roomCode, hostName, hostAvatar) {
     roomCode,
     startGame: () => tryRule((s) => startGame(s, Math.random), setNotice),
     returnToLobby: () => tryRule(returnToLobby, setNotice),
-    endVerdict: () => tryRule(endVerdict, setNotice),
     changeSettings: (/** @type {Partial<import('../game/settings.js').GameSettings>} */ changes) => tryRule((s) => changeSettings(s, changes), setNotice),
     removePlayer(/** @type {string} */ playerId) {
       const game = gameRef.current;

@@ -50,7 +50,7 @@ function PhaseContent({ view, sendAction, host }) {
     case 'day':
       return <DayScreen view={view} sendAction={sendAction} />;
     case 'verdict':
-      return <VerdictScreen view={view} host={host} />;
+      return <VerdictScreen view={view} />;
     case 'gameOver':
       return <GameOverScreen view={view} host={host} />;
     default:
