@@ -1,0 +1,170 @@
+// @ts-check
+// Värdens telefon: äger spelets tillstånd, tar emot handlingar från de andra
+// och skickar var och en sin egen vy. Värden spelar själv via samma regler.
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { buildPlayerView } from '../game/playerView.js';
+import {
+  RuleError, addPlayer, applyAction, createGame, removePlayer, returnToLobby, setConnected, startGame,
+} from '../game/rules.js';
+import { openHostNetwork } from '../network/hostNetwork.js';
+import { createSecret, loadHostGame, saveHostGame } from '../device/savedSession.js';
+import { keepScreenAwake } from '../device/wakeLock.js';
+
+/** @typedef {import('../device/savedSession.js').SavedHostGame} SavedHostGame */
+/** @typedef {import('../game/types.js').GameState} GameState */
+/** @typedef {import('../game/types.js').PlayerAction} PlayerAction */
+
+/**
+ * @typedef {object} HostControls
+ * @property {string} roomCode
+ * @property {() => void} startGame
+ * @property {() => void} returnToLobby
+ * @property {(playerId: string) => void} removePlayer
+ */
+
+/**
+ * @typedef {object} GameConnection
+ * @property {import('../game/playerView.js').PlayerView | null} view
+ * @property {string} status Kort text om förbindelsen, tom när allt fungerar.
+ * @property {string | null} notice Senaste felet, till exempel ett otillåtet val.
+ * @property {(action: PlayerAction) => void} sendAction
+ * @property {HostControls | null} host Bara på värdens telefon.
+ */
+
+/**
+ * @param {string} roomCode
+ * @param {string} hostName
+ * @returns {SavedHostGame}
+ */
+function loadOrCreateGame(roomCode, hostName) {
+  const saved = loadHostGame(roomCode);
+  if (saved) return saved;
+  const hostPlayerId = createPlayerId();
+  return {
+    state: addPlayer(createGame(), { id: hostPlayerId, name: hostName }),
+    playerIdsBySecret: {},
+    hostPlayerId,
+  };
+}
+
+/** @returns {string} Ett publikt id, skilt från den hemliga nyckeln. */
+function createPlayerId() {
+  const PLAYER_ID_LENGTH = 8;
+  return `p-${createSecret().slice(0, PLAYER_ID_LENGTH)}`;
+}
+
+/**
+ * @param {string} roomCode
+ * @param {string} hostName
+ * @returns {GameConnection}
+ */
+export function useHostGame(roomCode, hostName) {
+  const [initialGame] = useState(() => loadOrCreateGame(roomCode, hostName));
+  // Nätverkets callbacks körs utanför React och behöver alltid senaste
+  // tillståndet, så det hålls i en ref och speglas till state för visningen.
+  const gameRef = useRef(initialGame);
+  const [state, setState] = useState(initialGame.state);
+  const [status, setStatus] = useState('Öppnar rummet …');
+  const [notice, setNotice] = useState(/** @type {string | null} */ (null));
+  const networkRef = useRef(/** @type {ReturnType<typeof openHostNetwork> | null} */ (null));
+
+  const sendViews = useCallback(() => {
+    const game = gameRef.current;
+    const network = networkRef.current;
+    if (!game || !network) return;
+    for (const [secret, playerId] of Object.entries(game.playerIdsBySecret)) {
+      network.send(secret, { type: 'view', view: buildPlayerView(game.state, playerId) });
+    }
+  }, []);
+
+  const commit = useCallback((/** @type {Partial<SavedHostGame>} */ changes) => {
+    const game = { ...gameRef.current, ...changes };
+    gameRef.current = game;
+    saveHostGame(roomCode, game);
+    setState(game.state);
+    sendViews();
+  }, [roomCode, sendViews]);
+
+  /** Kör en regel och visar felet för den som orsakade det. */
+  const tryRule = useCallback((/** @type {(state: GameState) => GameState} */ rule, /** @type {(message: string) => void} */ reportError) => {
+    const game = gameRef.current;
+    try {
+      commit({ state: rule(game.state) });
+    } catch (error) {
+      if (!(error instanceof RuleError)) throw error;
+      reportError(error.message);
+    }
+  }, [commit]);
+
+  useEffect(() => {
+    const network = openHostNetwork(roomCode, {
+      onStatus(networkStatus, detail) {
+        if (networkStatus === 'open') setStatus('');
+        else if (networkStatus === 'connecting') setStatus('Öppnar rummet …');
+        else setStatus(`Nätverksfel: ${detail ?? 'okänt'}`);
+      },
+      onJoin(secret, name) {
+        const game = gameRef.current;
+        const knownId = game.playerIdsBySecret[secret];
+        if (knownId) {
+          commit({ state: setConnected(game.state, knownId, true) });
+          return null;
+        }
+        const playerId = createPlayerId();
+        try {
+          const nextState = addPlayer(game.state, { id: playerId, name });
+          commit({ state: nextState, playerIdsBySecret: { ...game.playerIdsBySecret, [secret]: playerId } });
+          return null;
+        } catch (error) {
+          if (error instanceof RuleError) return error.message;
+          throw error;
+        }
+      },
+      onAction(secret, action) {
+        const playerId = gameRef.current.playerIdsBySecret[secret];
+        if (!playerId) return;
+        tryRule((s) => applyAction(s, playerId, action), (message) => network.send(secret, { type: 'error', message }));
+      },
+      onLeave(secret) {
+        const game = gameRef.current;
+        const playerId = game.playerIdsBySecret[secret];
+        if (playerId) commit({ state: setConnected(game.state, playerId, false) });
+      },
+    });
+    networkRef.current = network;
+    return () => {
+      network.close();
+      networkRef.current = null;
+    };
+  }, [roomCode, commit, tryRule]);
+
+  useEffect(() => keepScreenAwake(), []);
+
+  const { hostPlayerId } = initialGame;
+  const view = useMemo(() => buildPlayerView(state, hostPlayerId), [state, hostPlayerId]);
+
+  const sendAction = useCallback((/** @type {PlayerAction} */ action) => {
+    setNotice(null);
+    tryRule((s) => applyAction(s, hostPlayerId, action), setNotice);
+  }, [hostPlayerId, tryRule]);
+
+  const host = useMemo(() => ({
+    roomCode,
+    startGame: () => tryRule((s) => startGame(s, Math.random), setNotice),
+    returnToLobby: () => tryRule(returnToLobby, setNotice),
+    removePlayer(/** @type {string} */ playerId) {
+      const game = gameRef.current;
+      const entry = Object.entries(game.playerIdsBySecret).find(([, id]) => id === playerId);
+      if (!entry) return;
+      const [secret] = entry;
+      networkRef.current?.send(secret, { type: 'rejected', message: 'Värden tog bort dig från rummet.' });
+      const playerIdsBySecret = Object.fromEntries(
+        Object.entries(game.playerIdsBySecret).filter(([key]) => key !== secret),
+      );
+      tryRule((s) => removePlayer(s, playerId), setNotice);
+      commit({ playerIdsBySecret });
+    },
+  }), [roomCode, tryRule, commit]);
+
+  return { view, status, notice, sendAction, host };
+}
