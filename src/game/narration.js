@@ -1,6 +1,6 @@
 // @ts-check
-// Berättarens repliker vid fasbyten. De visas på alla skärmar och ska senare
-// kunna läsas upp högt, så de får bara bygga på det som alla redan får veta.
+// Berättarens repliker vid fasbyten. De visas på alla skärmar och läses upp
+// högt av värdens telefon, så de får bara bygga på det som alla redan får veta.
 import { ROLE_INFO } from './roles.js';
 
 /** @typedef {import('./playerView.js').PlayerView} PlayerView */
@@ -29,6 +29,41 @@ export function narratePhaseChange(previous, next) {
     default:
       return null;
   }
+}
+
+/**
+ * Det som värdens telefon läser upp: vem som dog och, när nedräkningen är
+ * slut, vilken roll den hade. Kortare än texten på skärmen, så att rollen
+ * kommer direkt efter namnet och inte efter uppmaningen att rösta.
+ * @param {PlayerView | null} previous Null när sidan just har öppnats, då inget läses upp.
+ * @param {PlayerView} next
+ * @returns {string | null}
+ */
+export function narrateAloud(previous, next) {
+  if (!previous) return null;
+  const isNewPhase = previous.phase !== next.phase || previous.round !== next.round;
+  if (!isNewPhase) return previous.isRoleRevealPending && !next.isRoleRevealPending ? describeShownRole(next) : null;
+  switch (next.phase) {
+    case 'day':
+      return `Staden vaknar. ${describeKill(next)}`;
+    case 'verdict':
+      return describeExecution(next);
+    case 'gameOver':
+      return narratePhaseChange(previous, next);
+    default:
+      return null;
+  }
+}
+
+/**
+ * @param {PlayerView} view
+ * @returns {string | null} Till exempel "Anna var läkare."
+ */
+function describeShownRole(view) {
+  const deadId = view.phase === 'day' ? view.lastNight?.killedId : view.lastDay?.executedId;
+  const player = view.players.find((p) => p.id === deadId);
+  if (!player?.revealedRole) return null;
+  return `${player.name} var ${ROLE_INFO[player.revealedRole].name.toLowerCase()}.`;
 }
 
 /**

@@ -11,8 +11,9 @@ import { usePhaseAnnouncement } from './usePhaseAnnouncement.js';
  * @param {object} props
  * @param {import('../host/useHostGame.js').GameConnection} props.connection
  * @param {() => void} props.onLeave
+ * @param {import('../host/useNarratorVoice.js').VoiceToggle} [props.voiceToggle] Bara på värdens telefon, som är den enda som talar.
  */
-export function GameScreen({ connection, onLeave }) {
+export function GameScreen({ connection, onLeave, voiceToggle }) {
   const { view, status, notice, sendAction, host } = connection;
   const announcement = usePhaseAnnouncement(view);
   const showsAnnouncement = view && view.phase !== 'lobby' && announcement;
@@ -21,7 +22,14 @@ export function GameScreen({ connection, onLeave }) {
     <>
       <header className="top-bar">
         <span>{view ? view.me.name : 'Maffia'}{host && ' · värd'}</span>
-        <button type="button" className="link-button" onClick={onLeave}>Lämna</button>
+        <span>
+          {voiceToggle && (
+            <button type="button" className="link-button" aria-pressed={voiceToggle.isEnabled} onClick={voiceToggle.toggle}>
+              Röst {voiceToggle.isEnabled ? 'på' : 'av'}
+            </button>
+          )}
+          <button type="button" className="link-button" onClick={onLeave}>Lämna</button>
+        </span>
       </header>
       <main>
         {status && <p className="status" role="status">{status}</p>}
