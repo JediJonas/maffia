@@ -5,6 +5,12 @@ import { ROLE_INFO } from './roles.js';
 
 /** @typedef {import('./playerView.js').PlayerView} PlayerView */
 
+// Rutan säger hela meningen, rösten den korta (se Ord vi använder i docs/regler.md).
+const WRITTEN_KILL = 'blev mördad av maffian';
+const SPOKEN_KILL = 'blev mördad';
+const WRITTEN_EXECUTION = 'blev utvisad ur staden';
+const SPOKEN_EXECUTION = 'blev utvisad';
+
 /**
  * @param {PlayerView | null} previous
  * @param {PlayerView} next
@@ -29,10 +35,10 @@ export function narratePhaseChange(previous, next) {
 }
 
 /**
- * Det som värdens telefon läser upp: vem som blev mördad eller utvisad och, när nedräkningen är
- * slut, vilken roll den hade. Kortare än texten på skärmen, så att rollen
- * kommer direkt efter namnet och inte efter uppmaningen att rösta. När
- * rösten slås på i lobbyn hörs ett prov, så att värden vet att ljudet fungerar.
+ * Det som värdens telefon läser upp: en kortare version av rutan överst vid
+ * varje fasbyte, och rollen när nedräkningen är slut. Rösten säger bara det
+ * viktigaste, eftersom instruktionerna redan står på skärmen. När rösten
+ * slås på i lobbyn hörs ett prov, så att värden vet att ljudet fungerar.
  * @param {PlayerView | null} previous Null när sidan just har öppnats, då inget läses upp.
  * @param {PlayerView} next
  * @returns {string | null}
@@ -45,12 +51,16 @@ export function narrateAloud(previous, next) {
     return previous.isRoleRevealPending && !next.isRoleRevealPending ? describeShownRole(next) : null;
   }
   switch (next.phase) {
+    case 'roleReveal':
+      return 'Spelet börjar. Titta på din roll.';
+    case 'night':
+      return 'Natten faller. Gör ditt val.';
     case 'day':
-      return `Staden vaknar. ${describeKill(next)}`;
+      return `Staden vaknar. ${describeKill(next, SPOKEN_KILL)}`;
     case 'verdict':
-      return describeExecution(next);
+      return `Alla har röstat. ${describeExecution(next, SPOKEN_EXECUTION)}`;
     case 'gameOver':
-      return narratePhaseChange(previous, next);
+      return `Spelet är slut. ${next.winner === 'mafia' ? 'Maffian har vunnit.' : 'Staden har vunnit.'}`;
     default:
       return null;
   }
@@ -69,22 +79,24 @@ function describeShownRole(view) {
 
 /**
  * @param {PlayerView} view
+ * @param {string} [whatHappened]
  * @returns {string}
  */
-function describeKill(view) {
+function describeKill(view, whatHappened = WRITTEN_KILL) {
   const killedId = view.lastNight?.killedId;
   if (!killedId) return 'Ingen blev mördad.';
-  return describeDeath(view, killedId, 'blev mördad av maffian');
+  return describeDeath(view, killedId, whatHappened);
 }
 
 /**
  * @param {PlayerView} view
+ * @param {string} [whatHappened]
  * @returns {string}
  */
-function describeExecution(view) {
+function describeExecution(view, whatHappened = WRITTEN_EXECUTION) {
   const executedId = view.lastDay?.executedId;
   if (!executedId) return 'Ingen blev utvisad.';
-  return describeDeath(view, executedId, 'blev utvisad ur staden');
+  return describeDeath(view, executedId, whatHappened);
 }
 
 /**

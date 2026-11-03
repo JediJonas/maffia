@@ -65,7 +65,7 @@ describe('narrateAloud', () => {
   });
 
   it('säger först bara vem som blev mördad', () => {
-    expect(aloud(night, morning)).toBe('Staden vaknar. Spelare 4 blev mördad av maffian.');
+    expect(aloud(night, morning)).toBe('Staden vaknar. Spelare 4 blev mördad.');
   });
 
   it('säger rollen när nedräkningen är slut', () => {
@@ -74,20 +74,19 @@ describe('narrateAloud', () => {
 
   it('säger vem som blev utvisad och sedan rollen', () => {
     const verdict = playDay(morning, { p1: 'p2', p2: 'p1', p3: 'p2', p5: 'p2' });
-    expect(aloud(morning, verdict)).toBe('Spelare 2 blev utvisad ur staden.');
+    expect(aloud(morning, verdict)).toBe('Alla har röstat. Spelare 2 blev utvisad.');
     expect(aloud(verdict, showDeathRole(verdict))).toBe('Spelare 2 var detektiv.');
   });
 
   it('säger inget om roller när de inte ska visas', () => {
     const hidden = { ...night, settings: { ...night.settings, revealsRoleOnDeath: false } };
     const dawn = playNight(hidden, { p1: 'p4', p2: 'p1', p3: 'p5', p4: 'p2', p5: 'p2' });
-    expect(aloud(hidden, dawn)).toBe('Staden vaknar. Spelare 4 blev mördad av maffian.');
+    expect(aloud(hidden, dawn)).toBe('Staden vaknar. Spelare 4 blev mördad.');
     expect(aloud(dawn, playDay(dawn, { p1: 'p2' }))).toBeNull();
   });
 
   it('avslöjar aldrig värdens egen roll', () => {
     const lines = [aloud(night, morning), aloud(morning, showDeathRole(morning))].join(' ');
-    // "mördad av maffian" är tillåtet, men inte vem som är maffia.
     expect(lines).not.toMatch(/(var|är) maffia|Spelare 1/i);
   });
 
@@ -98,7 +97,23 @@ describe('narrateAloud', () => {
     expect(aloud(on, off)).toBeNull();
   });
 
-  it('säger inget när natten börjar', () => {
-    expect(aloud({ ...night, phase: 'verdict' }, night)).toBeNull();
+  it('säger att spelet börjar', () => {
+    expect(aloud({ ...night, phase: 'lobby' }, { ...night, phase: 'roleReveal' })).toBe('Spelet börjar. Titta på din roll.');
+  });
+
+  it('läser kortare än rutan överst', () => {
+    const written = narratePhaseChange(buildPlayerView(night, 'p1'), buildPlayerView(morning, 'p1'));
+    expect(written).toContain('Spelare 4 blev mördad av maffian.');
+    expect(aloud(night, morning)).not.toContain('av maffian');
+  });
+
+  it('säger kort vem som vann', () => {
+    const over = (/** @type {'mafia' | 'town'} */ winner) => ({ ...morning, phase: 'gameOver', winner });
+    expect(aloud(morning, over('mafia'))).toBe('Spelet är slut. Maffian har vunnit.');
+    expect(aloud(morning, over('town'))).toBe('Spelet är slut. Staden har vunnit.');
+  });
+
+  it('säger att natten faller', () => {
+    expect(aloud({ ...night, phase: 'verdict' }, night)).toBe('Natten faller. Gör ditt val.');
   });
 });

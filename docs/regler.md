@@ -50,13 +50,34 @@ Appen, berättarrösten och dokumentationen använder samma ord:
   till exempel "Du blev utvisad ur staden". Om ingen fick flest röster står det
   "Ingen blev utvisad". Själva omröstningen heter fortfarande att rösta.
 - **Kort och långt.** Den stora rubriken vid avataren är kort, "Anna blev
-  mördad" och "Anna blev utvisad". Berättartexten i rutan överst och rösten
-  säger hela meningen, "Anna blev mördad av maffian" och "Anna blev utvisad ur
-  staden".
+  mördad" och "Anna blev utvisad", och så säger även berättarrösten.
+  Berättartexten i rutan överst säger hela meningen, "Anna blev mördad av
+  maffian" och "Anna blev utvisad ur staden".
 - **Ute ur spelet.** Både den som blev mördad och den som blev utvisad är ute
   ur spelet. Det är vad skärmen säger till den spelaren, inte "död".
 
 Skriv inte "dog", "åkte ut" eller "röstades ut" i nya texter.
+
+## Berättarrösten
+
+Värdens telefon läser upp berättaren. Rösten läser inte rutan överst ord för
+ord, utan en kortare och lite annorlunda variant av den, så att det inte blir
+samma text två gånger. Rösten säger det viktigaste, och resten står kvar på
+skärmen. Till exempel:
+
+| Rutan överst | Rösten |
+|---|---|
+| Spelet börjar. Titta på din roll i hemlighet och tryck sedan på klar. | Spelet börjar. Titta på din roll. |
+| Natten faller. Alla tittar i sin telefon och gör sitt val. | Natten faller. Gör ditt val. |
+| Staden vaknar. Anna blev mördad av maffian. Diskutera och rösta om vem som ska utvisas. | Staden vaknar. Anna blev mördad. |
+| Alla har röstat. Anna blev utvisad ur staden. | Alla har röstat. Anna blev utvisad. |
+| Spelet är slut. Maffian har tagit över staden. | Spelet är slut. Maffian har vunnit. |
+| Spelet är slut. Staden har besegrat maffian. | Spelet är slut. Staden har vunnit. |
+
+Efter nedräkningen säger rösten rollen, till exempel "Anna var läkare". Den
+säger bara det som alla får veta, och samma ord som i listan ovan. Texterna
+finns i `src/game/narration.js`: rutan i `narratePhaseChange` och rösten i
+`narrateAloud`.
 
 ## Val som prototypen har gjort
 
