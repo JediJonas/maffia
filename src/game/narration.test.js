@@ -109,7 +109,7 @@ describe('narrateAloud', () => {
 
   it('säger kort vem som vann', () => {
     const over = (/** @type {'mafia' | 'town'} */ winner) => ({ ...morning, phase: 'gameOver', winner });
-    expect(aloud(morning, over('mafia'))).toBe('Spelet är slut. Maffian har tagit över.');
+    expect(aloud(morning, over('mafia'))).toBe('Spelet är slut. Maffian har vunnit.');
     expect(aloud(morning, over('town'))).toBe('Spelet är slut. Staden har vunnit.');
   });
 
