@@ -25,6 +25,7 @@ const OPEN_TIMEOUT_MS = 10000;
  * @property {string} roomCode
  * @property {string} name
  * @property {string} secret
+ * @property {import('../avatar/avatarParts.js').Avatar | undefined} avatar Värden använder den bara första gången telefonen går med.
  * @property {(message: HostMessage) => void} onMessage
  * @property {(status: ClientStatus) => void} onStatus
  * @property {() => void} onRoomMissing Värden har aldrig svarat, till exempel för att rummet är gammalt.
@@ -34,7 +35,7 @@ const OPEN_TIMEOUT_MS = 10000;
  * @param {ClientOptions} options
  * @returns {{ sendAction: (action: import('../game/types.js').PlayerAction) => void, close: () => void }}
  */
-export function openClientNetwork({ roomCode, name, secret, onMessage, onStatus, onRoomMissing }) {
+export function openClientNetwork({ roomCode, name, secret, avatar, onMessage, onStatus, onRoomMissing }) {
   /** @type {Peer | null} */
   let peer = null;
   /** @type {import('peerjs').DataConnection | null} */
@@ -108,7 +109,7 @@ export function openClientNetwork({ roomCode, name, secret, onMessage, onStatus,
       missingRoomCount = 0;
       unansweredPingSince = null;
       retryMs = FIRST_RETRY_MS;
-      next.send(/** @type {ClientMessage} */ ({ type: 'join', name, secret }));
+      next.send(/** @type {ClientMessage} */ ({ type: 'join', name, secret, avatar }));
       for (const action of unansweredActions) next.send(action);
       onStatus('open');
     });

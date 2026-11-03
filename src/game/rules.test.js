@@ -4,6 +4,7 @@ import {
   RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, endVerdict, findExecutedId, startGame,
 } from './rules.js';
 import { createTestGame, playDay, playNight } from './testGame.js';
+import { createRandomAvatar } from '../avatar/avatarParts.js';
 
 /** Spelarna p1 maffia, p2 detektiv, p3 läkare, p4–p5 medborgare. */
 const ROLES = ['mafia', 'detective', 'doctor', 'citizen', 'citizen'];
@@ -153,5 +154,31 @@ describe('findExecutedId', () => {
 
   it('röstar ut ensam flest', () => {
     expect(findExecutedId({ a: 'x', b: 'x', c: 'y' })).toBe('x');
+  });
+});
+
+describe('avatar', () => {
+  const avatar = createRandomAvatar(Math.random);
+  const lobby = addPlayer(createGame(), { id: 'p1', name: 'Ada', avatar });
+
+  it('sparar en giltig avatar när spelaren går med', () => {
+    expect(lobby.players[0].avatar).toEqual(avatar);
+  });
+
+  it('ger ingen avatar när telefonen skickar något otillåtet', () => {
+    const state = addPlayer(createGame(), { id: 'p1', name: 'Ada', avatar: { hair: 'okänd' } });
+    expect(state.players[0].avatar).toBeNull();
+  });
+
+  it('låter spelaren byta avatar i lobbyn', () => {
+    const changed = { ...avatar, head: avatar.head === 'variant01' ? 'variant02' : 'variant01' };
+    const state = applyAction(lobby, 'p1', { type: 'setAvatar', avatar: changed });
+    expect(state.players[0].avatar).toEqual(changed);
+  });
+
+  it('nekar byte av avatar under spelet och otillåtna värden', () => {
+    const game = createTestGame(ROLES);
+    expect(() => applyAction(game, 'p1', { type: 'setAvatar', avatar })).toThrow(RuleError);
+    expect(() => applyAction(lobby, 'p1', { type: 'setAvatar', avatar: { ...avatar, eyes: 'x' } })).toThrow(RuleError);
   });
 });

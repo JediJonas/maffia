@@ -1,5 +1,6 @@
 // @ts-check
 import { ROLE_INFO } from '../game/roles.js';
+import { LARGE_AVATAR_PX, PlayerAvatar } from './PlayerAvatar.jsx';
 import { SKIP_VOTE } from '../game/rules.js';
 import { PlayerPicker } from './PlayerPicker.jsx';
 import { RoleCountdown } from './RoleCountdown.jsx';
@@ -82,6 +83,7 @@ function MorningNews({ view }) {
   if (!killed) return null;
   return (
     <div className="secret-card verdict-card">
+      <PlayerAvatar player={killed} sizePx={LARGE_AVATAR_PX} isDead />
       <p className="secret-headline">I natt dog {killed.id === view.me.id ? 'du' : killed.name}</p>
       {killed.revealedRole && <p>{killed.name} var {ROLE_INFO[killed.revealedRole].name.toLowerCase()}.</p>}
       {view.isRoleRevealPending && <RoleCountdown />}

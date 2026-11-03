@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildPlayerView } from './playerView.js';
-import { applyAction } from './rules.js';
+import { addPlayer, applyAction, createGame } from './rules.js';
+import { createRandomAvatar } from '../avatar/avatarParts.js';
 import { createTestGame } from './testGame.js';
 
 const ROLES = ['mafia', 'mafia', 'detective', 'doctor', 'citizen', 'citizen', 'citizen', 'citizen'];
@@ -25,6 +26,12 @@ describe('buildPlayerView', () => {
     const view = buildPlayerView(chosen, 'p3');
     expect(view.myNightChoice).toBeNull();
     expect(JSON.stringify(view)).not.toContain('"p5":');
+  });
+
+  it('visar allas avatarer', () => {
+    const avatar = createRandomAvatar(Math.random);
+    const lobby = addPlayer(createGame(), { id: 'p1', name: 'Ada', avatar });
+    expect(buildPlayerView(lobby, 'p1').players[0].avatar).toEqual(avatar);
   });
 
   it('visar döda spelares roller för alla', () => {

@@ -22,6 +22,10 @@ varje gång något hamnar i main.
 - **Värdens skärm** hålls tänd med Wake Lock API.
 - **Fasbyten** syns genom att skärmen blir mörk på natten och ljus på dagen,
   med en berättartext, och telefonerna vibrerar (inte på iPhone).
+- **Avatarer.** Varje telefon slumpar en avatar som sparas till nästa spel,
+  och i lobbyn kan man ändra den del för del. Bara valen skickas, som
+  `{ hair: 'variant12', ... }`, och värden kontrollerar dem. Varje telefon
+  ritar bilderna själv.
 
 ## Mappar
 
@@ -30,6 +34,7 @@ varje gång något hamnar i main.
 - `src/host/` och `src/player/` React-hookar som kopplar ihop regler och nätverk
 - `src/screens/` vyerna
 - `src/device/` telefonens funktioner: skärmlås, vibration och sparad session
+- `src/avatar/` avatarens delar och hur den ritas
 
 ## Kom igång
 
@@ -48,3 +53,9 @@ Utan inställningar används PeerJS publika server. Till en egen server:
 npx peerjs --port 9000
 VITE_PEER_HOST=localhost VITE_PEER_PORT=9000 VITE_PEER_SECURE=false npm run dev
 ```
+
+## Licenser
+
+Avatarerna ritas med [DiceBear](https://www.dicebear.com/) (MIT) och stilen
+[Lorelei](https://www.figma.com/community/file/1198749693280469639) av
+Lisa Wischofsky, som är fri att använda under CC0 1.0.

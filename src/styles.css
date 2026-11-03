@@ -333,6 +333,73 @@ button:disabled {
   color: var(--muted);
 }
 
+.avatar {
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
+.avatar-dead {
+  filter: grayscale(1);
+  opacity: 0.7;
+}
+
+.player-name {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.player-list .avatar {
+  margin: 0.25rem 0;
+}
+
+.picker-option {
+  align-items: center;
+}
+
+.secret-card .avatar,
+.avatar-preview .avatar,
+.my-avatar .avatar {
+  display: block;
+  margin: 0 auto 0.75rem;
+}
+
+.start-avatar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.avatar-parts {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.avatar-parts li {
+  display: grid;
+  grid-template-columns: 1fr 3rem 5.5rem 3rem;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.2rem 0;
+}
+
+.avatar-part-value {
+  display: flex;
+  justify-content: center;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.color-swatch {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
 .actions {
   display: grid;
 }

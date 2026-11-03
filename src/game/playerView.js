@@ -13,6 +13,7 @@ import { findHiddenDeathId } from './deathReveal.js';
  * @property {string} name
  * @property {boolean} isAlive
  * @property {boolean} isConnected
+ * @property {import('../avatar/avatarParts.js').Avatar | null} avatar
  * @property {Role | null} revealedRole För döda spelare om inställningen tillåter det, och för alla när spelet är slut.
  */
 
@@ -64,6 +65,7 @@ export function buildPlayerView(state, playerId) {
       name: p.name,
       isAlive: p.isAlive,
       isConnected: p.isConnected,
+      avatar: p.avatar ?? null,
       revealedRole: canSeeRoleOf(p) ? p.role : null,
     })),
     readyCount: state.readyIds.length,

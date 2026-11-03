@@ -1,4 +1,6 @@
 // @ts-check
+import { PlayerAvatar } from './PlayerAvatar.jsx';
+
 /** @typedef {import('../game/playerView.js').PublicPlayer} PublicPlayer */
 
 /**
@@ -25,7 +27,7 @@ export function PlayerPicker({ players, selectableIds, selectedId, onSelect, des
               aria-pressed={player.id === selectedId}
               onClick={() => onSelect(player.id)}
             >
-              <span>{player.name}</span>
+              <span className="player-name"><PlayerAvatar player={player} />{player.name}</span>
               {detail && <span className="picker-detail">{detail}</span>}
             </button>
           </li>

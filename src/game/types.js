@@ -19,6 +19,7 @@
  * @property {Role | null} role Saknas tills spelet har startat.
  * @property {boolean} isAlive
  * @property {boolean} isConnected
+ * @property {import('../avatar/avatarParts.js').Avatar | null} avatar Null när telefonen inte skickade någon giltig avatar.
  */
 
 /**
@@ -63,7 +64,8 @@
  * @typedef {{ type: 'ready' }
  *   | { type: 'nightChoice', targetId: string }
  *   | { type: 'nightDone' }
- *   | { type: 'vote', targetId: string }} PlayerAction
+ *   | { type: 'vote', targetId: string }
+ *   | { type: 'setAvatar', avatar: import('../avatar/avatarParts.js').Avatar }} PlayerAction
  */
 
 export {};

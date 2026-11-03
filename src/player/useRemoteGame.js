@@ -18,10 +18,10 @@ const STATUS_TEXT = {
 };
 
 /**
- * @param {{ roomCode: string, name: string, secret: string, onRejected: (message: string) => void }} options
+ * @param {{ roomCode: string, name: string, secret: string, avatar?: import('../avatar/avatarParts.js').Avatar, onRejected: (message: string) => void }} options
  * @returns {GameConnection}
  */
-export function useRemoteGame({ roomCode, name, secret, onRejected }) {
+export function useRemoteGame({ roomCode, name, secret, avatar, onRejected }) {
   const [view, setView] = useState(/** @type {GameConnection['view']} */ (null));
   const [status, setStatus] = useState(STATUS_TEXT.connecting);
   const [notice, setNotice] = useState(/** @type {string | null} */ (null));
@@ -36,6 +36,7 @@ export function useRemoteGame({ roomCode, name, secret, onRejected }) {
       roomCode,
       name,
       secret,
+      avatar,
       onStatus: (clientStatus) => setStatus(STATUS_TEXT[clientStatus]),
       onRoomMissing() {
         network.close();
@@ -54,7 +55,7 @@ export function useRemoteGame({ roomCode, name, secret, onRejected }) {
     });
     networkRef.current = network;
     return () => network.close();
-  }, [roomCode, name, secret]);
+  }, [roomCode, name, secret, avatar]);
 
   const sendAction = useCallback((/** @type {import('../game/types.js').PlayerAction} */ action) => {
     setNotice(null);
