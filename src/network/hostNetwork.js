@@ -1,7 +1,7 @@
 // @ts-check
 // Värdens sida av nätverket. Vet inget om spelregler, bara vem som är ansluten.
 import Peer from 'peerjs';
-import { CONNECTION_TIMEOUT_MS, HEARTBEAT_INTERVAL_MS } from './messages.js';
+import { HEARTBEAT_INTERVAL_MS, HOST_DROP_AFTER_MS } from './messages.js';
 import { readPeerOptions } from './peerServer.js';
 import { toPeerId } from './roomCode.js';
 
@@ -13,6 +13,11 @@ import { toPeerId } from './roomCode.js';
 // När värdens sida laddas om håller PeerJS-servern kvar det gamla id:t en
 // stund, så vi försöker igen tills det släpps.
 const RECLAIM_ID_RETRY_MS = 3000;
+const SERVER_RETRY_MS = 2000;
+// Har värdens sida varit dold så här länge kopplas den upp mot PeerJS-servern
+// igen, eftersom förbindelsen kan ha dött utan att PeerJS märker det. Då kommer
+// nya och återanslutande spelare inte fram. Samma lösning som i Låtquiz.
+const REFRESH_AFTER_HIDDEN_MS = 5000;
 
 /**
  * @typedef {object} HostHandlers
@@ -35,6 +40,9 @@ export function openHostNetwork(roomCode, handlers) {
   let isClosed = false;
   /** @type {ReturnType<typeof setTimeout> | undefined} */
   let retryTimer;
+  let isRefreshing = false;
+  /** @type {number | null} */
+  let hiddenSince = null;
 
   function startPeer() {
     handlers.onStatus('connecting');
@@ -42,7 +50,11 @@ export function openHostNetwork(roomCode, handlers) {
     peer.on('open', () => handlers.onStatus('open'));
     peer.on('connection', acceptConnection);
     peer.on('disconnected', () => {
-      if (!isClosed) peer?.reconnect();
+      if (isClosed || isRefreshing) return;
+      handlers.onStatus('connecting');
+      setTimeout(() => {
+        if (!isClosed && peer?.disconnected && !peer.destroyed) peer.reconnect();
+      }, SERVER_RETRY_MS);
     });
     peer.on('error', (error) => {
       if (error.type === 'unavailable-id' && !isClosed) {
@@ -78,6 +90,10 @@ export function openHostNetwork(roomCode, handlers) {
       if (!secret) return;
       const entry = players.get(secret);
       if (entry) entry.lastHeardAt = Date.now();
+      if (message.type === 'ping') {
+        connection.send(/** @type {HostMessage} */ ({ type: 'pong' }));
+        return;
+      }
       if (message.type === 'action' && entry) {
         entry.handledActionId = message.id;
         handlers.onAction(secret, message.action);
@@ -100,14 +116,30 @@ export function openHostNetwork(roomCode, handlers) {
   const heartbeat = setInterval(() => {
     const now = Date.now();
     for (const [secret, entry] of players) {
-      if (now - entry.lastHeardAt > CONNECTION_TIMEOUT_MS) {
+      if (now - entry.lastHeardAt > HOST_DROP_AFTER_MS) {
         entry.connection.close();
         dropConnection(secret, entry.connection);
-      } else {
-        entry.connection.send(/** @type {HostMessage} */ ({ type: 'ping' }));
       }
     }
   }, HEARTBEAT_INTERVAL_MS);
+
+  function refreshAfterHidden() {
+    if (document.visibilityState !== 'visible') {
+      hiddenSince = Date.now();
+      return;
+    }
+    const wasHiddenLong = hiddenSince !== null && Date.now() - hiddenSince >= REFRESH_AFTER_HIDDEN_MS;
+    hiddenSince = null;
+    if (!wasHiddenLong || isClosed || !peer || peer.destroyed) return;
+    // Spelare som redan är anslutna påverkas inte, de pratar direkt med värden.
+    if (!peer.disconnected) {
+      isRefreshing = true;
+      peer.disconnect();
+      isRefreshing = false;
+    }
+    peer.reconnect();
+  }
+  document.addEventListener('visibilitychange', refreshAfterHidden);
 
   startPeer();
 
@@ -122,6 +154,7 @@ export function openHostNetwork(roomCode, handlers) {
       isClosed = true;
       clearInterval(heartbeat);
       clearTimeout(retryTimer);
+      document.removeEventListener('visibilitychange', refreshAfterHidden);
       peer?.destroy();
     },
   };
