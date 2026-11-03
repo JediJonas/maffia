@@ -11,7 +11,7 @@
  * @property {string} key Samma namn som DiceBear-stilens alternativ.
  * @property {string} label
  * @property {readonly string[]} choices
- * @property {'shape' | 'optional'} kind optional har NO_CHOICE som första alternativ.
+ * @property {'shape' | 'color' | 'optional'} kind optional har NO_CHOICE som första alternativ.
  */
 
 export const NO_CHOICE = 'none';
@@ -29,6 +29,10 @@ function listVariants(prefix, count) {
 function withNoChoice(choices) {
   return [NO_CHOICE, ...choices];
 }
+
+// Avatarerna är svartvita, men bakgrunden får en ljus färg så att de går att
+// skilja åt på håll. Färgerna är ljusa, så att de svarta linjerna syns.
+const BACKGROUND_COLORS = ['ffffff', 'f3dede', 'f6e7b4', 'd7ecd0', 'cfe3f2', 'e3d7f2', 'f2d9c2', 'e4e1da'];
 
 // Antalet former av varje del i Lorelei. Ett test jämför med stilens egen lista.
 const LORELEI_SHAPE_COUNTS = {
@@ -62,6 +66,7 @@ export const AVATAR_PARTS = [
   { key: 'beard', label: 'Skägg', kind: 'optional', choices: withNoChoice(listVariants('variant', LORELEI_SHAPE_COUNTS.beard)) },
   { key: 'freckles', label: 'Fräknar', kind: 'optional', choices: withNoChoice(['variant01']) },
   { key: 'hairAccessories', label: 'Blommor i håret', kind: 'optional', choices: withNoChoice(['flowers']) },
+  { key: 'backgroundColor', label: 'Bakgrund', kind: 'color', choices: BACKGROUND_COLORS },
 ];
 
 // Slumpen ska ge vanliga ansikten, så tillbehören kommer bara ibland.
