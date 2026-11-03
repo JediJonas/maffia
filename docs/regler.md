@@ -70,8 +70,8 @@ alla går att ändra i `src/game/rules.js`:
   sekunder visas rollen för alla samtidigt. Omröstningen är öppen hela tiden.
   Blev ingen mördad finns inget att räkna ned till.
 - Avgör nattens mord spelet visas morgonen ändå, med nedräkningen. Några
-  sekunder efter att rollen har visats kommer "Spelet är slut" av sig självt,
-  precis som efter ett domslut.
+  sekunder efter att rollen har visats kommer "Spelet är slut" av sig självt.
+  Röster som läggs under en sådan morgon räknas inte.
 - Omröstningen avgörs när alla levande har röstat, och man kan ändra sin röst
   fram till dess. Alla ser hela tiden vem som har röstat på vem.
 - Efter omröstningen visas ett domslut. Först syns bara vem som blev utvisad, och
