@@ -106,6 +106,6 @@ describe('narrateAloud', () => {
   });
 
   it('säger att natten faller, som på skärmen', () => {
-    expect(aloud({ ...night, phase: 'verdict' }, night)).toBe('Natten faller. Alla tittar i sin telefon och gör sitt val.');
+    expect(aloud({ ...night, phase: 'verdict' }, night)).toBe('Natten faller.');
   });
 });

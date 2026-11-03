@@ -14,9 +14,9 @@ export function narratePhaseChange(previous, next) {
   if (previous && previous.phase === next.phase && previous.round === next.round) return null;
   switch (next.phase) {
     case 'roleReveal':
-      return 'Spelet börjar. Titta på din roll i hemlighet och tryck sedan på klar.';
+      return 'Spelet börjar.';
     case 'night':
-      return 'Natten faller. Alla tittar i sin telefon och gör sitt val.';
+      return 'Natten faller.';
     case 'day':
       return `Staden vaknar. ${describeKill(next)}`;
     case 'verdict':
