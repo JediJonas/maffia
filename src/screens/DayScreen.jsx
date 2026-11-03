@@ -1,4 +1,5 @@
 // @ts-check
+import { ROLE_INFO } from '../game/roles.js';
 import { SKIP_VOTE } from '../game/rules.js';
 import { PlayerPicker } from './PlayerPicker.jsx';
 import { SecretCard } from './SecretCard.jsx';
@@ -8,8 +9,9 @@ import { VoteTally } from './VoteTally.jsx';
  * @param {object} props
  * @param {import('../game/playerView.js').PlayerView} props.view
  * @param {(action: import('../game/types.js').PlayerAction) => void} props.sendAction
+ * @param {import('../host/useHostGame.js').HostControls | null} props.host
  */
-export function DayScreen({ view, sendAction }) {
+export function DayScreen({ view, sendAction, host }) {
   const myVote = view.dayVotes[view.me.id] ?? null;
   const votedCount = Object.keys(view.dayVotes).length;
   const living = view.players.filter((p) => p.isAlive);
@@ -17,6 +19,7 @@ export function DayScreen({ view, sendAction }) {
   return (
     <section aria-labelledby="day-title">
       <h1 id="day-title">Dag {view.round}</h1>
+      <MorningNews view={view} host={host} />
       <Investigations view={view} />
       <VoteTally view={view} />
       {view.me.isAlive ? (
@@ -66,5 +69,26 @@ function Investigations({ view }) {
         </ul>
       )}
     </SecretCard>
+  );
+}
+
+/**
+ * Nattens offer, först bara namnet. Omröstningen är öppen under tiden, så
+ * att värden kan vänta in spänningen utan att hålla upp spelet.
+ * @param {object} props
+ * @param {import('../game/playerView.js').PlayerView} props.view
+ * @param {import('../host/useHostGame.js').HostControls | null} props.host
+ */
+function MorningNews({ view, host }) {
+  const killed = view.players.find((p) => p.id === view.lastNight?.killedId);
+  if (!killed) return null;
+  return (
+    <div className="secret-card verdict-card">
+      <p className="secret-headline">I natt dog {killed.id === view.me.id ? 'du' : killed.name}</p>
+      {killed.revealedRole && <p>{killed.name} var {ROLE_INFO[killed.revealedRole].name.toLowerCase()}.</p>}
+      {view.canShowDeathRole && (host
+        ? <button type="button" className="primary" onClick={host.showDeathRole}>Visa rollen</button>
+        : <p className="muted">Värden visar snart rollen …</p>)}
+    </div>
   );
 }

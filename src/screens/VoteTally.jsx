@@ -11,8 +11,7 @@ export function VoteTally({ view, title = 'Så står rösterna' }) {
   const rows = tallyVotes(view.dayVotes, view.players.map((p) => p.id));
   const nameOf = (/** @type {string} */ id) => {
     if (id === SKIP_VOTE) return 'Avstå';
-    const name = view.players.find((p) => p.id === id)?.name ?? '?';
-    return id === view.me.id ? `${name} (du)` : name;
+    return view.players.find((p) => p.id === id)?.name ?? '?';
   };
 
   return (

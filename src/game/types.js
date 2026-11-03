@@ -32,11 +32,13 @@
  * Vad som hände under den senaste natten, som alla får veta på dagen.
  * @typedef {object} NightOutcome
  * @property {string | null} killedId Null när ingen dog, till exempel för att läkaren räddade offret.
+ * @property {boolean} isRoleShown Morgonen visar först bara vem som dog, och värden vänder sedan fram rollen.
  */
 
 /**
  * @typedef {object} DayOutcome
  * @property {string | null} executedId Null vid oavgjort eller när de flesta röstade att avstå.
+ * @property {boolean} isRoleShown Domslutet visar först bara vem som åkte ut, och värden vänder sedan fram rollen för spänningens skull.
  */
 
 /**

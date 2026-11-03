@@ -1,7 +1,8 @@
 // @ts-check
 // Det enda som skickas till en telefon. Varje fält här är något just den
 // spelaren får veta, så att ingen kan läsa andras roller i nätverkstrafiken.
-import { canConfirmNight, findWinner, listNightTargets } from './rules.js';
+import { canConfirmNight, listNightTargets } from './rules.js';
+import { findHiddenDeathId } from './deathReveal.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
 /** @typedef {import('./types.js').Role} Role */
@@ -33,7 +34,7 @@ import { canConfirmNight, findWinner, listNightTargets } from './rules.js';
  * @property {import('./types.js').Investigation[]} investigations Tom för alla utom detektiven.
  * @property {Record<string, string>} dayVotes Omröstningen är öppen, som i klassisk maffia.
  * @property {import('./settings.js').GameSettings} settings Alla får se inställningarna.
- * @property {boolean} isGameDecided Sant under domslutet när ett lag redan har vunnit, så att värden kan visa rätt knapp.
+ * @property {boolean} canShowDeathRole Sant på morgonen och i domslutet tills värden har vänt fram den dödas roll.
  * @property {import('./types.js').NightOutcome | null} lastNight
  * @property {import('./types.js').DayOutcome | null} lastDay
  * @property {import('./types.js').Team | null} winner
@@ -50,6 +51,9 @@ export function buildPlayerView(state, playerId) {
   const isGameOver = state.phase === 'gameOver';
   const isNight = state.phase === 'night';
   const isMafia = me.role === 'mafia';
+  const hiddenDeathId = findHiddenDeathId(state);
+  const canSeeRoleOf = (/** @type {import('./types.js').Player} */ p) =>
+    isGameOver || (!p.isAlive && state.settings.revealsRoleOnDeath && p.id !== hiddenDeathId);
 
   return {
     phase: state.phase,
@@ -60,7 +64,7 @@ export function buildPlayerView(state, playerId) {
       name: p.name,
       isAlive: p.isAlive,
       isConnected: p.isConnected,
-      revealedRole: isGameOver || (!p.isAlive && state.settings.revealsRoleOnDeath) ? p.role : null,
+      revealedRole: canSeeRoleOf(p) ? p.role : null,
     })),
     readyCount: state.readyIds.length,
     isReady: state.readyIds.includes(me.id),
@@ -81,6 +85,6 @@ export function buildPlayerView(state, playerId) {
     lastDay: state.lastDay,
     winner: state.winner,
     settings: state.settings,
-    isGameDecided: state.phase === 'verdict' && findWinner(state) !== null,
+    canShowDeathRole: Boolean(hiddenDeathId),
   };
 }

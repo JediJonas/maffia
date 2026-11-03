@@ -25,13 +25,27 @@ export function VerdictScreen({ view, host }) {
         )}
       </div>
       <VoteTally view={view} title="Så röstade staden" />
-      {host ? (
-        <button type="button" className="primary" onClick={host.endVerdict}>
-          {view.isGameDecided ? 'Visa vem som vann' : 'Låt natten falla'}
-        </button>
-      ) : (
-        <p className="muted">Värden låter natten falla när alla är redo.</p>
+      {host && <VerdictHostButton view={view} host={host} />}
+      {!host && (
+        <p className="muted">
+          {view.canShowDeathRole ? 'Värden visar snart rollen …' : 'Värden fortsätter när alla är redo.'}
+        </p>
       )}
     </section>
   );
+}
+
+/**
+ * Först vänds rollen fram, sedan blir det natt.
+ * @param {object} props
+ * @param {import('../game/playerView.js').PlayerView} props.view
+ * @param {import('../host/useHostGame.js').HostControls} props.host
+ */
+function VerdictHostButton({ view, host }) {
+  if (view.canShowDeathRole) {
+    return <button type="button" className="primary" onClick={host.showDeathRole}>Visa rollen</button>;
+  }
+  // Samma knapp oavsett om spelet är avgjort, så att värden inte ser
+  // resultatet före de andra.
+  return <button type="button" className="primary" onClick={host.endVerdict}>Fortsätt</button>;
 }

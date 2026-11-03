@@ -247,7 +247,7 @@ function resolveNight(state) {
   return withWinnerCheck({
     ...afterKill,
     phase: 'day',
-    lastNight: { killedId },
+    lastNight: { killedId, isRoleShown: false },
     dayVotes: {},
   });
 }
@@ -294,7 +294,7 @@ export function findExecutedId(votes) {
  */
 function resolveDay(state) {
   const executedId = findExecutedId(state.dayVotes);
-  return { ...killPlayer(state, executedId), phase: 'verdict', lastDay: { executedId } };
+  return { ...killPlayer(state, executedId), phase: 'verdict', lastDay: { executedId, isRoleShown: false } };
 }
 
 /**
