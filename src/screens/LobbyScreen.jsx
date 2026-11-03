@@ -1,7 +1,7 @@
 // @ts-check
 import { useEffect, useState } from 'react';
 import { MIN_PLAYERS } from '../game/roles.js';
-import { buildRoleList, findSettingsProblem } from '../game/settings.js';
+import { buildRoleList, describeRoles, findSettingsProblem } from '../game/settings.js';
 import { buildJoinUrl } from '../network/roomCode.js';
 import { SettingsPanel } from './SettingsPanel.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
@@ -121,19 +121,4 @@ function StartHint({ view }) {
   if (playerCount < MIN_PLAYERS) return <p className="muted">Det behövs minst {MIN_PLAYERS} spelare.</p>;
   if (findSettingsProblem(view.settings, playerCount)) return null;
   return <p className="muted">Roller: {describeRoles(buildRoleList(view.settings, playerCount))}.</p>;
-}
-
-/**
- * @param {import('../game/types.js').Role[]} roles
- * @returns {string} Till exempel "1 maffia, detektiv, läkare och 2 medborgare".
- */
-function describeRoles(roles) {
-  const count = (/** @type {string} */ role) => roles.filter((r) => r === role).length;
-  const parts = [
-    `${count('mafia')} maffia`,
-    count('detective') ? 'detektiv' : null,
-    count('doctor') ? 'läkare' : null,
-    count('citizen') ? `${count('citizen')} medborgare` : null,
-  ].filter((part) => part !== null);
-  return parts.length > 1 ? `${parts.slice(0, -1).join(', ')} och ${parts[parts.length - 1]}` : parts[0];
 }

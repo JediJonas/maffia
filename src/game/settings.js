@@ -74,3 +74,18 @@ export function findSettingsProblem(settings, playerCount) {
 export function completeSettings(saved) {
   return { ...DEFAULT_SETTINGS, ...saved };
 }
+
+/**
+ * Varje roll får sitt antal, så att det syns att det är en av varje.
+ * @param {Role[]} roles
+ * @returns {string} Till exempel "1 maffia, 1 detektiv, 1 läkare och 2 medborgare".
+ */
+export function describeRoles(roles) {
+  /** @type {[Role, string][]} */
+  const names = [['mafia', 'maffia'], ['detective', 'detektiv'], ['doctor', 'läkare'], ['citizen', 'medborgare']];
+  const parts = names
+    .map(([role, name]) => ({ count: roles.filter((r) => r === role).length, name }))
+    .filter(({ count }) => count > 0)
+    .map(({ count, name }) => `${count} ${name}`);
+  return parts.length > 1 ? `${parts.slice(0, -1).join(', ')} och ${parts[parts.length - 1]}` : parts[0];
+}
