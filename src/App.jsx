@@ -5,7 +5,7 @@ import { useNarratorVoice } from './host/useNarratorVoice.js';
 import { useRemoteGame } from './player/useRemoteGame.js';
 import { GameScreen } from './screens/GameScreen.jsx';
 import { StartScreen } from './screens/StartScreen.jsx';
-import { createSecret, loadSession, saveHostGame, saveSession } from './device/savedSession.js';
+import { createSecret, loadOrCreateAvatar, loadSession, saveHostGame, saveSession } from './device/savedSession.js';
 import { generateRoomCode, readRoomCodeFromUrl } from './network/roomCode.js';
 
 /** @typedef {import('./device/savedSession.js').SavedSession} SavedSession */
@@ -52,15 +52,15 @@ export function App() {
     <StartScreen
       initialRoomCode={readRoomCodeFromUrl(window.location.href)}
       message={message}
-      onCreate={(name) => changeSession({ kind: 'host', roomCode: generateRoomCode(Math.random), name })}
-      onJoin={(roomCode, name) => changeSession({ kind: 'player', roomCode, name, secret: createSecret() })}
+      onCreate={(name) => changeSession({ kind: 'host', roomCode: generateRoomCode(Math.random), name, avatar: loadOrCreateAvatar() })}
+      onJoin={(roomCode, name) => changeSession({ kind: 'player', roomCode, name, secret: createSecret(), avatar: loadOrCreateAvatar() })}
     />
   );
 }
 
 /** @param {{ session: Extract<SavedSession, { kind: 'host' }>, onLeave: () => void }} props */
 function HostGame({ session, onLeave }) {
-  const connection = useHostGame(session.roomCode, session.name);
+  const connection = useHostGame(session.roomCode, session.name, session.avatar);
   useNarratorVoice(connection.view);
   return <GameScreen connection={connection} onLeave={onLeave} />;
 }

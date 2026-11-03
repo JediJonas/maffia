@@ -42,7 +42,7 @@ export function GameScreen({ connection, onLeave }) {
 function PhaseContent({ view, sendAction, host }) {
   switch (view.phase) {
     case 'lobby':
-      return <LobbyScreen view={view} host={host} />;
+      return <LobbyScreen view={view} host={host} sendAction={sendAction} />;
     case 'roleReveal':
       return <RoleScreen view={view} sendAction={sendAction} />;
     case 'night':

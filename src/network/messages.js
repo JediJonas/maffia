@@ -3,7 +3,7 @@
 // värden svarar med klientens egen vy av spelet (stjärntopologi).
 
 /**
- * @typedef {{ type: 'join', name: string, secret: string }
+ * @typedef {{ type: 'join', name: string, secret: string, avatar?: import('../avatar/avatarParts.js').Avatar }
  *   | { type: 'action', id: number, action: import('../game/types.js').PlayerAction }
  *   | { type: 'ping' }} ClientMessage
  */

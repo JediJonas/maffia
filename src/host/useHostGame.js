@@ -38,14 +38,15 @@ import { keepScreenAwake } from '../device/wakeLock.js';
 /**
  * @param {string} roomCode
  * @param {string} hostName
+ * @param {import('../avatar/avatarParts.js').Avatar | undefined} hostAvatar
  * @returns {SavedHostGame}
  */
-function loadOrCreateGame(roomCode, hostName) {
+function loadOrCreateGame(roomCode, hostName, hostAvatar) {
   const saved = loadHostGame(roomCode);
   if (saved) return { ...saved, state: { ...saved.state, settings: completeSettings(saved.state.settings) } };
   const hostPlayerId = createPlayerId();
   return {
-    state: addPlayer(createGame(), { id: hostPlayerId, name: hostName }),
+    state: addPlayer(createGame(), { id: hostPlayerId, name: hostName, avatar: hostAvatar }),
     playerIdsBySecret: {},
     hostPlayerId,
   };
@@ -60,10 +61,11 @@ function createPlayerId() {
 /**
  * @param {string} roomCode
  * @param {string} hostName
+ * @param {import('../avatar/avatarParts.js').Avatar | undefined} hostAvatar
  * @returns {GameConnection}
  */
-export function useHostGame(roomCode, hostName) {
-  const [initialGame] = useState(() => loadOrCreateGame(roomCode, hostName));
+export function useHostGame(roomCode, hostName, hostAvatar) {
+  const [initialGame] = useState(() => loadOrCreateGame(roomCode, hostName, hostAvatar));
   // Nätverkets callbacks körs utanför React och behöver alltid senaste
   // tillståndet, så det hålls i en ref och speglas till state för visningen.
   const gameRef = useRef(initialGame);
@@ -107,7 +109,7 @@ export function useHostGame(roomCode, hostName) {
         else if (networkStatus === 'connecting') setStatus('Öppnar rummet …');
         else setStatus(`Nätverksfel: ${detail ?? 'okänt'}`);
       },
-      onJoin(secret, name) {
+      onJoin(secret, name, avatar) {
         const game = gameRef.current;
         const knownId = game.playerIdsBySecret[secret];
         if (knownId) {
@@ -116,7 +118,7 @@ export function useHostGame(roomCode, hostName) {
         }
         const playerId = createPlayerId();
         try {
-          const nextState = addPlayer(game.state, { id: playerId, name });
+          const nextState = addPlayer(game.state, { id: playerId, name, avatar });
           commit({ state: nextState, playerIdsBySecret: { ...game.playerIdsBySecret, [secret]: playerId } });
           return null;
         } catch (error) {

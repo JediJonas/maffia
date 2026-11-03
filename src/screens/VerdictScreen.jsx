@@ -1,5 +1,6 @@
 // @ts-check
 import { ROLE_INFO } from '../game/roles.js';
+import { LARGE_AVATAR_PX, PlayerAvatar } from './PlayerAvatar.jsx';
 import { RoleCountdown } from './RoleCountdown.jsx';
 import { VoteTally } from './VoteTally.jsx';
 
@@ -18,6 +19,7 @@ export function VerdictScreen({ view, host }) {
       <div className="secret-card verdict-card">
         {executed ? (
           <>
+            <PlayerAvatar player={executed} sizePx={LARGE_AVATAR_PX} isDead />
             <p className="secret-headline">{executed.id === view.me.id ? 'Du' : executed.name} blev utvisad ur staden</p>
             {executed.revealedRole && <p>{executed.name} var {ROLE_INFO[executed.revealedRole].name.toLowerCase()}.</p>}
             {view.isRoleRevealPending && <RoleCountdown />}

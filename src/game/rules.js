@@ -3,6 +3,7 @@
 // Bara värden kör dem. Inget nätverk, ingen klocka och ingen DOM här.
 import { MAX_PLAYERS, MIN_PLAYERS, shuffle, teamOf } from './roles.js';
 import { DEFAULT_SETTINGS, buildRoleList, findSettingsProblem } from './settings.js';
+import { sanitizeAvatar } from '../avatar/avatarParts.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
 /** @typedef {import('./types.js').Player} Player */
@@ -35,7 +36,7 @@ export function createGame() {
 
 /**
  * @param {GameState} state
- * @param {{ id: string, name: string }} newPlayer
+ * @param {{ id: string, name: string, avatar?: unknown }} newPlayer Avataren kommer från telefonen och kontrolleras här.
  * @returns {GameState}
  */
 export function addPlayer(state, newPlayer) {
@@ -46,7 +47,7 @@ export function addPlayer(state, newPlayer) {
   const isNameTaken = state.players.some((p) => p.name.toLowerCase() === name.toLowerCase());
   if (isNameTaken) throw new RuleError('Namnet är redan taget.');
   /** @type {Player} */
-  const player = { id: newPlayer.id, name, role: null, isAlive: true, isConnected: true };
+  const player = { id: newPlayer.id, name, role: null, isAlive: true, isConnected: true, avatar: sanitizeAvatar(newPlayer.avatar) };
   return { ...state, players: [...state.players, player] };
 }
 
@@ -129,9 +130,25 @@ export function applyAction(state, playerId, action) {
       return confirmNight(state, player);
     case 'vote':
       return castVote(state, player, action.targetId);
+    case 'setAvatar':
+      return changeAvatar(state, player, action.avatar);
     default:
       throw new RuleError('Okänd handling.');
   }
+}
+
+/**
+ * Avataren byts bara i lobbyn, så att ingen ändrar utseende mitt i spelet.
+ * @param {GameState} state
+ * @param {Player} player
+ * @param {unknown} avatarInput
+ * @returns {GameState}
+ */
+function changeAvatar(state, player, avatarInput) {
+  if (state.phase !== 'lobby') throw new RuleError('Avataren kan bara ändras i lobbyn.');
+  const avatar = sanitizeAvatar(avatarInput);
+  if (!avatar) throw new RuleError('Avataren gick inte att läsa.');
+  return updatePlayers(state, (p) => (p.id === player.id ? { ...p, avatar } : p));
 }
 
 /**

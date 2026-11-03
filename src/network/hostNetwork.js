@@ -22,7 +22,7 @@ const REFRESH_AFTER_HIDDEN_MS = 5000;
 /**
  * @typedef {object} HostHandlers
  * @property {(status: NetworkStatus, detail?: string) => void} onStatus
- * @property {(secret: string, name: string) => string | null} onJoin Returnerar ett felmeddelande för att neka.
+ * @property {(secret: string, name: string, avatar: unknown) => string | null} onJoin Returnerar ett felmeddelande för att neka.
  * @property {(secret: string, action: import('../game/types.js').PlayerAction) => void} onAction
  * @property {(secret: string) => void} onLeave
  */
@@ -78,7 +78,7 @@ export function openHostNetwork(roomCode, handlers) {
         if (previous && previous.connection !== connection) previous.connection.close();
         // Registreras före onJoin så att telefonen får sin vy direkt när den släpps in.
         players.set(message.secret, { connection, lastHeardAt: Date.now() });
-        const rejection = handlers.onJoin(message.secret, message.name);
+        const rejection = handlers.onJoin(message.secret, message.name, message.avatar);
         if (rejection) {
           players.delete(message.secret);
           connection.send(/** @type {HostMessage} */ ({ type: 'rejected', message: rejection }));

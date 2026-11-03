@@ -27,6 +27,10 @@ varje gång något hamnar i main.
   värden talar, och bara om sådant som alla får veta. Stängs av bland
   inställningarna i lobbyn. Lägg till `?debug=1` i adressen för en
   felsökningslogg i telefonen.
+- **Avatarer.** Svartvita, som stilen är ritad. Varje telefon slumpar en
+  avatar som sparas till nästa spel, och i lobbyn kan man ändra den del för
+  del. Bara valen skickas, som `{ hair: 'variant12', ... }`, och värden
+  kontrollerar dem. Varje telefon ritar bilderna själv.
 
 ## Mappar
 
@@ -35,6 +39,7 @@ varje gång något hamnar i main.
 - `src/host/` och `src/player/` React-hookar som kopplar ihop regler och nätverk
 - `src/screens/` vyerna
 - `src/device/` telefonens funktioner: skärmlås, vibration, talsyntes och sparad session
+- `src/avatar/` avatarens delar och hur den ritas
 
 ## Kom igång
 
@@ -53,3 +58,9 @@ Utan inställningar används PeerJS publika server. Till en egen server:
 npx peerjs --port 9000
 VITE_PEER_HOST=localhost VITE_PEER_PORT=9000 VITE_PEER_SECURE=false npm run dev
 ```
+
+## Licenser
+
+Avatarerna ritas med [DiceBear](https://www.dicebear.com/) (MIT) och stilen
+[Lorelei](https://www.figma.com/community/file/1198749693280469639) av
+Lisa Wischofsky, som är fri att använda under CC0 1.0.

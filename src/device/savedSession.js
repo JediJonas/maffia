@@ -1,13 +1,19 @@
 // @ts-check
 // Sparas i telefonen så att en spelare som laddar om sidan, eller värden som
 // tappar sin flik, kommer tillbaka till samma spel.
+import { createRandomAvatar, sanitizeAvatar } from '../avatar/avatarParts.js';
 
 const SESSION_KEY = 'maffia.session';
 const HOST_GAME_KEY_PREFIX = 'maffia.hostGame.';
+// Avataren hör till telefonen och följer med till nästa spel.
+const AVATAR_KEY = 'maffia.avatar';
+
+/** @typedef {import('../avatar/avatarParts.js').Avatar} Avatar */
 
 /**
- * @typedef {{ kind: 'host', roomCode: string, name: string }
- *   | { kind: 'player', roomCode: string, name: string, secret: string }} SavedSession
+ * Avataren saknas i sessioner som sparades innan avatarerna fanns.
+ * @typedef {{ kind: 'host', roomCode: string, name: string, avatar?: Avatar }
+ *   | { kind: 'player', roomCode: string, name: string, secret: string, avatar?: Avatar }} SavedSession
  */
 
 /**
@@ -27,6 +33,23 @@ export function loadSession() {
 /** @param {SavedSession | null} session */
 export function saveSession(session) {
   writeJson(SESSION_KEY, session);
+}
+
+/**
+ * Slumpar en avatar första gången, så att alla har en utan att behöva välja.
+ * @returns {Avatar}
+ */
+export function loadOrCreateAvatar() {
+  const saved = sanitizeAvatar(readJson(AVATAR_KEY));
+  if (saved) return saved;
+  const avatar = createRandomAvatar(Math.random);
+  saveAvatar(avatar);
+  return avatar;
+}
+
+/** @param {Avatar} avatar */
+export function saveAvatar(avatar) {
+  writeJson(AVATAR_KEY, avatar);
 }
 
 /**

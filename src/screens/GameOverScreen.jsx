@@ -1,5 +1,6 @@
 // @ts-check
 import { ROLE_INFO } from '../game/roles.js';
+import { PlayerAvatar } from './PlayerAvatar.jsx';
 
 /**
  * @param {object} props
@@ -14,7 +15,10 @@ export function GameOverScreen({ view, host }) {
       <ul className="player-list">
         {view.players.map((player) => (
           <li key={player.id}>
-            <span className={player.isAlive ? '' : 'dead'}>{player.name}</span>
+            <span className="player-name">
+              <PlayerAvatar player={player} isDead={!player.isAlive} />
+              <span className={player.isAlive ? '' : 'dead'}>{player.name}</span>
+            </span>
             <span>{player.revealedRole && ROLE_INFO[player.revealedRole].name}</span>
           </li>
         ))}
