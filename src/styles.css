@@ -11,6 +11,8 @@
   --notice-bg: #fff1c2;
   --notice-text: #3d2f00;
   --focus: #1a56c4;
+  --message-bg: color-mix(in srgb, var(--surface) 92%, transparent);
+  --message-shadow: 0 12px 32px rgba(20, 20, 40, 0.22), 0 2px 6px rgba(20, 20, 40, 0.12);
   color-scheme: light;
 }
 
@@ -26,6 +28,7 @@
   --notice-bg: #3d3416;
   --notice-text: #fbe9a7;
   --focus: #8fb4ff;
+  --message-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
   color-scheme: dark;
 }
 
@@ -46,7 +49,8 @@ body {
 main {
   max-width: 32rem;
   margin: 0 auto;
-  padding: 1rem 1rem 3rem;
+  /* Plats längst ner, så att meddelanderutan inte täcker sista knappen. */
+  padding: 1rem 1rem 6rem;
 }
 
 h1 {
@@ -198,14 +202,12 @@ button:disabled {
   border: 1px solid var(--border);
 }
 
-.status,
 .notice,
 .announcement {
   border-radius: 0.6rem;
   padding: 0.75rem 1rem;
 }
 
-.status,
 .notice {
   background: var(--notice-bg);
   color: var(--notice-text);
@@ -430,4 +432,68 @@ button:disabled {
   white-space: pre-wrap;
   pointer-events: none;
   z-index: 10;
+}
+
+/* Meddelanderutan längst ner, ovanpå sidan, som i Låtquiz. Fel får röd ikon. */
+.message {
+  position: fixed;
+  z-index: 50;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(30rem, calc(100vw - 32px));
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 1.4rem;
+  background: var(--message-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: var(--message-shadow);
+  color: var(--text);
+  line-height: 1.35;
+  animation: message-in 0.25s ease-out;
+}
+
+.message-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.message.problem .message-icon {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 1.4s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes message-in {
+  from { opacity: 0; transform: translate(-50%, 12px); }
+  to { opacity: 1; transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .message { animation: none; }
+  .spinner { animation-duration: 4s; }
 }

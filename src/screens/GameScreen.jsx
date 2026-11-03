@@ -2,6 +2,7 @@
 import { DayScreen } from './DayScreen.jsx';
 import { GameOverScreen } from './GameOverScreen.jsx';
 import { LobbyScreen } from './LobbyScreen.jsx';
+import { MessageBar } from './MessageBar.jsx';
 import { NightScreen } from './NightScreen.jsx';
 import { RoleScreen } from './RoleScreen.jsx';
 import { VerdictScreen } from './VerdictScreen.jsx';
@@ -24,11 +25,11 @@ export function GameScreen({ connection, onLeave }) {
         <button type="button" className="link-button" onClick={onLeave}>Lämna</button>
       </header>
       <main>
-        {status && <p className="status" role="status">{status}</p>}
         {showsAnnouncement && <p className="announcement" aria-live="polite">{announcement}</p>}
-        {notice && <p className="notice" role="alert">{notice}</p>}
-        {view ? <PhaseContent view={view} sendAction={sendAction} host={host} /> : <p>Ansluter …</p>}
+        {/* Utan vy står det i meddelanderutan att telefonen ansluter. */}
+        {view && <PhaseContent view={view} sendAction={sendAction} host={host} />}
       </main>
+      <MessageBar status={status} notice={notice} />
     </>
   );
 }

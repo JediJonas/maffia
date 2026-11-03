@@ -48,12 +48,12 @@ function SettingsForm({ settings, onChange }) {
   const toggles = [
     ['hasDetective', 'Detektiv'],
     ['hasDoctor', 'Läkare'],
-    ['revealsRoleOnDeath', 'Visa rollen när någon dör'],
-    ['hasNarratorVoice', 'Berättarröst från värdens telefon'],
+    ['revealsRoleOnDeath', 'Avslöja rollen'],
+    ['hasNarratorVoice', 'Berättarröst'],
   ];
   return (
     <div className="settings-form">
-      <label htmlFor="mafia-count">Antal maffia</label>
+      <label htmlFor="mafia-count">Maffia</label>
       <select
         id="mafia-count"
         value={String(settings.mafiaCount)}
@@ -89,7 +89,7 @@ function SettingsSummary({ settings }) {
       <li>Maffia: {settings.mafiaCount === 'auto' ? 'automatiskt' : settings.mafiaCount}</li>
       <li>Detektiv: {settings.hasDetective ? 'ja' : 'nej'}</li>
       <li>Läkare: {settings.hasDoctor ? 'ja' : 'nej'}</li>
-      <li>Rollen visas när någon dör: {settings.revealsRoleOnDeath ? 'ja' : 'nej'}</li>
+      <li>Avslöja rollen: {settings.revealsRoleOnDeath ? 'ja' : 'nej'}</li>
       <li>Berättarröst: {settings.hasNarratorVoice ? 'ja' : 'nej'}</li>
     </ul>
   );
