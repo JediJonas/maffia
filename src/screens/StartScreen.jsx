@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { MAX_NAME_LENGTH } from '../game/rules.js';
 import { normalizeRoomCode } from '../network/roomCode.js';
+import { loadSavedName, saveName } from '../device/savedSession.js';
 
 /**
  * Först två val, gå med eller skapa. Den som har skannat en QR-kod hamnar
@@ -40,7 +41,7 @@ export function StartScreen({ initialRoomCode, message, onCreate, onJoin }) {
  * @param {() => void} props.onBack
  */
 function JoinForm({ initialRoomCode, onJoin, onBack }) {
-  const [name, setName] = useState('');
+  const [name, setName] = useState(loadSavedName);
   const [roomCodeInput, setRoomCodeInput] = useState(initialRoomCode ?? '');
   const [error, setError] = useState(/** @type {string | null} */ (null));
 
@@ -50,7 +51,10 @@ function JoinForm({ initialRoomCode, onJoin, onBack }) {
     const roomCode = normalizeRoomCode(roomCodeInput);
     if (!name.trim()) setError('Skriv ditt namn först.');
     else if (!roomCode) setError('Rumskoden är fyra bokstäver.');
-    else onJoin(roomCode, name.trim());
+    else {
+      saveName(name.trim());
+      onJoin(roomCode, name.trim());
+    }
   }
 
   return (
@@ -76,14 +80,17 @@ function JoinForm({ initialRoomCode, onJoin, onBack }) {
  * @param {{ onCreate: (name: string) => void, onBack: () => void }} props
  */
 function CreateForm({ onCreate, onBack }) {
-  const [name, setName] = useState('');
+  const [name, setName] = useState(loadSavedName);
   const [error, setError] = useState(/** @type {string | null} */ (null));
 
   /** @param {import('react').FormEvent} event */
   function submit(event) {
     event.preventDefault();
     if (!name.trim()) setError('Skriv ditt namn först.');
-    else onCreate(name.trim());
+    else {
+      saveName(name.trim());
+      onCreate(name.trim());
+    }
   }
 
   return (

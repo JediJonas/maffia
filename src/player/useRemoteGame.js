@@ -7,14 +7,15 @@ import { openClientNetwork } from '../network/clientNetwork.js';
 /** @typedef {import('../host/useHostGame.js').GameConnection} GameConnection */
 
 /** @type {Record<import('../network/clientNetwork.js').ClientStatus, string>} */
-const STATUS_TEXT = {
-  connecting: 'Ansluter till värden …',
-  open: '',
-  reconnecting: 'Tappade kontakten med värden. Ansluter igen …',
-  noServer: 'Når inte anslutningsservern. Kontrollera nätet. Försöker igen …',
+/** @type {Record<string, import('../host/useHostGame.js').ConnectionStatus>} */
+const STATUS = {
+  connecting: { text: 'Ansluter till värden …', isProblem: false },
+  open: { text: '', isProblem: false },
+  reconnecting: { text: 'Tappade kontakten med värden. Ansluter igen …', isProblem: false },
+  noServer: { text: 'Når inte anslutningsservern. Kontrollera nätet. Försöker igen …', isProblem: true },
   // Vanligast när värd och spelare sitter på olika nät, eller i olika
   // webbläsare på samma dator, och ingen väg mellan dem hittas utan TURN-server.
-  unreachable: 'Hittar ingen väg till värdens telefon. Sitter ni på samma wifi? Försöker igen …',
+  unreachable: { text: 'Hittar ingen väg till värdens telefon. Sitter ni på samma wifi? Försöker igen …', isProblem: true },
 };
 
 /**
@@ -23,7 +24,7 @@ const STATUS_TEXT = {
  */
 export function useRemoteGame({ roomCode, name, secret, avatar, onRejected }) {
   const [view, setView] = useState(/** @type {GameConnection['view']} */ (null));
-  const [status, setStatus] = useState(STATUS_TEXT.connecting);
+  const [status, setStatus] = useState(STATUS.connecting);
   const [notice, setNotice] = useState(/** @type {string | null} */ (null));
   const networkRef = useRef(/** @type {ReturnType<typeof openClientNetwork> | null} */ (null));
   const onRejectedRef = useRef(onRejected);
@@ -37,7 +38,7 @@ export function useRemoteGame({ roomCode, name, secret, avatar, onRejected }) {
       name,
       secret,
       avatar,
-      onStatus: (clientStatus) => setStatus(STATUS_TEXT[clientStatus]),
+      onStatus: (clientStatus) => setStatus(STATUS[clientStatus]),
       onRoomMissing() {
         network.close();
         onRejectedRef.current(`Hittar inget spel med koden ${roomCode}. Kontrollera koden, eller be värden visa QR-koden igen.`);

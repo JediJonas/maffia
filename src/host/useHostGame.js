@@ -29,9 +29,14 @@ import { keepScreenAwake } from '../device/wakeLock.js';
  */
 
 /**
+ * Kort text om förbindelsen, tom när allt fungerar.
+ * @typedef {{ text: string, isProblem: boolean }} ConnectionStatus
+ */
+
+/**
  * @typedef {object} GameConnection
  * @property {import('../game/playerView.js').PlayerView | null} view
- * @property {string} status Kort text om förbindelsen, tom när allt fungerar.
+ * @property {ConnectionStatus} status
  * @property {string | null} notice Senaste felet, till exempel ett otillåtet val.
  * @property {(action: PlayerAction) => void} sendAction
  * @property {HostControls | null} host Bara på värdens telefon.
@@ -72,7 +77,7 @@ export function useHostGame(roomCode, hostName, hostAvatar) {
   // tillståndet, så det hålls i en ref och speglas till state för visningen.
   const gameRef = useRef(initialGame);
   const [state, setState] = useState(initialGame.state);
-  const [status, setStatus] = useState('Öppnar rummet …');
+  const [status, setStatus] = useState(/** @type {ConnectionStatus} */ ({ text: 'Öppnar rummet …', isProblem: false }));
   const [notice, setNotice] = useState(/** @type {string | null} */ (null));
   const networkRef = useRef(/** @type {ReturnType<typeof openHostNetwork> | null} */ (null));
 
@@ -107,9 +112,9 @@ export function useHostGame(roomCode, hostName, hostAvatar) {
   useEffect(() => {
     const network = openHostNetwork(roomCode, {
       onStatus(networkStatus, detail) {
-        if (networkStatus === 'open') setStatus('');
-        else if (networkStatus === 'connecting') setStatus('Öppnar rummet …');
-        else setStatus(`Nätverksfel: ${detail ?? 'okänt'}`);
+        if (networkStatus === 'open') setStatus({ text: '', isProblem: false });
+        else if (networkStatus === 'connecting') setStatus({ text: 'Öppnar rummet …', isProblem: false });
+        else setStatus({ text: `Nätverksfel: ${detail ?? 'okänt'}`, isProblem: true });
       },
       onJoin(secret, name, avatar) {
         const game = gameRef.current;

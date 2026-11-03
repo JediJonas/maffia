@@ -2,11 +2,14 @@
 // Sparas i telefonen så att en spelare som laddar om sidan, eller värden som
 // tappar sin flik, kommer tillbaka till samma spel.
 import { createRandomAvatar, sanitizeAvatar } from '../avatar/avatarParts.js';
+import { MAX_NAME_LENGTH } from '../game/rules.js';
 
 const SESSION_KEY = 'maffia.session';
 const HOST_GAME_KEY_PREFIX = 'maffia.hostGame.';
 // Avataren hör till telefonen och följer med till nästa spel.
 const AVATAR_KEY = 'maffia.avatar';
+// Namnet följer också med, så att man slipper skriva det varje gång.
+const NAME_KEY = 'maffia.name';
 
 /** @typedef {import('../avatar/avatarParts.js').Avatar} Avatar */
 
@@ -50,6 +53,17 @@ export function loadOrCreateAvatar() {
 /** @param {Avatar} avatar */
 export function saveAvatar(avatar) {
   writeJson(AVATAR_KEY, avatar);
+}
+
+/** @returns {string} Tom sträng när inget namn är sparat. */
+export function loadSavedName() {
+  const saved = readJson(NAME_KEY);
+  return typeof saved === 'string' ? saved.slice(0, MAX_NAME_LENGTH) : '';
+}
+
+/** @param {string} name */
+export function saveName(name) {
+  writeJson(NAME_KEY, name);
 }
 
 /**
