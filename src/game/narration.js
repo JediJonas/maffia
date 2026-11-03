@@ -76,8 +76,8 @@ function describeShownRole(view) {
  */
 function describeKill(view) {
   const killedId = view.lastNight?.killedId;
-  if (!killedId) return 'Ingen dog i natt.';
-  return `I natt dog ${describePlayer(view, killedId)}.`;
+  if (!killedId) return 'Ingen blev mördad.';
+  return `${describePlayer(view, killedId)} blev mördad av maffian.`;
 }
 
 /**

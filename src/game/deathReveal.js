@@ -22,7 +22,7 @@ export function findHiddenDeathId(state) {
 }
 
 /**
- * Vänder fram rollen på den som dog i natt eller röstades ut.
+ * Vänder fram rollen på den som blev mördad eller utröstad.
  * @param {GameState} state
  * @returns {GameState}
  */

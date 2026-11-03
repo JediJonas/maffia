@@ -31,10 +31,10 @@ fyra spelare.
    misstänker, men det valet används inte. Det finns bara för att alla ska
    göra likadant, så att ingen avslöjar sig genom att sitta still (projektets
    "blindknapp").
-3. **Dag.** Berättaren säger vem som dog och vilken roll den hade, eller att
-   ingen dog. Alla diskuterar och röstar öppet. Den som får flest röster åker
-   ut och rollen visas. Vid lika, eller om lika många eller fler valde att
-   avstå, åker ingen ut.
+3. **Dag.** Berättaren säger vem som blev mördad och vilken roll den hade,
+   eller att ingen blev mördad. Alla diskuterar och röstar öppet. Den som får
+   flest röster blir utröstad och rollen visas. Vid lika, eller om lika många
+   eller fler valde att avstå, blir ingen utröstad.
 4. Natt och dag växlar tills ett lag har vunnit.
 
 Döda spelare får inte prata eller rösta.
@@ -47,7 +47,7 @@ alla går att ändra i `src/game/rules.js`:
 - Döda spelares roller visas för alla.
 - Läkaren får skydda sig själv, men inte samma spelare två nätter i rad.
 - Maffian kan inte välja en annan maffia som offer.
-- På morgonen syns först bara vem som dog i natt. Efter en nedräkning på fem
+- På morgonen syns först bara vem som blev mördad i natt. Efter en nedräkning på fem
   sekunder visas rollen för alla samtidigt. Omröstningen är öppen hela tiden.
   Dog ingen finns inget att räkna ned till.
 - Omröstningen avgörs när alla levande har röstat, och man kan ändra sin röst

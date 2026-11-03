@@ -82,7 +82,7 @@ function MorningNews({ view }) {
   if (!killed) return null;
   return (
     <div className="secret-card verdict-card">
-      <p className="secret-headline">I natt dog {killed.id === view.me.id ? 'du' : killed.name}</p>
+      <p className="secret-headline">{killed.id === view.me.id ? 'Du' : killed.name} blev mördad av maffian</p>
       {killed.revealedRole && <p>{killed.name} var {ROLE_INFO[killed.revealedRole].name.toLowerCase()}.</p>}
       {view.isRoleRevealPending && <RoleCountdown />}
     </div>
