@@ -1,7 +1,7 @@
 // @ts-check
 import { useEffect, useState } from 'react';
 import { MIN_PLAYERS } from '../game/roles.js';
-import { findSettingsProblem } from '../game/settings.js';
+import { buildRoleList, findSettingsProblem } from '../game/settings.js';
 import { buildJoinUrl } from '../network/roomCode.js';
 import { SettingsPanel } from './SettingsPanel.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
@@ -45,10 +45,13 @@ export function LobbyScreen({ view, host, sendAction }) {
           <button type="button" className="primary" disabled={!canStart} onClick={host.startGame}>
             Starta spelet
           </button>
-          {!hasEnoughPlayers && <p className="muted">Det behövs minst {MIN_PLAYERS} spelare.</p>}
+          <StartHint view={view} />
         </>
       ) : (
-        <p className="muted">Värden startar spelet när alla är med.</p>
+        <>
+          <StartHint view={view} />
+          <p className="muted">Värden startar spelet när alla är med.</p>
+        </>
       )}
     </section>
   );
@@ -105,4 +108,32 @@ function RoomInvite({ roomCode }) {
       <p className="muted">Skanna koden, eller öppna sidan och skriv in rumskoden.</p>
     </div>
   );
+}
+
+/**
+ * Raden under Starta spelet: hur många som saknas, eller vilka roller som
+ * delas ut när det finns tillräckligt många. Ett problem med inställningarna
+ * visas i stället vid inställningarna.
+ * @param {{ view: import('../game/playerView.js').PlayerView }} props
+ */
+function StartHint({ view }) {
+  const playerCount = view.players.length;
+  if (playerCount < MIN_PLAYERS) return <p className="muted">Det behövs minst {MIN_PLAYERS} spelare.</p>;
+  if (findSettingsProblem(view.settings, playerCount)) return null;
+  return <p className="muted">Roller: {describeRoles(buildRoleList(view.settings, playerCount))}.</p>;
+}
+
+/**
+ * @param {import('../game/types.js').Role[]} roles
+ * @returns {string} Till exempel "1 maffia, detektiv, läkare och 2 medborgare".
+ */
+function describeRoles(roles) {
+  const count = (/** @type {string} */ role) => roles.filter((r) => r === role).length;
+  const parts = [
+    `${count('mafia')} maffia`,
+    count('detective') ? 'detektiv' : null,
+    count('doctor') ? 'läkare' : null,
+    count('citizen') ? `${count('citizen')} medborgare` : null,
+  ].filter((part) => part !== null);
+  return parts.length > 1 ? `${parts.slice(0, -1).join(', ')} och ${parts[parts.length - 1]}` : parts[0];
 }

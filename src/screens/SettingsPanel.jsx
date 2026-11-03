@@ -1,7 +1,7 @@
 // @ts-check
 import { useState } from 'react';
 import { MIN_PLAYERS } from '../game/roles.js';
-import { MAFIA_COUNT_CHOICES, buildRoleList, findSettingsProblem } from '../game/settings.js';
+import { MAFIA_COUNT_CHOICES, findSettingsProblem } from '../game/settings.js';
 
 /** @typedef {import('../game/settings.js').GameSettings} GameSettings */
 
@@ -34,9 +34,6 @@ export function SettingsPanel({ settings, playerCount, onChange }) {
         >
           {isEditing ? 'Klar' : 'Ändra inställningar'}
         </button>
-      )}
-      {playerCount >= MIN_PLAYERS && !problem && (
-        <p className="muted">Roller: {describeRoles(buildRoleList(settings, playerCount))}.</p>
       )}
       {problem && <p className="notice">{problem}</p>}
     </section>
@@ -96,19 +93,4 @@ function SettingsSummary({ settings }) {
       <li>Berättarröst: {settings.hasNarratorVoice ? 'ja' : 'nej'}</li>
     </ul>
   );
-}
-
-/**
- * @param {import('../game/types.js').Role[]} roles
- * @returns {string} Till exempel "1 maffia, detektiv, läkare och 2 medborgare".
- */
-function describeRoles(roles) {
-  const count = (/** @type {string} */ role) => roles.filter((r) => r === role).length;
-  const parts = [
-    `${count('mafia')} maffia`,
-    count('detective') ? 'detektiv' : null,
-    count('doctor') ? 'läkare' : null,
-    count('citizen') ? `${count('citizen')} medborgare` : null,
-  ].filter((part) => part !== null);
-  return parts.length > 1 ? `${parts.slice(0, -1).join(', ')} och ${parts[parts.length - 1]}` : parts[0];
 }
