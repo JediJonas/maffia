@@ -84,7 +84,7 @@ function MorningNews({ view }) {
   return (
     <div className="secret-card verdict-card">
       <PlayerAvatar player={killed} sizePx={LARGE_AVATAR_PX} isDead />
-      <p className="secret-headline">{killed.id === view.me.id ? 'Du' : killed.name} blev mördad av maffian</p>
+      <p className="secret-headline">{killed.id === view.me.id ? 'Du' : killed.name} blev mördad</p>
       {killed.revealedRole && <p>{killed.name} var {ROLE_INFO[killed.revealedRole].name.toLowerCase()}.</p>}
       {view.isRoleRevealPending && <RoleCountdown />}
     </div>

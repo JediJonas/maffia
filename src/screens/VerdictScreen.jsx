@@ -20,7 +20,7 @@ export function VerdictScreen({ view, host }) {
         {executed ? (
           <>
             <PlayerAvatar player={executed} sizePx={LARGE_AVATAR_PX} isDead />
-            <p className="secret-headline">{executed.id === view.me.id ? 'Du' : executed.name} blev utvisad ur staden</p>
+            <p className="secret-headline">{executed.id === view.me.id ? 'Du' : executed.name} blev utvisad</p>
             {executed.revealedRole && <p>{executed.name} var {ROLE_INFO[executed.revealedRole].name.toLowerCase()}.</p>}
             {view.isRoleRevealPending && <RoleCountdown />}
           </>
