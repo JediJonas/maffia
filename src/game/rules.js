@@ -261,12 +261,9 @@ function resolveNight(state) {
   }
 
   const afterKill = killPlayer({ ...state, investigations, lastDoctorTargetId: protectedId ?? null }, killedId);
-  return withWinnerCheck({
-    ...afterKill,
-    phase: 'day',
-    lastNight: { killedId, isRoleShown: false },
-    dayVotes: {},
-  });
+  // Även när mordet avgör spelet blir det morgon först, så att alla får se
+  // vem som blev mördad. Se endDecidedMorning i deathReveal.js.
+  return { ...afterKill, phase: 'day', lastNight: { killedId, isRoleShown: false }, dayVotes: {} };
 }
 
 /**
@@ -283,7 +280,8 @@ function castVote(state, player, targetId) {
   const dayVotes = { ...state.dayVotes, [player.id]: targetId };
   const next = { ...state, dayVotes };
   const hasEveryoneVoted = livingPlayers(next).every((p) => dayVotes[p.id]);
-  return hasEveryoneVoted ? resolveDay(next) : next;
+  // En avgjord morgon slutar av sig själv, så rösterna räknas inte då.
+  return hasEveryoneVoted && !findWinner(next) ? resolveDay(next) : next;
 }
 
 /**

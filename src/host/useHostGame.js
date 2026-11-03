@@ -7,7 +7,9 @@ import { completeSettings } from '../game/settings.js';
 import {
   RuleError, addPlayer, applyAction, changeSettings, createGame, endVerdict, removePlayer, returnToLobby, setConnected, startGame,
 } from '../game/rules.js';
-import { ROLE_REVEAL_DELAY_MS, findHiddenDeathId, showDeathRole } from '../game/deathReveal.js';
+import {
+  GAME_OVER_PAUSE_MS, ROLE_REVEAL_DELAY_MS, endDecidedMorning, findHiddenDeathId, isMorningDecided, showDeathRole,
+} from '../game/deathReveal.js';
 import { openHostNetwork } from '../network/hostNetwork.js';
 import { createSecret, loadHostGame, saveHostGame } from '../device/savedSession.js';
 import { keepScreenAwake } from '../device/wakeLock.js';
@@ -154,6 +156,15 @@ export function useHostGame(roomCode, hostName, hostAvatar) {
     const timer = setTimeout(() => tryRule(showDeathRole, setNotice), ROLE_REVEAL_DELAY_MS);
     return () => clearTimeout(timer);
   }, [hiddenDeathId, state.phase, tryRule]);
+
+  // Avgjorde nattens mord spelet går morgonen vidare till slutet av sig själv,
+  // en stund efter att rollen har visats.
+  const isDecided = isMorningDecided(state);
+  useEffect(() => {
+    if (!isDecided) return undefined;
+    const timer = setTimeout(() => tryRule(endDecidedMorning, setNotice), GAME_OVER_PAUSE_MS);
+    return () => clearTimeout(timer);
+  }, [isDecided, tryRule]);
 
   const { hostPlayerId } = initialGame;
   const view = useMemo(() => buildPlayerView(state, hostPlayerId), [state, hostPlayerId]);

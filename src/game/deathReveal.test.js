@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { findHiddenDeathId, showDeathRole } from './deathReveal.js';
+import { endDecidedMorning, findHiddenDeathId, isMorningDecided, showDeathRole } from './deathReveal.js';
 import { buildPlayerView } from './playerView.js';
 import { RuleError } from './rules.js';
 import { createTestGame, playDay, playNight } from './testGame.js';
@@ -58,5 +58,36 @@ describe('domslutet', () => {
     const afterVote = playDay(morning, { p1: 'p2', p2: 'p1', p3: 'p1', p5: 'p1' });
     expect(afterVote.phase).toBe('verdict');
     expect(roleSeenBy(afterVote, 'p5', 'p4')).toBe('citizen');
+  });
+});
+
+describe('en morgon där mordet avgör spelet', () => {
+  const night = createTestGame(['mafia', 'mafia', 'citizen', 'citizen']);
+  const morning = playNight(night, { p1: 'p3', p2: 'p3', p3: 'p1', p4: 'p1' });
+
+  it('visar morgonen och rollen innan spelet tar slut', () => {
+    expect(morning.phase).toBe('day');
+    expect(isMorningDecided(morning)).toBe(false);
+    expect(() => endDecidedMorning(morning)).toThrow(RuleError);
+    const shown = showDeathRole(morning);
+    expect(isMorningDecided(shown)).toBe(true);
+    const over = endDecidedMorning(shown);
+    expect(over.phase).toBe('gameOver');
+    expect(over.winner).toBe('mafia');
+  });
+
+  it('räknar inte rösterna medan morgonen väntar på slutet', () => {
+    const voted = playDay(showDeathRole(morning), { p1: 'p4', p2: 'p4', p4: 'p1' });
+    expect(voted.phase).toBe('day');
+  });
+
+  it('går vidare även när roller inte visas vid död', () => {
+    const quiet = { ...morning, settings: { ...morning.settings, revealsRoleOnDeath: false } };
+    expect(isMorningDecided(quiet)).toBe(true);
+  });
+
+  it('är inte avgjord en vanlig morgon', () => {
+    const calm = playNight(createTestGame(ROLES), { p1: 'p4', p2: 'p1', p3: 'p5', p4: 'p2', p5: 'p2' });
+    expect(isMorningDecided(showDeathRole(calm))).toBe(false);
   });
 });

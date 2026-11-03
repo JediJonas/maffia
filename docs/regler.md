@@ -68,7 +68,10 @@ alla går att ändra i `src/game/rules.js`:
 - Maffian kan inte välja en annan maffia som offer.
 - På morgonen syns först bara vem som blev mördad i natt. Efter en nedräkning på fem
   sekunder visas rollen för alla samtidigt. Omröstningen är öppen hela tiden.
-  Dog ingen finns inget att räkna ned till.
+  Blev ingen mördad finns inget att räkna ned till.
+- Avgör nattens mord spelet visas morgonen ändå, med nedräkningen. Några
+  sekunder efter att rollen har visats kommer "Spelet är slut" av sig självt,
+  precis som efter ett domslut.
 - Omröstningen avgörs när alla levande har röstat, och man kan ändra sin röst
   fram till dess. Alla ser hela tiden vem som har röstat på vem.
 - Efter omröstningen visas ett domslut. Först syns bara vem som blev utvisad, och

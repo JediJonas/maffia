@@ -22,11 +22,7 @@ export function narratePhaseChange(previous, next) {
     case 'verdict':
       return `Alla har röstat. ${describeExecution(next)}`;
     case 'gameOver':
-      return [
-        previous?.phase === 'night' ? `Staden vaknar. ${describeKill(next)}` : null,
-        'Spelet är slut.',
-        next.winner === 'mafia' ? 'Maffian har tagit över staden.' : 'Staden har besegrat maffian.',
-      ].filter(Boolean).join(' ');
+      return `Spelet är slut. ${next.winner === 'mafia' ? 'Maffian har tagit över staden.' : 'Staden har besegrat maffian.'}`;
     default:
       return null;
   }
