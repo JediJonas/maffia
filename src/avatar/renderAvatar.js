@@ -13,6 +13,9 @@ import { AVATAR_PARTS, NO_CHOICE } from './avatarParts.js';
 const FIXED_COLORS = { hairColor: ['000000'], skinColor: ['ffffff'], backgroundColor: ['ffffff'] };
 const ALWAYS_PERCENT = 100;
 const NEVER_PERCENT = 0;
+// Delar av Lorelei som vi har valt bort. DiceBear lägger annars till dem
+// ibland av sig själv.
+const REMOVED_PARTS = { earringsProbability: NEVER_PERCENT, frecklesProbability: NEVER_PERCENT, hairAccessoriesProbability: NEVER_PERCENT };
 
 /**
  * Översätter valen till DiceBears alternativ, som vill ha listor och en
@@ -22,7 +25,7 @@ const NEVER_PERCENT = 0;
  */
 export function toDiceBearOptions(avatar) {
   /** @type {Record<string, string[] | number>} */
-  const options = { ...FIXED_COLORS };
+  const options = { ...FIXED_COLORS, ...REMOVED_PARTS };
   for (const part of AVATAR_PARTS) {
     const value = avatar[part.key];
     if (part.kind === 'optional') {
@@ -39,10 +42,10 @@ export function toDiceBearOptions(avatar) {
  * Spelare utan egen avatar, till exempel från ett spel som sparades innan
  * avatarerna fanns, får en som slumpas fram ur deras id.
  * @param {string} seed
- * @returns {Record<string, string[] | string>}
+ * @returns {Record<string, string[] | string | number>}
  */
 function buildSeededOptions(seed) {
-  return { seed, ...FIXED_COLORS };
+  return { seed, ...FIXED_COLORS, ...REMOVED_PARTS };
 }
 
 /** @type {Map<string, string>} Samma avatar ritas på många ställen, så bilden sparas. */
