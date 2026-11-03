@@ -18,12 +18,12 @@ export function VerdictScreen({ view, host }) {
       <div className="secret-card verdict-card">
         {executed ? (
           <>
-            <p className="secret-headline">{executed.id === view.me.id ? 'Du' : executed.name} blev utröstad</p>
+            <p className="secret-headline">{executed.id === view.me.id ? 'Du' : executed.name} blev utvisad ur staden</p>
             {executed.revealedRole && <p>{executed.name} var {ROLE_INFO[executed.revealedRole].name.toLowerCase()}.</p>}
             {view.isRoleRevealPending && <RoleCountdown />}
           </>
         ) : (
-          <p className="secret-headline">Ingen blev utröstad</p>
+          <p className="secret-headline">Ingen blev utvisad</p>
         )}
       </div>
       <VoteTally view={view} title="Så röstade staden" />

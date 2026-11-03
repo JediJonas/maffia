@@ -10,7 +10,7 @@ export const ROLE_REVEAL_DELAY_MS = 5000;
 
 /**
  * Den döda vars roll ännu inte är framvänd, morgonens offer eller den som
- * röstades ut.
+ * blev utvisad.
  * @param {GameState} state
  * @returns {string | null}
  */
@@ -22,7 +22,7 @@ export function findHiddenDeathId(state) {
 }
 
 /**
- * Vänder fram rollen på den som blev mördad eller utröstad.
+ * Vänder fram rollen på den som blev mördad eller utvisad.
  * @param {GameState} state
  * @returns {GameState}
  */

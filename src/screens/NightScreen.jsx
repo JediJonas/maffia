@@ -22,7 +22,7 @@ export function NightScreen({ view, sendAction }) {
     return (
       <section aria-labelledby="night-title">
         <h1 id="night-title">Natt {view.round}</h1>
-        <p>Du är död. Håll tyst och vänta på morgonen.</p>
+        <p>Du är ute ur spelet. Håll tyst och vänta på morgonen.</p>
         {progress}
       </section>
     );

@@ -18,7 +18,7 @@ export function narratePhaseChange(previous, next) {
     case 'night':
       return 'Natten faller. Alla tittar i sin telefon och gör sitt val.';
     case 'day':
-      return `Staden vaknar. ${describeKill(next)} Diskutera och rösta om vem som ska ut.`;
+      return `Staden vaknar. ${describeKill(next)} Diskutera och rösta om vem som ska utvisas.`;
     case 'verdict':
       return `Alla har röstat. ${describeExecution(next)}`;
     case 'gameOver':
@@ -32,7 +32,7 @@ export function narratePhaseChange(previous, next) {
 }
 
 /**
- * Det som värdens telefon läser upp: vem som dog och, när nedräkningen är
+ * Det som värdens telefon läser upp: vem som blev mördad eller utvisad och, när nedräkningen är
  * slut, vilken roll den hade. Kortare än texten på skärmen, så att rollen
  * kommer direkt efter namnet och inte efter uppmaningen att rösta. När
  * rösten slås på i lobbyn hörs ett prov, så att värden vet att ljudet fungerar.
@@ -86,8 +86,8 @@ function describeKill(view) {
  */
 function describeExecution(view) {
   const executedId = view.lastDay?.executedId;
-  if (!executedId) return 'Ingen röstades ut i dag.';
-  return `Staden röstade ut ${describePlayer(view, executedId)}.`;
+  if (!executedId) return 'Ingen blev utvisad.';
+  return `${describePlayer(view, executedId)} blev utvisad ur staden.`;
 }
 
 /**

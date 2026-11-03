@@ -33,11 +33,26 @@ fyra spelare.
    "blindknapp").
 3. **Dag.** Berättaren säger vem som blev mördad och vilken roll den hade,
    eller att ingen blev mördad. Alla diskuterar och röstar öppet. Den som får
-   flest röster blir utröstad och rollen visas. Vid lika, eller om lika många
-   eller fler valde att avstå, blir ingen utröstad.
+   flest röster blir utvisad ur staden och rollen visas. Vid lika, eller om
+   lika många eller fler valde att avstå, blir ingen utvisad.
 4. Natt och dag växlar tills ett lag har vunnit.
 
-Döda spelare får inte prata eller rösta.
+Den som är ute ur spelet får inte prata eller rösta.
+
+## Ord vi använder
+
+Appen, berättarrösten och dokumentationen använder samma ord:
+
+- **Mördad.** Den som maffian dödar på natten "blev mördad av maffian", till
+  exempel "Anna blev mördad av maffian". Om läkaren räddade offret står det
+  "Ingen blev mördad".
+- **Utvisad.** Den som staden röstar bort på dagen "blev utvisad ur staden",
+  till exempel "Du blev utvisad ur staden". Om ingen fick flest röster står det
+  "Ingen blev utvisad". Själva omröstningen heter fortfarande att rösta.
+- **Ute ur spelet.** Både den som blev mördad och den som blev utvisad är ute
+  ur spelet. Det är vad skärmen säger till den spelaren, inte "död".
+
+Skriv inte "dog", "åkte ut" eller "röstades ut" i nya texter.
 
 ## Val som prototypen har gjort
 
@@ -52,7 +67,7 @@ alla går att ändra i `src/game/rules.js`:
   Dog ingen finns inget att räkna ned till.
 - Omröstningen avgörs när alla levande har röstat, och man kan ändra sin röst
   fram till dess. Alla ser hela tiden vem som har röstat på vem.
-- Efter omröstningen visas ett domslut. Först syns bara vem som blev utröstad, och
+- Efter omröstningen visas ett domslut. Först syns bara vem som blev utvisad, och
   rollen visas efter samma nedräkning. Värden bestämmer när spelet fortsätter,
   ungefär som en spelledare, och knappen ser likadan ut även när spelet är
   avgjort, så att värden inte ser resultatet före de andra.

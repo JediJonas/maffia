@@ -27,12 +27,12 @@ describe('narratePhaseChange', () => {
     expect(text).not.toMatch(/maffia/i);
   });
 
-  it('berättar i domslutet att ingen röstades ut', () => {
+  it('berättar i domslutet att ingen blev utvisad', () => {
     const day = { ...night, phase: /** @type {const} */ ('day') };
     let state = day;
     for (const id of ['p1', 'p2', 'p3', 'p4', 'p5']) state = applyAction(state, id, { type: 'vote', targetId: 'skip' });
     const text = narratePhaseChange(buildPlayerView(day, 'p1'), buildPlayerView(state, 'p1'));
-    expect(text).toBe('Alla har röstat. Ingen röstades ut i dag.');
+    expect(text).toBe('Alla har röstat. Ingen blev utvisad.');
   });
 });
 
@@ -55,9 +55,9 @@ describe('narrateAloud', () => {
     expect(aloud(morning, showDeathRole(morning))).toBe('Spelare 4 var medborgare.');
   });
 
-  it('säger vem som röstades ut och sedan rollen', () => {
+  it('säger vem som blev utvisad och sedan rollen', () => {
     const verdict = playDay(morning, { p1: 'p2', p2: 'p1', p3: 'p2', p5: 'p2' });
-    expect(aloud(morning, verdict)).toBe('Staden röstade ut Spelare 2.');
+    expect(aloud(morning, verdict)).toBe('Spelare 2 blev utvisad ur staden.');
     expect(aloud(verdict, showDeathRole(verdict))).toBe('Spelare 2 var detektiv.');
   });
 

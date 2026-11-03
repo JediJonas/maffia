@@ -122,7 +122,7 @@ describe('dagen', () => {
     expect(night.round).toBe(2);
   });
 
-  it('ger staden vinsten när sista maffian röstas ut', () => {
+  it('ger staden vinsten när sista maffian blir utvisad', () => {
     const day = { ...createTestGame(ROLES), phase: /** @type {const} */ ('day') };
     const over = endVerdict(playDay(day, { p1: 'p2', p2: 'p1', p3: 'p1', p4: 'p1', p5: 'p1' }));
     expect(over.phase).toBe('gameOver');
