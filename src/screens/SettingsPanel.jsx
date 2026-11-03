@@ -34,6 +34,7 @@ function SettingsForm({ settings, onChange }) {
     ['hasDetective', 'Detektiv'],
     ['hasDoctor', 'Läkare'],
     ['revealsRoleOnDeath', 'Visa rollen när någon dör'],
+    ['hasNarratorVoice', 'Berättarröst från värdens telefon'],
   ];
   return (
     <div className="settings-form">
@@ -74,6 +75,7 @@ function SettingsSummary({ settings }) {
       <li>Detektiv: {settings.hasDetective ? 'ja' : 'nej'}</li>
       <li>Läkare: {settings.hasDoctor ? 'ja' : 'nej'}</li>
       <li>Rollen visas när någon dör: {settings.revealsRoleOnDeath ? 'ja' : 'nej'}</li>
+      <li>Berättarröst: {settings.hasNarratorVoice ? 'ja' : 'nej'}</li>
     </ul>
   );
 }

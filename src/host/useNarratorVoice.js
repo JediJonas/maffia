@@ -2,24 +2,15 @@
 // Bara värdens telefon läser upp, så att rösten inte ekar från alla
 // telefoner i rummet. Den läser värdens egen vy, men bara repliker som
 // bygger på det alla får veta (narrateAloud).
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { narrateAloud } from '../game/narration.js';
-import { createNarratorVoice, loadIsVoiceEnabled, saveIsVoiceEnabled } from '../device/narratorVoice.js';
+import { createNarratorVoice } from '../device/narratorVoice.js';
 
-/**
- * @typedef {object} VoiceToggle
- * @property {boolean} isEnabled
- * @property {() => void} toggle
- */
-
-/**
- * @param {import('../game/playerView.js').PlayerView | null} view
- * @returns {VoiceToggle}
- */
+/** @param {import('../game/playerView.js').PlayerView | null} view */
 export function useNarratorVoice(view) {
   const [voice] = useState(createNarratorVoice);
-  const [isEnabled, setIsEnabled] = useState(loadIsVoiceEnabled);
   const previousRef = useRef(/** @type {typeof view} */ (null));
+  const isEnabled = Boolean(view?.settings.hasNarratorVoice);
 
   useEffect(() => {
     // Fångas före knapparnas egna hanterare, så att talet är upplåst även
@@ -33,19 +24,12 @@ export function useNarratorVoice(view) {
     const previous = previousRef.current;
     previousRef.current = view;
     const text = narrateAloud(previous, view);
-    if (text && isEnabled) voice.speak(text);
-  }, [view, isEnabled, voice]);
+    if (text && view.settings.hasNarratorVoice) voice.speak(text);
+  }, [view, voice]);
 
-  const toggle = useCallback(() => {
-    const next = !isEnabled;
-    setIsEnabled(next);
-    saveIsVoiceEnabled(next);
-    voice.stop();
-    // Ett prov direkt, så att värden hör att ljudet fungerar innan spelet börjar.
-    if (next) voice.speak('Berättarrösten är på.');
+  useEffect(() => {
+    if (!isEnabled) voice.stop();
   }, [isEnabled, voice]);
 
   useEffect(() => voice.stop, [voice]);
-
-  return { isEnabled, toggle };
 }

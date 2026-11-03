@@ -73,6 +73,13 @@ describe('narrateAloud', () => {
     expect(lines).not.toMatch(/maffia/i);
   });
 
+  it('ger ett ljudprov när rösten slås på i lobbyn', () => {
+    const off = { ...night, phase: 'lobby', settings: { ...night.settings, hasNarratorVoice: false } };
+    const on = { ...off, settings: { ...off.settings, hasNarratorVoice: true } };
+    expect(aloud(off, on)).toBe('Berättarrösten är på.');
+    expect(aloud(on, off)).toBeNull();
+  });
+
   it('säger inget när natten börjar', () => {
     expect(aloud({ ...night, phase: 'verdict' }, night)).toBeNull();
   });

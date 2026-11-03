@@ -6,7 +6,6 @@
 import { logDebug } from './debugLog.js';
 
 const LANGUAGE = 'sv-SE';
-const IS_ENABLED_KEY = 'maffia.narratorVoice';
 
 /**
  * @typedef {object} NarratorVoice
@@ -94,22 +93,4 @@ export function createNarratorVoice() {
   }
 
   return { unlock, speak, stop };
-}
-
-/** @returns {boolean} På som standard. Sparas per telefon, eftersom det gäller just den högtalaren. */
-export function loadIsVoiceEnabled() {
-  try {
-    return localStorage.getItem(IS_ENABLED_KEY) !== 'off';
-  } catch {
-    return true;
-  }
-}
-
-/** @param {boolean} isEnabled */
-export function saveIsVoiceEnabled(isEnabled) {
-  try {
-    localStorage.setItem(IS_ENABLED_KEY, isEnabled ? 'on' : 'off');
-  } catch {
-    // Privat läge kan neka. Valet gäller då bara tills sidan laddas om.
-  }
 }

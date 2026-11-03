@@ -24,8 +24,8 @@ varje gång något hamnar i main.
   med en berättartext, och telefonerna vibrerar (inte på iPhone).
 - **Berättarröst.** Värdens telefon läser upp vem som dog eller röstades ut,
   och rollen när nedräkningen är slut, med webbläsarens talsyntes. Bara
-  värden talar, och bara om sådant som alla får veta. Stängs av med
-  "Röst på/av" uppe till höger. Lägg till `?debug=1` i adressen för en
+  värden talar, och bara om sådant som alla får veta. Stängs av bland
+  inställningarna i lobbyn. Lägg till `?debug=1` i adressen för en
   felsökningslogg i telefonen.
 
 ## Mappar

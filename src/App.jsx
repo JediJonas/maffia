@@ -61,8 +61,8 @@ export function App() {
 /** @param {{ session: Extract<SavedSession, { kind: 'host' }>, onLeave: () => void }} props */
 function HostGame({ session, onLeave }) {
   const connection = useHostGame(session.roomCode, session.name);
-  const voiceToggle = useNarratorVoice(connection.view);
-  return <GameScreen connection={connection} onLeave={onLeave} voiceToggle={voiceToggle} />;
+  useNarratorVoice(connection.view);
+  return <GameScreen connection={connection} onLeave={onLeave} />;
 }
 
 /**
