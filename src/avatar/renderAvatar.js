@@ -7,9 +7,9 @@ import { AVATAR_PARTS, NO_CHOICE } from './avatarParts.js';
 
 /** @typedef {import('./avatarParts.js').Avatar} Avatar */
 
-// Avatarerna är svartvita, som Lorelei är ritad, så bara bakgrunden har
-// färg att välja. Spelare utan egen avatar får vit bakgrund i stället för
-// genomskinlig, så att avatarerna syns även mot nattens mörka bakgrund.
+// Avatarerna är svartvita, som Lorelei är ritad och som resten av spelet, så
+// färgerna går inte att välja. Bakgrunden är vit i stället för genomskinlig,
+// så att avatarerna syns även mot nattens mörka bakgrund.
 const FIXED_COLORS = { hairColor: ['000000'], skinColor: ['ffffff'], backgroundColor: ['ffffff'] };
 const ALWAYS_PERCENT = 100;
 const NEVER_PERCENT = 0;
