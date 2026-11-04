@@ -195,13 +195,6 @@ button:disabled {
   font-variant-numeric: tabular-nums;
 }
 
-.color-swatch {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-}
-
 .notice,
 .announcement {
   border-radius: 0.6rem;

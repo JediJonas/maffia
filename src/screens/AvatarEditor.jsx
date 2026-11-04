@@ -40,20 +40,11 @@ export function AvatarEditor({ playerId, avatar, onChange, onClose }) {
 }
 
 /**
- * Färger visas som en ruta, och former som platsen i listan, eftersom formerna saknar namn.
+ * Formerna visas som platsen i listan, eftersom de saknar namn.
  * @param {{ part: AvatarPart, value: string }} props
  */
 function PartValue({ part, value }) {
   if (value === NO_CHOICE) return <span className="avatar-part-value">Nej</span>;
   const choices = part.kind === 'optional' ? part.choices.slice(1) : part.choices;
-  const position = `${choices.indexOf(value) + 1} av ${choices.length}`;
-  if (part.kind === 'color') {
-    return (
-      <span className="avatar-part-value">
-        <span className="color-swatch" style={{ background: `#${value}` }} />
-        <span className="visually-hidden">Färg {position}</span>
-      </span>
-    );
-  }
-  return <span className="avatar-part-value">{position}</span>;
+  return <span className="avatar-part-value">{choices.indexOf(value) + 1} av {choices.length}</span>;
 }
