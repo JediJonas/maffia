@@ -1244,8 +1244,10 @@ main section .person-text {
   border: var(--line);
 }
 
+/* Rutan får fokus när den öppnas, så att skärmläsaren läser den. Den ska inte få fokusringen, som blev en vit kant runt ramen. */
 .leave-dialog:focus {
   outline: none;
+  box-shadow: none;
 }
 
 .leave-dialog::backdrop {
