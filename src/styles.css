@@ -6,8 +6,11 @@
 :root {
   --paper: #ffffff;
   --ink: #111111;
-  /* Startbildens kanter är helt svarta, så sidan runt bilden måste vara det också för att de ska flyta ihop. */
-  --start-black: #000000;
+  /*
+   * Helt svart för de mörka sidorna, startsidan och natten. Startbildens kanter är
+   * helt svarta, och i ett mörkt rum lyser en helt svart skärm minst.
+   */
+  --black: #000000;
   --muted: #444444;
   --font-text: 'Archivo Variable', Archivo, 'Helvetica Neue', Arial, sans-serif;
   --font-title: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
@@ -35,7 +38,7 @@
  */
 :root[data-phase='night'] {
   --raster: none;
-  background: var(--ink);
+  background: var(--black);
 }
 
 /*
@@ -47,11 +50,11 @@
 :root:has(.start-page),
 :root:has(#root:empty) {
   --raster: none;
-  background: var(--start-black);
+  background: var(--black);
 }
 
 :root[data-phase='night'] .top-bar {
-  background: var(--ink);
+  background: var(--black);
   color: var(--paper);
 }
 
@@ -1043,7 +1046,7 @@ main section .person-text {
   max-width: none;
   min-height: 100dvh;
   padding: 0;
-  background: var(--start-black);
+  background: var(--black);
   overflow: hidden;
 }
 
@@ -1069,7 +1072,7 @@ main section .person-text {
   left: 0;
   right: 0;
   height: 46%;
-  background: linear-gradient(to bottom, var(--start-black) 0%, rgb(0 0 0 / 0.9) 35%, rgb(0 0 0 / 0) 100%);
+  background: linear-gradient(to bottom, var(--black) 0%, rgb(0 0 0 / 0.9) 35%, rgb(0 0 0 / 0) 100%);
   z-index: 1;
 }
 
