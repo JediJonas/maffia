@@ -39,16 +39,18 @@ export function RoleScreen({ view, sendAction, isRoleShown, setIsRoleShown }) {
 
   if (isRoleShown && role) {
     return (
-      <section aria-labelledby="phase-title">
-        <p className="explanation">{role.description}</p>
-        {teammates.map((teammate, index) => (
-          <PersonRow
-            key={teammate.id}
-            player={teammate}
-            text={`${teammate.name} är också maffia.`}
-            speech={index === 0 && <>Vi gör det<br />tillsammans.</>}
-          />
-        ))}
+      <section className="screen" aria-labelledby="phase-title">
+        <div className="screen-content">
+          <p className="explanation">{role.description}</p>
+          {teammates.map((teammate, index) => (
+            <PersonRow
+              key={teammate.id}
+              player={teammate}
+              text={`${teammate.name} är också maffia.`}
+              speech={index === 0 && <>Vi gör det<br />tillsammans.</>}
+            />
+          ))}
+        </div>
         <div className="bottom-actions">
           <button type="button" className="primary" onClick={closeRole}>Jag har sett min roll</button>
         </div>
@@ -56,11 +58,13 @@ export function RoleScreen({ view, sendAction, isRoleShown, setIsRoleShown }) {
     );
   }
   return (
-    <section aria-labelledby="phase-title">
-      <p className="explanation">Se till att ingen tittar över din axel. Öppna sedan akten.</p>
-      {view.isReady && (
-        <p className="explanation">Väntar på de andra. {capitalize(writeNumber(view.readyCount))} av {writeNumber(view.players.length)} har sett sin roll.</p>
-      )}
+    <section className="screen" aria-labelledby="phase-title">
+      <div className="screen-content">
+        <p className="explanation">Se till att ingen tittar över din axel. Öppna sedan akten.</p>
+        {view.isReady && (
+          <p className="explanation">Väntar på de andra. {capitalize(writeNumber(view.readyCount))} av {writeNumber(view.players.length)} har sett sin roll.</p>
+        )}
+      </div>
       <div className="bottom-actions">
         <button type="button" className="primary" onClick={openRole}>Visa min roll</button>
       </div>

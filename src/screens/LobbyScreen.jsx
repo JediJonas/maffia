@@ -48,26 +48,28 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
     );
   }
   return (
-    <section aria-labelledby="phase-title">
-      <h2>{describeArrivals(playerCount)}</h2>
-      <ul className="player-list">
-        {view.players.map((player) => (
-          <li key={player.id}>
-            <span className="player-name">
-              <PlayerAvatar player={player} />
-              <span>{writeListName(player)}</span>
-            </span>
-            <PlayerRowAction
-              player={player}
-              isMe={player.id === view.me.id}
-              isHostPlayer={player.id === hostPlayer?.id}
-              host={host}
-              onEditAvatar={() => setPanel('avatar')}
-            />
-          </li>
-        ))}
-      </ul>
-      <p className="explanation">{describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null })}</p>
+    <section className="screen" aria-labelledby="phase-title">
+      <div className="screen-content">
+        <h2>{describeArrivals(playerCount)}</h2>
+        <ul className="player-list">
+          {view.players.map((player) => (
+            <li key={player.id}>
+              <span className="player-name">
+                <PlayerAvatar player={player} />
+                <span>{writeListName(player)}</span>
+              </span>
+              <PlayerRowAction
+                player={player}
+                isMe={player.id === view.me.id}
+                isHostPlayer={player.id === hostPlayer?.id}
+                host={host}
+                onEditAvatar={() => setPanel('avatar')}
+              />
+            </li>
+          ))}
+        </ul>
+        <p className="explanation">{describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null })}</p>
+      </div>
       {host && (
         <div className="bottom-actions">
           {problem && <p className="notice">{problem}</p>}

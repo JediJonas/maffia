@@ -26,11 +26,11 @@ export function DayScreen({ view, sendAction }) {
   const describeVotes = (player) => describeVoteCount(votesFor(player.id));
 
   return (
-    <section aria-labelledby="phase-title">
-      <MorningNews view={view} />
-      {view.investigations.length > 0 && <DetectiveFile key={view.round} view={view} />}
-      {view.me.isAlive ? (
-        <>
+    <section className="screen" aria-labelledby="phase-title">
+      <div className="screen-content">
+        <MorningNews view={view} />
+        {view.investigations.length > 0 && <DetectiveFile key={view.round} view={view} />}
+        {view.me.isAlive ? (
           <ListCard lead="Någon av er ljuger. Staden röstar om vem som ska förvisas." tag={progress}>
             <PlayerPicker
               players={listed}
@@ -40,24 +40,26 @@ export function DayScreen({ view, sendAction }) {
               describe={describeVotes}
             />
           </ListCard>
-          <div className="bottom-actions">
-            <button
-              type="button"
-              className="secondary"
-              aria-pressed={myVote === SKIP_VOTE}
-              onClick={() => sendAction({ type: 'vote', targetId: SKIP_VOTE })}
-            >
-              Avstå från att rösta
-            </button>
-          </div>
-        </>
-      ) : (
-        <>
-          <ListCard lead="Staden röstar utan dig." tag={progress}>
-            <PlayerPicker players={listed} describe={describeVotes} />
-          </ListCard>
-          <p className="explanation">Du är borta nu. Se på, men säg inget.</p>
-        </>
+        ) : (
+          <>
+            <ListCard lead="Staden röstar utan dig." tag={progress}>
+              <PlayerPicker players={listed} describe={describeVotes} />
+            </ListCard>
+            <p className="explanation">Du är borta nu. Se på, men säg inget.</p>
+          </>
+        )}
+      </div>
+      {view.me.isAlive && (
+        <div className="bottom-actions">
+          <button
+            type="button"
+            className="secondary"
+            aria-pressed={myVote === SKIP_VOTE}
+            onClick={() => sendAction({ type: 'vote', targetId: SKIP_VOTE })}
+          >
+            Avstå från att rösta
+          </button>
+        </div>
       )}
     </section>
   );
