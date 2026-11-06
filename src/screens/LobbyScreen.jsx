@@ -1,5 +1,4 @@
 // @ts-check
-import { useState } from 'react';
 import { MIN_PLAYERS } from '../game/roles.js';
 import { findSettingsProblem } from '../game/settings.js';
 import { SettingsPanel } from './SettingsPanel.jsx';
@@ -19,9 +18,10 @@ import { describeArrivals, describeLobbyStatus } from './lobbyText.js';
  * @param {PlayerView} props.view
  * @param {HostControls | null} props.host
  * @param {import('../host/useHostGame.js').GameConnection['sendAction']} props.sendAction
+ * @param {boolean} props.isEditingAvatar Styrs av GameScreen, som byter rubrik och döljer bildrutan.
+ * @param {(isEditing: boolean) => void} props.setIsEditingAvatar
  */
-export function LobbyScreen({ view, host, sendAction }) {
-  const [isEditingAvatar, setIsEditingAvatar] = useState(false);
+export function LobbyScreen({ view, host, sendAction, isEditingAvatar, setIsEditingAvatar }) {
   const playerCount = view.players.length;
   const canStart = playerCount >= MIN_PLAYERS && !findSettingsProblem(view.settings, playerCount);
   // Värden lades till först när spelet skapades.

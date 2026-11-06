@@ -192,7 +192,6 @@ main section > p,
 .tally,
 .secret-card,
 .my-avatar,
-.avatar-editor,
 .settings-form {
   background: var(--paper);
   border: var(--line);
@@ -288,8 +287,15 @@ main section > p,
 }
 
 .scene-plain .qr {
-  width: 14.375rem;
-  height: 14.375rem;
+  width: 15rem;
+  height: 15rem;
+}
+
+/* Serierutorna ligger i hörnen ovanpå, så att QR-koden centreras i hela rutan. */
+.scene-plain figcaption {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .scene .scene-caption {
@@ -417,8 +423,7 @@ main section > p,
   margin: 1rem 0;
 }
 
-.tally h2,
-.avatar-editor h2 {
+.tally h2 {
   margin: 0.75rem 0 0.25rem;
   padding: 0;
   border: none;
@@ -465,41 +470,117 @@ main section > p,
 }
 
 .secret-card .avatar,
-.avatar-preview .avatar,
 .my-avatar .avatar {
   display: block;
   margin: 0 auto 0.75rem;
   border-width: 2px;
 }
 
-.avatar-editor {
-  margin-top: 1rem;
-  padding: 1rem;
+/* Ändra figur: figuren med en pratbubbla överst och delarna som en tabell under. */
+.avatar-editor-head {
+  position: relative;
+  height: 7rem;
+  margin-top: 1.5rem;
+  padding-left: 0.875rem;
+}
+
+.avatar-editor-head .avatar {
+  display: block;
+  border-width: 2px;
+}
+
+.speech-bubble {
+  position: absolute;
+  left: 7.375rem;
+  top: -1rem;
+  width: 11.25rem;
+  height: 6.25rem;
+  margin: 0;
+}
+
+.speech-bubble svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+}
+
+.speech-bubble span {
+  position: absolute;
+  left: 1.375rem;
+  top: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8.75rem;
+  height: 3.875rem;
+  font-family: var(--font-caption);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.avatar-shuffle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  min-height: 2.75rem;
+  border-width: 2px;
+  background: var(--paper);
 }
 
 .avatar-parts {
   list-style: none;
   padding: 0;
-  margin: 0.5rem 0;
+  margin: 0.75rem 0 0;
+  background: var(--paper);
+  border: var(--line);
 }
 
 .avatar-parts li {
-  display: grid;
-  grid-template-columns: 1fr 3rem 5.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.2rem 0;
+  min-height: 2.875rem;
+  padding: 0 0.125rem 0 0.875rem;
   font-weight: 600;
+  font-size: 1rem;
 }
 
-.avatar-parts button {
+.avatar-parts li + li {
+  border-top: var(--thin-line);
+}
+
+.avatar-part-stepper {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-part-stepper button {
+  width: 2.75rem;
+  min-height: 2.75rem;
   padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 1;
 }
 
 .avatar-part-value {
-  display: flex;
-  justify-content: center;
+  width: 4rem;
+  text-align: center;
   color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 
@@ -716,7 +797,7 @@ main section > p,
   width: 100%;
   max-width: 32rem;
   margin: 0 auto;
-  padding: 5rem 0.75rem 1rem;
+  padding: 3rem 0.75rem 1rem;
 }
 
 /* På breda skärmar håller sig texten och knapparna inom bilden. */

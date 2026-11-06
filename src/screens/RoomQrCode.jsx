@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { buildJoinUrl } from '../network/roomCode.js';
 
-const QR_SIZE_PX = 230;
+const QR_SIZE_PX = 240;
 
 /**
  * QR-koden som öppnar spelet med rumskoden ifylld. Står i värdens bildruta i lobbyn.
