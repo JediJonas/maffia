@@ -10,7 +10,7 @@ export const ROLE_INFO = {
   mafia: {
     name: 'Maffia',
     team: 'mafia',
-    description: 'Varje natt väljer ni tillsammans någon som ska dö. Ni vinner när ni är minst lika många som de andra.',
+    description: 'Varje natt väljer ni tillsammans någon som ska mördas. Ni vinner när ni är lika många som de andra.',
   },
   detective: {
     name: 'Detektiv',
@@ -25,7 +25,7 @@ export const ROLE_INFO = {
   citizen: {
     name: 'Stadsbo',
     team: 'town',
-    description: 'Du har ingen nattroll. Lyssna, misstänk och rösta för att förvisa maffian på dagen.',
+    description: 'Du sover om nätterna. På dagen lyssnar du, misstänker och röstar ut maffian.',
   },
 };
 

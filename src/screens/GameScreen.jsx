@@ -27,9 +27,12 @@ export function GameScreen({ connection, roomCode, onLeave }) {
   const showsAnnouncement = view && view.phase !== 'lobby' && announcement;
   const [isLeaving, setIsLeaving] = useState(false);
   const [isEditingAvatar, setIsEditingAvatar] = useState(false);
+  const [isRoleShown, setIsRoleShown] = useState(false);
   // Figuren ändras bara i lobbyn, så redigeraren stängs om spelet startar under tiden.
   const showsAvatarEditor = isEditingAvatar && view?.phase === 'lobby';
-  const scene = view && !showsAvatarEditor && describeScene(view, Boolean(host));
+  // Rollen visas bara innan spelet startar. Efter det är akten stängd.
+  const showsRole = isRoleShown && view?.phase === 'roleReveal';
+  const scene = view && !showsAvatarEditor && describeScene(view, Boolean(host), showsRole);
 
   return (
     <>
@@ -56,6 +59,8 @@ export function GameScreen({ connection, roomCode, onLeave }) {
             host={host}
             isEditingAvatar={showsAvatarEditor}
             setIsEditingAvatar={setIsEditingAvatar}
+            isRoleShown={showsRole}
+            setIsRoleShown={setIsRoleShown}
           />
         )}
       </main>
@@ -72,8 +77,10 @@ export function GameScreen({ connection, roomCode, onLeave }) {
  * @param {import('../host/useHostGame.js').HostControls | null} props.host
  * @param {boolean} props.isEditingAvatar
  * @param {(isEditing: boolean) => void} props.setIsEditingAvatar
+ * @param {boolean} props.isRoleShown
+ * @param {(isShown: boolean) => void} props.setIsRoleShown
  */
-function PhaseContent({ view, sendAction, host, isEditingAvatar, setIsEditingAvatar }) {
+function PhaseContent({ view, sendAction, host, isEditingAvatar, setIsEditingAvatar, isRoleShown, setIsRoleShown }) {
   switch (view.phase) {
     case 'lobby':
       return (
@@ -86,7 +93,7 @@ function PhaseContent({ view, sendAction, host, isEditingAvatar, setIsEditingAva
         />
       );
     case 'roleReveal':
-      return <RoleScreen view={view} sendAction={sendAction} />;
+      return <RoleScreen view={view} sendAction={sendAction} isRoleShown={isRoleShown} setIsRoleShown={setIsRoleShown} />;
     case 'night':
       return <NightScreen view={view} sendAction={sendAction} />;
     case 'day':

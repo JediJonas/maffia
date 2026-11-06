@@ -8,6 +8,13 @@ const ROLES = ['citizen', 'mafia', 'citizen', 'detective', 'doctor'];
 describe('describeScene', () => {
   const night = createTestGame(ROLES);
 
+  it('visar akten tills spelaren öppnar den, och sedan rollens bild', () => {
+    const roleReveal = { ...night, phase: /** @type {const} */ ('roleReveal') };
+    expect(describeScene(buildPlayerView(roleReveal, 'p2'), false)).toMatchObject({ image: 'roleHidden', bottomCaption: 'Din roll ligger i akten.' });
+    expect(describeScene(buildPlayerView(roleReveal, 'p2'), false, true)).toMatchObject({ image: 'roleMafia', bottomCaption: 'Du är maffia.' });
+    expect(describeScene(buildPlayerView(roleReveal, 'p1'), false, true)).toMatchObject({ image: 'roleCitizen', bottomCaption: 'Du är stadsbo.' });
+  });
+
   it('visar varje roll sin egen nattbild', () => {
     expect(describeScene(buildPlayerView(night, 'p2'), false)).toMatchObject({ image: 'nightMafia', bottomCaption: '… men inte maffian.' });
     expect(describeScene(buildPlayerView(night, 'p4'), false)).toMatchObject({ image: 'nightDetective', bottomCaption: '… men inte du.' });

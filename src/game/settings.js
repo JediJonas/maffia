@@ -1,7 +1,7 @@
 // @ts-check
 // Värdens inställningar för ett parti. De väljs i lobbyn, där värden ser
 // hur många som har anslutit, och visas för alla.
-import { writeNumber } from './numberWords.js';
+import { joinWithAnd, writeNumber } from './numberWords.js';
 
 /** @typedef {import('./types.js').Role} Role */
 
@@ -88,5 +88,5 @@ export function describeRoles(roles) {
     .map(([role, one, many]) => ({ count: roles.filter((r) => r === role).length, one, many }))
     .filter(({ count }) => count > 0)
     .map(({ count, one, many }) => `${writeNumber(count)} ${count === 1 ? one : many}`);
-  return parts.length > 1 ? `${parts.slice(0, -1).join(', ')} och ${parts[parts.length - 1]}` : parts[0];
+  return joinWithAnd(parts);
 }
