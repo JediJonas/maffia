@@ -287,8 +287,15 @@ main section > p,
 }
 
 .scene-plain .qr {
-  width: 14.375rem;
-  height: 14.375rem;
+  width: 15rem;
+  height: 15rem;
+}
+
+/* Serierutorna ligger i hörnen ovanpå, så att QR-koden centreras i hela rutan. */
+.scene-plain figcaption {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .scene .scene-caption {
