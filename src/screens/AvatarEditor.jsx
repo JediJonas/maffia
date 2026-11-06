@@ -24,7 +24,7 @@ export function AvatarEditor({ playerId, avatar, onChange, onClose }) {
         <PlayerAvatar player={{ id: playerId, avatar }} sizePx={EDITOR_AVATAR_PX} />
         <SpeechBubble>Hur ska jag<br />se ut?</SpeechBubble>
         <button type="button" className="row-button avatar-shuffle" onClick={() => onChange(createRandomAvatar(Math.random))}>
-          Slumpa fram figur
+          Slumpa figur
         </button>
       </div>
       <ul className="avatar-parts">

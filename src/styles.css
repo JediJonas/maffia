@@ -1,6 +1,6 @@
 /*
- * Noirserien: svart tusch på vitt papper, utan färg. Fasen syns på håll
- * genom rastret: små punkter långt ner på dagen, stora och täta på natten.
+ * Noirserien: svart tusch på vitt papper, utan färg. Fasen syns på håll:
+ * på dagen ett ljust raster längst ner, på natten en svart sida.
  * Se designreglerna i canvasen "Maffia noir".
  */
 :root {
@@ -24,8 +24,33 @@
   color-scheme: light;
 }
 
+/*
+ * Natten är svart, utan raster. En yta får ram bara där den annars skulle
+ * flyta ihop med det som ligger bakom: bilden är mörk mot mörkt och får vit
+ * ram, figuren och rutan bredvid får en vit kontur. Vita rutor och listor syns
+ * mot det svarta utan ram, så linjerna mellan raderna går ända ut. Lappen som
+ * hänger över listan ligger delvis på vitt och behåller sin svarta ram.
+ */
 :root[data-phase='night'] {
-  --raster: url('./paper/raster-natt.svg');
+  --raster: none;
+  background: var(--ink);
+}
+
+:root[data-phase='night'] .top-bar {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+:root[data-phase='night'] .scene {
+  border-color: var(--paper);
+}
+
+:root[data-phase='night'] .person-figure {
+  filter: drop-shadow(2px 0 0 var(--paper)) drop-shadow(-2px 0 0 var(--paper)) drop-shadow(0 2px 0 var(--paper)) drop-shadow(0 -2px 0 var(--paper));
+}
+
+:root[data-phase='night'] :is(.caption, .notice, main section > p, .list-lead, .player-list, .picker):not(.list-tag) {
+  border: none;
 }
 
 * {
@@ -199,6 +224,7 @@ button:disabled {
   border: none;
   border-radius: 0;
   background: none;
+  color: inherit;
 }
 
 /* Berättarens serierutor och appens egna lappar ligger alltid på vitt, aldrig på rastret. */
@@ -491,14 +517,21 @@ main section .list-lead {
 }
 
 .file-open {
-  list-style: none;
+  display: block;
+  width: 100%;
   margin: 0;
   padding: 0;
-  background: var(--paper);
   border: var(--line);
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align: left;
 }
 
-.file-open li {
+.file-row {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -506,7 +539,7 @@ main section .list-lead {
   padding: 0 0.75rem 0 0.625rem;
 }
 
-.file-open li + li {
+.file-row + .file-row {
   border-top: var(--thin-line);
 }
 
@@ -534,12 +567,8 @@ main section .list-lead {
   color: var(--muted);
 }
 
-.file-when .link-button {
-  min-height: 2.75rem;
-  margin: -1rem 0;
-  padding: 0;
-  font-size: inherit;
-  color: inherit;
+.file-hide {
+  text-decoration: underline;
 }
 
 .file-verdict {
@@ -636,14 +665,12 @@ main section .list-lead {
 }
 
 /*
- * Personraden: stor figur med en ruta som går in under cirkeln. Rutans
- * vänstra kant urholkas med en mask i stället för att ligga bakom cirkeln,
- * så att rastret inte syns igenom mellan dem.
+ * Personraden: stor figur med en ruta som går in under cirkeln. Cirkeln och
+ * rutan har ingen egen ram. Ramen ritas runt dem tillsammans med skuggor åt
+ * fyra håll, så att cirkelns linje inte syns där rutan går in under den.
  */
 .person-row {
   position: relative;
-  display: flex;
-  align-items: flex-start;
   height: 7rem;
   margin: var(--block-gap) 0;
   padding-left: 0.875rem;
@@ -658,25 +685,37 @@ main section .list-lead {
   margin-top: calc(var(--tag-overhang) + var(--bubble-overhang) + var(--block-gap));
 }
 
-.person-row .avatar {
-  flex: none;
-  display: block;
-  border-width: 2px;
+.person-figure {
+  display: flex;
+  align-items: flex-start;
+  width: fit-content;
+  filter: drop-shadow(2px 0 0 var(--ink)) drop-shadow(-2px 0 0 var(--ink)) drop-shadow(0 2px 0 var(--ink)) drop-shadow(0 -2px 0 var(--ink));
 }
 
-.person-text {
+.person-figure .avatar {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  display: block;
+  border: none;
+}
+
+main section .person-text {
   display: flex;
   align-items: center;
-  min-height: 3.375rem;
-  margin: 3.625rem 0 0 -0.875rem;
+  min-height: 3.125rem;
+  margin: 3.75rem 0 0 -0.875rem;
   padding: 0.0625rem 0.75rem 0 1.375rem;
-  -webkit-mask-image: radial-gradient(circle at -2.75rem 0, transparent 3.47rem, #000 3.5rem);
-  mask-image: radial-gradient(circle at -2.75rem 0, transparent 3.47rem, #000 3.5rem);
+  border: none;
 }
 
 .person-speech {
   left: 7.625rem;
   top: calc(-1 * var(--bubble-overhang));
+}
+
+/* Pratbubblor dyker alltid upp en stund efter resten, som en replik. */
+.speech-bubble {
   transform-origin: 1rem 5.875rem;
   animation: speech-pop 0.28s cubic-bezier(0.3, 1.5, 0.6, 1) 1.2s both;
 }
@@ -689,7 +728,7 @@ main section .list-lead {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .person-speech {
+  .speech-bubble {
     animation-name: speech-fade;
     animation-timing-function: linear;
   }
@@ -909,9 +948,9 @@ main section .list-lead {
   box-shadow: none;
 }
 
+/* Raden man skriver i får fetare ram, i stället för en ring inuti. */
 .form-row:focus-within {
-  outline: 3px solid var(--ink);
-  outline-offset: -6px;
+  box-shadow: inset 0 0 0 2px var(--ink);
 }
 
 #room-code {
