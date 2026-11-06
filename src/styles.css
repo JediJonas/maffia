@@ -764,9 +764,7 @@ main section > p,
 
 .start-image {
   position: absolute;
-  /* Lite uppflyttad, enligt ägarens val. Nertill blir det svart bakom knapparna. */
-  top: -1.5rem;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
