@@ -68,7 +68,7 @@ function JoinForm({ initialRoomCode, message, onJoin, onBack }) {
   return (
     <FormPage title="Gå med" image="join" topCaption="Någon väntar på dig …">
       <form onSubmit={submit} className="form-page">
-        <p className="caption">Skriv koden från värdens skärm och ditt namn.</p>
+        <p className="explanation">Skriv koden från värdens skärm och ditt namn.</p>
         <div className="form-table">
           <label className="form-row">
             <span>Kod</span>
@@ -113,7 +113,7 @@ function CreateForm({ onCreate, onBack }) {
   return (
     <FormPage title="Nytt spel" image="create" topCaption="Du samlar gänget.">
       <form onSubmit={submit} className="form-page">
-        <p className="caption">Du håller i trådarna, men spelar som alla andra. Inställningarna väljer du i lobbyn.</p>
+        <p className="explanation">Du håller i trådarna, men spelar som alla andra. Inställningarna väljer du i lobbyn.</p>
         <div className="form-table">
           <NameRow value={name} onChange={setName} />
         </div>

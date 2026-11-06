@@ -33,8 +33,8 @@ export function NightScreen({ view, sendAction }) {
   if (!view.me.isAlive || !view.me.role) {
     return (
       <section aria-labelledby="phase-title">
-        <p>Du är ute ur spelet. Håll tyst och vänta på morgonen.</p>
-        <p>{progress}.</p>
+        <p className="explanation">Du är ute ur spelet. Håll tyst och vänta på morgonen.</p>
+        <p className="explanation">{progress}.</p>
       </section>
     );
   }
@@ -59,7 +59,7 @@ export function NightScreen({ view, sendAction }) {
           describe={isMafia ? describeTeamChoices : undefined}
         />
       </ListCard>
-      {note && <p>{note}</p>}
+      {note && <p className="explanation">{note}</p>}
       {view.mafiaTeam.map((teammate) => {
         const player = view.players.find((p) => p.id === teammate.id);
         if (!player) return null;

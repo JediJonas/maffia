@@ -40,7 +40,7 @@ export function RoleScreen({ view, sendAction, isRoleShown, setIsRoleShown }) {
   if (isRoleShown && role) {
     return (
       <section aria-labelledby="phase-title">
-        <p>{role.description}</p>
+        <p className="explanation">{role.description}</p>
         {teammates.map((teammate, index) => (
           <PersonRow
             key={teammate.id}
@@ -57,9 +57,9 @@ export function RoleScreen({ view, sendAction, isRoleShown, setIsRoleShown }) {
   }
   return (
     <section aria-labelledby="phase-title">
-      <p>Se till att ingen tittar över din axel. Öppna sedan akten.</p>
+      <p className="explanation">Se till att ingen tittar över din axel. Öppna sedan akten.</p>
       {view.isReady && (
-        <p>Väntar på de andra. {capitalize(writeNumber(view.readyCount))} av {writeNumber(view.players.length)} har sett sin roll.</p>
+        <p className="explanation">Väntar på de andra. {capitalize(writeNumber(view.readyCount))} av {writeNumber(view.players.length)} har sett sin roll.</p>
       )}
       <div className="bottom-actions">
         <button type="button" className="primary" onClick={openRole}>Visa min roll</button>
