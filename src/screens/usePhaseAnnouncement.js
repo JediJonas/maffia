@@ -1,5 +1,5 @@
 // @ts-check
-// Märker fasbyten: byter färgtema, vibrerar och tar fram berättartexten.
+// Märker fasbyten: byter raster, vibrerar och tar fram berättartexten.
 import { useEffect, useRef, useState } from 'react';
 import { narratePhaseChange } from '../game/narration.js';
 import { vibrateForPhaseChange } from '../device/phaseSignals.js';

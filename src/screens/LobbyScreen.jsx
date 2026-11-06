@@ -1,8 +1,7 @@
 // @ts-check
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MIN_PLAYERS } from '../game/roles.js';
 import { buildRoleList, describeRoles, findSettingsProblem } from '../game/settings.js';
-import { buildJoinUrl } from '../network/roomCode.js';
 import { SettingsPanel } from './SettingsPanel.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
 import { LARGE_AVATAR_PX, PlayerAvatar } from './PlayerAvatar.jsx';
@@ -19,7 +18,6 @@ export function LobbyScreen({ view, host, sendAction }) {
   const canStart = hasEnoughPlayers && !findSettingsProblem(view.settings, view.players.length);
   return (
     <section aria-labelledby="phase-title">
-      {host && <RoomInvite roomCode={host.roomCode} />}
       <MyAvatar view={view} sendAction={sendAction} />
       <h2>Spelare ({view.players.length})</h2>
       <ul className="player-list">
@@ -82,29 +80,6 @@ function MyAvatar({ view, sendAction }) {
     <div className="my-avatar">
       <PlayerAvatar player={me} sizePx={LARGE_AVATAR_PX} />
       <button type="button" className="secondary" onClick={() => setIsEditing(true)}>Ändra avatar</button>
-    </div>
-  );
-}
-
-/** @param {{ roomCode: string }} props */
-function RoomInvite({ roomCode }) {
-  const [qrDataUrl, setQrDataUrl] = useState(/** @type {string | null} */ (null));
-  const joinUrl = buildJoinUrl(roomCode, window.location.href);
-
-  useEffect(() => {
-    const QR_SIZE_PX = 240;
-    // Bara värden visar QR-koden, så biblioteket laddas först här.
-    import('qrcode')
-      .then((QRCode) => QRCode.toDataURL(joinUrl, { width: QR_SIZE_PX, margin: 1 }))
-      .then(setQrDataUrl, () => setQrDataUrl(null));
-  }, [joinUrl]);
-
-  return (
-    <div className="invite">
-      <p>Rumskod</p>
-      <p className="room-code" aria-label={`Rumskod ${[...roomCode].join(' ')}`}>{roomCode}</p>
-      {qrDataUrl && <img className="qr" src={qrDataUrl} alt="QR-kod som öppnar spelet med rumskoden ifylld" width={240} height={240} />}
-      <p className="muted">Skanna koden, eller öppna sidan och skriv in rumskoden.</p>
     </div>
   );
 }

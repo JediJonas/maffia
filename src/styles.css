@@ -186,10 +186,9 @@ button:disabled {
 /* Berättarens serierutor och appens egna lappar ligger alltid på vitt, aldrig på rastret. */
 .caption,
 .notice,
-.announcement,
 main section > p,
+.scene-caption,
 .settings-summary,
-.invite,
 .tally,
 .secret-card,
 .my-avatar,
@@ -201,8 +200,8 @@ main section > p,
 
 .caption,
 .notice,
-.announcement,
-main section > p {
+main section > p,
+.scene-caption {
   margin: 1rem 0;
   padding: 0.5rem 0.75rem 0.4375rem;
   font-family: var(--font-caption);
@@ -268,8 +267,7 @@ main section > p {
   margin-bottom: 0.75rem;
 }
 
-#room-code,
-.room-code {
+#room-code {
   text-transform: uppercase;
   letter-spacing: 0.3em;
 }
@@ -289,31 +287,67 @@ main section > p {
   font-variant-numeric: tabular-nums;
 }
 
-.invite {
-  text-align: center;
-  padding: 1rem;
-}
-
-.invite p {
-  margin: 0.25rem 0;
-}
-
 .my-avatar {
   margin-top: 1rem;
   padding: 1rem;
 }
 
-.room-code {
-  font-size: 3rem;
-  font-weight: 700;
-  white-space: nowrap;
+/* Bildrutan överst: 318 px hög, med berättarens rutor i två hörn. */
+.scene {
+  position: relative;
+  height: 19.875rem;
+  margin: 0.625rem 0 1rem;
+  border: var(--line);
+  overflow: hidden;
+  background: var(--ink);
 }
 
-.qr {
-  max-width: 100%;
-  height: auto;
+.scene img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scene-plain {
+  display: grid;
+  place-items: center;
   background: var(--paper);
-  padding: 0.5rem;
+}
+
+.scene-plain .qr {
+  width: 14.375rem;
+  height: 14.375rem;
+}
+
+.scene .scene-caption {
+  position: absolute;
+  margin: 0;
+  border: none;
+  padding: 0.4375rem 0.625rem 0.375rem;
+}
+
+.scene .scene-caption-top {
+  top: 0;
+  left: 0;
+  max-width: 60%;
+  border-right: var(--line);
+  border-bottom: var(--line);
+}
+
+.scene .scene-caption-bottom {
+  right: 0;
+  bottom: 0;
+  max-width: 62%;
+  border-left: var(--line);
+  border-top: var(--line);
+}
+
+/* Rumskoden har alltid luft mellan bokstäverna, utan extra luft efter den sista, och bryts aldrig. */
+.room-code-text {
+  white-space: nowrap;
+  letter-spacing: 0.3em;
+  margin-right: -0.3em;
 }
 
 /* Listor är tabeller i en ram: 56 px höga rader med tunna linjer emellan. */

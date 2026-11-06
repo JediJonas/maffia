@@ -9,16 +9,21 @@ import { VerdictScreen } from './VerdictScreen.jsx';
 import { usePhaseAnnouncement } from './usePhaseAnnouncement.js';
 import { describePhaseTitle } from './phaseTitle.js';
 import { LeaveIcon } from './LeaveIcon.jsx';
+import { RoomQrCode } from './RoomQrCode.jsx';
+import { ScenePanel } from '../scenes/ScenePanel.jsx';
+import { describeScene } from '../scenes/describeScene.js';
 
 /**
  * @param {object} props
  * @param {import('../host/useHostGame.js').GameConnection} props.connection
+ * @param {string} props.roomCode
  * @param {() => void} props.onLeave
  */
-export function GameScreen({ connection, onLeave }) {
+export function GameScreen({ connection, roomCode, onLeave }) {
   const { view, status, notice, sendAction, host } = connection;
   const announcement = usePhaseAnnouncement(view);
   const showsAnnouncement = view && view.phase !== 'lobby' && announcement;
+  const scene = view && describeScene(view, Boolean(host));
 
   return (
     <>
@@ -30,7 +35,13 @@ export function GameScreen({ connection, onLeave }) {
         </button>
       </header>
       <main>
-        {showsAnnouncement && <p className="announcement" aria-live="polite">{announcement}</p>}
+        {/* Bildrutan berättar samma sak för den som ser, så texten läses bara upp. */}
+        {showsAnnouncement && <p className="visually-hidden" aria-live="polite">{announcement}</p>}
+        {scene && (
+          <ScenePanel scene={scene} roomCode={roomCode}>
+            <RoomQrCode roomCode={roomCode} />
+          </ScenePanel>
+        )}
         {/* Utan vy står det i meddelanderutan att telefonen ansluter. */}
         {view && <PhaseContent view={view} sendAction={sendAction} host={host} />}
       </main>
