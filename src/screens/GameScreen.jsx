@@ -18,7 +18,7 @@ import { usePreloadImages } from '../scenes/usePreloadImages.js';
 import { useScrollToTop } from './scrollToTop.js';
 
 /** @type {Partial<Record<import('./LobbyScreen.jsx').LobbyPanel, string>>} */
-const PANEL_TITLES = { avatar: 'Din figur', settings: 'Inställningar' };
+const PANEL_TITLES = { avatar: 'Din figur', settings: 'Inställningar', rules: 'Regler' };
 
 /**
  * @param {object} props
@@ -33,7 +33,7 @@ export function GameScreen({ connection, roomCode, onLeave }) {
   const [isLeaving, setIsLeaving] = useState(false);
   const [lobbyPanel, setLobbyPanel] = useState(/** @type {import('./LobbyScreen.jsx').LobbyPanel} */ ('players'));
   const [isRoleShown, setIsRoleShown] = useState(false);
-  // Figuren och inställningarna ändras bara i lobbyn, så de stängs om spelet startar under tiden.
+  // Figuren, inställningarna och reglerna finns bara i lobbyn, så de stängs om spelet startar under tiden.
   const shownPanel = view?.phase === 'lobby' && (lobbyPanel !== 'settings' || host) ? lobbyPanel : 'players';
   // Rollen visas bara innan spelet startar. Efter det är akten stängd.
   const showsRole = isRoleShown && view?.phase === 'roleReveal';
@@ -45,7 +45,7 @@ export function GameScreen({ connection, roomCode, onLeave }) {
     <>
       <header className="top-bar">
         <h1 id="phase-title">{PANEL_TITLES[shownPanel] ?? (view ? describePhaseTitle(view) : 'Maffia')}</h1>
-        {/* I Din figur och Inställningar tar rubriken hela raden, så ett långt namn inte bryts mitt i ordet. */}
+        {/* I Din figur, Inställningar och Regler tar rubriken hela raden, så ett långt namn inte bryts mitt i ordet. */}
         <span className="top-bar-name">{shownPanel === 'players' && view?.me.name}</span>
         <button type="button" className="leave-button" aria-label="Lämna spelet" onClick={() => setIsLeaving(true)}>
           <LeaveIcon />

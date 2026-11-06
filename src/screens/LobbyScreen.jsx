@@ -3,6 +3,7 @@ import { MIN_PLAYERS } from '../game/roles.js';
 import { findSettingsProblem } from '../game/settings.js';
 import { SettingsEditor } from './SettingsEditor.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
+import { RulesView } from './RulesView.jsx';
 import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { loadOrCreateAvatar, saveAvatar } from '../device/savedSession.js';
 import { sortByName, writeListName } from './playerName.js';
@@ -11,11 +12,11 @@ import { describeArrivals, describeLobbyStatus } from './lobbyText.js';
 /** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
 /** @typedef {import('../game/playerView.js').PublicPlayer} PublicPlayer */
 /** @typedef {import('../host/useHostGame.js').HostControls} HostControls */
-/** @typedef {'players' | 'avatar' | 'settings'} LobbyPanel Vad lobbyn visar: spelarna, Din figur eller värdens inställningar. */
+/** @typedef {'players' | 'avatar' | 'settings' | 'rules'} LobbyPanel Vad lobbyn visar: spelarna, Din figur, värdens inställningar eller reglerna. */
 
 /**
- * Lobbyn ser likadan ut för alla. Värden har dessutom knapparna längst ner
- * och kan ta bort spelare, och de andra ser vem som är värd.
+ * Lobbyn ser likadan ut för alla, och alla kan öppna reglerna. Värden har
+ * dessutom inställningarna och startknappen längst ner och kan ta bort spelare, och de andra ser vem som är värd.
  * @param {object} props
  * @param {PlayerView} props.view
  * @param {HostControls | null} props.host
@@ -33,6 +34,9 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
 
   if (panel === 'avatar') {
     return <MyAvatarEditor view={view} sendAction={sendAction} onClose={() => setPanel('players')} />;
+  }
+  if (panel === 'rules') {
+    return <RulesView settings={view.settings} playerCount={playerCount} onClose={() => setPanel('players')} />;
   }
   if (panel === 'settings' && host) {
     return (
@@ -70,15 +74,19 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
         </ul>
         <p className="explanation">{describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null })}</p>
       </div>
-      {host && (
-        <div className="bottom-actions">
-          {problem && <p className="notice">{problem}</p>}
-          <button type="button" className="secondary" onClick={() => setPanel('settings')}>Inställningar</button>
-          <button type="button" className="primary" disabled={!canStart} onClick={host.startGame}>
-            Starta spelet
-          </button>
-        </div>
-      )}
+      {/* Alla får knappen till reglerna, så att den som väntar kan läsa på. */}
+      <div className="bottom-actions">
+        {problem && <p className="notice">{problem}</p>}
+        <button type="button" className="secondary" onClick={() => setPanel('rules')}>Regler</button>
+        {host && (
+          <>
+            <button type="button" className="secondary" onClick={() => setPanel('settings')}>Inställningar</button>
+            <button type="button" className="primary" disabled={!canStart} onClick={host.startGame}>
+              Starta spelet
+            </button>
+          </>
+        )}
+      </div>
     </section>
   );
 }
