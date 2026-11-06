@@ -35,24 +35,24 @@ html {
 }
 
 /*
- * Höjden är den stora visningsytan (lvh), inte inset: 0. Safari i iPhone
- * slutar annars rutan ovanför verktygsfältet längst ner, och då syns vitt
- * papper bakom fältet där punkterna ska vara som tätast.
+ * Rastret ligger på sidan och rullar med innehållet, och täcker hela sidans
+ * höjd. Minsta höjden är den stora visningsytan (lvh), inte 100 %. Safari i
+ * iPhone slutar annars rutan ovanför verktygsfältet längst ner, och då syns
+ * vitt papper bakom fältet där punkterna ska vara som tätast.
  */
 body::before {
   content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100vh;
-  height: 100lvh;
+  position: absolute;
+  inset: 0;
   z-index: -1;
   background: var(--raster) repeat-x 0 0 / auto 100%;
   pointer-events: none;
 }
 
 body {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100lvh;
   margin: 0;
   color: var(--ink);
   font-family: var(--font-text);
