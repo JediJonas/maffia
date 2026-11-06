@@ -1134,6 +1134,10 @@ main section .person-text {
   border: var(--line);
 }
 
+.leave-dialog:focus {
+  outline: none;
+}
+
 .leave-dialog::backdrop {
   background: rgb(17 17 17 / 0.72);
 }
