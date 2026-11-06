@@ -28,6 +28,19 @@ const MAX_CHOSEN_MAFIA = 3;
 /** @type {('auto' | number)[]} */
 export const MAFIA_COUNT_CHOICES = ['auto', ...Array.from({ length: MAX_CHOSEN_MAFIA }, (_, i) => i + 1)];
 
+/**
+ * Ett steg åt höger eller vänster bland maffiavalen. Stannar vid ändarna i
+ * stället för att börja om, eftersom valen är en skala och inte en lista.
+ * @param {'auto' | number} current
+ * @param {1 | -1} direction
+ * @returns {'auto' | number}
+ */
+export function stepMafiaCount(current, direction) {
+  const index = Math.max(0, MAFIA_COUNT_CHOICES.indexOf(current));
+  const next = Math.min(MAFIA_COUNT_CHOICES.length - 1, Math.max(0, index + direction));
+  return MAFIA_COUNT_CHOICES[next];
+}
+
 // En maffia per fyra spelare ger ungefär en fjärdedel maffia, vilket är
 // den klassiska balansen.
 const PLAYERS_PER_MAFIA = 4;

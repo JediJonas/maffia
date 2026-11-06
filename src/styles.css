@@ -245,8 +245,7 @@ main section > p,
 .list-lead,
 .list-tag,
 .scene-caption,
-.my-avatar,
-.settings-form {
+.my-avatar {
   background: var(--paper);
   border: var(--line);
 }
@@ -286,32 +285,6 @@ main section > p,
 }
 
 
-.settings-form {
-  display: grid;
-  gap: 0.5rem;
-  padding: 0.75rem;
-}
-
-.settings-form select {
-  min-height: 3rem;
-  padding: 0.5rem;
-  border-radius: 0;
-  border: var(--line);
-  background: var(--paper);
-}
-
-.toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  min-height: 2.75rem;
-}
-
-.toggle input {
-  width: 1.5rem;
-  height: 1.5rem;
-  accent-color: var(--ink);
-}
 
 
 
@@ -771,7 +744,8 @@ main section .person-text {
   background: var(--paper);
 }
 
-.avatar-parts {
+.avatar-parts,
+.settings-list {
   list-style: none;
   padding: 0;
   margin: 0.75rem 0 0;
@@ -779,7 +753,8 @@ main section .person-text {
   border: var(--line);
 }
 
-.avatar-parts li {
+.avatar-parts li,
+.settings-list li {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -789,16 +764,17 @@ main section .person-text {
   font-size: 1rem;
 }
 
-.avatar-parts li + li {
+.avatar-parts li + li,
+.settings-list li + li {
   border-top: var(--thin-line);
 }
 
-.avatar-part-stepper {
+.stepper {
   display: flex;
   align-items: center;
 }
 
-.avatar-part-stepper button {
+.stepper button {
   width: 2.75rem;
   min-height: 2.75rem;
   padding: 0;
@@ -809,7 +785,58 @@ main section .person-text {
   line-height: 1;
 }
 
-.avatar-part-value {
+/* Inställningarna: listan har sin ram från list-card, och strömbrytare i stället för kryssrutor. */
+.settings-list {
+  margin: 0;
+}
+
+.settings-list li {
+  min-height: 3.5rem;
+}
+
+.stepper button:disabled {
+  opacity: 0.3;
+}
+
+.switch {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 3.25rem;
+  height: 1.875rem;
+  margin: 0 0.75rem 0 0;
+  border: var(--line);
+  border-radius: 1rem;
+  background: var(--paper);
+  cursor: pointer;
+}
+
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--ink);
+  transition: transform 0.15s;
+}
+
+.switch:checked {
+  background: var(--ink);
+}
+
+.switch:checked::after {
+  background: var(--paper);
+  transform: translateX(1.375rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch::after { transition: none; }
+}
+
+.stepper-value {
   width: 4rem;
   text-align: center;
   color: var(--muted);
