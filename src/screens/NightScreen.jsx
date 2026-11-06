@@ -17,7 +17,7 @@ const NIGHT_NOTES = {
   mafia: null,
   detective: 'Du får veta om personen är maffia. Svaret får du när staden vaknar.',
   doctor: 'Du skyddar personen från maffian. Samma person får inte skyddas två nätter i rad.',
-  citizen: 'Ditt val räknas inte, men alla väljer så att ingen kan se vem som är vaken och vem som sover.',
+  citizen: 'Ditt val räknas inte. Alla väljer, så att ingen ser vem som är vaken.',
 };
 
 /**
