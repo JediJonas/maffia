@@ -16,7 +16,7 @@ const NIGHT_QUESTIONS = {
 const NIGHT_NOTES = {
   mafia: null,
   detective: 'Du får veta om personen är maffia. Svaret får du när staden vaknar.',
-  doctor: 'Du skyddar personen från maffian. Du får inte skydda samma person två nätter i rad.',
+  doctor: 'Du skyddar personen från maffian, men inte samma person två nätter i rad.',
   citizen: 'Ditt val räknas inte, men alla väljer så att ingen kan se vem som är vaken och vem som sover.',
 };
 
