@@ -9,7 +9,7 @@ const ROLES = ['mafia', 'mafia', 'detective', 'doctor', 'citizen', 'citizen', 'c
 describe('buildPlayerView', () => {
   const state = createTestGame(ROLES);
 
-  it('avslöjar inte levande spelares roller för en medborgare', () => {
+  it('avslöjar inte levande spelares roller för en stadsbo', () => {
     const view = buildPlayerView(state, 'p5');
     expect(view.players.every((p) => p.revealedRole === null)).toBe(true);
     expect(view.mafiaTeam).toEqual([]);

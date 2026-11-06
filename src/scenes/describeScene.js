@@ -3,6 +3,8 @@
 // i ett seriealbum. Rutan uppe till vänster säger var vi är i berättelsen,
 // rutan nere till höger vad som har hänt.
 
+import { ROLE_INFO } from '../game/roles.js';
+
 /** @typedef {import('./sceneImages.js').SceneImageKey} SceneImageKey */
 /** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
 
@@ -22,20 +24,34 @@ const NIGHT_SCENES = {
   citizen: { image: 'nightCitizen', bottomCaption: '… och så även du.' },
 };
 
+/** @type {Record<import('../game/types.js').Role, SceneImageKey>} */
+const ROLE_IMAGES = {
+  mafia: 'roleMafia',
+  detective: 'roleDetective',
+  doctor: 'roleDoctor',
+  citizen: 'roleCitizen',
+};
+
 /**
  * @param {Pick<PlayerView, 'phase' | 'me' | 'players' | 'lastNight' | 'lastDay' | 'winner'>} view
  * @param {boolean} isHost Värden visar QR-koden i rutan, de andra en bild.
+ * @param {boolean} [isRoleShown] Spelaren har öppnat akten och ser sin roll.
  * @returns {Scene | null} Null i faser utan bildruta.
  */
-export function describeScene(view, isHost) {
+export function describeScene(view, isHost, isRoleShown = false) {
   switch (view.phase) {
     case 'lobby':
       return { image: isHost ? null : 'lobby', topCaption: 'Gänget samlas …', bottomCaption: null, showsRoomCode: true };
     case 'roleReveal':
+      if (isRoleShown && view.me.role) {
+        return scene(ROLE_IMAGES[view.me.role], 'Bara du får se det här.', `Du är ${ROLE_INFO[view.me.role].name.toLowerCase()}.`);
+      }
       return scene('roleHidden', 'Det är dags.', 'Din roll ligger i akten.');
     case 'night': {
-      // Den som är ute ur spelet sover, så att ingen ser vilken roll den hade.
-      const night = view.me.isAlive && view.me.role ? NIGHT_SCENES[view.me.role] : NIGHT_SCENES.citizen;
+      // Den som är ute ur spelet ser stadsbons bild, så att ingen ser vilken
+      // roll den hade, men utan "… och så även du", eftersom den inte är med.
+      if (!view.me.isAlive || !view.me.role) return scene(NIGHT_SCENES.citizen.image, 'Staden sover …', null);
+      const night = NIGHT_SCENES[view.me.role];
       return scene(night.image, 'Staden sover …', night.bottomCaption);
     }
     case 'day': {
@@ -60,7 +76,7 @@ export function describeScene(view, isHost) {
 /**
  * @param {SceneImageKey} image
  * @param {string} topCaption
- * @param {string} bottomCaption
+ * @param {string | null} bottomCaption
  * @returns {Scene}
  */
 function scene(image, topCaption, bottomCaption) {

@@ -54,10 +54,10 @@ describe('inställningar', () => {
 
 describe('describeRoles', () => {
   it('skriver antalet för varje roll med bokstäver', () => {
-    expect(describeRoles(['mafia', 'detective', 'doctor', 'citizen'])).toBe('en maffia, en detektiv, en läkare och en medborgare');
+    expect(describeRoles(['mafia', 'detective', 'doctor', 'citizen'])).toBe('en maffia, en detektiv, en läkare och en stadsbo');
   });
 
   it('hoppar över roller som inte är med', () => {
-    expect(describeRoles(['mafia', 'mafia', 'citizen', 'citizen', 'citizen'])).toBe('två maffia och tre medborgare');
+    expect(describeRoles(['mafia', 'mafia', 'citizen', 'citizen', 'citizen'])).toBe('två maffia och tre stadsbor');
   });
 });

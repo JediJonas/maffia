@@ -35,24 +35,24 @@ html {
 }
 
 /*
- * Höjden är den stora visningsytan (lvh), inte inset: 0. Safari i iPhone
- * slutar annars rutan ovanför verktygsfältet längst ner, och då syns vitt
- * papper bakom fältet där punkterna ska vara som tätast.
+ * Rastret ligger på sidan och rullar med innehållet, och täcker hela sidans
+ * höjd. Minsta höjden är den stora visningsytan (lvh), inte 100 %. Safari i
+ * iPhone slutar annars rutan ovanför verktygsfältet längst ner, och då syns
+ * vitt papper bakom fältet där punkterna ska vara som tätast.
  */
 body::before {
   content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100vh;
-  height: 100lvh;
+  position: absolute;
+  inset: 0;
   z-index: -1;
   background: var(--raster) repeat-x 0 0 / auto 100%;
   pointer-events: none;
 }
 
 body {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100lvh;
   margin: 0;
   color: var(--ink);
   font-family: var(--font-text);
@@ -197,9 +197,10 @@ button:disabled {
 .caption,
 .notice,
 main section > p,
+.person-text,
+.list-lead,
+.list-tag,
 .scene-caption,
-.tally,
-.secret-card,
 .my-avatar,
 .settings-form {
   background: var(--paper);
@@ -209,6 +210,9 @@ main section > p,
 .caption,
 .notice,
 main section > p,
+.person-text,
+.list-lead,
+.list-tag,
 .scene-caption {
   margin: 1rem 0;
   padding: 0.5rem 0.75rem 0.4375rem;
@@ -260,11 +264,6 @@ main section > p,
 
 .muted {
   color: var(--muted);
-}
-
-/* Fasta sifferbredder, så att texten inte hoppar när siffran byts. */
-.countdown {
-  font-variant-numeric: tabular-nums;
 }
 
 .my-avatar {
@@ -390,65 +389,157 @@ main section > p,
 .picker-detail {
   font-size: 0.875rem;
   font-weight: 500;
+  color: var(--muted);
+  text-align: right;
 }
 
-.secret-card {
-  display: block;
-  width: 100%;
-  min-height: 12rem;
+.picker-option[aria-pressed='true'] .picker-detail {
+  color: inherit;
+}
+
+/*
+ * Listan med berättarens ruta ovanför och en lapp som hänger över nedre
+ * kanten. Lappen ligger utanför flödet, så det som följer får luft under.
+ */
+.list-card {
+  margin: 1.5rem 0 1rem;
+}
+
+.list-card-tagged {
+  margin-bottom: 2.25rem;
+}
+
+.list-frame {
+  position: relative;
+}
+
+main section .list-lead {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 1.125rem;
+}
+
+.list-tag {
+  position: absolute;
+  right: -0.5rem;
+  top: calc(100% - 0.75rem);
+  margin: 0;
+  padding: 0.3125rem 0.625rem 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* Detektivens akt: svart och stämplad tills den öppnas. */
+.detective-file {
   margin: 1rem 0;
-  padding: 1.25rem;
-  border-radius: 0;
-  text-align: center;
-  letter-spacing: normal;
-  text-transform: none;
-  font-weight: 400;
 }
 
-/* Den stängda akten är svart, så att grannen inte kan läsa något. */
-.secret-hidden {
+.stamp-filter {
+  position: absolute;
+}
+
+.stamp {
+  font-family: var(--font-title);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  filter: url(#stamp-ink);
+}
+
+.file-closed {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 5rem;
+  margin: 0;
+  padding: 0.5rem 0.875rem;
+  border: var(--line);
+  border-radius: 0;
   background: var(--ink);
   color: var(--paper);
+  text-align: left;
+}
+
+.file-closed > span:first-child {
+  max-width: 62%;
+  font-family: var(--font-caption);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+.file-secret {
+  position: absolute;
+  right: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(-9deg);
+  border: 3px double var(--paper);
+  padding: 0.125rem 0.5rem 0;
+  font-size: 1.5rem;
+  letter-spacing: 0.12em;
+}
+
+.file-open {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  border: var(--line);
+}
+
+.file-open li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 5rem;
+  padding: 0 0.75rem 0 0.625rem;
+}
+
+.file-open li + li {
+  border-top: var(--thin-line);
+}
+
+.file-open .avatar {
+  border-width: 2px;
+}
+
+.file-who {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.file-name {
   font-family: var(--font-caption);
   font-weight: 700;
   font-size: 1.125rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
-.secret-headline {
-  margin: 0;
-  font-family: var(--font-caption);
-  font-size: 1.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
+.file-when {
+  font-size: 0.8125rem;
+  color: var(--muted);
 }
 
-.verdict-card {
-  min-height: 0;
-}
-
-.tally {
-  padding: 0 1rem 0.5rem;
-  margin: 1rem 0;
-}
-
-.tally h2 {
-  margin: 0.75rem 0 0.25rem;
+.file-when .link-button {
+  min-height: 2.75rem;
+  margin: -1rem 0;
   padding: 0;
-  border: none;
+  font-size: inherit;
+  color: inherit;
 }
 
-.tally ul {
-  padding-left: 1.25rem;
-  margin: 0.25rem 0;
-}
-
-.tally-target {
-  font-weight: 600;
-}
-
-.earlier-results {
-  text-align: left;
+.file-verdict {
+  margin-left: auto;
+  transform: rotate(-8deg);
+  border: 4px double var(--ink);
+  padding: 0.1875rem 0.625rem 0.0625rem;
+  font-size: 1.625rem;
 }
 
 .dead {
@@ -478,7 +569,6 @@ main section > p,
   margin: 0.25rem 0;
 }
 
-.secret-card .avatar,
 .my-avatar .avatar {
   display: block;
   margin: 0 auto 0.75rem;
@@ -537,6 +627,69 @@ main section > p,
   text-align: center;
 }
 
+/*
+ * Personraden: stor figur med en ruta som går in under cirkeln. Rutans
+ * vänstra kant urholkas med en mask i stället för att ligga bakom cirkeln,
+ * så att rastret inte syns igenom mellan dem. Den vita skuggan ger samma
+ * vita ring runt cirkel och ruta som i skissen.
+ */
+.person-row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  height: 7rem;
+  margin: 1rem 0;
+  padding-left: 0.875rem;
+  filter: drop-shadow(5px 0 0 var(--paper)) drop-shadow(-5px 0 0 var(--paper)) drop-shadow(0 5px 0 var(--paper)) drop-shadow(0 -5px 0 var(--paper));
+}
+
+.person-row-speaking {
+  margin-top: 3rem;
+}
+
+.person-row .avatar {
+  flex: none;
+  display: block;
+  border-width: 2px;
+}
+
+.person-text {
+  display: flex;
+  align-items: center;
+  min-height: 3.375rem;
+  margin: 3.625rem 0 0 -0.875rem;
+  padding: 0.0625rem 0.75rem 0 1.375rem;
+  -webkit-mask-image: radial-gradient(circle at -2.75rem 0, transparent 3.47rem, #000 3.5rem);
+  mask-image: radial-gradient(circle at -2.75rem 0, transparent 3.47rem, #000 3.5rem);
+}
+
+.person-speech {
+  left: 7.625rem;
+  top: -2.5rem;
+  transform-origin: 1rem 5.875rem;
+  animation: speech-pop 0.28s cubic-bezier(0.3, 1.5, 0.6, 1) 1.2s both;
+}
+
+@keyframes speech-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .person-speech {
+    animation-name: speech-fade;
+    animation-timing-function: linear;
+  }
+
+  @keyframes speech-fade {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
 .avatar-shuffle {
   position: absolute;
   right: 0;
@@ -591,10 +744,6 @@ main section > p,
   font-size: 0.875rem;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
-}
-
-.actions {
-  display: grid;
 }
 
 .visually-hidden {

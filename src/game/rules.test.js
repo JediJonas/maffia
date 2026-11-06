@@ -6,7 +6,7 @@ import {
 import { createTestGame, playDay, playNight } from './testGame.js';
 import { createRandomAvatar } from '../avatar/avatarParts.js';
 
-/** Spelarna p1 maffia, p2 detektiv, p3 läkare, p4–p5 medborgare. */
+/** Spelarna p1 maffia, p2 detektiv, p3 läkare, p4–p5 stadsbor. */
 const ROLES = ['mafia', 'detective', 'doctor', 'citizen', 'citizen'];
 
 describe('buildRoleList', () => {

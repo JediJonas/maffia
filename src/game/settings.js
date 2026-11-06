@@ -1,7 +1,7 @@
 // @ts-check
 // Värdens inställningar för ett parti. De väljs i lobbyn, där värden ser
 // hur många som har anslutit, och visas för alla.
-import { writeNumber } from './numberWords.js';
+import { joinWithAnd, writeNumber } from './numberWords.js';
 
 /** @typedef {import('./types.js').Role} Role */
 
@@ -79,14 +79,14 @@ export function completeSettings(saved) {
 /**
  * Varje roll får sitt antal, så att det syns att det är en av varje.
  * @param {Role[]} roles
- * @returns {string} Till exempel "en maffia, en detektiv, en läkare och två medborgare".
+ * @returns {string} Till exempel "en maffia, en detektiv, en läkare och två stadsbor".
  */
 export function describeRoles(roles) {
-  /** @type {[Role, string][]} */
-  const names = [['mafia', 'maffia'], ['detective', 'detektiv'], ['doctor', 'läkare'], ['citizen', 'medborgare']];
+  /** @type {[Role, string, string][]} Rollen, namnet för en och namnet för flera. */
+  const names = [['mafia', 'maffia', 'maffia'], ['detective', 'detektiv', 'detektiver'], ['doctor', 'läkare', 'läkare'], ['citizen', 'stadsbo', 'stadsbor']];
   const parts = names
-    .map(([role, name]) => ({ count: roles.filter((r) => r === role).length, name }))
+    .map(([role, one, many]) => ({ count: roles.filter((r) => r === role).length, one, many }))
     .filter(({ count }) => count > 0)
-    .map(({ count, name }) => `${writeNumber(count)} ${name}`);
-  return parts.length > 1 ? `${parts.slice(0, -1).join(', ')} och ${parts[parts.length - 1]}` : parts[0];
+    .map(({ count, one, many }) => `${writeNumber(count)} ${count === 1 ? one : many}`);
+  return joinWithAnd(parts);
 }

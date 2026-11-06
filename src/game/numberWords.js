@@ -19,3 +19,11 @@ export function writeNumber(count) {
 export function capitalize(text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
+
+/**
+ * @param {string[]} items
+ * @returns {string} Till exempel "Erik, Fia och Doris".
+ */
+export function joinWithAnd(items) {
+  return items.length > 1 ? `${items.slice(0, -1).join(', ')} och ${items[items.length - 1]}` : (items[0] ?? '');
+}

@@ -17,12 +17,12 @@ describe('describeLobbyStatus', () => {
   });
 
   it('berättar vilka roller som finns i staden för värden', () => {
-    expect(describeLobbyStatus({ settings, playerCount: 4, hostName: null })).toBe('I staden finns en maffia, en detektiv och två medborgare.');
+    expect(describeLobbyStatus({ settings, playerCount: 4, hostName: null })).toBe('I staden finns en maffia, en detektiv och två stadsbor.');
   });
 
   it('säger också vem som startar för de andra', () => {
     expect(describeLobbyStatus({ settings, playerCount: 4, hostName: 'Bertil' })).toBe(
-      'I staden finns en maffia, en detektiv och två medborgare. Bertil startar när alla är på plats.',
+      'I staden finns en maffia, en detektiv och två stadsbor. Bertil startar när alla är på plats.',
     );
   });
 

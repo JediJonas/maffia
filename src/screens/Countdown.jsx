@@ -1,12 +1,13 @@
 // @ts-check
 import { useEffect, useState } from 'react';
+import { writeNumber } from '../game/numberWords.js';
 
 const SECOND_MS = 1000;
 
 /**
  * Räknar ned till nästa steg, till exempel att rollen vänds fram. Värdens
- * telefon tar steget efter lika lång tid, så siffran hamnar ungefär rätt på
- * alla telefoner.
+ * telefon tar steget efter lika lång tid, så talet hamnar ungefär rätt på
+ * alla telefoner. Talet skrivs med bokstäver, som i serierutorna.
  * @param {object} props
  * @param {number} props.durationMs
  * @param {string} props.label Till exempel "Rollen visas om".
@@ -19,5 +20,5 @@ export function Countdown({ durationMs, label }) {
     return () => clearInterval(timer);
   }, []);
 
-  return <p className="countdown">{label} {secondsLeft} …</p>;
+  return <>{label} {writeNumber(secondsLeft)} …</>;
 }

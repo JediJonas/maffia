@@ -16,10 +16,10 @@ många varianter. Här är de klassiska reglerna och hur prototypen tolkar dem.
 | Maffia | Maffian | Väljer tillsammans ett offer varje natt. |
 | Detektiv | Staden | Undersöker en spelare varje natt och får veta om den är maffia. |
 | Läkare | Staden | Skyddar en spelare varje natt. Blir den spelaren maffians offer överlever den. |
-| Medborgare | Staden | Ingen nattroll. Diskuterar och röstar på dagen. |
+| Stadsbo | Staden | Ingen nattroll. Diskuterar och röstar på dagen. |
 
 Antal maffia är en per fyra spelare, avrundat nedåt men minst en. Detektiv och
-läkare finns alltid en av vardera. Resten är medborgare. Spelet kräver minst
+läkare finns alltid en av vardera. Resten är stadsbor. Spelet kräver minst
 fyra spelare.
 
 ## Gången i spelet
@@ -27,7 +27,7 @@ fyra spelare.
 1. **Roller delas ut** i hemlighet. Var och en tittar på sin egen telefon.
 2. **Natt.** Alla tittar i telefonen samtidigt och väljer en spelare.
    Maffian väljer offer och måste vara överens. Detektiven väljer vem som ska
-   undersökas, läkaren vem som ska skyddas. Medborgarna väljer vem de
+   undersökas, läkaren vem som ska skyddas. Stadsborna väljer vem de
    misstänker, men det valet används inte. Det finns bara för att alla ska
    göra likadant, så att ingen avslöjar sig genom att sitta still (projektets
    "blindknapp"). Ett tryck är valet, och man kan trycka om och ändra sig.
