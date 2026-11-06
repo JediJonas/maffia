@@ -64,7 +64,7 @@ describe('narrateAloud', () => {
   });
 
   it('säger vem som blev mördad och rollen direkt', () => {
-    expect(aloud(night, morning)).toBe('Staden vaknar. Spelare 4 blev mördad. Spelare 4 var medborgare.');
+    expect(aloud(night, morning)).toBe('Staden vaknar. Spelare 4 blev mördad. Spelare 4 var stadsbo.');
   });
 
   it('säger vem som blev förvisad och sedan rollen', () => {

@@ -15,7 +15,7 @@ describe('describeScene', () => {
     expect(describeScene(buildPlayerView(night, 'p1'), false)).toMatchObject({ image: 'nightCitizen', bottomCaption: '… och så även du.' });
   });
 
-  it('visar den som är ute ur spelet som en sovande medborgare på natten', () => {
+  it('visar den som är ute ur spelet som en sovande stadsbo på natten', () => {
     const morning = playNight(night, { p2: 'p4', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
     const nextNight = playDay(morning, { p1: 'p3', p2: 'p3', p3: 'p1', p5: 'p3' });
     const detectiveIsOut = { ...nextNight, phase: 'night' };

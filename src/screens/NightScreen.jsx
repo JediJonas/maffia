@@ -11,8 +11,8 @@ const NIGHT_INSTRUCTIONS = {
 };
 
 /**
- * Alla levande gör ett val, även medborgare, så att ingen avslöjas av att
- * sitta still med telefonen. Medborgarens val används inte. Ett tryck är
+ * Alla levande gör ett val, även stadsbo, så att ingen avslöjas av att
+ * sitta still med telefonen. Stadsbons val används inte. Ett tryck är
  * valet, och natten tar slut av sig själv när alla har valt.
  * @param {object} props
  * @param {import('../game/playerView.js').PlayerView} props.view

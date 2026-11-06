@@ -23,7 +23,7 @@ export const ROLE_INFO = {
     description: 'Varje natt skyddar du en spelare från maffian. Du får inte skydda samma spelare två nätter i rad.',
   },
   citizen: {
-    name: 'Medborgare',
+    name: 'Stadsbo',
     team: 'town',
     description: 'Du har ingen nattroll. Lyssna, misstänk och rösta för att förvisa maffian på dagen.',
   },

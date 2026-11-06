@@ -8,7 +8,7 @@ import roleHidden from './images/roll-dold.webp';
 import nightMafia from './images/natt-maffia.webp';
 import nightDetective from './images/natt-detektiv.webp';
 import nightDoctor from './images/natt-lakare.webp';
-import nightCitizen from './images/natt-medborgare.webp';
+import nightCitizen from './images/natt-stadsbo.webp';
 import morningMurder from './images/morgon-mord.webp';
 import morningNoMurder from './images/morgon-ingen.webp';
 import verdict from './images/dom.webp';

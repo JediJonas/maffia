@@ -4,7 +4,7 @@ import { buildPlayerView } from './playerView.js';
 import { RuleError } from './rules.js';
 import { createTestGame, playDay, playNight } from './testGame.js';
 
-/** Spelarna p1 maffia, p2 detektiv, p3 läkare, p4–p5 medborgare. */
+/** Spelarna p1 maffia, p2 detektiv, p3 läkare, p4–p5 stadsbor. */
 const ROLES = ['mafia', 'detective', 'doctor', 'citizen', 'citizen'];
 const roleSeenBy = (state, viewerId, playerId) =>
   buildPlayerView(state, viewerId).players.find((p) => p.id === playerId)?.revealedRole;

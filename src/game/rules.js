@@ -171,7 +171,7 @@ function beginNight(state, round) {
 }
 
 /**
- * Alla levande väljer någon på natten, även medborgare, så att ingen
+ * Alla levande väljer någon på natten, även stadsbo, så att ingen
  * avslöjar sin roll genom att sitta still (projektets blindknapp).
  * @param {GameState} state
  * @param {Player} player
