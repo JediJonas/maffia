@@ -35,10 +35,17 @@ spelare går inte att starta med.
 
 ### Besök på natten
 
-Taxichauffören och fönstertittaren ser besök. Maffian (alla som valde offret),
-läkaren, detektiven, bartendern och korvgubben räknas som besök. Taxichauffören
-och fönstertittaren tittar på avstånd, och de som väljer blint stannar hemma,
-så de syns inte. Svaret ligger i en akt som öppnas på morgonen, som
+Taxichauffören och fönstertittaren ser vem som går hem till vem på natten.
+Ett besök är när någon går hem till den person den har valt:
+
+- **Räknas som besök:** maffian och gudfadern (alla som valde offret),
+  läkaren, detektiven, bartendern och korvgubben.
+- **Räknas inte som besök:** taxichauffören och fönstertittaren, som bara
+  tittar på håll. Inte heller borgmästaren, galningen och stadsborna, vars
+  val på natten bara är blindknappen och inte gör något.
+
+Om fönstertittaren bevakar Anna och bara taxichauffören följer henne, är
+svaret alltså "ingen". Svaret ligger i en akt som öppnas på morgonen, som
 detektivens. Den som är ute ur spelet kan inte längre öppna akten, inte heller
 svaret från natten då den blev mördad.
 
