@@ -9,6 +9,15 @@
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <title>Maffia</title>
+    <script>
+      // Innan appen har laddats: är telefonen med i ett spel visas inte startsidans svarta bakgrund.
+      // Nyckeln är SESSION_KEY i src/device/savedSession.js.
+      try {
+        if (localStorage.getItem('maffia.session')) document.documentElement.dataset.boot = 'game';
+      } catch {
+        // Utan lagring finns inget sparat spel, och startsidan visas.
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

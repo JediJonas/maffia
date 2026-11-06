@@ -41,11 +41,12 @@
 /*
  * Startsidans bild slutar vid den lilla visningsytan (dvh). Under Safaris
  * verktygsfält syns då sidan bakom, och där ska det vara svart, inte raster.
- * Innan skriptet har ritat något är #root tom. Då är sidan också svart, så att
- * rastret inte blinkar till när startsidan laddas.
+ * Innan skriptet har ritat något är #root tom. Ska startsidan visas är sidan
+ * också svart då, så att rastret inte blinkar till. Är telefonen med i ett spel
+ * (data-boot, sätts i index.html) får spelets egen bakgrund gälla från början.
  */
 :root:has(.start-page),
-:root:has(#root:empty) {
+:root:not([data-boot='game']):has(#root:empty) {
   --raster: none;
   background: var(--start-black);
 }

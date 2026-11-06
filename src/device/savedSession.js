@@ -4,6 +4,7 @@
 import { createRandomAvatar, sanitizeAvatar } from '../avatar/avatarParts.js';
 import { MAX_NAME_LENGTH } from '../game/rules.js';
 
+// index.html läser samma nyckel innan appen laddas. Byts den måste den bytas där också.
 const SESSION_KEY = 'maffia.session';
 const HOST_GAME_KEY_PREFIX = 'maffia.hostGame.';
 // Avataren hör till telefonen och följer med till nästa spel.
