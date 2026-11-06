@@ -36,6 +36,15 @@
   background: var(--ink);
 }
 
+/*
+ * Startsidans bild slutar vid den lilla visningsytan (dvh). Under Safaris
+ * verktygsfält syns då sidan bakom, och där ska det vara svart, inte raster.
+ */
+:root:has(.start-page) {
+  --raster: none;
+  background: var(--ink);
+}
+
 :root[data-phase='night'] .top-bar {
   background: var(--ink);
   color: var(--paper);
