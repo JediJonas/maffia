@@ -1223,3 +1223,10 @@ main section .person-text {
     max-width: 32rem;
   }
 }
+
+/* På en låg skärm får loggan och knapparna plats utan att man rullar, om berättarens ruta göms. */
+@media (max-height: 32rem) {
+  .start-caption {
+    display: none;
+  }
+}
