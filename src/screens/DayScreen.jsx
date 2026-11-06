@@ -56,7 +56,7 @@ export function DayScreen({ view, sendAction }) {
           <ListCard lead="Staden röstar. Du kan bara se på." tag={progress}>
             <PlayerPicker players={listed} describe={describeVotes} />
           </ListCard>
-          <p>Du är borta nu. Se på, men säg inget.</p>
+          <p className="explanation">Du är borta nu. Se på, men säg inget.</p>
         </>
       )}
     </section>

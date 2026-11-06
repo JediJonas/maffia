@@ -26,7 +26,7 @@ export function GameOverScreen({ view, host }) {
           <button type="button" className="primary" onClick={host.startGame}>Spela igen</button>
         </div>
       ) : (
-        <p>Värden kan starta ett nytt spel.</p>
+        <p className="explanation">Värden kan starta ett nytt spel.</p>
       )}
     </section>
   );

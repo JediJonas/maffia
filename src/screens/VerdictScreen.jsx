@@ -46,7 +46,7 @@ export function VerdictScreen({ view }) {
         <p>Alla avstod från att rösta.</p>
       )}
       {/* Samma text oavsett om spelet är avgjort, så att ingen ser resultatet i förväg. */}
-      {!view.isRoleRevealPending && <p><Countdown durationMs={VERDICT_PAUSE_MS} label="Natten faller om" /></p>}
+      {!view.isRoleRevealPending && <p className="explanation"><Countdown durationMs={VERDICT_PAUSE_MS} label="Natten faller om" /></p>}
     </section>
   );
 }

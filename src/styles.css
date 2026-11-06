@@ -49,7 +49,7 @@
   filter: drop-shadow(2px 0 0 var(--paper)) drop-shadow(-2px 0 0 var(--paper)) drop-shadow(0 2px 0 var(--paper)) drop-shadow(0 -2px 0 var(--paper));
 }
 
-:root[data-phase='night'] :is(.caption, .notice, main section > p, .list-lead, .player-list, .picker):not(.list-tag) {
+:root[data-phase='night'] :is(.caption, .explanation, .notice, main section > p, .list-lead, .player-list, .picker):not(.list-tag) {
   border: none;
 }
 
@@ -229,6 +229,7 @@ button:disabled {
 
 /* Berättarens serierutor och appens egna lappar ligger alltid på vitt, aldrig på rastret. */
 .caption,
+.explanation,
 .notice,
 main section > p,
 .person-text,
@@ -242,6 +243,7 @@ main section > p,
 }
 
 .caption,
+.explanation,
 .notice,
 main section > p,
 .person-text,
@@ -261,6 +263,16 @@ main section > p,
 .notice {
   background: var(--ink);
   color: var(--paper);
+}
+
+/*
+ * Berättarens rutor är fyrkantiga, som textrutorna i en serie. När appen
+ * själv förklarar något för spelaren (regler, väntan, fel) får rutan rundade
+ * hörn, så att det syns att det inte är en del av berättelsen.
+ */
+.explanation,
+.notice {
+  border-radius: 0.625rem;
 }
 
 

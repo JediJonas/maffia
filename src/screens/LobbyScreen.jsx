@@ -50,7 +50,7 @@ export function LobbyScreen({ view, host, sendAction, isEditingAvatar, setIsEdit
           </li>
         ))}
       </ul>
-      <p>{describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null })}</p>
+      <p className="explanation">{describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null })}</p>
       {host && (
         <div className="bottom-actions">
           <SettingsPanel settings={view.settings} playerCount={playerCount} onChange={host.changeSettings} />
