@@ -22,7 +22,7 @@ många varianter. Här är de klassiska reglerna och hur prototypen tolkar dem.
 | Gudfadern | Maffian | Leder maffian och väljer offer med den. Detektiven ser honom som oskyldig. |
 | Taxichaufför | Staden | Följer en spelare varje natt och får veta vem den besökte. |
 | Fönstertittare | Staden | Bevakar en spelare varje natt och får veta vilka som kom på besök. |
-| Bartender | Maffian | Bjuder en spelare på en drink varje natt, så att den misslyckas med sin uppgift. Vet inte vilka som är maffia. |
+| Bartender | Maffian | Bjuder en spelare på en drink varje natt, så att den misslyckas med sin uppgift. Vet inte vilka som är maffia. Han vinner om maffian vinner men räknas inte som maffia. |
 | Korvgubbe | Staden | Bjuder en spelare på en korv varje natt. Den får inte prata nästa dag, men får rösta. |
 | Borgmästare | Staden | Ingen nattroll. Rösten räknas två gånger och det syns för alla. |
 | Galningen | Sig själv | Ingen nattroll. Vinner bara om staden förvisar honom. |
@@ -47,8 +47,8 @@ svaret från natten då den blev mördad.
 Den som bartendern bjuder märker inget. Läkarens skydd misslyckas, detektiven
 får svaret "inte maffia", taxichauffören och fönstertittaren ser ingen och
 korvgubbens korv hamnar fel. Maffians mord går inte att stoppa. Bartendern
-räknas inte som maffia när detektiven undersöker henne eller när maffians
-antal räknas, och maffian kan mörda henne. Hon vinner om maffian vinner.
+räknas inte som maffia när detektiven undersöker honom eller när maffians
+antal räknas, och maffian kan mörda honom. Han vinner om maffian vinner.
 
 ## Gången i spelet
 
@@ -119,7 +119,7 @@ alla går att ändra i `src/game/rules.js`:
 - Döda spelares roller visas för alla, om Avslöja rollen är påslagen.
 - Läkaren får skydda sig själv, men inte samma spelare två nätter i rad.
 - Maffian kan inte välja en annan maffia som offer. Gudfadern räknas som
-  maffia, men bartendern gör det inte, så maffian kan mörda henne.
+  maffia, men bartendern gör det inte, så maffian kan mörda honom.
 - Den som väljer offer bland maffian går hem till offret och syns för
   fönstertittaren. Gudfadern räknas som en av dem.
 - Korven går inte till den som blev mördad samma natt. Den tystade visas för
