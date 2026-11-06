@@ -9,7 +9,7 @@ const NIGHT_QUESTIONS = {
   mafia: 'Ni väljer vem som ska dö i natt.',
   detective: 'Du väljer vem du ska skugga.',
   doctor: 'Du väljer vem du ska vaka över.',
-  citizen: 'I drömmen ser du den du misstänker mest.',
+  citizen: 'I drömmen väljer du en misstänkt.',
 };
 
 /** @type {Record<import('../game/types.js').Role, string | null>} */
