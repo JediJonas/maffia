@@ -23,6 +23,9 @@
   --block-gap: 1rem;
   --tag-overhang: 1.25rem;
   --bubble-overhang: 2.5rem;
+  /* Hur länge personraden och därefter pratbubblan dröjer (ägaren 2026-11-06). */
+  --person-delay: 1s;
+  --speech-delay: 0.6s;
   color-scheme: light;
 }
 
@@ -110,14 +113,15 @@ body {
 }
 
 /*
- * Knapparna ligger i botten, nära tummen, men sitter inte fast. Sidan fyller
- * minst skärmens höjd, och innehållet ovanför knapparna växer så att de hamnar
- * längst ner. Är innehållet högre än skärmen trycks knapparna ner och rullar med.
+ * Sidan går ända ut till skärmens kanter (viewport-fit=cover i index.html),
+ * så att rastret täcker även remsan under iPhones verktygsfält. Innehållet
+ * hålls innanför telefonens säkra marginaler. Nertill räknar main dem i sin
+ * egen luft, så att rastret fortsätter bakom.
  */
 #root {
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
 }
 
 main {
@@ -129,6 +133,23 @@ main {
   max-width: 32rem;
   margin: 0 auto;
   padding: 0.5rem 0.75rem max(1rem, env(safe-area-inset-bottom));
+}
+
+/*
+ * I mobilen ligger knapparna i botten, nära tummen, men sitter inte fast.
+ * Sidan fyller minst skärmens höjd, och innehållet ovanför knapparna växer
+ * så att de hamnar längst ner. Är innehållet högre än skärmen trycks
+ * knapparna ner och rullar med. Med mus står knapparna direkt under
+ * innehållet (ägaren 2026-11-06).
+ */
+@media (pointer: coarse) {
+  #root {
+    min-height: 100dvh;
+  }
+
+  .screen-content {
+    flex: 1 0 auto;
+  }
 }
 
 /* Plats längst ner när meddelanderutan visas, så att den inte täcker knapparna. */
@@ -145,10 +166,6 @@ main {
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
-}
-
-.screen-content {
-  flex: 1 0 auto;
 }
 
 .screen > .bottom-actions {
@@ -783,10 +800,28 @@ main section .person-text {
   top: calc(-1 * var(--bubble-overhang));
 }
 
-/* Pratbubblor dyker alltid upp en stund efter resten, som en replik. */
+/*
+ * Personraden kommer en stund efter resten av vyn, som nästa ruta i serien.
+ * Pratbubblor kommer en stund efter det, som en replik. Är figuren redan
+ * framme räknas bubblans tid från när bubblan ritas.
+ */
+.person-figure {
+  animation: person-appear 0.2s ease-out var(--person-delay) both;
+}
+
+@keyframes person-appear {
+  from {
+    opacity: 0;
+  }
+}
+
 .speech-bubble {
   transform-origin: 1rem 5.875rem;
-  animation: speech-pop 0.28s cubic-bezier(0.3, 1.5, 0.6, 1) 1.2s both;
+  animation: speech-pop 0.28s cubic-bezier(0.3, 1.5, 0.6, 1) var(--speech-delay) both;
+}
+
+.person-speech-with-figure {
+  animation-delay: calc(var(--person-delay) + var(--speech-delay));
 }
 
 @keyframes speech-pop {
@@ -1128,7 +1163,7 @@ main section .person-text {
   width: 100%;
   max-width: 32rem;
   margin: 0 auto;
-  padding: 2.25rem 0.75rem 1rem;
+  padding: 2.25rem 0.75rem max(1rem, env(safe-area-inset-bottom));
 }
 
 /* På breda skärmar håller sig texten och knapparna inom bilden. */

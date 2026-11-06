@@ -5,7 +5,7 @@ import { SettingsEditor } from './SettingsEditor.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
 import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { loadOrCreateAvatar, saveAvatar } from '../device/savedSession.js';
-import { writeListName } from './playerName.js';
+import { sortByName, writeListName } from './playerName.js';
 import { describeArrivals, describeLobbyStatus } from './lobbyText.js';
 
 /** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
@@ -52,7 +52,7 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
       <div className="screen-content">
         <h2>{describeArrivals(playerCount)}</h2>
         <ul className="player-list">
-          {view.players.map((player) => (
+          {sortByName(view.players).map((player) => (
             <li key={player.id}>
               <span className="player-name">
                 <PlayerAvatar player={player} />

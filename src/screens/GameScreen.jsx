@@ -13,7 +13,8 @@ import { LeaveIcon } from './LeaveIcon.jsx';
 import { LeaveDialog } from './LeaveDialog.jsx';
 import { RoomQrCode } from './RoomQrCode.jsx';
 import { ScenePanel } from '../scenes/ScenePanel.jsx';
-import { describeScene } from '../scenes/describeScene.js';
+import { describeScene, listUpcomingImages } from '../scenes/describeScene.js';
+import { usePreloadImages } from '../scenes/usePreloadImages.js';
 import { useScrollToTop } from './scrollToTop.js';
 
 /** @type {Partial<Record<import('./LobbyScreen.jsx').LobbyPanel, string>>} */
@@ -38,6 +39,7 @@ export function GameScreen({ connection, roomCode, onLeave }) {
   const showsRole = isRoleShown && view?.phase === 'roleReveal';
   const scene = view && shownPanel === 'players' && describeScene(view, Boolean(host), showsRole);
   useScrollToTop(`${view?.phase}-${shownPanel}-${showsRole}`);
+  usePreloadImages(view ? listUpcomingImages(view) : []);
 
   return (
     <>

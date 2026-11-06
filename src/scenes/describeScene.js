@@ -47,13 +47,9 @@ export function describeScene(view, isHost, isRoleShown = false) {
         return scene(ROLE_IMAGES[view.me.role], 'Bara du får se det här.', `Du är ${ROLE_INFO[view.me.role].name.toLowerCase()}.`);
       }
       return scene('roleHidden', 'Det är dags.', 'Din roll ligger i akten.');
-    case 'night': {
-      // Den som är ute ur spelet ser stadsbons bild, så att ingen ser vilken
-      // roll den hade, men utan "… och så även du", eftersom den inte är med.
-      if (!view.me.isAlive || !view.me.role) return scene(NIGHT_SCENES.citizen.image, 'Staden sover …', null);
-      const night = NIGHT_SCENES[view.me.role];
-      return scene(night.image, 'Staden sover …', night.bottomCaption);
-    }
+    case 'night':
+      // Den som är ute ur spelet ser stadsbons bild, men utan "… och så även du", eftersom den inte är med.
+      return scene(chooseNightImage(view.me), 'Staden sover …', isInGame(view.me) ? NIGHT_SCENES[view.me.role].bottomCaption : null);
     case 'day': {
       const killedId = view.lastNight?.killedId ?? null;
       if (!killedId) return scene('morningNoMurder', 'Staden vaknar …', 'Ingen blev mördad.');
@@ -71,6 +67,49 @@ export function describeScene(view, isHost, isRoleShown = false) {
     default:
       return null;
   }
+}
+
+/**
+ * Bilderna som nästa fas kan visa. De hämtas i förväg, så att bildrutan inte
+ * blinkar till tom medan bilden laddas när fasen byts. Bara nästa fas, inte
+ * hela spelets bilder, så att den som har dåligt nät inte hämtar i onödan.
+ * @param {Pick<PlayerView, 'phase' | 'me'>} view
+ * @returns {SceneImageKey[]}
+ */
+export function listUpcomingImages(view) {
+  switch (view.phase) {
+    case 'lobby':
+      return ['roleHidden'];
+    case 'roleReveal':
+      return view.me.role ? [ROLE_IMAGES[view.me.role], chooseNightImage(view.me)] : [];
+    case 'night':
+      return ['morningMurder', 'morningNoMurder'];
+    case 'day':
+      return ['verdict'];
+    case 'verdict':
+      return [chooseNightImage(view.me), 'mafiaWins', 'townWins'];
+    case 'gameOver':
+      return ['lobby', 'roleHidden'];
+    default:
+      return [];
+  }
+}
+
+/**
+ * @param {PlayerView['me']} me
+ * @returns {me is PlayerView['me'] & { role: import('../game/types.js').Role }}
+ */
+function isInGame(me) {
+  return me.isAlive && me.role !== null;
+}
+
+/**
+ * Den som är ute ur spelet ser stadsbons bild, så att ingen ser vilken roll den hade.
+ * @param {PlayerView['me']} me
+ * @returns {SceneImageKey}
+ */
+function chooseNightImage(me) {
+  return isInGame(me) ? NIGHT_SCENES[me.role].image : NIGHT_SCENES.citizen.image;
 }
 
 /**

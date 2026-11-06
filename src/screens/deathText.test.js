@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { describeDeath, isPleaShown } from './deathText.js';
+import { describeDeath, writeLastWords } from './deathText.js';
 
 const cissi = { id: 'p3', name: 'Cissi', isAlive: false, isConnected: true, avatar: null, revealedRole: /** @type {const} */ ('citizen') };
 
@@ -17,12 +17,16 @@ describe('describeDeath', () => {
   });
 });
 
-describe('isPleaShown', () => {
-  it('låter den förvisade tala när rollen har visats', () => {
-    expect(isPleaShown(cissi)).toBe(true);
+describe('writeLastWords', () => {
+  it('låter den förvisade säga sig vara oskyldig när rollen har visats', () => {
+    expect(writeLastWords(cissi)).toEqual(['Jag är', 'oskyldig!']);
+  });
+
+  it('låter maffian hota', () => {
+    expect(writeLastWords({ ...cissi, revealedRole: 'mafia' })).toEqual(['Ni kommer', 'ångra er!']);
   });
 
   it('håller tyst medan rollen är hemlig, och när den aldrig visas', () => {
-    expect(isPleaShown({ ...cissi, revealedRole: null })).toBe(false);
+    expect(writeLastWords({ ...cissi, revealedRole: null })).toBeNull();
   });
 });

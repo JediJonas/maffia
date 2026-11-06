@@ -1,4 +1,5 @@
 // @ts-check
+import { sortByName } from './playerName.js';
 import { SKIP_VOTE } from '../game/rules.js';
 import { capitalize, writeNumber } from '../game/numberWords.js';
 import { describeDeath } from './deathText.js';
@@ -22,7 +23,7 @@ export function DayScreen({ view, sendAction }) {
   const living = view.players.filter((p) => p.isAlive);
   const votesFor = (/** @type {string} */ id) => Object.values(view.dayVotes).filter((target) => target === id).length;
   // Röster på en själv syns också, men man kan inte rösta på sig själv.
-  const listed = living.filter((p) => p.id !== view.me.id || votesFor(p.id) > 0);
+  const listed = sortByName(living).filter((p) => p.id !== view.me.id || votesFor(p.id) > 0);
   const progress = capitalize(`${writeNumber(votedCount)} av ${writeNumber(living.length)} har röstat`);
   /** @param {import('../game/playerView.js').PublicPlayer} player */
   const describeVotes = (player) => describeVoteCount(votesFor(player.id));
