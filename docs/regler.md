@@ -44,13 +44,25 @@ svaret från natten då den blev mördad.
 
 ### Bartendern
 
-Den som bartendern bjuder märker inget. Läkarens skydd misslyckas, detektiven
-får svaret "inte maffia", taxichauffören och fönstertittaren ser ingen och
-korvgubben får inte bjuda på någon korv. Bjuder bartendern någon i maffian
-blir ingen mördad den natten, eftersom maffian väljer tillsammans. Bartendern
-vet inte vilka som är maffia och kan alltså stoppa sitt eget lag. Bartendern
-räknas inte som maffia när detektiven undersöker honom eller när maffians
-antal räknas, och maffian kan mörda honom. Han vinner om maffian vinner.
+Den som bartendern bjuder på en drink märker inget, men misslyckas med sin
+uppgift den natten:
+
+- **Maffian eller gudfadern:** ingen blir mördad. Det räcker att en i maffian
+  får drinken, eftersom maffian väljer tillsammans. Bartendern vet inte vilka
+  som är maffia och kan alltså stoppa sitt eget lag.
+- **Läkaren:** skyddet misslyckas, så offret dör ändå.
+- **Detektiven:** får svaret "inte maffia", oavsett vem som undersöktes.
+- **Taxichauffören och fönstertittaren:** svaret blir "ingen".
+- **Korvgubben:** ingen får korv av korvgubben, så alla får prata nästa dag.
+- **Borgmästaren, galningen och stadsbor:** ingen skillnad, de gör inget på
+  natten.
+
+Den som fick drinken går ändå hem till sitt mål och kan synas för
+taxichauffören och fönstertittaren.
+
+Bartendern räknas inte som maffia när detektiven undersöker honom eller när
+maffians antal räknas, och maffian kan mörda honom. Han vinner om maffian
+vinner.
 
 ## Gången i spelet
 
