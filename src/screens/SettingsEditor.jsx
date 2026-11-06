@@ -1,5 +1,6 @@
 // @ts-check
 import { MAX_PLAYERS, MIN_PLAYERS } from '../game/roles.js';
+import { MAX_BOTS } from '../game/bots.js';
 import { MAFIA_COUNT_CHOICES, findSettingsProblem, stepMafiaCount } from '../game/settings.js';
 import { ListCard } from './ListCard.jsx';
 import { describeLobbyStatus } from './lobbyText.js';
@@ -48,7 +49,7 @@ export function SettingsEditor({ settings, playerCount, botCount, onChange, onAd
             <span className="stepper">
               <button type="button" aria-label="Färre botar" disabled={botCount === 0} onClick={onRemoveBot}>‹</button>
               <span className="stepper-value" aria-live="polite">{botCount}</span>
-              <button type="button" aria-label="Fler botar" disabled={playerCount >= MAX_PLAYERS} onClick={onAddBot}>›</button>
+              <button type="button" aria-label="Fler botar" disabled={botCount >= MAX_BOTS || playerCount >= MAX_PLAYERS} onClick={onAddBot}>›</button>
             </span>
           </li>
           {SWITCHES.map(([key, label]) => (

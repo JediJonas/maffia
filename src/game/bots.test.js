@@ -1,6 +1,6 @@
 // @ts-check
 import { describe, expect, it } from 'vitest';
-import { addBot, chooseBotAction, findNextBotMove, listBots, pickBotName, removeLastBot } from './bots.js';
+import { MAX_BOTS, addBot, chooseBotAction, findNextBotMove, listBots, pickBotName, removeLastBot } from './bots.js';
 import {
   RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, endVerdict, listNightTargets, startGame,
 } from './rules.js';
@@ -53,6 +53,13 @@ describe('botar i lobbyn', () => {
     state = removeLastBot(state);
     expect(() => removeLastBot(state)).toThrow(RuleError);
     expect(state.players.map((p) => p.id)).toEqual(['h']);
+  });
+
+  it('tillåter högst tre botar', () => {
+    let state = addPlayer(createGame(), { id: 'h', name: 'Anna' });
+    for (let i = 1; i <= MAX_BOTS; i++) state = addBot(state, `b${i}`, Math.random);
+    expect(MAX_BOTS).toBe(3);
+    expect(() => addBot(state, 'b4', Math.random)).toThrow(RuleError);
   });
 
   it('tar ett reservnamn när alla namn är tagna', () => {

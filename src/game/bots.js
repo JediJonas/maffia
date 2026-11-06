@@ -16,6 +16,10 @@ const BOT_NAMES = [
   'Gunnar', 'Viola', 'Ragnar', 'Inez', 'Tore', 'Maud', 'Olof', 'Siri',
 ];
 
+// Botar kan inte prata, så fler än tre gör spelet till ett lotteri.
+// Beslutat av Jonas 2026-11-06.
+export const MAX_BOTS = 3;
+
 /**
  * @param {GameState} state
  * @returns {Player[]}
@@ -43,6 +47,7 @@ export function pickBotName(state) {
  * @returns {GameState}
  */
 export function addBot(state, botId, random) {
+  if (listBots(state).length >= MAX_BOTS) throw new RuleError(`Det får vara högst ${MAX_BOTS} botar.`);
   return addPlayer(state, { id: botId, name: pickBotName(state), avatar: createRandomAvatar(random), isBot: true });
 }
 
