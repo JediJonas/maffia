@@ -19,6 +19,7 @@
  * @property {Role | null} role Saknas tills spelet har startat.
  * @property {boolean} isAlive
  * @property {boolean} isConnected
+ * @property {boolean} [isBot] Styrs av värdens telefon. Saknas i spel som sparades innan botarna fanns.
  * @property {import('../avatar/avatarParts.js').Avatar | null} avatar Null när telefonen inte skickade någon giltig avatar.
  */
 

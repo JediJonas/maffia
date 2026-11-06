@@ -5,6 +5,7 @@ import { SettingsEditor } from './SettingsEditor.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
 import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { loadOrCreateAvatar, saveAvatar } from '../device/savedSession.js';
+import { writeListName } from './playerName.js';
 import { describeArrivals, describeLobbyStatus } from './lobbyText.js';
 
 /** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
@@ -34,7 +35,17 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
     return <MyAvatarEditor view={view} sendAction={sendAction} onClose={() => setPanel('players')} />;
   }
   if (panel === 'settings' && host) {
-    return <SettingsEditor settings={view.settings} playerCount={playerCount} onChange={host.changeSettings} onClose={() => setPanel('players')} />;
+    return (
+      <SettingsEditor
+        settings={view.settings}
+        playerCount={playerCount}
+        botCount={view.players.filter((p) => p.isBot).length}
+        onChange={host.changeSettings}
+        onAddBot={host.addBot}
+        onRemoveBot={host.removeBot}
+        onClose={() => setPanel('players')}
+      />
+    );
   }
   return (
     <section aria-labelledby="phase-title">
@@ -44,7 +55,7 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
           <li key={player.id}>
             <span className="player-name">
               <PlayerAvatar player={player} />
-              <span>{player.name}</span>
+              <span>{writeListName(player)}</span>
             </span>
             <PlayerRowAction
               player={player}

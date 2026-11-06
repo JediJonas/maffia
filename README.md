@@ -34,6 +34,10 @@ varje gång något hamnar i main.
   värden talar, och bara om sådant som alla får veta. Stängs av bland
   inställningarna i lobbyn. Lägg till `?debug=1` i adressen för en
   felsökningslogg i telefonen.
+- **Botar.** Värden kan lägga till datorstyrda spelare under Inställningar,
+  till exempel för att nå fyra spelare. Botarna körs i värdens telefon med
+  samma regler som alla andra (`src/game/bots.js`, `src/host/useBots.js`)
+  och står med "(bot)" efter namnet i listorna.
 - **Avatarer.** Svartvita, som stilen är ritad. Varje telefon slumpar en
   avatar som sparas till nästa spel, och i lobbyn kan man ändra den del för
   del. Bara valen skickas, som `{ hair: 'variant12', ... }`, och värden

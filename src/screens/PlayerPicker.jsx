@@ -1,5 +1,6 @@
 // @ts-check
 import { PlayerAvatar } from './PlayerAvatar.jsx';
+import { writeListName } from './playerName.js';
 
 /** @typedef {import('../game/playerView.js').PublicPlayer} PublicPlayer */
 
@@ -25,7 +26,7 @@ export function PlayerPicker({ players, selectableIds = [], selectedId = null, o
           <>
             <span className="player-name">
               <PlayerAvatar player={player} isDead={isShownDead} />
-              <span className={isShownDead ? 'dead' : ''}>{player.name}</span>
+              <span className={isShownDead ? 'dead' : ''}>{writeListName(player)}</span>
             </span>
             {detail && <span className="picker-detail">{detail}</span>}
           </>
