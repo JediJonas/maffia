@@ -43,6 +43,7 @@ varje gång något hamnar i main.
 - `src/network/` PeerJS för värd och spelare
 - `src/host/` och `src/player/` React-hookar som kopplar ihop regler och nätverk
 - `src/screens/` vyerna
+- `src/scenes/` bildrutan överst: bilderna och vad rutan visar i varje fas
 - `src/device/` telefonens funktioner: skärmlås, vibration, talsyntes och sparad session
 - `src/avatar/` avatarens delar och hur den ritas
 

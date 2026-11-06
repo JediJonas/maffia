@@ -62,7 +62,7 @@ export function App() {
 function HostGame({ session, onLeave }) {
   const connection = useHostGame(session.roomCode, session.name, session.avatar);
   useNarratorVoice(connection.view);
-  return <GameScreen connection={connection} onLeave={onLeave} />;
+  return <GameScreen connection={connection} roomCode={session.roomCode} onLeave={onLeave} />;
 }
 
 /**
@@ -73,5 +73,5 @@ function HostGame({ session, onLeave }) {
  */
 function PlayerGame({ session, onLeave, onRejected }) {
   const connection = useRemoteGame({ ...session, onRejected });
-  return <GameScreen connection={connection} onLeave={onLeave} />;
+  return <GameScreen connection={connection} roomCode={session.roomCode} onLeave={onLeave} />;
 }
