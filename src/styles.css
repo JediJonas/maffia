@@ -41,8 +41,11 @@
 /*
  * Startsidans bild slutar vid den lilla visningsytan (dvh). Under Safaris
  * verktygsfält syns då sidan bakom, och där ska det vara svart, inte raster.
+ * Innan skriptet har ritat något är #root tom. Då är sidan också svart, så att
+ * rastret inte blinkar till när startsidan laddas.
  */
-:root:has(.start-page) {
+:root:has(.start-page),
+:root:has(#root:empty) {
   --raster: none;
   background: var(--start-black);
 }
