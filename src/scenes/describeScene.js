@@ -48,8 +48,10 @@ export function describeScene(view, isHost, isRoleShown = false) {
       }
       return scene('roleHidden', 'Det är dags.', 'Din roll ligger i akten.');
     case 'night': {
-      // Den som är ute ur spelet sover, så att ingen ser vilken roll den hade.
-      const night = view.me.isAlive && view.me.role ? NIGHT_SCENES[view.me.role] : NIGHT_SCENES.citizen;
+      // Den som är ute ur spelet ser stadsbons bild, så att ingen ser vilken
+      // roll den hade, men utan "… och så även du", eftersom den inte är med.
+      if (!view.me.isAlive || !view.me.role) return scene(NIGHT_SCENES.citizen.image, 'Staden sover …', null);
+      const night = NIGHT_SCENES[view.me.role];
       return scene(night.image, 'Staden sover …', night.bottomCaption);
     }
     case 'day': {
@@ -74,7 +76,7 @@ export function describeScene(view, isHost, isRoleShown = false) {
 /**
  * @param {SceneImageKey} image
  * @param {string} topCaption
- * @param {string} bottomCaption
+ * @param {string | null} bottomCaption
  * @returns {Scene}
  */
 function scene(image, topCaption, bottomCaption) {

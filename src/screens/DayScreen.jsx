@@ -1,12 +1,15 @@
 // @ts-check
-import { ROLE_INFO } from '../game/roles.js';
-import { LARGE_AVATAR_PX, PlayerAvatar } from './PlayerAvatar.jsx';
 import { SKIP_VOTE } from '../game/rules.js';
+import { capitalize, writeNumber } from '../game/numberWords.js';
+import { describeDeath } from './deathText.js';
+import { DetectiveFile } from './DetectiveFile.jsx';
+import { ListCard } from './ListCard.jsx';
+import { PersonRow } from './PersonRow.jsx';
 import { PlayerPicker } from './PlayerPicker.jsx';
-import { SecretCard } from './SecretCard.jsx';
-import { VoteTally } from './VoteTally.jsx';
 
 /**
+ * Morgonen och omröstningen. Röstläget står i listan, så att det syns
+ * vem som har flest röster medan man väljer.
  * @param {object} props
  * @param {import('../game/playerView.js').PlayerView} props.view
  * @param {(action: import('../game/types.js').PlayerAction) => void} props.sendAction
@@ -15,74 +18,66 @@ export function DayScreen({ view, sendAction }) {
   const myVote = view.dayVotes[view.me.id] ?? null;
   const votedCount = Object.keys(view.dayVotes).length;
   const living = view.players.filter((p) => p.isAlive);
+  const votesFor = (/** @type {string} */ id) => Object.values(view.dayVotes).filter((target) => target === id).length;
+  // Röster på en själv syns också, men man kan inte rösta på sig själv.
+  const listed = living.filter((p) => p.id !== view.me.id || votesFor(p.id) > 0);
+  const progress = capitalize(`${writeNumber(votedCount)} av ${writeNumber(living.length)} har röstat`);
+  /** @param {import('../game/playerView.js').PublicPlayer} player */
+  const describeVotes = (player) => describeVoteCount(votesFor(player.id));
 
   return (
     <section aria-labelledby="phase-title">
       <MorningNews view={view} />
-      <Investigations view={view} />
-      <VoteTally view={view} />
+      {view.investigations.length > 0 && <DetectiveFile key={view.round} view={view} />}
       {view.me.isAlive ? (
         <>
-          <p>Rösta på den ni tror är maffia. Du kan ändra dig tills alla har röstat.</p>
-          <PlayerPicker
-            players={view.players}
-            selectableIds={living.filter((p) => p.id !== view.me.id).map((p) => p.id)}
-            selectedId={myVote}
-            onSelect={(targetId) => sendAction({ type: 'vote', targetId })}
-          />
-          <button
-            type="button"
-            className="secondary"
-            aria-pressed={myVote === SKIP_VOTE}
-            onClick={() => sendAction({ type: 'vote', targetId: SKIP_VOTE })}
-          >
-            Avstå från att rösta
-          </button>
+          <ListCard lead="Någon av er ljuger. Rösta om vem som ska förvisas." tag={progress}>
+            <PlayerPicker
+              players={listed}
+              selectableIds={living.filter((p) => p.id !== view.me.id).map((p) => p.id)}
+              selectedId={myVote}
+              onSelect={(targetId) => sendAction({ type: 'vote', targetId })}
+              describe={describeVotes}
+            />
+          </ListCard>
+          <div className="bottom-actions">
+            <button
+              type="button"
+              className="secondary"
+              aria-pressed={myVote === SKIP_VOTE}
+              onClick={() => sendAction({ type: 'vote', targetId: SKIP_VOTE })}
+            >
+              Avstå från att rösta
+            </button>
+          </div>
         </>
       ) : (
-        <p>Du är ute ur spelet och får inte rösta eller prata.</p>
+        <>
+          <ListCard lead="Staden röstar. Du kan bara se på." tag={progress}>
+            <PlayerPicker players={listed} describe={describeVotes} />
+          </ListCard>
+          <p>Du är borta nu. Se på, men säg inget.</p>
+        </>
       )}
-      <p className="muted">{votedCount} av {living.length} har röstat.</p>
     </section>
   );
 }
 
 /**
- * Bara detektiven har resultat. Visas som rollkortet, så att grannen inte läser med.
- * @param {{ view: import('../game/playerView.js').PlayerView }} props
+ * @param {number} count
+ * @returns {string | null} Null när ingen har röstat på spelaren.
  */
-function Investigations({ view }) {
-  if (!view.investigations.length) return null;
-  const nameOf = (/** @type {string} */ id) => view.players.find((p) => p.id === id)?.name;
-  const describe = (/** @type {import('../game/types.js').Investigation} */ result) =>
-    `${nameOf(result.targetId)} ${result.isMafia ? 'är maffia' : 'är inte maffia'}`;
-  const latest = view.investigations[view.investigations.length - 1];
-  const earlier = view.investigations.slice(0, -1);
-  return (
-    // Nyckeln vänder tillbaka kortet varje ny dag.
-    <SecretCard key={latest.round} revealLabel="Tryck för att se vad din undersökning visade">
-      <p className="secret-headline">{describe(latest)}.</p>
-      {earlier.length > 0 && (
-        <ul className="earlier-results">
-          {earlier.map((result) => <li key={result.round}>Natt {result.round}: {describe(result)}.</li>)}
-        </ul>
-      )}
-    </SecretCard>
-  );
+function describeVoteCount(count) {
+  if (count === 0) return null;
+  return count === 1 ? '1 röst' : `${count} röster`;
 }
 
 /**
- * Nattens offer, med rollen direkt när roller visas vid död.
+ * Nattens offer som en personrad, med rollen direkt när roller visas vid död.
  * @param {{ view: import('../game/playerView.js').PlayerView }} props
  */
 function MorningNews({ view }) {
   const killed = view.players.find((p) => p.id === view.lastNight?.killedId);
-  if (!killed) return null;
-  return (
-    <div className="secret-card verdict-card">
-      <PlayerAvatar player={killed} sizePx={LARGE_AVATAR_PX} isDead />
-      <p className="secret-headline">{killed.id === view.me.id ? 'Du' : killed.name} blev mördad</p>
-      {killed.revealedRole && <p>{killed.name} var {ROLE_INFO[killed.revealedRole].name.toLowerCase()}.</p>}
-    </div>
-  );
+  if (!killed) return <p>Någon vakade över staden i natt. Men maffian finns kvar.</p>;
+  return <PersonRow player={killed} text={describeDeath(killed, view.me.id, 'mördad i natt')} />;
 }

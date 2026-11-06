@@ -26,7 +26,7 @@ describe('describeScene', () => {
     const morning = playNight(night, { p2: 'p4', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
     const nextNight = playDay(morning, { p1: 'p3', p2: 'p3', p3: 'p1', p5: 'p3' });
     const detectiveIsOut = { ...nextNight, phase: 'night' };
-    expect(describeScene(buildPlayerView(detectiveIsOut, 'p4'), false)).toMatchObject({ image: 'nightCitizen' });
+    expect(describeScene(buildPlayerView(detectiveIsOut, 'p4'), false)).toMatchObject({ image: 'nightCitizen', bottomCaption: null });
   });
 
   it('berättar på morgonen vem som blev mördad, och säger du till offret', () => {

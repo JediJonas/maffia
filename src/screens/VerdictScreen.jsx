@@ -1,9 +1,13 @@
 // @ts-check
-import { ROLE_INFO } from '../game/roles.js';
-import { LARGE_AVATAR_PX, PlayerAvatar } from './PlayerAvatar.jsx';
 import { ROLE_REVEAL_DELAY_MS, VERDICT_PAUSE_MS } from '../game/deathReveal.js';
+import { SKIP_VOTE } from '../game/rules.js';
+import { tallyVotes } from '../game/voteTally.js';
+import { capitalize, writeNumber } from '../game/numberWords.js';
 import { Countdown } from './Countdown.jsx';
-import { VoteTally } from './VoteTally.jsx';
+import { describeDeath } from './deathText.js';
+import { ListCard } from './ListCard.jsx';
+import { PersonRow } from './PersonRow.jsx';
+import { PlayerPicker } from './PlayerPicker.jsx';
 
 /**
  * Pausen efter omröstningen, så att alla hinner se utfallet. Spelet går
@@ -12,24 +16,37 @@ import { VoteTally } from './VoteTally.jsx';
  */
 export function VerdictScreen({ view }) {
   const executed = view.players.find((p) => p.id === view.lastDay?.executedId);
+  const rows = tallyVotes(view.dayVotes, view.players.map((p) => p.id));
+  const nameOf = (/** @type {string} */ id) => view.players.find((p) => p.id === id)?.name ?? '';
+  const voted = rows.filter((row) => row.targetId !== SKIP_VOTE);
+  const skipCount = rows.find((row) => row.targetId === SKIP_VOTE)?.voterIds.length ?? 0;
+  /** @param {import('../game/playerView.js').PublicPlayer} player */
+  const describeVoters = (player) => voted.find((row) => row.targetId === player.id)?.voterIds.map(nameOf).join(', ') ?? null;
+
   return (
     <section aria-labelledby="phase-title">
-      <div className="secret-card verdict-card">
-        {executed ? (
-          <>
-            <PlayerAvatar player={executed} sizePx={LARGE_AVATAR_PX} isDead />
-            <p className="secret-headline">{executed.id === view.me.id ? 'Du' : executed.name} blev förvisad</p>
-            {executed.revealedRole && <p>{executed.name} var {ROLE_INFO[executed.revealedRole].name.toLowerCase()}.</p>}
-            {view.isRoleRevealPending && <Countdown durationMs={ROLE_REVEAL_DELAY_MS} label="Rollen visas om" />}
-          </>
-        ) : (
-          <p className="secret-headline">Ingen blev förvisad</p>
-        )}
-      </div>
-      <VoteTally view={view} title="Så röstade staden" />
+      {executed && (
+        <PersonRow
+          player={executed}
+          speech={<>Jag är<br />oskyldig!</>}
+          text={view.isRoleRevealPending
+            ? <Countdown durationMs={ROLE_REVEAL_DELAY_MS} label="Rollen visas om" />
+            : describeDeath(executed, view.me.id, 'förvisad')}
+        />
+      )}
+      {voted.length > 0 ? (
+        <ListCard lead="Så röstade staden." tag={skipCount ? capitalize(`${writeNumber(skipCount)} avstod`) : null}>
+          <PlayerPicker
+            players={voted.map((row) => view.players.find((p) => p.id === row.targetId)).filter((p) => p !== undefined)}
+            describe={describeVoters}
+            showsDead={false}
+          />
+        </ListCard>
+      ) : (
+        <p>Alla avstod från att rösta.</p>
+      )}
       {/* Samma text oavsett om spelet är avgjort, så att ingen ser resultatet i förväg. */}
-      {!view.isRoleRevealPending && <Countdown durationMs={VERDICT_PAUSE_MS} label="Spelet fortsätter om" />}
+      {!view.isRoleRevealPending && <p><Countdown durationMs={VERDICT_PAUSE_MS} label="Natten faller om" /></p>}
     </section>
   );
 }
-

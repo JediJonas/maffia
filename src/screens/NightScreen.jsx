@@ -1,17 +1,27 @@
 // @ts-check
 import { PlayerPicker } from './PlayerPicker.jsx';
+import { ListCard } from './ListCard.jsx';
+import { PersonRow } from './PersonRow.jsx';
 import { capitalize, writeNumber } from '../game/numberWords.js';
 
 /** @type {Record<import('../game/types.js').Role, string>} */
-const NIGHT_INSTRUCTIONS = {
-  mafia: 'Välj vem maffian ska mörda. Ni måste välja samma person.',
-  detective: 'Välj vem du vill undersöka. Svaret får du när staden vaknar.',
-  doctor: 'Välj vem du vill skydda i natt.',
-  citizen: 'Välj vem du misstänker mest.',
+const NIGHT_QUESTIONS = {
+  mafia: 'Välj vem som ska mördas.',
+  detective: 'Vem vill du undersöka?',
+  doctor: 'Vem vill du skydda i natt?',
+  citizen: 'Vem misstänker du mest?',
+};
+
+/** @type {Record<import('../game/types.js').Role, string | null>} */
+const NIGHT_NOTES = {
+  mafia: null,
+  detective: 'Svaret får du när staden vaknar.',
+  doctor: 'Du får inte skydda samma person två nätter i rad.',
+  citizen: 'Ditt val räknas inte, men alla väljer så att ingen kan se vem som är vaken och vem som sover.',
 };
 
 /**
- * Alla levande gör ett val, även stadsbo, så att ingen avslöjas av att
+ * Alla levande gör ett val, även stadsbor, så att ingen avslöjas av att
  * sitta still med telefonen. Stadsbons val används inte. Ett tryck är
  * valet, och natten tar slut av sig själv när alla har valt.
  * @param {object} props
@@ -19,45 +29,58 @@ const NIGHT_INSTRUCTIONS = {
  * @param {(action: import('../game/types.js').PlayerAction) => void} props.sendAction
  */
 export function NightScreen({ view, sendAction }) {
-  const progress = <p className="muted">{describeNightProgress(view)}</p>;
-  if (!view.me.isAlive) {
+  const progress = capitalize(`${writeNumber(view.nightChosenCount)} av ${writeNumber(view.livingCount)} är klara`);
+  if (!view.me.isAlive || !view.me.role) {
     return (
       <section aria-labelledby="phase-title">
         <p>Du är ute ur spelet. Håll tyst och vänta på morgonen.</p>
-        {progress}
+        <p>{progress}.</p>
       </section>
     );
   }
 
-  const nameOf = (/** @type {string | null} */ id) => view.players.find((p) => p.id === id)?.name;
+  const isMafia = view.me.role === 'mafia';
+  const nameOf = (/** @type {string | null} */ id) => view.players.find((p) => p.id === id)?.name ?? '';
   /** @param {import('../game/playerView.js').PublicPlayer} player */
   function describeTeamChoices(player) {
     const choosers = view.mafiaTeam.filter((m) => m.choiceId === player.id).map((m) => nameOf(m.id));
-    return choosers.length ? `vald av ${choosers.join(', ')}` : null;
+    return choosers.length ? choosers.join(', ') : null;
   }
+  const note = NIGHT_NOTES[view.me.role];
 
   return (
     <section aria-labelledby="phase-title">
-      <p>{view.me.role && NIGHT_INSTRUCTIONS[view.me.role]}</p>
-      <PlayerPicker
-        players={view.players}
-        selectableIds={view.nightTargetIds}
-        selectedId={view.myNightChoice}
-        onSelect={(targetId) => sendAction({ type: 'nightChoice', targetId })}
-        describe={view.mafiaTeam.length ? describeTeamChoices : undefined}
-      />
-      {view.mafiaTeam.length > 0 && view.myNightChoice && (
-        <p>{view.hasMafiaAgreed ? 'Ni är överens.' : 'Ni har valt olika.'}</p>
-      )}
-      {progress}
+      <ListCard lead={NIGHT_QUESTIONS[view.me.role]} tag={isMafia ? describeMafiaTag(view) ?? progress : progress}>
+        <PlayerPicker
+          players={view.players.filter((p) => view.nightTargetIds.includes(p.id))}
+          selectableIds={view.nightTargetIds}
+          selectedId={view.myNightChoice}
+          onSelect={(targetId) => sendAction({ type: 'nightChoice', targetId })}
+          describe={isMafia ? describeTeamChoices : undefined}
+        />
+      </ListCard>
+      {note && <p>{note}</p>}
+      {view.mafiaTeam.map((teammate) => {
+        const player = view.players.find((p) => p.id === teammate.id);
+        if (!player) return null;
+        return (
+          <PersonRow
+            key={teammate.id}
+            player={player}
+            text={`${player.name} är med dig.`}
+            speech={teammate.choiceId && <>Jag väljer<br />{nameOf(teammate.choiceId)}.</>}
+          />
+        );
+      })}
     </section>
   );
 }
 
 /**
  * @param {import('../game/playerView.js').PlayerView} view
- * @returns {string} Till exempel "Tre av fem har valt."
+ * @returns {string | null} Om maffian är överens, när jag har valt.
  */
-function describeNightProgress(view) {
-  return capitalize(`${writeNumber(view.nightChosenCount)} av ${writeNumber(view.livingCount)} har valt.`);
+function describeMafiaTag(view) {
+  if (!view.myNightChoice || !view.mafiaTeam.length) return null;
+  return view.hasMafiaAgreed ? 'Ni är överens' : 'Ni har valt olika';
 }
