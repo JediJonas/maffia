@@ -4,7 +4,7 @@ import { SKIP_VOTE } from '../game/rules.js';
 import { tallyVotes } from '../game/voteTally.js';
 import { capitalize, writeNumber } from '../game/numberWords.js';
 import { Countdown } from './Countdown.jsx';
-import { describeDeath } from './deathText.js';
+import { describeDeath, isPleaShown } from './deathText.js';
 import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
 import { PlayerPicker } from './PlayerPicker.jsx';
@@ -28,7 +28,8 @@ export function VerdictScreen({ view }) {
       {executed && (
         <PersonRow
           player={executed}
-          speech={<>Jag är<br />oskyldig!</>}
+          speech={isPleaShown(executed) && <>Jag är<br />oskyldig!</>}
+          reservesSpeech={view.settings.revealsRoleOnDeath}
           text={view.isRoleRevealPending
             ? <Countdown durationMs={ROLE_REVEAL_DELAY_MS} label="Rollen visas om" />
             : describeDeath(executed, view.me.id, 'förvisad')}

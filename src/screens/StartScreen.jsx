@@ -67,23 +67,25 @@ function JoinForm({ initialRoomCode, message, onJoin, onBack }) {
 
   return (
     <FormPage title="Gå med" image="join" topCaption="Någon väntar på dig …">
-      <form onSubmit={submit} className="form-page">
-        <p className="explanation">Skriv koden från värdens skärm och ditt namn.</p>
-        <div className="form-table">
-          <label className="form-row">
-            <span>Kod</span>
-            <input
-              id="room-code"
-              value={roomCodeInput}
-              autoCapitalize="characters"
-              autoComplete="off"
-              onChange={(event) => setRoomCodeInput(event.target.value)}
-              onBlur={scrollToTopWhenDoneTyping}
-            />
-          </label>
-          <NameRow value={name} onChange={setName} />
+      <form onSubmit={submit} className="form-page screen">
+        <div className="screen-content">
+          <p className="explanation">Skriv koden från värdens skärm och ditt namn.</p>
+          <div className="form-table">
+            <label className="form-row">
+              <span>Kod</span>
+              <input
+                id="room-code"
+                value={roomCodeInput}
+                autoCapitalize="characters"
+                autoComplete="off"
+                onChange={(event) => setRoomCodeInput(event.target.value)}
+                onBlur={scrollToTopWhenDoneTyping}
+              />
+            </label>
+            <NameRow value={name} onChange={setName} />
+          </div>
+          {(error ?? message) && <p className="notice" role="alert">{error ?? message}</p>}
         </div>
-        {(error ?? message) && <p className="notice" role="alert">{error ?? message}</p>}
         <div className="bottom-actions">
           <button type="button" className="secondary" onClick={onBack}>Tillbaka</button>
           <button type="submit" className="primary">Gå med</button>
@@ -112,12 +114,14 @@ function CreateForm({ onCreate, onBack }) {
 
   return (
     <FormPage title="Nytt spel" image="create" topCaption="Du samlar gänget.">
-      <form onSubmit={submit} className="form-page">
-        <p className="explanation">Du håller i trådarna, men spelar som alla andra. Inställningarna väljer du i lobbyn.</p>
-        <div className="form-table">
-          <NameRow value={name} onChange={setName} />
+      <form onSubmit={submit} className="form-page screen">
+        <div className="screen-content">
+          <p className="explanation">Du håller i trådarna, men spelar som alla andra. Inställningarna väljer du i lobbyn.</p>
+          <div className="form-table">
+            <NameRow value={name} onChange={setName} />
+          </div>
+          {error && <p className="notice" role="alert">{error}</p>}
         </div>
-        {error && <p className="notice" role="alert">{error}</p>}
         <div className="bottom-actions">
           <button type="button" className="secondary" onClick={onBack}>Tillbaka</button>
           <button type="submit" className="primary">Skapa spelet</button>

@@ -63,7 +63,7 @@
   filter: drop-shadow(2px 0 0 var(--paper)) drop-shadow(-2px 0 0 var(--paper)) drop-shadow(0 2px 0 var(--paper)) drop-shadow(0 -2px 0 var(--paper));
 }
 
-:root[data-phase='night'] :is(.caption, .explanation, .notice, main section > p, .list-lead, .player-list, .picker):not(.list-tag) {
+:root[data-phase='night'] :is(.caption, .explanation, .notice, main :is(section, .screen-content) > p, .list-lead, .player-list, .picker):not(.list-tag) {
   border: none;
 }
 
@@ -109,11 +109,55 @@ body {
   overflow-wrap: break-word;
 }
 
+/*
+ * Knapparna ligger i botten, nära tummen, men sitter inte fast. Sidan fyller
+ * minst skärmens höjd, och innehållet ovanför knapparna växer så att de hamnar
+ * längst ner. Är innehållet högre än skärmen trycks knapparna ner och rullar med.
+ */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
 main {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
   max-width: 32rem;
   margin: 0 auto;
-  /* Plats längst ner, så att meddelanderutan inte täcker sista knappen. */
-  padding: 0.5rem 0.75rem 6rem;
+  padding: 0.5rem 0.75rem max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Plats längst ner när meddelanderutan visas, så att den inte täcker knapparna. */
+:root:has(.message) main {
+  padding-bottom: 6rem;
+}
+
+/*
+ * Innehållet ligger i .screen-content så att marginalerna mellan rutorna slås
+ * ihop som förut. Direkt i en flexbox slås de inte ihop. Knapparnas avstånd
+ * uppåt räknas därför från innehållets sista marginal.
+ */
+.screen {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+
+.screen-content {
+  flex: 1 0 auto;
+}
+
+.screen > .bottom-actions {
+  margin-top: 0.5rem;
+}
+
+/* Avståndet under bilden kommer från rutan under den, eftersom marginalerna inte slås ihop i main. */
+main > .scene {
+  margin-bottom: 0;
 }
 
 h1 {
@@ -211,6 +255,8 @@ button:disabled {
 /* Toppraden: fasens rubrik till vänster, namnet och hatten till höger, på rent papper. */
 .top-bar {
   display: flex;
+  box-sizing: border-box;
+  width: 100%;
   align-items: center;
   gap: 0.5rem;
   max-width: 32rem;
@@ -255,7 +301,7 @@ button:disabled {
 .caption,
 .explanation,
 .notice,
-main section > p,
+main :is(section, .screen-content) > p,
 .person-text,
 .list-lead,
 .list-tag,
@@ -268,7 +314,7 @@ main section > p,
 .caption,
 .explanation,
 .notice,
-main section > p,
+main :is(section, .screen-content) > p,
 .person-text,
 .list-lead,
 .list-tag,

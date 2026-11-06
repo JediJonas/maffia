@@ -19,26 +19,28 @@ const EDITOR_AVATAR_PX = 112;
  */
 export function AvatarEditor({ playerId, avatar, onChange, onClose }) {
   return (
-    <section className="avatar-editor" aria-labelledby="phase-title">
-      <div className="avatar-editor-head">
-        <PlayerAvatar player={{ id: playerId, avatar }} sizePx={EDITOR_AVATAR_PX} />
-        <SpeechBubble>Hur ska jag<br />se ut?</SpeechBubble>
-        <button type="button" className="row-button avatar-shuffle" onClick={() => onChange(createRandomAvatar(Math.random))}>
-          Slumpa figur
-        </button>
+    <section className="avatar-editor screen" aria-labelledby="phase-title">
+      <div className="screen-content">
+        <div className="avatar-editor-head">
+          <PlayerAvatar player={{ id: playerId, avatar }} sizePx={EDITOR_AVATAR_PX} />
+          <SpeechBubble>Hur ska jag<br />se ut?</SpeechBubble>
+          <button type="button" className="row-button avatar-shuffle" onClick={() => onChange(createRandomAvatar(Math.random))}>
+            Slumpa figur
+          </button>
+        </div>
+        <ul className="avatar-parts">
+          {AVATAR_PARTS.map((part) => (
+            <li key={part.key}>
+              <span>{part.label}</span>
+              <span className="stepper">
+                <button type="button" aria-label={`Föregående ${part.label.toLowerCase()}`} onClick={() => onChange(stepAvatarPart(avatar, part.key, -1))}>‹</button>
+                <PartValue part={part} value={avatar[part.key]} />
+                <button type="button" aria-label={`Nästa ${part.label.toLowerCase()}`} onClick={() => onChange(stepAvatarPart(avatar, part.key, 1))}>›</button>
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className="avatar-parts">
-        {AVATAR_PARTS.map((part) => (
-          <li key={part.key}>
-            <span>{part.label}</span>
-            <span className="stepper">
-              <button type="button" aria-label={`Föregående ${part.label.toLowerCase()}`} onClick={() => onChange(stepAvatarPart(avatar, part.key, -1))}>‹</button>
-              <PartValue part={part} value={avatar[part.key]} />
-              <button type="button" aria-label={`Nästa ${part.label.toLowerCase()}`} onClick={() => onChange(stepAvatarPart(avatar, part.key, 1))}>›</button>
-            </span>
-          </li>
-        ))}
-      </ul>
       <div className="bottom-actions">
         <button type="button" className="primary" onClick={onClose}>Klar</button>
       </div>
