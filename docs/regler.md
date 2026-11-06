@@ -39,7 +39,8 @@ Taxichauffören och fönstertittaren ser besök. Maffian (alla som valde offret)
 läkaren, detektiven, bartendern och korvgubben räknas som besök. Taxichauffören
 och fönstertittaren tittar på avstånd, och de som väljer blint stannar hemma,
 så de syns inte. Svaret ligger i en akt som öppnas på morgonen, som
-detektivens.
+detektivens. Den som är ute ur spelet kan inte längre öppna akten, inte heller
+svaret från natten då den blev mördad.
 
 ### Bartendern
 

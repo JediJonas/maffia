@@ -31,6 +31,9 @@ import { joinWithAnd } from '../game/numberWords.js';
  * @returns {CaseFileContent | null} Null för den som inte har någon akt, eller en tom akt.
  */
 export function buildCaseFile(view) {
+  // Den som är ute ur spelet får inte prata, så akten ska inte heller gå
+  // att läsa. Annars kunde den visa upp den för någon (Jonas 2026-11-06).
+  if (!view.me.isAlive) return null;
   const content = describeCaseFile(view);
   if (!content?.rows.length) return null;
   return { ...content, rows: [...content.rows].reverse() };
