@@ -638,8 +638,7 @@ main section .list-lead {
 /*
  * Personraden: stor figur med en ruta som går in under cirkeln. Rutans
  * vänstra kant urholkas med en mask i stället för att ligga bakom cirkeln,
- * så att rastret inte syns igenom mellan dem. Den vita skuggan ger samma
- * vita ring runt cirkel och ruta som i skissen.
+ * så att rastret inte syns igenom mellan dem.
  */
 .person-row {
   position: relative;
@@ -648,7 +647,6 @@ main section .list-lead {
   height: 7rem;
   margin: var(--block-gap) 0;
   padding-left: 0.875rem;
-  filter: drop-shadow(5px 0 0 var(--paper)) drop-shadow(-5px 0 0 var(--paper)) drop-shadow(0 5px 0 var(--paper)) drop-shadow(0 -5px 0 var(--paper));
 }
 
 .person-row-speaking {
