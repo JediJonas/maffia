@@ -7,7 +7,7 @@ import { capitalize, writeNumber } from '../game/numberWords.js';
 /** @type {Record<import('../game/types.js').Role, string>} */
 const NIGHT_QUESTIONS = {
   mafia: 'Ni väljer vem som ska dö i natt.',
-  detective: 'Du väljer vem du ska skugga.',
+  detective: 'Du väljer vem du ska undersöka.',
   doctor: 'Du väljer vem du ska vaka över.',
   citizen: 'I drömmen väljer du en misstänkt.',
 };
@@ -15,9 +15,9 @@ const NIGHT_QUESTIONS = {
 /** @type {Record<import('../game/types.js').Role, string | null>} */
 const NIGHT_NOTES = {
   mafia: null,
-  detective: 'Svaret får du när staden vaknar.',
-  doctor: 'Du får inte skydda samma person två nätter i rad.',
-  citizen: 'Ditt val räknas inte, men alla väljer så att ingen kan se vem som är vaken och vem som sover.',
+  detective: 'Du får veta om personen är maffia. Svaret får du när staden vaknar.',
+  doctor: 'Du skyddar personen från maffian. Samma person får inte skyddas två nätter i rad.',
+  citizen: 'Ditt val räknas inte, men alla väljer så att ingen ser vem som är vaken.',
 };
 
 /**

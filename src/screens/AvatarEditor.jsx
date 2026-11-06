@@ -31,7 +31,7 @@ export function AvatarEditor({ playerId, avatar, onChange, onClose }) {
         {AVATAR_PARTS.map((part) => (
           <li key={part.key}>
             <span>{part.label}</span>
-            <span className="avatar-part-stepper">
+            <span className="stepper">
               <button type="button" aria-label={`Föregående ${part.label.toLowerCase()}`} onClick={() => onChange(stepAvatarPart(avatar, part.key, -1))}>‹</button>
               <PartValue part={part} value={avatar[part.key]} />
               <button type="button" aria-label={`Nästa ${part.label.toLowerCase()}`} onClick={() => onChange(stepAvatarPart(avatar, part.key, 1))}>›</button>
@@ -51,7 +51,7 @@ export function AvatarEditor({ playerId, avatar, onChange, onClose }) {
  * @param {{ part: AvatarPart, value: string }} props
  */
 function PartValue({ part, value }) {
-  if (value === NO_CHOICE) return <span className="avatar-part-value">Nej</span>;
+  if (value === NO_CHOICE) return <span className="stepper-value">Nej</span>;
   const choices = part.kind === 'optional' ? part.choices.slice(1) : part.choices;
-  return <span className="avatar-part-value">{choices.indexOf(value) + 1} av {choices.length}</span>;
+  return <span className="stepper-value">{choices.indexOf(value) + 1} av {choices.length}</span>;
 }

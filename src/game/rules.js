@@ -11,7 +11,7 @@ import { sanitizeAvatar } from '../avatar/avatarParts.js';
 /** @typedef {import('./types.js').Team} Team */
 
 export const SKIP_VOTE = 'skip';
-export const MAX_NAME_LENGTH = 20;
+export const MAX_NAME_LENGTH = 14;
 
 export class RuleError extends Error {}
 

@@ -1,7 +1,7 @@
 // @ts-check
 import { MIN_PLAYERS } from '../game/roles.js';
 import { findSettingsProblem } from '../game/settings.js';
-import { SettingsPanel } from './SettingsPanel.jsx';
+import { SettingsEditor } from './SettingsEditor.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
 import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { loadOrCreateAvatar, saveAvatar } from '../device/savedSession.js';
@@ -10,6 +10,7 @@ import { describeArrivals, describeLobbyStatus } from './lobbyText.js';
 /** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
 /** @typedef {import('../game/playerView.js').PublicPlayer} PublicPlayer */
 /** @typedef {import('../host/useHostGame.js').HostControls} HostControls */
+/** @typedef {'players' | 'avatar' | 'settings'} LobbyPanel Vad lobbyn visar: spelarna, Din figur eller värdens inställningar. */
 
 /**
  * Lobbyn ser likadan ut för alla. Värden har dessutom knapparna längst ner
@@ -18,17 +19,22 @@ import { describeArrivals, describeLobbyStatus } from './lobbyText.js';
  * @param {PlayerView} props.view
  * @param {HostControls | null} props.host
  * @param {import('../host/useHostGame.js').GameConnection['sendAction']} props.sendAction
- * @param {boolean} props.isEditingAvatar Styrs av GameScreen, som byter rubrik och döljer bildrutan.
- * @param {(isEditing: boolean) => void} props.setIsEditingAvatar
+ * @param {LobbyPanel} props.panel Styrs av GameScreen, som byter rubrik och döljer bildrutan.
+ * @param {(panel: LobbyPanel) => void} props.setPanel
  */
-export function LobbyScreen({ view, host, sendAction, isEditingAvatar, setIsEditingAvatar }) {
+export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
   const playerCount = view.players.length;
-  const canStart = playerCount >= MIN_PLAYERS && !findSettingsProblem(view.settings, playerCount);
   // Värden lades till först när spelet skapades.
   const hostPlayer = view.players[0];
 
-  if (isEditingAvatar) {
-    return <MyAvatarEditor view={view} sendAction={sendAction} onClose={() => setIsEditingAvatar(false)} />;
+  const problem = playerCount >= MIN_PLAYERS ? findSettingsProblem(view.settings, playerCount) : null;
+  const canStart = playerCount >= MIN_PLAYERS && !problem;
+
+  if (panel === 'avatar') {
+    return <MyAvatarEditor view={view} sendAction={sendAction} onClose={() => setPanel('players')} />;
+  }
+  if (panel === 'settings' && host) {
+    return <SettingsEditor settings={view.settings} playerCount={playerCount} onChange={host.changeSettings} onClose={() => setPanel('players')} />;
   }
   return (
     <section aria-labelledby="phase-title">
@@ -38,14 +44,14 @@ export function LobbyScreen({ view, host, sendAction, isEditingAvatar, setIsEdit
           <li key={player.id}>
             <span className="player-name">
               <PlayerAvatar player={player} />
-              {player.name}
+              <span>{player.name}</span>
             </span>
             <PlayerRowAction
               player={player}
               isMe={player.id === view.me.id}
               isHostPlayer={player.id === hostPlayer?.id}
               host={host}
-              onEditAvatar={() => setIsEditingAvatar(true)}
+              onEditAvatar={() => setPanel('avatar')}
             />
           </li>
         ))}
@@ -53,7 +59,8 @@ export function LobbyScreen({ view, host, sendAction, isEditingAvatar, setIsEdit
       <p className="explanation">{describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null })}</p>
       {host && (
         <div className="bottom-actions">
-          <SettingsPanel settings={view.settings} playerCount={playerCount} onChange={host.changeSettings} />
+          {problem && <p className="notice">{problem}</p>}
+          <button type="button" className="secondary" onClick={() => setPanel('settings')}>Inställningar</button>
           <button type="button" className="primary" disabled={!canStart} onClick={host.startGame}>
             Starta spelet
           </button>

@@ -1,10 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { buildPlayerView } from './playerView.js';
 import { RuleError, addPlayer, changeSettings, createGame, startGame } from './rules.js';
-import { DEFAULT_SETTINGS, buildRoleList, completeSettings, describeRoles, findSettingsProblem } from './settings.js';
+import { DEFAULT_SETTINGS, buildRoleList, completeSettings, describeRoles, findSettingsProblem, stepMafiaCount } from './settings.js';
 import { createTestGame } from './testGame.js';
 
 describe('inställningar', () => {
+  it('stegar mellan maffiavalen och stannar vid ändarna', () => {
+    expect(stepMafiaCount('auto', 1)).toBe(1);
+    expect(stepMafiaCount(1, -1)).toBe('auto');
+    expect(stepMafiaCount('auto', -1)).toBe('auto');
+    expect(stepMafiaCount(3, 1)).toBe(3);
+  });
+
   it('ger valt antal maffia', () => {
     expect(buildRoleList({ ...DEFAULT_SETTINGS, mafiaCount: 2 }, 6).filter((r) => r === 'mafia')).toHaveLength(2);
   });
