@@ -1219,8 +1219,9 @@ main section .person-text {
   box-shadow: 0 0 0 2px var(--ink);
 }
 
+/* Smal nog att "inte" hamnar på andra raden i mobilen, så att rutan blir tätare (ägaren 2026-11-06). */
 .start-caption {
-  max-width: 70%;
+  max-width: 13.5rem;
   margin: auto 0 0;
 }
 
