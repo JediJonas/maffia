@@ -103,6 +103,7 @@ skärmen. Till exempel:
 | Alla har röstat. Anna blev förvisad ur staden. | Alla har röstat. Anna blev förvisad. |
 | Spelet är slut. Maffian har tagit över staden. | Spelet är slut. Maffian har vunnit. |
 | Spelet är slut. Staden har besegrat maffian. | Spelet är slut. Staden har vunnit. |
+| Spelet är slut. Galningen lurade staden och blev förvisad. | Spelet är slut. Galningen har vunnit. |
 
 Efter domslutets nedräkning säger rösten rollen, till exempel "Anna var läkare". Den
 säger bara det som alla får veta, och samma ord som i listan ovan. Texterna
@@ -114,9 +115,18 @@ finns i `src/game/narration.js`: rutan i `narratePhaseChange` och rösten i
 Klassiska regler skiljer sig mellan grupper. Det här är prototypens val, och
 alla går att ändra i `src/game/rules.js`:
 
-- Döda spelares roller visas för alla.
+- Döda spelares roller visas för alla, om Avslöja rollen är påslagen.
 - Läkaren får skydda sig själv, men inte samma spelare två nätter i rad.
-- Maffian kan inte välja en annan maffia som offer.
+- Maffian kan inte välja en annan maffia som offer. Gudfadern räknas som
+  maffia, men bartendern gör det inte, så maffian kan mörda henne.
+- Den som väljer offer bland maffian går hem till offret och syns för
+  fönstertittaren. Gudfadern räknas som en av dem.
+- Korven går inte till den som blev mördad samma natt. Den tystade visas för
+  alla på morgonen.
+- Borgmästarens dubbla röst syns i domslutet som "Hilda ×2".
+- Förvisas galningen slutar spelet direkt, även om maffian eller staden också
+  hade vunnit. Hans sista ord är "Ha haha ha ha!", maffians "Ni kommer ångra
+  er!" och alla andras "Jag är oskyldig!".
 - På natten finns ingen bekräfta-knapp. Ett tryck på en spelare är valet,
   och man kan ändra sig tills alla har valt och maffian har valt samma person.
 - På morgonen visas den mördades roll direkt, utan nedräkning. Maffian kan
