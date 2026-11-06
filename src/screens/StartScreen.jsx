@@ -69,7 +69,7 @@ function JoinForm({ initialRoomCode, message, onJoin, onBack }) {
     <FormPage title="Gå med" image="join" topCaption="Någon väntar på dig …">
       <form onSubmit={submit} className="form-page screen">
         <div className="screen-content">
-          <p className="explanation">Skriv koden från värdens skärm och ditt namn.</p>
+          <p className="explanation">Skriv kod från värden och ditt namn.</p>
           <div className="form-table">
             <label className="form-row">
               <span>Kod</span>

@@ -1,4 +1,5 @@
 // @ts-check
+import { sortByName } from './playerName.js';
 import { PlayerPicker } from './PlayerPicker.jsx';
 import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
@@ -52,7 +53,7 @@ export function NightScreen({ view, sendAction }) {
     <section aria-labelledby="phase-title">
       <ListCard lead={NIGHT_QUESTIONS[view.me.role]} tag={isMafia ? describeMafiaTag(view) ?? progress : progress}>
         <PlayerPicker
-          players={view.players.filter((p) => view.nightTargetIds.includes(p.id))}
+          players={sortByName(view.players.filter((p) => view.nightTargetIds.includes(p.id)))}
           selectableIds={view.nightTargetIds}
           selectedId={view.myNightChoice}
           onSelect={(targetId) => sendAction({ type: 'nightChoice', targetId })}

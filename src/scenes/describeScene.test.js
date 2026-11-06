@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { describeScene } from './describeScene.js';
+import { describeScene, listUpcomingImages } from './describeScene.js';
 import { buildPlayerView } from '../game/playerView.js';
 import { createTestGame, playDay, playNight } from '../game/testGame.js';
 
@@ -55,5 +55,24 @@ describe('describeScene', () => {
   it('har en egen slutbild för var och en av vinnarna', () => {
     expect(describeScene(buildPlayerView({ ...night, phase: 'gameOver', winner: 'mafia' }, 'p1'), false)).toMatchObject({ image: 'mafiaWins' });
     expect(describeScene(buildPlayerView({ ...night, phase: 'gameOver', winner: 'town' }, 'p1'), false)).toMatchObject({ image: 'townWins' });
+  });
+});
+
+describe('listUpcomingImages', () => {
+  const night = createTestGame(ROLES);
+
+  it('hämtar rollens bild och nattbild medan akten är stängd', () => {
+    const roleReveal = { ...night, phase: /** @type {const} */ ('roleReveal') };
+    expect(listUpcomingImages(buildPlayerView(roleReveal, 'p4'))).toEqual(['roleDetective', 'nightDetective']);
+  });
+
+  it('hämtar båda morgonbilderna under natten, så att ingen kan se på laddningen om någon dog', () => {
+    expect(listUpcomingImages(buildPlayerView(night, 'p1'))).toEqual(['morningMurder', 'morningNoMurder']);
+  });
+
+  it('hämtar stadsbons nattbild åt den som just blev förvisad', () => {
+    const morning = playNight(night, { p2: 'p4', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
+    const verdict = playDay(morning, { p1: 'p3', p2: 'p3', p3: 'p1', p5: 'p3' });
+    expect(listUpcomingImages(buildPlayerView({ ...verdict, phase: 'verdict' }, 'p3'))).toEqual(['nightCitizen', 'mafiaWins', 'townWins']);
   });
 });

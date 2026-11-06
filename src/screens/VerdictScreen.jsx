@@ -4,7 +4,7 @@ import { SKIP_VOTE } from '../game/rules.js';
 import { tallyVotes } from '../game/voteTally.js';
 import { capitalize, writeNumber } from '../game/numberWords.js';
 import { Countdown } from './Countdown.jsx';
-import { describeDeath, isPleaShown } from './deathText.js';
+import { describeDeath, writeLastWords } from './deathText.js';
 import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
 import { PlayerPicker } from './PlayerPicker.jsx';
@@ -16,6 +16,7 @@ import { PlayerPicker } from './PlayerPicker.jsx';
  */
 export function VerdictScreen({ view }) {
   const executed = view.players.find((p) => p.id === view.lastDay?.executedId);
+  const lastWords = executed && writeLastWords(executed);
   const rows = tallyVotes(view.dayVotes, view.players.map((p) => p.id));
   const nameOf = (/** @type {string} */ id) => view.players.find((p) => p.id === id)?.name ?? '';
   const voted = rows.filter((row) => row.targetId !== SKIP_VOTE);
@@ -28,7 +29,7 @@ export function VerdictScreen({ view }) {
       {executed && (
         <PersonRow
           player={executed}
-          speech={isPleaShown(executed) && <>Jag är<br />oskyldig!</>}
+          speech={lastWords && <>{lastWords[0]}<br />{lastWords[1]}</>}
           reservesSpeech={view.settings.revealsRoleOnDeath}
           text={view.isRoleRevealPending
             ? <Countdown durationMs={ROLE_REVEAL_DELAY_MS} label="Rollen visas om" />
@@ -47,7 +48,7 @@ export function VerdictScreen({ view }) {
         <p>Alla avstod från att rösta.</p>
       )}
       {/* Samma text oavsett om spelet är avgjort, så att ingen ser resultatet i förväg. */}
-      {!view.isRoleRevealPending && <p className="explanation"><Countdown durationMs={VERDICT_PAUSE_MS} label="Natten faller om" /></p>}
+      {!view.isRoleRevealPending && <p className="explanation"><Countdown durationMs={VERDICT_PAUSE_MS} label="Spelet fortsätter om" /></p>}
     </section>
   );
 }
