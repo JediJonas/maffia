@@ -1,6 +1,8 @@
 // @ts-check
 // Bilderna i bildrutan, en per händelse. Utsnittet (position) är valt i
 // canvasen "Maffia noir", så att huvudpersonen hamnar mitt i rutan.
+import join from './images/ga-med.webp';
+import create from './images/skapa.webp';
 import lobby from './images/lobby.webp';
 import roleHidden from './images/roll-dold.webp';
 import nightMafia from './images/natt-maffia.webp';
@@ -16,6 +18,8 @@ import townWins from './images/slut-staden.webp';
 /** @typedef {{ src: string, alt: string, position: string }} SceneImage */
 
 export const SCENE_IMAGES = /** @type {const} */ ({
+  join: { src: join, alt: 'En dörr står på glänt i en mörk korridor. Ljus och cigarettrök syns genom springan.', position: '50% 50%' },
+  create: { src: create, alt: 'En tom bardisk sent på kvällen med glas, flaskor och en hatt under en hängande lampa.', position: '50% 55%' },
   lobby: { src: lobby, alt: 'Fyra personer spelar kort runt ett runt bord under en hängande lampa i ett mörkt rum.', position: '50% 75%' },
   roleHidden: { src: roleHidden, alt: 'En förseglad akt på ett skrivbord i lampljus, bredvid en hatt och en revolver.', position: '50% 50%' },
   nightMafia: { src: nightMafia, alt: 'En regnig gata en natt. Två män i hatt står tätt ihop under en gatlykta.', position: '50% 68%' },

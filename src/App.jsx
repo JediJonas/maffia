@@ -33,7 +33,6 @@ export function App() {
   }
 
   function leave() {
-    if (session?.kind === 'host' && !window.confirm('Om du lämnar avslutas spelet för alla. Vill du lämna?')) return;
     if (session?.kind === 'host') saveHostGame(session.roomCode, null);
     window.history.replaceState(null, '', window.location.pathname);
     setMessage(null);

@@ -1,6 +1,7 @@
 // @ts-check
 // Värdens inställningar för ett parti. De väljs i lobbyn, där värden ser
 // hur många som har anslutit, och visas för alla.
+import { writeNumber } from './numberWords.js';
 
 /** @typedef {import('./types.js').Role} Role */
 
@@ -78,7 +79,7 @@ export function completeSettings(saved) {
 /**
  * Varje roll får sitt antal, så att det syns att det är en av varje.
  * @param {Role[]} roles
- * @returns {string} Till exempel "1 maffia, 1 detektiv, 1 läkare och 2 medborgare".
+ * @returns {string} Till exempel "en maffia, en detektiv, en läkare och två medborgare".
  */
 export function describeRoles(roles) {
   /** @type {[Role, string][]} */
@@ -86,6 +87,6 @@ export function describeRoles(roles) {
   const parts = names
     .map(([role, name]) => ({ count: roles.filter((r) => r === role).length, name }))
     .filter(({ count }) => count > 0)
-    .map(({ count, name }) => `${count} ${name}`);
+    .map(({ count, name }) => `${writeNumber(count)} ${name}`);
   return parts.length > 1 ? `${parts.slice(0, -1).join(', ')} och ${parts[parts.length - 1]}` : parts[0];
 }

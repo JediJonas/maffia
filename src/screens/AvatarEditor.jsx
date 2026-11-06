@@ -17,12 +17,12 @@ import { LARGE_AVATAR_PX, PlayerAvatar } from './PlayerAvatar.jsx';
 export function AvatarEditor({ playerId, avatar, onChange, onClose }) {
   return (
     <section className="avatar-editor" aria-labelledby="avatar-editor-title">
-      <h2 id="avatar-editor-title">Din avatar</h2>
+      <h2 id="avatar-editor-title">Din figur</h2>
       <div className="avatar-preview">
         <PlayerAvatar player={{ id: playerId, avatar }} sizePx={LARGE_AVATAR_PX} />
       </div>
       <button type="button" className="secondary" onClick={() => onChange(createRandomAvatar(Math.random))}>
-        Slumpa en ny
+        Slumpa fram figur
       </button>
       <ul className="avatar-parts">
         {AVATAR_PARTS.map((part) => (

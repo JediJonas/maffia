@@ -15,7 +15,9 @@ varje gång något hamnar i main.
   telefonerna skickar bara handlingar, som `{ type: 'vote', targetId }`, och
   får tillbaka en vy med just det de får veta (`src/game/playerView.js`).
   Rollerna skickas aldrig till alla.
-- **Anslutning** med en rumskod på fyra bokstäver eller en QR-kod.
+- **Anslutning** med en rumskod på fyra bokstäver eller en QR-kod. Den som
+  lämnar spelet får först bekräfta det, och värden får veta att spelet då
+  tar slut för alla.
 - **Återanslutning.** Varje telefon sparar en hemlig nyckel. Laddas sidan om
   ansluter den igen och får tillbaka sin plats. Värden sparar hela spelet i
   telefonen och kan också ladda om.

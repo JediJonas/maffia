@@ -1,25 +1,38 @@
 // @ts-check
 import { useState } from 'react';
 import { MIN_PLAYERS } from '../game/roles.js';
-import { buildRoleList, describeRoles, findSettingsProblem } from '../game/settings.js';
+import { findSettingsProblem } from '../game/settings.js';
 import { SettingsPanel } from './SettingsPanel.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
-import { LARGE_AVATAR_PX, PlayerAvatar } from './PlayerAvatar.jsx';
+import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { loadOrCreateAvatar, saveAvatar } from '../device/savedSession.js';
+import { describeArrivals, describeLobbyStatus } from './lobbyText.js';
+
+/** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
+/** @typedef {import('../game/playerView.js').PublicPlayer} PublicPlayer */
+/** @typedef {import('../host/useHostGame.js').HostControls} HostControls */
 
 /**
+ * Lobbyn ser likadan ut för alla. Värden har dessutom knapparna längst ner
+ * och kan ta bort spelare, och de andra ser vem som är värd.
  * @param {object} props
- * @param {import('../game/playerView.js').PlayerView} props.view
- * @param {import('../host/useHostGame.js').HostControls | null} props.host
+ * @param {PlayerView} props.view
+ * @param {HostControls | null} props.host
  * @param {import('../host/useHostGame.js').GameConnection['sendAction']} props.sendAction
  */
 export function LobbyScreen({ view, host, sendAction }) {
-  const hasEnoughPlayers = view.players.length >= MIN_PLAYERS;
-  const canStart = hasEnoughPlayers && !findSettingsProblem(view.settings, view.players.length);
+  const [isEditingAvatar, setIsEditingAvatar] = useState(false);
+  const playerCount = view.players.length;
+  const canStart = playerCount >= MIN_PLAYERS && !findSettingsProblem(view.settings, playerCount);
+  // Värden lades till först när spelet skapades.
+  const hostPlayer = view.players[0];
+
+  if (isEditingAvatar) {
+    return <MyAvatarEditor view={view} sendAction={sendAction} onClose={() => setIsEditingAvatar(false)} />;
+  }
   return (
     <section aria-labelledby="phase-title">
-      <MyAvatar view={view} sendAction={sendAction} />
-      <h2>Spelare ({view.players.length})</h2>
+      <h2>{describeArrivals(playerCount)}</h2>
       <ul className="player-list">
         {view.players.map((player) => (
           <li key={player.id}>
@@ -27,41 +40,60 @@ export function LobbyScreen({ view, host, sendAction }) {
               <PlayerAvatar player={player} />
               {player.name}
             </span>
-            {!player.isConnected && <span className="muted">frånkopplad</span>}
-            {host && player.id !== view.me.id && (
-              <button type="button" className="link-button" onClick={() => host.removePlayer(player.id)}>
-                Ta bort<span className="visually-hidden"> {player.name}</span>
-              </button>
-            )}
+            <PlayerRowAction
+              player={player}
+              isMe={player.id === view.me.id}
+              isHostPlayer={player.id === hostPlayer?.id}
+              host={host}
+              onEditAvatar={() => setIsEditingAvatar(true)}
+            />
           </li>
         ))}
       </ul>
-      <SettingsPanel settings={view.settings} playerCount={view.players.length} onChange={host?.changeSettings ?? null} />
-      {host ? (
-        <>
+      <p>{describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null })}</p>
+      {host && (
+        <div className="bottom-actions">
+          <SettingsPanel settings={view.settings} playerCount={playerCount} onChange={host.changeSettings} />
           <button type="button" className="primary" disabled={!canStart} onClick={host.startGame}>
             Starta spelet
           </button>
-          <StartHint view={view} />
-        </>
-      ) : (
-        <>
-          <StartHint view={view} />
-          <p className="muted">Värden startar spelet när alla är med.</p>
-        </>
+        </div>
       )}
     </section>
   );
 }
 
 /**
- * Den egna avataren, med byggaren bakom en knapp så att lobbyn hålls kort.
+ * Det som står till höger i en rad: knappen för den egna figuren, värdens
+ * knapp för att ta bort, eller en lapp om att någon är frånkopplad.
  * @param {object} props
- * @param {import('../game/playerView.js').PlayerView} props.view
- * @param {import('../host/useHostGame.js').GameConnection['sendAction']} props.sendAction
+ * @param {PublicPlayer} props.player
+ * @param {boolean} props.isMe
+ * @param {boolean} props.isHostPlayer
+ * @param {HostControls | null} props.host
+ * @param {() => void} props.onEditAvatar
  */
-function MyAvatar({ view, sendAction }) {
-  const [isEditing, setIsEditing] = useState(false);
+function PlayerRowAction({ player, isMe, isHostPlayer, host, onEditAvatar }) {
+  if (isMe) return <button type="button" className="row-button" onClick={onEditAvatar}>Ändra figur</button>;
+  if (!player.isConnected) return <span className="row-note">frånkopplad</span>;
+  if (host) {
+    return (
+      <button type="button" className="link-button" onClick={() => host.removePlayer(player.id)}>
+        Ta bort<span className="visually-hidden"> {player.name}</span>
+      </button>
+    );
+  }
+  if (isHostPlayer) return <span className="row-note">värd</span>;
+  return null;
+}
+
+/**
+ * @param {object} props
+ * @param {PlayerView} props.view
+ * @param {import('../host/useHostGame.js').GameConnection['sendAction']} props.sendAction
+ * @param {() => void} props.onClose
+ */
+function MyAvatarEditor({ view, sendAction, onClose }) {
   const me = view.players.find((p) => p.id === view.me.id);
   if (!me) return null;
   // Spelare från ett spel som sparades innan avatarerna fanns börjar från telefonens egen.
@@ -73,26 +105,5 @@ function MyAvatar({ view, sendAction }) {
     sendAction({ type: 'setAvatar', avatar: next });
   }
 
-  if (isEditing) {
-    return <AvatarEditor playerId={me.id} avatar={avatar} onChange={changeAvatar} onClose={() => setIsEditing(false)} />;
-  }
-  return (
-    <div className="my-avatar">
-      <PlayerAvatar player={me} sizePx={LARGE_AVATAR_PX} />
-      <button type="button" className="secondary" onClick={() => setIsEditing(true)}>Ändra avatar</button>
-    </div>
-  );
-}
-
-/**
- * Raden under Starta spelet: hur många som saknas, eller vilka roller som
- * delas ut när det finns tillräckligt många. Ett problem med inställningarna
- * visas i stället vid inställningarna.
- * @param {{ view: import('../game/playerView.js').PlayerView }} props
- */
-function StartHint({ view }) {
-  const playerCount = view.players.length;
-  if (playerCount < MIN_PLAYERS) return <p className="muted">Det behövs minst {MIN_PLAYERS} spelare.</p>;
-  if (findSettingsProblem(view.settings, playerCount)) return null;
-  return <p className="muted">Roller: {describeRoles(buildRoleList(view.settings, playerCount))}.</p>;
+  return <AvatarEditor playerId={me.id} avatar={avatar} onChange={changeAvatar} onClose={onClose} />;
 }
