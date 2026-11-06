@@ -267,11 +267,12 @@ main section > p,
 
 /*
  * Berättarens rutor är fyrkantiga, som textrutorna i en serie. När appen
- * själv förklarar något för spelaren (regler, väntan, fel) får rutan rundade
- * hörn, så att det syns att det inte är en del av berättelsen.
+ * själv förklarar något för spelaren (regler, väntan, läget, fel) får rutan
+ * rundade hörn, så att det syns att det inte är en del av berättelsen.
  */
 .explanation,
-.notice {
+.notice,
+.list-tag {
   border-radius: 0.625rem;
 }
 
