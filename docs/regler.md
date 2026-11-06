@@ -105,7 +105,7 @@ alla går att ändra i `src/game/rules.js`:
   att ingen ser resultatet i förväg.
 - Spelet väntar på frånkopplade spelare, eftersom deras val behövs.
 - Botar (datorstyrda spelare) läggs till under Inställningar och står med
-  "(bot)" efter namnet. De tänker en till fyra sekunder innan de gör något.
+  "(bot)" efter namnet. Det får vara högst tre, eftersom botar inte kan prata. De tänker en till fyra sekunder innan de gör något.
   På natten väljer de slumpvis, men en maffiabot följer den övriga maffian.
   På dagen röstar de sist, när alla människor har röstat, och följer den som
   har flest röster. En maffiabot röstar aldrig på sin egen maffia, och en

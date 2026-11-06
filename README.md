@@ -35,7 +35,7 @@ varje gång något hamnar i main.
   inställningarna i lobbyn. Lägg till `?debug=1` i adressen för en
   felsökningslogg i telefonen.
 - **Botar.** Värden kan lägga till datorstyrda spelare under Inställningar,
-  till exempel för att nå fyra spelare. Botarna körs i värdens telefon med
+  högst tre, till exempel för att nå fyra spelare. Botarna körs i värdens telefon med
   samma regler som alla andra (`src/game/bots.js`, `src/host/useBots.js`)
   och står med "(bot)" efter namnet i listorna.
 - **Avatarer.** Svartvita, som stilen är ritad. Varje telefon slumpar en
