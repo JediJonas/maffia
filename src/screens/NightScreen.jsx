@@ -7,7 +7,7 @@ import { capitalize, writeNumber } from '../game/numberWords.js';
 /** @type {Record<import('../game/types.js').Role, string>} */
 const NIGHT_QUESTIONS = {
   mafia: 'Ni väljer vem som ska dö i natt.',
-  detective: 'Du väljer vem du ska skugga.',
+  detective: 'Du väljer vem du ska undersöka.',
   doctor: 'Du väljer vem du ska vaka över.',
   citizen: 'I drömmen väljer du en misstänkt.',
 };
