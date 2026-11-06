@@ -3,8 +3,6 @@ import { ROLE_INFO } from '../game/roles.js';
 import { LARGE_AVATAR_PX, PlayerAvatar } from './PlayerAvatar.jsx';
 import { SKIP_VOTE } from '../game/rules.js';
 import { PlayerPicker } from './PlayerPicker.jsx';
-import { Countdown } from './Countdown.jsx';
-import { ROLE_REVEAL_DELAY_MS } from '../game/deathReveal.js';
 import { SecretCard } from './SecretCard.jsx';
 import { VoteTally } from './VoteTally.jsx';
 
@@ -74,8 +72,7 @@ function Investigations({ view }) {
 }
 
 /**
- * Nattens offer, först bara namnet. Omröstningen är öppen under
- * nedräkningen, så att spänningen inte håller upp spelet.
+ * Nattens offer, med rollen direkt när roller visas vid död.
  * @param {{ view: import('../game/playerView.js').PlayerView }} props
  */
 function MorningNews({ view }) {
@@ -86,7 +83,6 @@ function MorningNews({ view }) {
       <PlayerAvatar player={killed} sizePx={LARGE_AVATAR_PX} isDead />
       <p className="secret-headline">{killed.id === view.me.id ? 'Du' : killed.name} blev mördad</p>
       {killed.revealedRole && <p>{killed.name} var {ROLE_INFO[killed.revealedRole].name.toLowerCase()}.</p>}
-      {view.isRoleRevealPending && <Countdown durationMs={ROLE_REVEAL_DELAY_MS} label="Rollen visas om" />}
     </div>
   );
 }

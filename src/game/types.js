@@ -30,16 +30,16 @@
  */
 
 /**
- * Vad som hände under den senaste natten, som alla får veta på dagen.
+ * Vad som hände under den senaste natten, som alla får veta på dagen. Den
+ * mördades roll visas direkt, eftersom maffian aldrig mördar sina egna.
  * @typedef {object} NightOutcome
  * @property {string | null} killedId Null när ingen dog, till exempel för att läkaren räddade offret.
- * @property {boolean} isRoleShown Morgonen visar först bara vem som dog, och värden vänder sedan fram rollen.
  */
 
 /**
  * @typedef {object} DayOutcome
  * @property {string | null} executedId Null vid oavgjort eller när de flesta röstade att avstå.
- * @property {boolean} isRoleShown Domslutet visar först bara vem som blev utvisad, och värden vänder sedan fram rollen för spänningens skull.
+ * @property {boolean} isRoleShown Domslutet visar först bara vem som blev förvisad, och värden vänder sedan fram rollen för spänningens skull.
  */
 
 /**
@@ -49,7 +49,6 @@
  * @property {Player[]} players I den ordning de anslöt.
  * @property {string[]} readyIds Spelare som har tryckt klart i rollvisningen.
  * @property {Record<string, string>} nightChoices Spelar-id till valt mål. Alla levande väljer, även de utan nattroll.
- * @property {string[]} nightDoneIds Spelare som har bekräftat sitt nattval.
  * @property {Record<string, string>} dayVotes Spelar-id till mål eller SKIP_VOTE.
  * @property {NightOutcome | null} lastNight
  * @property {DayOutcome | null} lastDay
@@ -63,7 +62,6 @@
  * Handlingar som en telefon kan skicka till värden.
  * @typedef {{ type: 'ready' }
  *   | { type: 'nightChoice', targetId: string }
- *   | { type: 'nightDone' }
  *   | { type: 'vote', targetId: string }
  *   | { type: 'setAvatar', avatar: import('../avatar/avatarParts.js').Avatar }} PlayerAction
  */

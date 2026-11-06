@@ -23,7 +23,6 @@ export function createGame() {
     players: [],
     readyIds: [],
     nightChoices: {},
-    nightDoneIds: [],
     dayVotes: {},
     lastNight: null,
     lastDay: null,
@@ -126,8 +125,6 @@ export function applyAction(state, playerId, action) {
       return markReady(state, player);
     case 'nightChoice':
       return chooseNightTarget(state, player, action.targetId);
-    case 'nightDone':
-      return confirmNight(state, player);
     case 'vote':
       return castVote(state, player, action.targetId);
     case 'setAvatar':
@@ -170,7 +167,7 @@ function markReady(state, player) {
  * @returns {GameState}
  */
 function beginNight(state, round) {
-  return { ...state, phase: 'night', round, nightChoices: {}, nightDoneIds: [] };
+  return { ...state, phase: 'night', round, nightChoices: {} };
 }
 
 /**
@@ -201,44 +198,30 @@ export function listNightTargets(state, player) {
 function chooseNightTarget(state, player, targetId) {
   assertLivingIn(state, player, 'night');
   if (!listNightTargets(state, player).includes(targetId)) throw new RuleError('Du kan inte välja den spelaren.');
-  // Ändrar en maffia sitt val måste hela maffian bekräfta igen, eftersom
-  // de bara får bekräfta när alla har valt samma offer.
-  const undoneIds = player.role === 'mafia' ? livingMafia(state).map((p) => p.id) : [player.id];
-  return {
-    ...state,
-    nightChoices: { ...state.nightChoices, [player.id]: targetId },
-    nightDoneIds: state.nightDoneIds.filter((id) => !undoneIds.includes(id)),
-  };
+  const next = { ...state, nightChoices: { ...state.nightChoices, [player.id]: targetId } };
+  return isNightSettled(next) ? resolveNight(next) : next;
 }
 
 /**
+ * Natten tar slut när alla levande har valt och maffian har valt samma
+ * person. Ett tryck är valet, utan bekräftelse, så fram till dess kan alla
+ * trycka om och ändra sig (beslutat av ägaren 2026-11-04).
  * @param {GameState} state
- * @param {Player} player
  * @returns {boolean}
  */
-export function canConfirmNight(state, player) {
-  if (state.phase !== 'night' || !player.isAlive) return false;
-  if (!state.nightChoices[player.id]) return false;
-  if (player.role !== 'mafia') return true;
-  const mafiaChoices = livingMafia(state).map((p) => state.nightChoices[p.id]);
-  return mafiaChoices.every((choice) => choice === mafiaChoices[0]);
+export function isNightSettled(state) {
+  if (state.phase !== 'night') return false;
+  if (!livingPlayers(state).every((p) => state.nightChoices[p.id])) return false;
+  return hasMafiaAgreed(state);
 }
 
 /**
  * @param {GameState} state
- * @param {Player} player
- * @returns {GameState}
+ * @returns {boolean}
  */
-function confirmNight(state, player) {
-  assertLivingIn(state, player, 'night');
-  if (!canConfirmNight(state, player)) {
-    const reason = player.role === 'mafia' ? 'Maffian måste välja samma offer.' : 'Välj en spelare först.';
-    throw new RuleError(reason);
-  }
-  if (state.nightDoneIds.includes(player.id)) return state;
-  const next = { ...state, nightDoneIds: [...state.nightDoneIds, player.id] };
-  const isEveryoneDone = livingPlayers(next).every((p) => next.nightDoneIds.includes(p.id));
-  return isEveryoneDone ? resolveNight(next) : next;
+export function hasMafiaAgreed(state) {
+  const mafiaChoices = livingMafia(state).map((p) => state.nightChoices[p.id]);
+  return mafiaChoices.every((choice) => choice && choice === mafiaChoices[0]);
 }
 
 /**
@@ -263,7 +246,7 @@ function resolveNight(state) {
   const afterKill = killPlayer({ ...state, investigations, lastDoctorTargetId: protectedId ?? null }, killedId);
   // Även när mordet avgör spelet blir det morgon först, så att alla får se
   // vem som blev mördad. Se endDecidedMorning i deathReveal.js.
-  return { ...afterKill, phase: 'day', lastNight: { killedId, isRoleShown: false }, dayVotes: {} };
+  return { ...afterKill, phase: 'day', lastNight: { killedId }, dayVotes: {} };
 }
 
 /**
@@ -285,8 +268,8 @@ function castVote(state, player, targetId) {
 }
 
 /**
- * Den som får flest röster blir utvisad, om det är ensam flest och fler röster
- * än de som valde att avstå. Annars blir ingen utvisad.
+ * Den som får flest röster blir förvisad, om det är ensam flest och fler röster
+ * än de som valde att avstå. Annars blir ingen förvisad.
  * @param {Record<string, string>} votes
  * @returns {string | null}
  */

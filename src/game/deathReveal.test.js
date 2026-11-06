@@ -12,31 +12,15 @@ const roleSeenBy = (state, viewerId, playerId) =>
 describe('morgonens offer', () => {
   const morning = playNight(createTestGame(ROLES), { p1: 'p4', p2: 'p1', p3: 'p5', p4: 'p2', p5: 'p2' });
 
-  it('visar först bara namnet', () => {
-    expect(roleSeenBy(morning, 'p5', 'p4')).toBeNull();
-    expect(buildPlayerView(morning, 'p5').isRoleRevealPending).toBe(true);
+  it('visas med roll direkt, utan nedräkning', () => {
+    expect(roleSeenBy(morning, 'p5', 'p4')).toBe('citizen');
+    expect(buildPlayerView(morning, 'p5').isRoleRevealPending).toBe(false);
+    expect(findHiddenDeathId(morning)).toBeNull();
+    expect(() => showDeathRole(morning)).toThrow(RuleError);
   });
 
-  it('visar rollen för alla när värden vänder fram den', () => {
-    const shown = showDeathRole(morning);
-    expect(roleSeenBy(shown, 'p5', 'p4')).toBe('citizen');
-    expect(buildPlayerView(shown, 'p5').isRoleRevealPending).toBe(false);
-  });
-
-  it('låter omröstningen pågå medan rollen är dold', () => {
-    const voted = playDay(morning, { p1: 'p2' });
-    expect(voted.dayVotes.p1).toBe('p2');
-  });
-
-  it('har inget att visa när ingen dog', () => {
-    const calm = playNight(createTestGame(ROLES), { p1: 'p4', p2: 'p1', p3: 'p4', p4: 'p2', p5: 'p2' });
-    expect(findHiddenDeathId(calm)).toBeNull();
-    expect(() => showDeathRole(calm)).toThrow(RuleError);
-  });
-
-  it('har inget att visa när roller inte visas vid död', () => {
+  it('visas utan roll när roller inte visas vid död', () => {
     const quiet = { ...morning, settings: { ...morning.settings, revealsRoleOnDeath: false } };
-    expect(findHiddenDeathId(quiet)).toBeNull();
     expect(roleSeenBy(quiet, 'p5', 'p4')).toBeNull();
   });
 });
@@ -58,7 +42,7 @@ describe('domslutet', () => {
     expect(isVerdictShown(showDeathRole(verdict))).toBe(true);
   });
 
-  it('går vidare direkt när ingen blev utvisad', () => {
+  it('går vidare direkt när ingen blev förvisad', () => {
     const noOne = playDay(day, { p1: 'skip', p2: 'skip', p3: 'skip', p4: 'skip', p5: 'skip' });
     expect(isVerdictShown(noOne)).toBe(true);
   });
@@ -75,19 +59,16 @@ describe('en morgon där mordet avgör spelet', () => {
   const night = createTestGame(['mafia', 'mafia', 'citizen', 'citizen']);
   const morning = playNight(night, { p1: 'p3', p2: 'p3', p3: 'p1', p4: 'p1' });
 
-  it('visar morgonen och rollen innan spelet tar slut', () => {
+  it('visar morgonen innan spelet tar slut', () => {
     expect(morning.phase).toBe('day');
-    expect(isMorningDecided(morning)).toBe(false);
-    expect(() => endDecidedMorning(morning)).toThrow(RuleError);
-    const shown = showDeathRole(morning);
-    expect(isMorningDecided(shown)).toBe(true);
-    const over = endDecidedMorning(shown);
+    expect(isMorningDecided(morning)).toBe(true);
+    const over = endDecidedMorning(morning);
     expect(over.phase).toBe('gameOver');
     expect(over.winner).toBe('mafia');
   });
 
   it('räknar inte rösterna medan morgonen väntar på slutet', () => {
-    const voted = playDay(showDeathRole(morning), { p1: 'p4', p2: 'p4', p4: 'p1' });
+    const voted = playDay(morning, { p1: 'p4', p2: 'p4', p4: 'p1' });
     expect(voted.phase).toBe('day');
   });
 
@@ -98,6 +79,7 @@ describe('en morgon där mordet avgör spelet', () => {
 
   it('är inte avgjord en vanlig morgon', () => {
     const calm = playNight(createTestGame(ROLES), { p1: 'p4', p2: 'p1', p3: 'p5', p4: 'p2', p5: 'p2' });
-    expect(isMorningDecided(showDeathRole(calm))).toBe(false);
+    expect(isMorningDecided(calm)).toBe(false);
+    expect(() => endDecidedMorning(calm)).toThrow(RuleError);
   });
 });

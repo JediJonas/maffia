@@ -163,7 +163,7 @@ export function useHostGame(roomCode, hostName, hostAvatar) {
   }, [hiddenDeathId, state.phase, tryRule]);
 
   // Avgjorde nattens mord spelet går morgonen vidare till slutet av sig själv,
-  // en stund efter att rollen har visats.
+  // en stund efter att alla har sett vem som blev mördad.
   const isDecided = isMorningDecided(state);
   useEffect(() => {
     if (!isDecided) return undefined;

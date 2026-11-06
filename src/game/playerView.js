@@ -1,7 +1,7 @@
 // @ts-check
 // Det enda som skickas till en telefon. Varje fält här är något just den
 // spelaren får veta, så att ingen kan läsa andras roller i nätverkstrafiken.
-import { canConfirmNight, listNightTargets } from './rules.js';
+import { hasMafiaAgreed, listNightTargets } from './rules.js';
 import { findHiddenDeathId } from './deathReveal.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
@@ -27,15 +27,14 @@ import { findHiddenDeathId } from './deathReveal.js';
  * @property {boolean} isReady
  * @property {string[]} nightTargetIds Vem jag får välja i natt.
  * @property {string | null} myNightChoice
- * @property {boolean} isNightDone
- * @property {boolean} canConfirmNight
- * @property {number} nightDoneCount Antal klara, men inte vilka, så att ordningen inte avslöjar någon.
+ * @property {number} nightChosenCount Antal som har valt, men inte vilka, så att ordningen inte avslöjar någon.
+ * @property {boolean | null} hasMafiaAgreed Om maffian har valt samma person. Null för alla utom maffian.
  * @property {number} livingCount
  * @property {{ id: string, choiceId: string | null }[]} mafiaTeam Tom för alla utom maffian.
  * @property {import('./types.js').Investigation[]} investigations Tom för alla utom detektiven.
  * @property {Record<string, string>} dayVotes Omröstningen är öppen, som i klassisk maffia.
  * @property {import('./settings.js').GameSettings} settings Alla får se inställningarna.
- * @property {boolean} isRoleRevealPending Sant på morgonen och i domslutet medan nedräkningen till den dödas roll pågår.
+ * @property {boolean} isRoleRevealPending Sant i domslutet medan nedräkningen till den dödas roll pågår.
  * @property {import('./types.js').NightOutcome | null} lastNight
  * @property {import('./types.js').DayOutcome | null} lastDay
  * @property {import('./types.js').Team | null} winner
@@ -72,9 +71,8 @@ export function buildPlayerView(state, playerId) {
     isReady: state.readyIds.includes(me.id),
     nightTargetIds: isNight && me.isAlive ? listNightTargets(state, me) : [],
     myNightChoice: isNight ? state.nightChoices[me.id] ?? null : null,
-    isNightDone: state.nightDoneIds.includes(me.id),
-    canConfirmNight: canConfirmNight(state, me),
-    nightDoneCount: state.nightDoneIds.length,
+    nightChosenCount: isNight ? state.players.filter((p) => p.isAlive && state.nightChoices[p.id]).length : 0,
+    hasMafiaAgreed: isNight && isMafia ? hasMafiaAgreed(state) : null,
     livingCount: state.players.filter((p) => p.isAlive).length,
     mafiaTeam: isMafia
       ? state.players
