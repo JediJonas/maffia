@@ -35,7 +35,7 @@ export function createGame() {
 
 /**
  * @param {GameState} state
- * @param {{ id: string, name: string, avatar?: unknown }} newPlayer Avataren kommer från telefonen och kontrolleras här.
+ * @param {{ id: string, name: string, avatar?: unknown, isBot?: boolean }} newPlayer Avataren kommer från telefonen och kontrolleras här.
  * @returns {GameState}
  */
 export function addPlayer(state, newPlayer) {
@@ -46,7 +46,7 @@ export function addPlayer(state, newPlayer) {
   const isNameTaken = state.players.some((p) => p.name.toLowerCase() === name.toLowerCase());
   if (isNameTaken) throw new RuleError('Namnet är redan taget.');
   /** @type {Player} */
-  const player = { id: newPlayer.id, name, role: null, isAlive: true, isConnected: true, avatar: sanitizeAvatar(newPlayer.avatar) };
+  const player = { id: newPlayer.id, name, role: null, isAlive: true, isConnected: true, isBot: Boolean(newPlayer.isBot), avatar: sanitizeAvatar(newPlayer.avatar) };
   return { ...state, players: [...state.players, player] };
 }
 

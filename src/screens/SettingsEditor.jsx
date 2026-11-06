@@ -1,5 +1,5 @@
 // @ts-check
-import { MIN_PLAYERS } from '../game/roles.js';
+import { MAX_PLAYERS, MIN_PLAYERS } from '../game/roles.js';
 import { MAFIA_COUNT_CHOICES, findSettingsProblem, stepMafiaCount } from '../game/settings.js';
 import { ListCard } from './ListCard.jsx';
 import { describeLobbyStatus } from './lobbyText.js';
@@ -21,10 +21,13 @@ const SWITCHES = [
  * @param {object} props
  * @param {GameSettings} props.settings
  * @param {number} props.playerCount
+ * @param {number} props.botCount
  * @param {(changes: Partial<GameSettings>) => void} props.onChange
+ * @param {() => void} props.onAddBot
+ * @param {() => void} props.onRemoveBot
  * @param {() => void} props.onClose
  */
-export function SettingsEditor({ settings, playerCount, onChange, onClose }) {
+export function SettingsEditor({ settings, playerCount, botCount, onChange, onAddBot, onRemoveBot, onClose }) {
   const problem = playerCount >= MIN_PLAYERS ? findSettingsProblem(settings, playerCount) : null;
   const isFirstChoice = settings.mafiaCount === MAFIA_COUNT_CHOICES[0];
   const isLastChoice = settings.mafiaCount === MAFIA_COUNT_CHOICES[MAFIA_COUNT_CHOICES.length - 1];
@@ -38,6 +41,14 @@ export function SettingsEditor({ settings, playerCount, onChange, onClose }) {
               <button type="button" aria-label="Färre maffia" disabled={isFirstChoice} onClick={() => onChange({ mafiaCount: stepMafiaCount(settings.mafiaCount, -1) })}>‹</button>
               <span className="stepper-value" aria-live="polite">{settings.mafiaCount === 'auto' ? 'Auto' : settings.mafiaCount}</span>
               <button type="button" aria-label="Fler maffia" disabled={isLastChoice} onClick={() => onChange({ mafiaCount: stepMafiaCount(settings.mafiaCount, 1) })}>›</button>
+            </span>
+          </li>
+          <li>
+            <span>Botar</span>
+            <span className="stepper">
+              <button type="button" aria-label="Färre botar" disabled={botCount === 0} onClick={onRemoveBot}>‹</button>
+              <span className="stepper-value" aria-live="polite">{botCount}</span>
+              <button type="button" aria-label="Fler botar" disabled={playerCount >= MAX_PLAYERS} onClick={onAddBot}>›</button>
             </span>
           </li>
           {SWITCHES.map(([key, label]) => (

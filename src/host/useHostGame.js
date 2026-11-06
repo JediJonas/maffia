@@ -11,6 +11,8 @@ import {
   GAME_OVER_PAUSE_MS, ROLE_REVEAL_DELAY_MS, VERDICT_PAUSE_MS, endDecidedMorning, findHiddenDeathId, isMorningDecided,
   isVerdictShown, showDeathRole,
 } from '../game/deathReveal.js';
+import { addBot, removeLastBot } from '../game/bots.js';
+import { useBots } from './useBots.js';
 import { openHostNetwork } from '../network/hostNetwork.js';
 import { createSecret, loadHostGame, saveHostGame } from '../device/savedSession.js';
 import { keepScreenAwake } from '../device/wakeLock.js';
@@ -26,6 +28,8 @@ import { keepScreenAwake } from '../device/wakeLock.js';
  * @property {() => void} returnToLobby
  * @property {(changes: Partial<import('../game/settings.js').GameSettings>) => void} changeSettings
  * @property {(playerId: string) => void} removePlayer
+ * @property {() => void} addBot
+ * @property {() => void} removeBot Tar bort den senast tillagda boten.
  */
 
 /**
@@ -180,6 +184,8 @@ export function useHostGame(roomCode, hostName, hostAvatar) {
     return () => clearTimeout(timer);
   }, [isVerdictDone, tryRule]);
 
+  useBots(state, tryRule, setNotice);
+
   const { hostPlayerId } = initialGame;
   const view = useMemo(() => buildPlayerView(state, hostPlayerId), [state, hostPlayerId]);
 
@@ -193,10 +199,16 @@ export function useHostGame(roomCode, hostName, hostAvatar) {
     startGame: () => tryRule((s) => startGame(s, Math.random), setNotice),
     returnToLobby: () => tryRule(returnToLobby, setNotice),
     changeSettings: (/** @type {Partial<import('../game/settings.js').GameSettings>} */ changes) => tryRule((s) => changeSettings(s, changes), setNotice),
+    addBot: () => tryRule((s) => addBot(s, createPlayerId(), Math.random), setNotice),
+    removeBot: () => tryRule(removeLastBot, setNotice),
     removePlayer(/** @type {string} */ playerId) {
       const game = gameRef.current;
       const entry = Object.entries(game.playerIdsBySecret).find(([, id]) => id === playerId);
-      if (!entry) return;
+      // En bot har ingen telefon att säga till, den tas bara bort.
+      if (!entry) {
+        tryRule((s) => removePlayer(s, playerId), setNotice);
+        return;
+      }
       const [secret] = entry;
       networkRef.current?.send(secret, { type: 'rejected', message: 'Värden tog bort dig från rummet.' });
       const playerIdsBySecret = Object.fromEntries(
