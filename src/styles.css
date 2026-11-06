@@ -1182,3 +1182,44 @@ main section .person-text {
 .leave-dialog .bottom-actions {
   margin-top: 0.75rem;
 }
+
+/*
+ * Liggande telefon: bilden till vänster och resten till höger, så att listan
+ * och knapparna syns utan att bilden fyller hela skärmen. Appen får inte kräva
+ * stående läge (WCAG 1.3.4), så den anpassar sig i stället.
+ */
+@media (orientation: landscape) and (max-height: 32rem) {
+  :root:has(main > .scene) .top-bar,
+  main:has(> .scene) {
+    max-width: 56rem;
+  }
+
+  main:has(> .scene) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 1.25rem;
+    align-items: start;
+  }
+
+  main:has(> .scene) > * {
+    grid-column: 2;
+  }
+
+  /* Bilden står kvar medan högerspalten rullar. Den spänner över alla rader i spalten. */
+  main > .scene {
+    position: sticky;
+    top: 0.625rem;
+    grid-column: 1;
+    grid-row: 1 / span 20;
+    height: min(19.875rem, calc(100dvh - 5.5rem));
+  }
+
+  /* Startsidan: bilden täcker hela bredden, och texten och knapparna får vanlig bredd och rullar. */
+  .start-image {
+    object-fit: cover;
+  }
+
+  .start-content {
+    max-width: 32rem;
+  }
+}
