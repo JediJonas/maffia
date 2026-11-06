@@ -9,8 +9,7 @@ import { PlayerAvatar } from './PlayerAvatar.jsx';
  */
 export function GameOverScreen({ view, host }) {
   return (
-    <section aria-labelledby="over-title">
-      <h1 id="over-title">{view.winner === 'mafia' ? 'Maffian vann' : 'Staden vann'}</h1>
+    <section aria-labelledby="phase-title">
       <h2>Rollerna</h2>
       <ul className="player-list">
         {view.players.map((player) => (

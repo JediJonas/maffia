@@ -20,8 +20,7 @@ export function NightScreen({ view, sendAction }) {
   const progress = <p className="muted">{view.nightDoneCount} av {view.livingCount} är klara.</p>;
   if (!view.me.isAlive) {
     return (
-      <section aria-labelledby="night-title">
-        <h1 id="night-title">Natt {view.round}</h1>
+      <section aria-labelledby="phase-title">
         <p>Du är ute ur spelet. Håll tyst och vänta på morgonen.</p>
         {progress}
       </section>
@@ -36,8 +35,7 @@ export function NightScreen({ view, sendAction }) {
   }
 
   return (
-    <section aria-labelledby="night-title">
-      <h1 id="night-title">Natt {view.round}</h1>
+    <section aria-labelledby="phase-title">
       <p>{view.me.role && NIGHT_INSTRUCTIONS[view.me.role]}</p>
       <PlayerPicker
         players={view.players}

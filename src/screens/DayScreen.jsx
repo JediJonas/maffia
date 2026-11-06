@@ -19,8 +19,7 @@ export function DayScreen({ view, sendAction }) {
   const living = view.players.filter((p) => p.isAlive);
 
   return (
-    <section aria-labelledby="day-title">
-      <h1 id="day-title">Dag {view.round}</h1>
+    <section aria-labelledby="phase-title">
       <MorningNews view={view} />
       <Investigations view={view} />
       <VoteTally view={view} />
