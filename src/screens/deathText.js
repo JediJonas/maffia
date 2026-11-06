@@ -2,6 +2,16 @@
 import { ROLE_INFO } from '../game/roles.js';
 
 /**
+ * Den förvisade säger sig vara oskyldig först när rollen har visats, så att
+ * bubblan inte avslöjar något i förväg. Visas rollen aldrig säger hen inget.
+ * @param {import('../game/playerView.js').PublicPlayer} executed
+ * @returns {boolean}
+ */
+export function isPleaShown(executed) {
+  return executed.revealedRole !== null;
+}
+
+/**
  * Texten bredvid den som har dött. Den döda själv får veta vad som hände,
  * de andra får rollen när den visas.
  * @param {import('../game/playerView.js').PublicPlayer} dead

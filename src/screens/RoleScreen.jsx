@@ -60,7 +60,7 @@ export function RoleScreen({ view, sendAction, isRoleShown, setIsRoleShown }) {
   return (
     <section className="screen" aria-labelledby="phase-title">
       <div className="screen-content">
-        <p className="explanation">Se till att ingen tittar över din axel. Öppna sedan akten.</p>
+        <p>Du ser till att ingen tittar över din axel innan du öppnar akten.</p>
         {view.isReady && (
           <p className="explanation">Väntar på de andra. {capitalize(writeNumber(view.readyCount))} av {writeNumber(view.players.length)} har sett sin roll.</p>
         )}
