@@ -20,8 +20,12 @@ varje gång något hamnar i main.
   ansluter den igen och får tillbaka sin plats. Värden sparar hela spelet i
   telefonen och kan också ladda om.
 - **Värdens skärm** hålls tänd med Wake Lock API.
-- **Fasbyten** syns genom att skärmen blir mörk på natten och ljus på dagen,
-  med en berättartext, och telefonerna vibrerar (inte på iPhone).
+- **Fasbyten** syns genom rastret bakom sidan: små punkter långt ner på
+  dagen, stora och täta på natten. En berättartext säger vad som hänt, och
+  telefonerna vibrerar (inte på iPhone).
+- **Utseendet** är en noirserie i svart och vitt: Archivo för appens text,
+  Big Shoulders Display för rubriker och Comic Neue för berättarens
+  serierutor. Typsnitten följer med appen. Förlagan är canvasen "Maffia noir".
 - **Berättarröst.** Värdens telefon läser upp en kort version av rutan överst
   vid varje fasbyte, och rollen när nedräkningen är slut, med webbläsarens
   talsyntes. Bara

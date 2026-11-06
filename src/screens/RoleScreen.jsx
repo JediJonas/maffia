@@ -12,8 +12,7 @@ export function RoleScreen({ view, sendAction }) {
   const teammates = view.players.filter((p) => view.mafiaTeam.some((m) => m.id === p.id));
 
   return (
-    <section aria-labelledby="role-title">
-      <h1 id="role-title">Din roll</h1>
+    <section aria-labelledby="phase-title">
       <p className="muted">Se till att ingen annan tittar på din skärm.</p>
       {role && (
         <SecretCard revealLabel="Tryck för att se din roll">

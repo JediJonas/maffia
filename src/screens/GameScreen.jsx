@@ -7,6 +7,8 @@ import { NightScreen } from './NightScreen.jsx';
 import { RoleScreen } from './RoleScreen.jsx';
 import { VerdictScreen } from './VerdictScreen.jsx';
 import { usePhaseAnnouncement } from './usePhaseAnnouncement.js';
+import { describePhaseTitle } from './phaseTitle.js';
+import { LeaveIcon } from './LeaveIcon.jsx';
 
 /**
  * @param {object} props
@@ -21,8 +23,11 @@ export function GameScreen({ connection, onLeave }) {
   return (
     <>
       <header className="top-bar">
-        <span>{view ? view.me.name : 'Maffia'}{host && ' · värd'}</span>
-        <button type="button" className="link-button" onClick={onLeave}>Lämna</button>
+        <h1 id="phase-title">{view ? describePhaseTitle(view) : 'Maffia'}</h1>
+        <span className="top-bar-name">{view?.me.name}</span>
+        <button type="button" className="leave-button" aria-label="Lämna spelet" onClick={onLeave}>
+          <LeaveIcon />
+        </button>
       </header>
       <main>
         {showsAnnouncement && <p className="announcement" aria-live="polite">{announcement}</p>}

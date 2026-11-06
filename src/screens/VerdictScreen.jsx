@@ -13,8 +13,7 @@ import { VoteTally } from './VoteTally.jsx';
 export function VerdictScreen({ view }) {
   const executed = view.players.find((p) => p.id === view.lastDay?.executedId);
   return (
-    <section aria-labelledby="verdict-title">
-      <h1 id="verdict-title">Domslut</h1>
+    <section aria-labelledby="phase-title">
       <div className="secret-card verdict-card">
         {executed ? (
           <>

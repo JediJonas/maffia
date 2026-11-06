@@ -18,8 +18,7 @@ export function LobbyScreen({ view, host, sendAction }) {
   const hasEnoughPlayers = view.players.length >= MIN_PLAYERS;
   const canStart = hasEnoughPlayers && !findSettingsProblem(view.settings, view.players.length);
   return (
-    <section aria-labelledby="lobby-title">
-      <h1 id="lobby-title">Väntar på spelare</h1>
+    <section aria-labelledby="phase-title">
       {host && <RoomInvite roomCode={host.roomCode} />}
       <MyAvatar view={view} sendAction={sendAction} />
       <h2>Spelare ({view.players.length})</h2>
