@@ -25,9 +25,11 @@
 }
 
 /*
- * Natten är svart, utan raster. Bildrutan och personraden får en vit ram
- * utanför den svarta, så att de syns mot mörkret. Rutor och listor är vita
- * som på dagen.
+ * Natten är svart, utan raster. En yta får ram bara där den annars skulle
+ * flyta ihop med det som ligger bakom: bilden är mörk mot mörkt och får vit
+ * ram, figuren och rutan bredvid får en vit kontur. Vita rutor och listor syns
+ * mot det svarta utan ram, så linjerna mellan raderna går ända ut. Lappen som
+ * hänger över listan ligger delvis på vitt och behåller sin svarta ram.
  */
 :root[data-phase='night'] {
   --raster: none;
@@ -40,18 +42,15 @@
 }
 
 :root[data-phase='night'] .scene {
-  box-shadow: 0 0 0 3px var(--paper);
+  border-color: var(--paper);
 }
 
 :root[data-phase='night'] .person-figure {
-  filter:
-    drop-shadow(2px 0 0 var(--ink)) drop-shadow(-2px 0 0 var(--ink)) drop-shadow(0 2px 0 var(--ink)) drop-shadow(0 -2px 0 var(--ink))
-    drop-shadow(3px 0 0 var(--paper)) drop-shadow(-3px 0 0 var(--paper)) drop-shadow(0 3px 0 var(--paper)) drop-shadow(0 -3px 0 var(--paper));
+  filter: drop-shadow(2px 0 0 var(--paper)) drop-shadow(-2px 0 0 var(--paper)) drop-shadow(0 2px 0 var(--paper)) drop-shadow(0 -2px 0 var(--paper));
 }
 
-/* Den valda raden är svart, så den får en vit kant för att inte smälta ihop med sidan. */
-:root[data-phase='night'] .picker-option[aria-pressed='true'] {
-  box-shadow: inset 0 0 0 2px var(--paper);
+:root[data-phase='night'] :is(.caption, .notice, main section > p, .list-lead, .player-list, .picker):not(.list-tag) {
+  border: none;
 }
 
 * {
