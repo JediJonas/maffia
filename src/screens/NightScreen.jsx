@@ -15,8 +15,8 @@ const NIGHT_QUESTIONS = {
 /** @type {Record<import('../game/types.js').Role, string | null>} */
 const NIGHT_NOTES = {
   mafia: null,
-  detective: 'Svaret får du när staden vaknar.',
-  doctor: 'Du får inte skydda samma person två nätter i rad.',
+  detective: 'Du får veta om personen är maffia. Svaret får du när staden vaknar.',
+  doctor: 'Du skyddar personen från maffian. Du får inte skydda samma person två nätter i rad.',
   citizen: 'Ditt val räknas inte, men alla väljer så att ingen kan se vem som är vaken och vem som sover.',
 };
 
