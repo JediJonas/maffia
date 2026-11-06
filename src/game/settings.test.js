@@ -21,6 +21,16 @@ describe('inställningar', () => {
     expect(roles).toEqual(['mafia', 'citizen', 'citizen', 'citizen']);
   });
 
+  it('låter gudfadern ta en av maffians platser och lägger till de valda rollerna', () => {
+    const settings = { ...DEFAULT_SETTINGS, mafiaCount: 2, hasGodfather: true, hasBartender: true, hasMayor: true, hasMadman: true };
+    expect(buildRoleList(settings, 8)).toEqual(['godfather', 'mafia', 'detective', 'doctor', 'bartender', 'mayor', 'madman', 'citizen']);
+  });
+
+  it('nekar fler roller än spelare', () => {
+    const settings = { ...DEFAULT_SETTINGS, hasTaxiDriver: true, hasWindowWatcher: true, hasSausageVendor: true };
+    expect(findSettingsProblem(settings, 5)).toBe('Det finns 6 roller men bara 5 spelare. Slå av någon roll.');
+  });
+
   it('nekar så mycket maffia att den vinner direkt', () => {
     expect(findSettingsProblem({ ...DEFAULT_SETTINGS, mafiaCount: 2 }, 4)).toMatch(/för många/);
     expect(findSettingsProblem({ ...DEFAULT_SETTINGS, mafiaCount: 2 }, 5)).toBeNull();

@@ -4,21 +4,38 @@ import { PlayerPicker } from './PlayerPicker.jsx';
 import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
 import { capitalize, writeNumber } from '../game/numberWords.js';
+import { isMafia as isMafiaRole } from '../game/roles.js';
 
 /** @type {Record<import('../game/types.js').Role, string>} */
 const NIGHT_QUESTIONS = {
   mafia: 'Ni väljer vem som ska dö i natt.',
+  godfather: 'Ni väljer vem som ska dö i natt.',
   detective: 'Du väljer vem du ska undersöka.',
   doctor: 'Du väljer vem du ska vaka över.',
+  taxiDriver: 'Du väljer vem du ska följa.',
+  windowWatcher: 'Du väljer vems hem du ska bevaka.',
+  bartender: 'Du väljer vem du ska bjuda på en drink.',
+  sausageVendor: 'Du väljer vem som ska få en korv.',
+  mayor: 'I drömmen väljer du en misstänkt.',
+  madman: 'I drömmen väljer du en misstänkt.',
   citizen: 'I drömmen väljer du en misstänkt.',
 };
+
+const BLIND_CHOICE_NOTE = 'Ditt val räknas inte, men alla väljer så att ingen ser vem som är vaken.';
 
 /** @type {Record<import('../game/types.js').Role, string | null>} */
 const NIGHT_NOTES = {
   mafia: null,
+  godfather: null,
   detective: 'Du får veta om personen är maffia. Svaret får du när staden vaknar.',
   doctor: 'Du skyddar personen från maffian. Samma person får inte skyddas två nätter i rad.',
-  citizen: 'Ditt val räknas inte, men alla väljer så att ingen ser vem som är vaken.',
+  taxiDriver: 'Du får veta vem personen besöker i natt. Svaret får du när staden vaknar.',
+  windowWatcher: 'Du får veta vem som besöker personen i natt. Svaret får du när staden vaknar.',
+  bartender: 'Personen misslyckas med sin uppgift i natt men märker inget.',
+  sausageVendor: 'Med munnen full får personen inte prata i morgon, men den får rösta.',
+  mayor: BLIND_CHOICE_NOTE,
+  madman: BLIND_CHOICE_NOTE,
+  citizen: BLIND_CHOICE_NOTE,
 };
 
 /**
@@ -40,7 +57,7 @@ export function NightScreen({ view, sendAction }) {
     );
   }
 
-  const isMafia = view.me.role === 'mafia';
+  const isMafia = isMafiaRole(view.me.role);
   const nameOf = (/** @type {string | null} */ id) => view.players.find((p) => p.id === id)?.name ?? '';
   /** @param {import('../game/playerView.js').PublicPlayer} player */
   function describeTeamChoices(player) {

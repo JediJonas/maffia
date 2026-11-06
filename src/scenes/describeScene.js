@@ -17,18 +17,33 @@ import { ROLE_INFO } from '../game/roles.js';
  */
 
 /** @type {Record<import('../game/types.js').Role, { image: SceneImageKey, bottomCaption: string }>} */
+// De nya rollerna lånar bilder tills egna finns (se bildprompterna för specialroller).
 const NIGHT_SCENES = {
   mafia: { image: 'nightMafia', bottomCaption: '… men inte maffian.' },
+  godfather: { image: 'nightMafia', bottomCaption: '… men inte maffian.' },
   detective: { image: 'nightDetective', bottomCaption: '… men inte du.' },
   doctor: { image: 'nightDoctor', bottomCaption: '… men inte du.' },
+  taxiDriver: { image: 'nightDetective', bottomCaption: '… men inte du.' },
+  windowWatcher: { image: 'nightDetective', bottomCaption: '… men inte du.' },
+  sausageVendor: { image: 'nightDoctor', bottomCaption: '… men inte du.' },
+  bartender: { image: 'nightCitizen', bottomCaption: '… men inte du.' },
+  mayor: { image: 'nightCitizen', bottomCaption: '… och så även du.' },
+  madman: { image: 'nightCitizen', bottomCaption: '… och så även du.' },
   citizen: { image: 'nightCitizen', bottomCaption: '… och så även du.' },
 };
 
 /** @type {Record<import('../game/types.js').Role, SceneImageKey>} */
 export const ROLE_IMAGES = {
   mafia: 'roleMafia',
+  godfather: 'roleMafia',
   detective: 'roleDetective',
   doctor: 'roleDoctor',
+  taxiDriver: 'roleDetective',
+  windowWatcher: 'roleDetective',
+  sausageVendor: 'roleCitizen',
+  bartender: 'roleMafia',
+  mayor: 'roleCitizen',
+  madman: 'roleCitizen',
   citizen: 'roleCitizen',
 };
 
@@ -61,11 +76,25 @@ export function describeScene(view, isHost, isRoleShown = false) {
       return scene('verdict', 'Staden har bestämt sig.', `${who} blev förvisad.`);
     }
     case 'gameOver':
-      return view.winner === 'mafia'
-        ? scene('mafiaWins', 'Och så var det över …', 'Maffian tar makten.')
-        : scene('townWins', 'Och så var det över …', 'Maffian är besegrad.');
+      return describeEnding(view.winner);
     default:
       return null;
+  }
+}
+
+/**
+ * @param {PlayerView['winner']} winner
+ * @returns {Scene}
+ */
+function describeEnding(winner) {
+  switch (winner) {
+    case 'mafia':
+      return scene('mafiaWins', 'Och så var det över …', 'Maffian tar makten.');
+    case 'madman':
+      // Lånar domens bild tills galningen har ett eget slut.
+      return scene('verdict', 'Och så var det över …', 'Galningen skrattar sist.');
+    default:
+      return scene('townWins', 'Och så var det över …', 'Maffian är besegrad.');
   }
 }
 

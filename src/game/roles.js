@@ -5,12 +5,21 @@
 export const MIN_PLAYERS = 4;
 export const MAX_PLAYERS = 16;
 
-/** @type {Record<Role, { name: string, team: Team, description: string }>} */
+/**
+ * team är laget som rollen vinner med. Bartendern vinner med maffian men är
+ * inte maffia, och galningen vinner bara själv.
+ * @type {Record<Role, { name: string, team: Team, description: string }>}
+ */
 export const ROLE_INFO = {
   mafia: {
     name: 'Maffia',
     team: 'mafia',
     description: 'Varje natt väljer ni tillsammans någon som ska mördas. Ni vinner när ni är lika många som de andra.',
+  },
+  godfather: {
+    name: 'Gudfadern',
+    team: 'mafia',
+    description: 'Du leder maffian. Varje natt väljer ni tillsammans någon som ska mördas. Detektiven ser dig alltid som oskyldig.',
   },
   detective: {
     name: 'Detektiv',
@@ -22,10 +31,40 @@ export const ROLE_INFO = {
     team: 'town',
     description: 'Varje natt skyddar du en spelare från maffian. Du får inte skydda samma spelare två nätter i rad.',
   },
+  taxiDriver: {
+    name: 'Taxichaufför',
+    team: 'town',
+    description: 'Varje natt följer du en person i din taxi och får veta vem den besökte. Varför den gick dit får du inte veta.',
+  },
+  windowWatcher: {
+    name: 'Fönstertittare',
+    team: 'town',
+    description: 'Varje natt bevakar du en persons fönster och får veta vilka som kom på besök. Varför de kom får du inte veta.',
+  },
+  sausageVendor: {
+    name: 'Korvgubbe',
+    team: 'town',
+    description: 'Varje natt bjuder du någon på en korv med allt. Med munnen full får den inte prata nästa dag, men den får rösta.',
+  },
+  mayor: {
+    name: 'Borgmästare',
+    team: 'town',
+    description: 'Du sover om nätterna. På dagen räknas din röst två gånger, och alla ser det när du röstar.',
+  },
   citizen: {
     name: 'Stadsbo',
     team: 'town',
     description: 'Du sover om nätterna. På dagen lyssnar du, misstänker och röstar ut maffian.',
+  },
+  bartender: {
+    name: 'Bartender',
+    team: 'mafia',
+    description: 'Varje natt bjuder du en person på en drink, så att den misslyckas med sin uppgift. Du är inte maffia men vinner om maffian vinner.',
+  },
+  madman: {
+    name: 'Galningen',
+    team: 'madman',
+    description: 'Du vinner bara om staden förvisar dig. Få dem att tro att du är maffia, men inte för tydligt. Om nätterna sover du.',
   },
 };
 
@@ -50,5 +89,15 @@ export function shuffle(items, random) {
  * @returns {Team}
  */
 export function teamOf(role) {
-  return role === 'mafia' ? 'mafia' : 'town';
+  return role ? ROLE_INFO[role].team : 'town';
+}
+
+/**
+ * Maffian själv: de känner varandra, mördar tillsammans och räknas när
+ * maffian ska bli lika många som de andra. Bartendern håller bara på den.
+ * @param {Role | null} role
+ * @returns {boolean}
+ */
+export function isMafia(role) {
+  return role === 'mafia' || role === 'godfather';
 }

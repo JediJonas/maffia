@@ -18,7 +18,7 @@ describe('buildPlayerView', () => {
 
   it('visar maffian vem mer som är maffia och vad de har valt', () => {
     const chosen = applyAction(state, 'p2', { type: 'nightChoice', targetId: 'p5' });
-    expect(buildPlayerView(chosen, 'p1').mafiaTeam).toEqual([{ id: 'p2', choiceId: 'p5' }]);
+    expect(buildPlayerView(chosen, 'p1').mafiaTeam).toEqual([{ id: 'p2', role: 'mafia', choiceId: 'p5' }]);
   });
 
   it('berättar för maffian om de är överens, men inte för andra', () => {

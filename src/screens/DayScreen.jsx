@@ -3,7 +3,8 @@ import { sortByName } from './playerName.js';
 import { SKIP_VOTE } from '../game/rules.js';
 import { capitalize, writeNumber } from '../game/numberWords.js';
 import { describeDeath } from './deathText.js';
-import { DetectiveFile } from './DetectiveFile.jsx';
+import { CaseFile } from './CaseFile.jsx';
+import { buildCaseFile } from './caseFile.js';
 import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
 import { PlayerPicker } from './PlayerPicker.jsx';
@@ -21,12 +22,16 @@ export function DayScreen({ view, sendAction }) {
   const myVote = view.dayVotes[view.me.id] ?? null;
   const votedCount = Object.keys(view.dayVotes).length;
   const living = view.players.filter((p) => p.isAlive);
-  const votesFor = (/** @type {string} */ id) => Object.values(view.dayVotes).filter((target) => target === id).length;
+  // Borgmästarens röst räknas två gånger, och det syns när borgmästaren har röstat.
+  const votesFor = (/** @type {string} */ id) => Object.entries(view.dayVotes)
+    .filter(([, target]) => target === id)
+    .reduce((sum, [voterId]) => sum + (view.doubleVoterIds.includes(voterId) ? 2 : 1), 0);
   // Röster på en själv syns också, men man kan inte rösta på sig själv.
   const listed = sortByName(living).filter((p) => p.id !== view.me.id || votesFor(p.id) > 0);
   const progress = capitalize(`${writeNumber(votedCount)} av ${writeNumber(living.length)} har röstat`);
   /** @param {import('../game/playerView.js').PublicPlayer} player */
   const describeVotes = (player) => describeVoteCount(votesFor(player.id));
+  const caseFile = buildCaseFile(view);
   const isQuietNight = !view.players.some((p) => p.id === view.lastNight?.killedId);
   // En lugn natt har ingen personrad. Då står nyheten i listans ruta, så att det blir en ruta i stället för två.
   const voteLead = isQuietNight
@@ -37,7 +42,8 @@ export function DayScreen({ view, sendAction }) {
     <section className="screen" aria-labelledby="phase-title">
       <div className="screen-content">
         <MorningNews view={view} isNewsInList={view.me.isAlive} />
-        {view.investigations.length > 0 && <DetectiveFile key={view.round} view={view} />}
+        <SilencedNews view={view} />
+        {caseFile && <CaseFile key={view.round} content={caseFile} players={view.players} />}
         {view.me.isAlive ? (
           <ListCard lead={voteLead} tag={progress}>
             <PlayerPicker
@@ -92,4 +98,25 @@ function MorningNews({ view, isNewsInList }) {
   const killed = view.players.find((p) => p.id === view.lastNight?.killedId);
   if (!killed) return isNewsInList ? null : <p>{QUIET_NIGHT_NEWS} Men maffian finns kvar.</p>;
   return <PersonRow player={killed} text={describeDeath(killed, view.me.id, 'mördad i natt')} />;
+}
+
+/**
+ * Den som fick korvgubbens korv får inte prata i dag. Alla ser vem det är,
+ * så att staden kan hålla koll, och den själv får veta att den får rösta.
+ * @param {{ view: import('../game/playerView.js').PlayerView }} props
+ */
+function SilencedNews({ view }) {
+  const silenced = view.players.find((p) => p.id === view.lastNight?.silencedId && p.isAlive);
+  if (!silenced) return null;
+  const isMe = silenced.id === view.me.id;
+  return (
+    <>
+      <PersonRow
+        player={silenced}
+        text={isMe ? 'Du får inte prata i dag.' : `${silenced.name} får inte prata i dag.`}
+        speech="Mmff …"
+      />
+      {isMe && <p className="explanation">Du har munnen full av korv och kan inte prata i dag, men du får rösta.</p>}
+    </>
+  );
 }

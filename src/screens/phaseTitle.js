@@ -1,5 +1,8 @@
 // @ts-check
 
+/** @type {Record<import('../game/types.js').Team, string>} */
+const WINNER_TITLES = { mafia: 'Maffian vann', town: 'Staden vann', madman: 'Galningen vann' };
+
 /**
  * Rubriken i toppraden, som i ett seriealbum: kort och med versaler.
  * @param {Pick<import('../game/playerView.js').PlayerView, 'phase' | 'round' | 'winner'>} view
@@ -18,7 +21,7 @@ export function describePhaseTitle(view) {
     case 'verdict':
       return 'Domslut';
     case 'gameOver':
-      return view.winner === 'mafia' ? 'Maffian vann' : 'Staden vann';
+      return WINNER_TITLES[view.winner ?? 'town'];
     default:
       return 'Maffia';
   }
