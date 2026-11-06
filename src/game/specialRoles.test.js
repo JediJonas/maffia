@@ -23,6 +23,12 @@ describe('specialrollerna på natten', () => {
     expect(day.investigations.p3).toEqual([{ round: 1, targetId: 'p2', isMafia: false }]);
   });
 
+  it('stoppar mordet när bartendern bjuder någon i maffian', () => {
+    const day = playNight(night, { p1: 'p9', p2: 'p1', p3: 'p2', p4: 'p4', p5: 'p1', p6: 'p9', p7: 'p8', ...QUIET });
+    expect(day.lastNight?.killedId).toBeNull();
+    expect(day.sightings?.p6?.[0].seenIds).toEqual(['p1']);
+  });
+
   it('visar taxichauffören vem den följda besökte och fönstertittaren vilka som kom', () => {
     const day = playNight(night, { p1: 'p9', p2: 'p8', p3: 'p9', p4: 'p4', p5: 'p1', p6: 'p9', p7: 'p8', ...QUIET });
     expect(day.sightings?.p5).toEqual([{ round: 1, targetId: 'p1', seenIds: ['p9'] }]);

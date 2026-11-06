@@ -46,7 +46,9 @@ svaret från natten då den blev mördad.
 
 Den som bartendern bjuder märker inget. Läkarens skydd misslyckas, detektiven
 får svaret "inte maffia", taxichauffören och fönstertittaren ser ingen och
-korvgubbens korv hamnar fel. Maffians mord går inte att stoppa. Bartendern
+korvgubben får inte bjuda på någon korv. Bjuder bartendern någon i maffian
+blir ingen mördad den natten, eftersom maffian väljer tillsammans. Bartendern
+vet inte vilka som är maffia och kan alltså stoppa sitt eget lag. Bartendern
 räknas inte som maffia när detektiven undersöker honom eller när maffians
 antal räknas, och maffian kan mörda honom. Han vinner om maffian vinner.
 

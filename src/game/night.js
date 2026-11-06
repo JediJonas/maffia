@@ -39,7 +39,11 @@ export function resolveNightChoices(state) {
   const blockedIds = new Set(withRole('bartender').map(choiceOf).filter((id) => id !== null));
   const isActive = (/** @type {Player} */ player) => !blockedIds.has(player.id);
 
-  const mafiaTargetId = choiceOf(living.find((p) => isMafia(p.role)));
+  // Maffian väljer tillsammans, så en drink till vem som helst av dem stoppar
+  // mordet (Jonas 2026-11-06). Bartendern vet inte vilka de är och kan
+  // alltså råka stoppa sitt eget lag.
+  const mafia = living.filter((p) => isMafia(p.role));
+  const mafiaTargetId = mafia.every(isActive) ? choiceOf(mafia[0]) : null;
   const doctor = withRole('doctor')[0];
   const protectedId = choiceOf(doctor);
   const isSaved = Boolean(doctor && isActive(doctor) && protectedId === mafiaTargetId);
