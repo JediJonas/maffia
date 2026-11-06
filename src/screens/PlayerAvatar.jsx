@@ -1,7 +1,7 @@
 // @ts-check
 import { useEffect, useState } from 'react';
 
-export const SMALL_AVATAR_PX = 44;
+export const SMALL_AVATAR_PX = 48;
 export const LARGE_AVATAR_PX = 128;
 
 // DiceBear med ritningarna är ungefär en tredjedel av appen, så den laddas

@@ -25,7 +25,7 @@ const NIGHT_SCENES = {
 };
 
 /** @type {Record<import('../game/types.js').Role, SceneImageKey>} */
-const ROLE_IMAGES = {
+export const ROLE_IMAGES = {
   mafia: 'roleMafia',
   detective: 'roleDetective',
   doctor: 'roleDoctor',

@@ -13,6 +13,14 @@
   --line: 2px solid var(--ink);
   --thin-line: 1px solid var(--ink);
   --raster: url('./paper/raster-dag.svg');
+  /*
+   * Luften mellan två delar räknas från det som sticker ut längst: lappen
+   * som hänger under en lista och pratbubblan som sticker upp över en
+   * figur. Då blir avståndet lika stort överallt, vad som än står bredvid.
+   */
+  --block-gap: 1rem;
+  --tag-overhang: 1.25rem;
+  --bubble-overhang: 2.5rem;
   color-scheme: light;
 }
 
@@ -402,11 +410,11 @@ main section > p,
  * kanten. Lappen ligger utanför flödet, så det som följer får luft under.
  */
 .list-card {
-  margin: 1.5rem 0 1rem;
+  margin: var(--block-gap) 0;
 }
 
 .list-card-tagged {
-  margin-bottom: 2.25rem;
+  margin-bottom: calc(var(--tag-overhang) + var(--block-gap));
 }
 
 .list-frame {
@@ -422,7 +430,7 @@ main section .list-lead {
 .list-tag {
   position: absolute;
   right: -0.5rem;
-  top: calc(100% - 0.75rem);
+  bottom: calc(-1 * var(--tag-overhang));
   margin: 0;
   padding: 0.3125rem 0.625rem 0.25rem;
   font-size: 0.875rem;
@@ -630,21 +638,24 @@ main section .list-lead {
 /*
  * Personraden: stor figur med en ruta som går in under cirkeln. Rutans
  * vänstra kant urholkas med en mask i stället för att ligga bakom cirkeln,
- * så att rastret inte syns igenom mellan dem. Den vita skuggan ger samma
- * vita ring runt cirkel och ruta som i skissen.
+ * så att rastret inte syns igenom mellan dem.
  */
 .person-row {
   position: relative;
   display: flex;
   align-items: flex-start;
   height: 7rem;
-  margin: 1rem 0;
+  margin: var(--block-gap) 0;
   padding-left: 0.875rem;
-  filter: drop-shadow(5px 0 0 var(--paper)) drop-shadow(-5px 0 0 var(--paper)) drop-shadow(0 5px 0 var(--paper)) drop-shadow(0 -5px 0 var(--paper));
 }
 
 .person-row-speaking {
-  margin-top: 3rem;
+  margin-top: calc(var(--bubble-overhang) + var(--block-gap));
+}
+
+/* Marginaler slås ihop, så både lappen och bubblan måste räknas in här. */
+.list-card-tagged + .person-row-speaking {
+  margin-top: calc(var(--tag-overhang) + var(--bubble-overhang) + var(--block-gap));
 }
 
 .person-row .avatar {
@@ -665,7 +676,7 @@ main section .list-lead {
 
 .person-speech {
   left: 7.625rem;
-  top: -2.5rem;
+  top: calc(-1 * var(--bubble-overhang));
   transform-origin: 1rem 5.875rem;
   animation: speech-pop 0.28s cubic-bezier(0.3, 1.5, 0.6, 1) 1.2s both;
 }
