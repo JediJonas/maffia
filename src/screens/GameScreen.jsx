@@ -14,6 +14,7 @@ import { LeaveDialog } from './LeaveDialog.jsx';
 import { RoomQrCode } from './RoomQrCode.jsx';
 import { ScenePanel } from '../scenes/ScenePanel.jsx';
 import { describeScene } from '../scenes/describeScene.js';
+import { useScrollToTop } from './scrollToTop.js';
 
 /**
  * @param {object} props
@@ -33,6 +34,7 @@ export function GameScreen({ connection, roomCode, onLeave }) {
   // Rollen visas bara innan spelet startar. Efter det är akten stängd.
   const showsRole = isRoleShown && view?.phase === 'roleReveal';
   const scene = view && !showsAvatarEditor && describeScene(view, Boolean(host), showsRole);
+  useScrollToTop(`${view?.phase}-${showsAvatarEditor}-${showsRole}`);
 
   return (
     <>

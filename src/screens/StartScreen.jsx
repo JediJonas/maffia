@@ -5,6 +5,7 @@ import { normalizeRoomCode } from '../network/roomCode.js';
 import { loadSavedName, saveName } from '../device/savedSession.js';
 import { ScenePanel } from '../scenes/ScenePanel.jsx';
 import startImage from '../scenes/images/start.webp';
+import { scrollToTopWhenDoneTyping, useScrollToTop } from './scrollToTop.js';
 
 /**
  * Först två val, gå med eller skapa. Den som har skannat en QR-kod hamnar
@@ -17,6 +18,7 @@ import startImage from '../scenes/images/start.webp';
  */
 export function StartScreen({ initialRoomCode, message, onCreate, onJoin }) {
   const [mode, setMode] = useState(/** @type {'choose' | 'join' | 'create'} */ (initialRoomCode ? 'join' : 'choose'));
+  useScrollToTop(mode);
 
   if (mode === 'join') return <JoinForm initialRoomCode={initialRoomCode} message={message} onJoin={onJoin} onBack={() => setMode('choose')} />;
   if (mode === 'create') return <CreateForm onCreate={onCreate} onBack={() => setMode('choose')} />;
@@ -76,9 +78,10 @@ function JoinForm({ initialRoomCode, message, onJoin, onBack }) {
               autoCapitalize="characters"
               autoComplete="off"
               onChange={(event) => setRoomCodeInput(event.target.value)}
+              onBlur={scrollToTopWhenDoneTyping}
             />
           </label>
-          <NameRow value={name} onChange={setName} autoFocus={Boolean(initialRoomCode)} />
+          <NameRow value={name} onChange={setName} />
         </div>
         {(error ?? message) && <p className="notice" role="alert">{error ?? message}</p>}
         <div className="bottom-actions">
@@ -112,7 +115,7 @@ function CreateForm({ onCreate, onBack }) {
       <form onSubmit={submit} className="form-page">
         <p className="caption">Du håller i trådarna, men spelar som alla andra. Inställningarna väljer du i lobbyn.</p>
         <div className="form-table">
-          <NameRow value={name} onChange={setName} autoFocus />
+          <NameRow value={name} onChange={setName} />
         </div>
         {error && <p className="notice" role="alert">{error}</p>}
         <div className="bottom-actions">
@@ -147,9 +150,11 @@ function FormPage({ title, image, topCaption, children }) {
 }
 
 /**
- * @param {{ value: string, onChange: (name: string) => void, autoFocus?: boolean }} props
+ * Inget fält får fokus av sig självt, så att tangentbordet inte täcker
+ * bilden innan man har sett sidan.
+ * @param {{ value: string, onChange: (name: string) => void }} props
  */
-function NameRow({ value, onChange, autoFocus }) {
+function NameRow({ value, onChange }) {
   return (
     <label className="form-row">
       <span>Ditt namn</span>
@@ -158,9 +163,8 @@ function NameRow({ value, onChange, autoFocus }) {
         value={value}
         maxLength={MAX_NAME_LENGTH}
         autoComplete="nickname"
-        // Namnet är det enda som återstår på sidan, så fokus kan ligga där direkt.
-        autoFocus={autoFocus}
         onChange={(event) => onChange(event.target.value)}
+        onBlur={scrollToTopWhenDoneTyping}
       />
     </label>
   );

@@ -16,8 +16,10 @@ export function PersonRow({ player, text, speech }) {
   return (
     <div className={speech ? 'person-row person-row-speaking' : 'person-row'}>
       {speech && <SpeechBubble className="person-speech">{speech}</SpeechBubble>}
-      <PlayerAvatar player={player} sizePx={PERSON_AVATAR_PX} />
-      <p className="person-text">{text}</p>
+      <div className="person-figure">
+        <PlayerAvatar player={player} sizePx={PERSON_AVATAR_PX} />
+        <p className="person-text">{text}</p>
+      </div>
     </div>
   );
 }
