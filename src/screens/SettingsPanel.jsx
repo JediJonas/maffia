@@ -6,37 +6,25 @@ import { MAFIA_COUNT_CHOICES, findSettingsProblem } from '../game/settings.js';
 /** @typedef {import('../game/settings.js').GameSettings} GameSettings */
 
 /**
- * Alla ser en sammanfattning. Värden öppnar formuläret med Ändra, så att lobbyn
- * blir kort och samma för alla, som i Låtquiz.
+ * Värdens inställningar, bakom en knapp så att lobbyn hålls kort. Rutan
+ * under spelarlistan berättar för alla vilka roller det blir.
  * @param {object} props
  * @param {GameSettings} props.settings
  * @param {number} props.playerCount
- * @param {((changes: Partial<GameSettings>) => void) | null} props.onChange Null för de som inte är värd.
+ * @param {(changes: Partial<GameSettings>) => void} props.onChange
  */
 export function SettingsPanel({ settings, playerCount, onChange }) {
   const [isEditing, setIsEditing] = useState(false);
   const problem = playerCount >= MIN_PLAYERS ? findSettingsProblem(settings, playerCount) : null;
   return (
-    <section className="settings" aria-labelledby="settings-title">
-      <h2 id="settings-title">Inställningar</h2>
-      {onChange && isEditing ? (
-        <SettingsForm settings={settings} onChange={onChange} />
-      ) : (
-        <SettingsSummary settings={settings} />
-      )}
-      {onChange && (
-        // Samma knapp byter text i stället för att bytas ut, så att fokus stannar kvar.
-        <button
-          type="button"
-          className="secondary"
-          aria-expanded={isEditing}
-          onClick={() => setIsEditing(!isEditing)}
-        >
-          {isEditing ? 'Klar' : 'Ändra inställningar'}
-        </button>
-      )}
+    <>
+      {isEditing && <SettingsForm settings={settings} onChange={onChange} />}
       {problem && <p className="notice">{problem}</p>}
-    </section>
+      {/* Samma knapp byter text i stället för att bytas ut, så att fokus stannar kvar. */}
+      <button type="button" className="secondary" aria-expanded={isEditing} onClick={() => setIsEditing(!isEditing)}>
+        {isEditing ? 'Klar' : 'Inställningar'}
+      </button>
+    </>
   );
 }
 
@@ -79,18 +67,5 @@ function SettingsForm({ settings, onChange }) {
         </label>
       ))}
     </div>
-  );
-}
-
-/** @param {{ settings: GameSettings }} props */
-function SettingsSummary({ settings }) {
-  return (
-    <ul className="settings-summary">
-      <li>Maffia: {settings.mafiaCount === 'auto' ? 'automatiskt' : settings.mafiaCount}</li>
-      <li>Detektiv: {settings.hasDetective ? 'ja' : 'nej'}</li>
-      <li>Läkare: {settings.hasDoctor ? 'ja' : 'nej'}</li>
-      <li>Avslöja rollen: {settings.revealsRoleOnDeath ? 'ja' : 'nej'}</li>
-      <li>Berättarröst: {settings.hasNarratorVoice ? 'ja' : 'nej'}</li>
-    </ul>
   );
 }

@@ -26,8 +26,9 @@
 
 /*
  * Rastret ligger fast bakom sidan och följer skärmen, så att punkterna alltid
- * är tätast nertill. Det ritas i telefonens bredd och upprepas på bredare
- * skärmar, så att punkterna förblir runda.
+ * är tätast nertill. Bredden följer höjden och rastret upprepas i sidled, så
+ * att punkterna förblir runda. Med en fast bredd krymper webbläsaren
+ * SVG:n för att behålla proportionerna, och då blir det vita kanter.
  */
 html {
   background: var(--paper);
@@ -38,7 +39,7 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: var(--raster) repeat-x 0 0 / 390px 100%;
+  background: var(--raster) repeat-x 0 0 / auto 100%;
   pointer-events: none;
 }
 
@@ -188,7 +189,6 @@ button:disabled {
 .notice,
 main section > p,
 .scene-caption,
-.settings-summary,
 .tally,
 .secret-card,
 .my-avatar,
@@ -217,10 +217,6 @@ main section > p,
   color: var(--paper);
 }
 
-.start-form {
-  display: grid;
-  gap: 0.35rem;
-}
 
 .settings-form {
   display: grid;
@@ -249,34 +245,10 @@ main section > p,
   accent-color: var(--ink);
 }
 
-.settings-summary {
-  margin: 0;
-  padding: 0.5rem 0.75rem 0.5rem 2rem;
-}
 
-.start-form label {
-  font-weight: 600;
-}
 
-.start-form input {
-  min-height: 3.5rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0;
-  border: var(--line);
-  background: var(--paper);
-  margin-bottom: 0.75rem;
-}
 
-#room-code {
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-}
 
-.divider {
-  text-align: center;
-  color: var(--muted);
-  margin: 1.5rem 0 0;
-}
 
 .muted {
   color: var(--muted);
@@ -617,4 +589,231 @@ main section > p,
 @media (prefers-reduced-motion: reduce) {
   .message { animation: none; }
   .spinner { animation-duration: 4s; }
+}
+
+/* Knappar längst ner i en vy, staplade med 10 px emellan. */
+.bottom-actions {
+  display: grid;
+  gap: 0.625rem;
+  margin-top: 1.5rem;
+}
+
+.bottom-actions .primary,
+.bottom-actions .secondary {
+  margin: 0;
+}
+
+/* Små piller och lappar till höger i en rad i listan. */
+.row-button {
+  min-height: 2.125rem;
+  padding: 0.25rem 0.875rem;
+  border-width: 1.5px;
+  font-size: 0.75rem;
+}
+
+.row-note {
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Formulär är en tabell i en ram: etikett till vänster, fält utan egen ram till höger. */
+.form-table {
+  margin-top: 1rem;
+  background: var(--paper);
+  border: var(--line);
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  min-height: 3.5rem;
+  padding: 0 0.875rem;
+}
+
+.form-row + .form-row {
+  border-top: var(--thin-line);
+}
+
+.form-row span {
+  flex: none;
+  width: 5.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.form-row input {
+  flex: 1;
+  min-width: 0;
+  min-height: 3rem;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+
+/* Fokusringen ritas runt hela raden, eftersom fältet saknar egen ram. */
+.form-row input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.form-row:focus-within {
+  outline: 3px solid var(--ink);
+  outline-offset: -6px;
+}
+
+#room-code {
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+}
+
+/* Startsidan: bilden fyller skärmen i mobilen. Är skärmen bredare än bilden visas hela bilden på svart. */
+.start-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: none;
+  min-height: 100dvh;
+  padding: 0;
+  background: var(--ink);
+  overflow: hidden;
+}
+
+.start-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-aspect-ratio: 725/1327) {
+  .start-image {
+    object-fit: contain;
+  }
+}
+
+/* Mörkt uppifrån, så att loggan syns mot himlen. */
+.start-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 46%;
+  background: linear-gradient(to bottom, var(--ink) 0%, rgb(17 17 17 / 0.9) 35%, rgb(17 17 17 / 0) 100%);
+  z-index: 1;
+}
+
+.start-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 5rem 0.75rem 1rem;
+}
+
+/* På breda skärmar håller sig texten och knapparna inom bilden. */
+@media (min-aspect-ratio: 725/1327) {
+  .start-content {
+    max-width: min(32rem, 100dvh * 725 / 1327);
+  }
+}
+
+.start-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.start-logo h1,
+.start-logo p {
+  color: var(--paper);
+  font-family: var(--font-title);
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+  paint-order: stroke fill;
+}
+
+.start-logo h1 {
+  font-size: min(7.5rem, 31vw);
+  line-height: 0.85;
+  letter-spacing: 0.06em;
+  -webkit-text-stroke: 3px var(--ink);
+  text-shadow: 6px 6px 0 var(--ink);
+}
+
+/* Undertiteln mellan två streck. */
+.start-logo p {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  margin: 0.75rem 0 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  -webkit-text-stroke: 1.5px var(--ink);
+}
+
+.start-logo p::before,
+.start-logo p::after {
+  content: '';
+  flex: 1;
+  height: 3px;
+  background: var(--paper);
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+.start-caption {
+  max-width: 70%;
+  margin: auto 0 0;
+}
+
+.start-page .notice {
+  margin: 1rem 0 0;
+}
+
+.start-page .primary {
+  border-color: var(--paper);
+}
+
+/* Lämna spelet: en vit ruta över mörkad skärm, med frågan som en serieruta i hörnet. */
+.leave-dialog {
+  width: calc(100% - 3rem);
+  max-width: 24rem;
+  padding: 3rem 1.25rem 1.25rem;
+  overflow: visible;
+  background: var(--paper);
+  color: var(--ink);
+  border: var(--line);
+}
+
+.leave-dialog::backdrop {
+  background: rgb(17 17 17 / 0.72);
+}
+
+.leave-title {
+  position: absolute;
+  top: -1rem;
+  left: -0.5rem;
+  margin: 0;
+  font-size: 1.0625rem;
+}
+
+.leave-dialog p {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.leave-dialog .bottom-actions {
+  margin-top: 0.75rem;
 }

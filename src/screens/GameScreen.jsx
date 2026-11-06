@@ -1,4 +1,5 @@
 // @ts-check
+import { useState } from 'react';
 import { DayScreen } from './DayScreen.jsx';
 import { GameOverScreen } from './GameOverScreen.jsx';
 import { LobbyScreen } from './LobbyScreen.jsx';
@@ -9,6 +10,7 @@ import { VerdictScreen } from './VerdictScreen.jsx';
 import { usePhaseAnnouncement } from './usePhaseAnnouncement.js';
 import { describePhaseTitle } from './phaseTitle.js';
 import { LeaveIcon } from './LeaveIcon.jsx';
+import { LeaveDialog } from './LeaveDialog.jsx';
 import { RoomQrCode } from './RoomQrCode.jsx';
 import { ScenePanel } from '../scenes/ScenePanel.jsx';
 import { describeScene } from '../scenes/describeScene.js';
@@ -24,13 +26,14 @@ export function GameScreen({ connection, roomCode, onLeave }) {
   const announcement = usePhaseAnnouncement(view);
   const showsAnnouncement = view && view.phase !== 'lobby' && announcement;
   const scene = view && describeScene(view, Boolean(host));
+  const [isLeaving, setIsLeaving] = useState(false);
 
   return (
     <>
       <header className="top-bar">
         <h1 id="phase-title">{view ? describePhaseTitle(view) : 'Maffia'}</h1>
         <span className="top-bar-name">{view?.me.name}</span>
-        <button type="button" className="leave-button" aria-label="Lämna spelet" onClick={onLeave}>
+        <button type="button" className="leave-button" aria-label="Lämna spelet" onClick={() => setIsLeaving(true)}>
           <LeaveIcon />
         </button>
       </header>
@@ -46,6 +49,7 @@ export function GameScreen({ connection, roomCode, onLeave }) {
         {view && <PhaseContent view={view} sendAction={sendAction} host={host} />}
       </main>
       <MessageBar status={status} notice={notice} />
+      <LeaveDialog isOpen={isLeaving} isHost={Boolean(host)} onStay={() => setIsLeaving(false)} onLeave={onLeave} />
     </>
   );
 }

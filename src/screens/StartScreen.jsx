@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { MAX_NAME_LENGTH } from '../game/rules.js';
 import { normalizeRoomCode } from '../network/roomCode.js';
 import { loadSavedName, saveName } from '../device/savedSession.js';
+import { ScenePanel } from '../scenes/ScenePanel.jsx';
+import startImage from '../scenes/images/start.webp';
 
 /**
  * Först två val, gå med eller skapa. Den som har skannat en QR-kod hamnar
@@ -16,20 +18,23 @@ import { loadSavedName, saveName } from '../device/savedSession.js';
 export function StartScreen({ initialRoomCode, message, onCreate, onJoin }) {
   const [mode, setMode] = useState(/** @type {'choose' | 'join' | 'create'} */ (initialRoomCode ? 'join' : 'choose'));
 
+  if (mode === 'join') return <JoinForm initialRoomCode={initialRoomCode} message={message} onJoin={onJoin} onBack={() => setMode('choose')} />;
+  if (mode === 'create') return <CreateForm onCreate={onCreate} onBack={() => setMode('choose')} />;
   return (
-    <main>
-      <h1>Maffia</h1>
-      {message && <p className="notice" role="alert">{message}</p>}
-      {mode === 'choose' && (
-        <>
+    <main className="start-page">
+      <img className="start-image" src={startImage} alt="" />
+      <div className="start-content">
+        <hgroup className="start-logo">
+          <h1>Maffia</h1>
+          <p>Ett spel om lögner</p>
+        </hgroup>
+        {message && <p className="notice" role="alert">{message}</p>}
+        <p className="caption start-caption">Någon i staden är inte den som de utger sig för att vara.</p>
+        <div className="bottom-actions">
           <button type="button" className="primary" onClick={() => setMode('join')}>Gå med i spel</button>
           <button type="button" className="secondary" onClick={() => setMode('create')}>Skapa nytt spel</button>
-        </>
-      )}
-      {mode === 'join' && (
-        <JoinForm initialRoomCode={initialRoomCode} onJoin={onJoin} onBack={() => setMode('choose')} />
-      )}
-      {mode === 'create' && <CreateForm onCreate={onCreate} onBack={() => setMode('choose')} />}
+        </div>
+      </div>
     </main>
   );
 }
@@ -37,10 +42,11 @@ export function StartScreen({ initialRoomCode, message, onCreate, onJoin }) {
 /**
  * @param {object} props
  * @param {string | null} props.initialRoomCode
+ * @param {string | null} props.message
  * @param {(roomCode: string, name: string) => void} props.onJoin
  * @param {() => void} props.onBack
  */
-function JoinForm({ initialRoomCode, onJoin, onBack }) {
+function JoinForm({ initialRoomCode, message, onJoin, onBack }) {
   const [name, setName] = useState(loadSavedName);
   const [roomCodeInput, setRoomCodeInput] = useState(initialRoomCode ?? '');
   const [error, setError] = useState(/** @type {string | null} */ (null));
@@ -49,8 +55,8 @@ function JoinForm({ initialRoomCode, onJoin, onBack }) {
   function submit(event) {
     event.preventDefault();
     const roomCode = normalizeRoomCode(roomCodeInput);
-    if (!name.trim()) setError('Skriv ditt namn först.');
-    else if (!roomCode) setError('Rumskoden är fyra bokstäver.');
+    if (!roomCode) setError('Koden är fyra bokstäver.');
+    else if (!name.trim()) setError('Skriv ditt namn först.');
     else {
       saveName(name.trim());
       onJoin(roomCode, name.trim());
@@ -58,21 +64,29 @@ function JoinForm({ initialRoomCode, onJoin, onBack }) {
   }
 
   return (
-    <form onSubmit={submit} className="start-form">
-      <h2>Gå med i spel</h2>
-      <label htmlFor="room-code">Rumskod</label>
-      <input
-        id="room-code"
-        value={roomCodeInput}
-        autoCapitalize="characters"
-        autoComplete="off"
-        onChange={(event) => setRoomCodeInput(event.target.value)}
-      />
-      <NameField value={name} onChange={setName} autoFocus={Boolean(initialRoomCode)} />
-      {error && <p className="notice" role="alert">{error}</p>}
-      <button type="submit" className="primary">Gå med</button>
-      <button type="button" className="link-button" onClick={onBack}>Tillbaka</button>
-    </form>
+    <FormPage title="Gå med" image="join" topCaption="Någon väntar på dig …">
+      <form onSubmit={submit} className="form-page">
+        <p className="caption">Skriv koden från värdens skärm och ditt namn.</p>
+        <div className="form-table">
+          <label className="form-row">
+            <span>Kod</span>
+            <input
+              id="room-code"
+              value={roomCodeInput}
+              autoCapitalize="characters"
+              autoComplete="off"
+              onChange={(event) => setRoomCodeInput(event.target.value)}
+            />
+          </label>
+          <NameRow value={name} onChange={setName} autoFocus={Boolean(initialRoomCode)} />
+        </div>
+        {(error ?? message) && <p className="notice" role="alert">{error ?? message}</p>}
+        <div className="bottom-actions">
+          <button type="button" className="secondary" onClick={onBack}>Tillbaka</button>
+          <button type="submit" className="primary">Gå med</button>
+        </div>
+      </form>
+    </FormPage>
   );
 }
 
@@ -94,24 +108,51 @@ function CreateForm({ onCreate, onBack }) {
   }
 
   return (
-    <form onSubmit={submit} className="start-form">
-      <h2>Skapa nytt spel</h2>
-      <NameField value={name} onChange={setName} autoFocus />
-      {error && <p className="notice" role="alert">{error}</p>}
-      <p className="muted">Du blir värd och spelar samtidigt. Inställningarna väljer du i lobbyn, när du ser hur många som är med. Håll din telefon igång under spelet.</p>
-      <button type="submit" className="primary">Skapa spelet</button>
-      <button type="button" className="link-button" onClick={onBack}>Tillbaka</button>
-    </form>
+    <FormPage title="Nytt spel" image="create" topCaption="Du samlar gänget.">
+      <form onSubmit={submit} className="form-page">
+        <p className="caption">Du håller i trådarna, men spelar som alla andra. Inställningarna väljer du i lobbyn.</p>
+        <div className="form-table">
+          <NameRow value={name} onChange={setName} autoFocus />
+        </div>
+        {error && <p className="notice" role="alert">{error}</p>}
+        <div className="bottom-actions">
+          <button type="button" className="secondary" onClick={onBack}>Tillbaka</button>
+          <button type="submit" className="primary">Skapa spelet</button>
+        </div>
+      </form>
+    </FormPage>
+  );
+}
+
+/**
+ * Rubrik och bildruta, som i spelets vyer.
+ * @param {object} props
+ * @param {string} props.title
+ * @param {import('../scenes/sceneImages.js').SceneImageKey} props.image
+ * @param {string} props.topCaption
+ * @param {import('react').ReactNode} props.children
+ */
+function FormPage({ title, image, topCaption, children }) {
+  return (
+    <>
+      <header className="top-bar">
+        <h1>{title}</h1>
+      </header>
+      <main>
+        <ScenePanel scene={{ image, topCaption, bottomCaption: null, showsRoomCode: false }} roomCode={null} />
+        {children}
+      </main>
+    </>
   );
 }
 
 /**
  * @param {{ value: string, onChange: (name: string) => void, autoFocus?: boolean }} props
  */
-function NameField({ value, onChange, autoFocus }) {
+function NameRow({ value, onChange, autoFocus }) {
   return (
-    <>
-      <label htmlFor="name">Ditt namn</label>
+    <label className="form-row">
+      <span>Ditt namn</span>
       <input
         id="name"
         value={value}
@@ -121,6 +162,6 @@ function NameField({ value, onChange, autoFocus }) {
         autoFocus={autoFocus}
         onChange={(event) => onChange(event.target.value)}
       />
-    </>
+    </label>
   );
 }

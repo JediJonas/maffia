@@ -53,11 +53,11 @@ describe('inställningar', () => {
 });
 
 describe('describeRoles', () => {
-  it('skriver antalet för varje roll', () => {
-    expect(describeRoles(['mafia', 'detective', 'doctor', 'citizen'])).toBe('1 maffia, 1 detektiv, 1 läkare och 1 medborgare');
+  it('skriver antalet för varje roll med bokstäver', () => {
+    expect(describeRoles(['mafia', 'detective', 'doctor', 'citizen'])).toBe('en maffia, en detektiv, en läkare och en medborgare');
   });
 
   it('hoppar över roller som inte är med', () => {
-    expect(describeRoles(['mafia', 'mafia', 'citizen', 'citizen', 'citizen'])).toBe('2 maffia och 3 medborgare');
+    expect(describeRoles(['mafia', 'mafia', 'citizen', 'citizen', 'citizen'])).toBe('två maffia och tre medborgare');
   });
 });
