@@ -26,8 +26,9 @@
 
 /*
  * Rastret ligger fast bakom sidan och följer skärmen, så att punkterna alltid
- * är tätast nertill. Det ritas i telefonens bredd och upprepas på bredare
- * skärmar, så att punkterna förblir runda.
+ * är tätast nertill. Bredden följer höjden och rastret upprepas i sidled, så
+ * att punkterna förblir runda. Med en fast bredd krymper webbläsaren
+ * SVG:n för att behålla proportionerna, och då blir det vita kanter.
  */
 html {
   background: var(--paper);
@@ -38,7 +39,7 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: var(--raster) repeat-x 0 0 / 390px 100%;
+  background: var(--raster) repeat-x 0 0 / auto 100%;
   pointer-events: none;
 }
 
