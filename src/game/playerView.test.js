@@ -21,6 +21,16 @@ describe('buildPlayerView', () => {
     expect(buildPlayerView(chosen, 'p1').mafiaTeam).toEqual([{ id: 'p2', choiceId: 'p5' }]);
   });
 
+  it('berättar för maffian om de är överens, men inte för andra', () => {
+    let chosen = applyAction(state, 'p1', { type: 'nightChoice', targetId: 'p5' });
+    chosen = applyAction(chosen, 'p2', { type: 'nightChoice', targetId: 'p6' });
+    expect(buildPlayerView(chosen, 'p1').hasMafiaAgreed).toBe(false);
+    expect(buildPlayerView(chosen, 'p3').hasMafiaAgreed).toBeNull();
+    expect(buildPlayerView(chosen, 'p3').nightChosenCount).toBe(2);
+    const agreed = applyAction(chosen, 'p2', { type: 'nightChoice', targetId: 'p5' });
+    expect(buildPlayerView(agreed, 'p2').hasMafiaAgreed).toBe(true);
+  });
+
   it('visar inte andras nattval för detektiven', () => {
     const chosen = applyAction(state, 'p1', { type: 'nightChoice', targetId: 'p5' });
     const view = buildPlayerView(chosen, 'p3');

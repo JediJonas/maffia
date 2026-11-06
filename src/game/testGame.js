@@ -22,7 +22,7 @@ export function createTestGame(roles) {
 }
 
 /**
- * Låter varje spelare välja och bekräfta sitt nattval.
+ * Låter varje spelare välja. Natten tar slut av sig själv när alla har valt.
  * @param {import('./types.js').GameState} state
  * @param {Record<string, string>} choices Spelarens id och målets id.
  * @returns {import('./types.js').GameState}
@@ -31,9 +31,6 @@ export function playNight(state, choices) {
   let next = state;
   for (const [playerId, targetId] of Object.entries(choices)) {
     next = applyAction(next, playerId, { type: 'nightChoice', targetId });
-  }
-  for (const playerId of Object.keys(choices)) {
-    next = applyAction(next, playerId, { type: 'nightDone' });
   }
   return next;
 }

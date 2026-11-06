@@ -30,11 +30,13 @@ fyra spelare.
    undersökas, läkaren vem som ska skyddas. Medborgarna väljer vem de
    misstänker, men det valet används inte. Det finns bara för att alla ska
    göra likadant, så att ingen avslöjar sig genom att sitta still (projektets
-   "blindknapp").
+   "blindknapp"). Ett tryck är valet, och man kan trycka om och ändra sig.
+   Natten tar slut när alla har valt och maffian har valt samma person.
 3. **Dag.** Berättaren säger vem som blev mördad och vilken roll den hade,
    eller att ingen blev mördad. Alla diskuterar och röstar öppet. Den som får
-   flest röster blir utvisad ur staden och rollen visas. Vid lika, eller om
-   lika många eller fler valde att avstå, blir ingen utvisad.
+   flest röster blir förvisad ur staden och rollen visas efter en kort
+   nedräkning. Vid lika, eller om lika många eller fler valde att avstå, blir
+   ingen förvisad.
 4. Natt och dag växlar tills ett lag har vunnit.
 
 Den som är ute ur spelet får inte prata eller rösta.
@@ -46,14 +48,14 @@ Appen, berättarrösten och dokumentationen använder samma ord:
 - **Mördad.** Den som maffian dödar på natten "blev mördad av maffian", till
   exempel "Anna blev mördad av maffian". Om läkaren räddade offret står det
   "Ingen blev mördad".
-- **Utvisad.** Den som staden röstar bort på dagen "blev utvisad ur staden",
-  till exempel "Du blev utvisad ur staden". Om ingen fick flest röster står det
-  "Ingen blev utvisad". Själva omröstningen heter fortfarande att rösta.
+- **Förvisad.** Den som staden röstar bort på dagen "blev förvisad ur staden",
+  till exempel "Du blev förvisad ur staden". Om ingen fick flest röster står det
+  "Ingen blev förvisad". Själva omröstningen heter fortfarande att rösta.
 - **Kort och långt.** Den stora rubriken vid avataren är kort, "Anna blev
-  mördad" och "Anna blev utvisad", och så säger även berättarrösten.
+  mördad" och "Anna blev förvisad", och så säger även berättarrösten.
   Berättartexten i rutan överst säger hela meningen, "Anna blev mördad av
-  maffian" och "Anna blev utvisad ur staden".
-- **Ute ur spelet.** Både den som blev mördad och den som blev utvisad är ute
+  maffian" och "Anna blev förvisad ur staden".
+- **Ute ur spelet.** Både den som blev mördad och den som blev förvisad är ute
   ur spelet. Det är vad skärmen säger till den spelaren, inte "död".
 
 Skriv inte "dog", "åkte ut" eller "röstades ut" i nya texter.
@@ -69,12 +71,12 @@ skärmen. Till exempel:
 |---|---|
 | Spelet börjar. Titta på din roll i hemlighet och tryck sedan på klar. | Spelet börjar. Titta på din roll. |
 | Natten faller. Alla tittar i sin telefon och gör sitt val. | Natten faller. Gör ditt val. |
-| Staden vaknar. Anna blev mördad av maffian. Diskutera och rösta om vem som ska utvisas. | Staden vaknar. Anna blev mördad. |
-| Alla har röstat. Anna blev utvisad ur staden. | Alla har röstat. Anna blev utvisad. |
+| Staden vaknar. Anna blev mördad av maffian. Diskutera och rösta om vem som ska förvisas. | Staden vaknar. Anna blev mördad. |
+| Alla har röstat. Anna blev förvisad ur staden. | Alla har röstat. Anna blev förvisad. |
 | Spelet är slut. Maffian har tagit över staden. | Spelet är slut. Maffian har vunnit. |
 | Spelet är slut. Staden har besegrat maffian. | Spelet är slut. Staden har vunnit. |
 
-Efter nedräkningen säger rösten rollen, till exempel "Anna var läkare". Den
+Efter domslutets nedräkning säger rösten rollen, till exempel "Anna var läkare". Den
 säger bara det som alla får veta, och samma ord som i listan ovan. Texterna
 finns i `src/game/narration.js`: rutan i `narratePhaseChange` och rösten i
 `narrateAloud`.
@@ -87,15 +89,16 @@ alla går att ändra i `src/game/rules.js`:
 - Döda spelares roller visas för alla.
 - Läkaren får skydda sig själv, men inte samma spelare två nätter i rad.
 - Maffian kan inte välja en annan maffia som offer.
-- På morgonen syns först bara vem som blev mördad i natt. Efter en nedräkning på tio
-  sekunder visas rollen för alla samtidigt. Omröstningen är öppen hela tiden.
-  Blev ingen mördad finns inget att räkna ned till.
-- Avgör nattens mord spelet visas morgonen ändå, med nedräkningen. Några
-  sekunder efter att rollen har visats kommer "Spelet är slut" av sig självt.
-  Röster som läggs under en sådan morgon räknas inte.
+- På natten finns ingen bekräfta-knapp. Ett tryck på en spelare är valet,
+  och man kan ändra sig tills alla har valt och maffian har valt samma person.
+- På morgonen visas den mördades roll direkt, utan nedräkning. Maffian kan
+  inte mörda sina egna, så det finns inget att hålla hemligt.
+- Avgör nattens mord spelet visas morgonen ändå. Några sekunder senare kommer
+  "Spelet är slut" av sig självt. Röster som läggs under en sådan morgon
+  räknas inte.
 - Omröstningen avgörs när alla levande har röstat, och man kan ändra sin röst
   fram till dess. Alla ser hela tiden vem som har röstat på vem.
-- Efter omröstningen visas ett domslut. Först syns bara vem som blev utvisad, och
+- Efter omröstningen visas ett domslut. Först syns bara vem som blev förvisad, och
   rollen visas efter samma nedräkning. Sedan räknar "Spelet fortsätter om …"
   ned i tio sekunder till, så att alla hinner se rösterna, och det blir natt
   eller slut av sig självt. Texten är densamma även när spelet är avgjort, så

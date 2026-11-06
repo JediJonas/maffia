@@ -52,13 +52,13 @@ describe('natten', () => {
   it('dödar maffians offer', () => {
     const day = playNight(night, { p1: 'p4', p2: 'p1', p3: 'p5', p4: 'p2', p5: 'p2' });
     expect(day.phase).toBe('day');
-    expect(day.lastNight).toEqual({ killedId: 'p4', isRoleShown: false });
+    expect(day.lastNight).toEqual({ killedId: 'p4' });
     expect(day.players.find((p) => p.id === 'p4')?.isAlive).toBe(false);
   });
 
   it('låter läkaren rädda offret', () => {
     const day = playNight(night, { p1: 'p4', p2: 'p5', p3: 'p4', p4: 'p2', p5: 'p2' });
-    expect(day.lastNight).toEqual({ killedId: null, isRoleShown: false });
+    expect(day.lastNight).toEqual({ killedId: null });
     expect(day.players.every((p) => p.isAlive)).toBe(true);
   });
 
@@ -67,7 +67,7 @@ describe('natten', () => {
     expect(day.investigations.p2).toEqual([{ round: 1, targetId: 'p1', isMafia: true }]);
   });
 
-  it('väntar tills alla levande har bekräftat', () => {
+  it('väntar tills alla levande har valt', () => {
     const partial = playNight(night, { p1: 'p4', p2: 'p1', p3: 'p5', p4: 'p2' });
     expect(partial.phase).toBe('night');
   });
@@ -76,20 +76,28 @@ describe('natten', () => {
     expect(() => applyAction(night, 'p1', { type: 'nightChoice', targetId: 'p1' })).toThrow(RuleError);
   });
 
-  it('kräver att maffian är överens innan de bekräftar', () => {
-    const twoMafia = createTestGame(['mafia', 'mafia', 'detective', 'doctor', 'citizen', 'citizen', 'citizen', 'citizen']);
-    let state = applyAction(twoMafia, 'p1', { type: 'nightChoice', targetId: 'p5' });
-    state = applyAction(state, 'p2', { type: 'nightChoice', targetId: 'p6' });
-    expect(() => applyAction(state, 'p1', { type: 'nightDone' })).toThrow('samma offer');
+  const EIGHT = ['mafia', 'mafia', 'detective', 'doctor', 'citizen', 'citizen', 'citizen', 'citizen'];
+
+  it('fortsätter natten tills maffian har valt samma person', () => {
+    const disagreeing = playNight(createTestGame(EIGHT), { p1: 'p5', p2: 'p6', p3: 'p1', p4: 'p4', p5: 'p1', p6: 'p1', p7: 'p1', p8: 'p1' });
+    expect(disagreeing.phase).toBe('night');
+    const agreed = applyAction(disagreeing, 'p2', { type: 'nightChoice', targetId: 'p5' });
+    expect(agreed.phase).toBe('day');
+    expect(agreed.lastNight).toEqual({ killedId: 'p5' });
   });
 
-  it('gör om maffians bekräftelse när en av dem byter offer', () => {
-    const twoMafia = createTestGame(['mafia', 'mafia', 'detective', 'doctor', 'citizen', 'citizen', 'citizen', 'citizen']);
-    let state = applyAction(twoMafia, 'p1', { type: 'nightChoice', targetId: 'p5' });
-    state = applyAction(state, 'p2', { type: 'nightChoice', targetId: 'p5' });
-    state = applyAction(state, 'p1', { type: 'nightDone' });
-    state = applyAction(state, 'p2', { type: 'nightChoice', targetId: 'p6' });
-    expect(state.nightDoneIds).not.toContain('p1');
+  it('låter den som har valt ändra sig medan någon annan väljer', () => {
+    let state = applyAction(night, 'p1', { type: 'nightChoice', targetId: 'p4' });
+    state = applyAction(state, 'p1', { type: 'nightChoice', targetId: 'p5' });
+    state = playNight(state, { p2: 'p1', p3: 'p3', p4: 'p2', p5: 'p2' });
+    expect(state.lastNight).toEqual({ killedId: 'p5' });
+  });
+
+  it('räknar bara levande spelares val', () => {
+    const morning = playNight(night, { p1: 'p4', p2: 'p1', p3: 'p5', p4: 'p2', p5: 'p2' });
+    const nextNight = endVerdict(playDay(morning, { p1: SKIP_VOTE, p2: SKIP_VOTE, p3: SKIP_VOTE, p5: SKIP_VOTE }));
+    const day = playNight(nextNight, { p1: 'p5', p2: 'p1', p3: 'p2', p5: 'p2' });
+    expect(day.phase).toBe('day');
   });
 
   it('låter inte läkaren skydda samma spelare två nätter i rad', () => {
@@ -123,7 +131,7 @@ describe('dagen', () => {
     expect(night.round).toBe(2);
   });
 
-  it('ger staden vinsten när sista maffian blir utvisad', () => {
+  it('ger staden vinsten när sista maffian blir förvisad', () => {
     const day = { ...createTestGame(ROLES), phase: /** @type {const} */ ('day') };
     const over = endVerdict(playDay(day, { p1: 'p2', p2: 'p1', p3: 'p1', p4: 'p1', p5: 'p1' }));
     expect(over.phase).toBe('gameOver');

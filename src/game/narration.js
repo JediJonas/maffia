@@ -8,8 +8,8 @@ import { ROLE_INFO } from './roles.js';
 // Rutan säger hela meningen, rösten den korta (se Ord vi använder i docs/regler.md).
 const WRITTEN_KILL = 'blev mördad av maffian';
 const SPOKEN_KILL = 'blev mördad';
-const WRITTEN_EXECUTION = 'blev utvisad ur staden';
-const SPOKEN_EXECUTION = 'blev utvisad';
+const WRITTEN_EXECUTION = 'blev förvisad ur staden';
+const SPOKEN_EXECUTION = 'blev förvisad';
 
 /**
  * @param {PlayerView | null} previous
@@ -24,7 +24,7 @@ export function narratePhaseChange(previous, next) {
     case 'night':
       return 'Natten faller. Alla tittar i sin telefon och gör sitt val.';
     case 'day':
-      return `Staden vaknar. ${describeKill(next)} Diskutera och rösta om vem som ska utvisas.`;
+      return `Staden vaknar. ${describeKill(next)} Diskutera och rösta om vem som ska förvisas.`;
     case 'verdict':
       return `Alla har röstat. ${describeExecution(next)}`;
     case 'gameOver':
@@ -36,7 +36,7 @@ export function narratePhaseChange(previous, next) {
 
 /**
  * Det som värdens telefon läser upp: en kortare version av rutan överst vid
- * varje fasbyte, och rollen när nedräkningen är slut. Rösten säger bara det
+ * varje fasbyte, och den förvisades roll när nedräkningen är slut. Rösten säger bara det
  * viktigaste, eftersom instruktionerna redan står på skärmen. När rösten
  * slås på i lobbyn hörs ett prov, så att värden vet att ljudet fungerar.
  * @param {PlayerView | null} previous Null när sidan just har öppnats, då inget läses upp.
@@ -95,7 +95,7 @@ function describeKill(view, whatHappened = WRITTEN_KILL) {
  */
 function describeExecution(view, whatHappened = WRITTEN_EXECUTION) {
   const executedId = view.lastDay?.executedId;
-  if (!executedId) return 'Ingen blev utvisad.';
+  if (!executedId) return 'Ingen blev förvisad.';
   return describeDeath(view, executedId, whatHappened);
 }
 

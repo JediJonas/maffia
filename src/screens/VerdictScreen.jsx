@@ -18,12 +18,12 @@ export function VerdictScreen({ view }) {
         {executed ? (
           <>
             <PlayerAvatar player={executed} sizePx={LARGE_AVATAR_PX} isDead />
-            <p className="secret-headline">{executed.id === view.me.id ? 'Du' : executed.name} blev utvisad</p>
+            <p className="secret-headline">{executed.id === view.me.id ? 'Du' : executed.name} blev förvisad</p>
             {executed.revealedRole && <p>{executed.name} var {ROLE_INFO[executed.revealedRole].name.toLowerCase()}.</p>}
             {view.isRoleRevealPending && <Countdown durationMs={ROLE_REVEAL_DELAY_MS} label="Rollen visas om" />}
           </>
         ) : (
-          <p className="secret-headline">Ingen blev utvisad</p>
+          <p className="secret-headline">Ingen blev förvisad</p>
         )}
       </div>
       <VoteTally view={view} title="Så röstade staden" />
