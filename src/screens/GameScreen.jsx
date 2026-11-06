@@ -25,13 +25,16 @@ export function GameScreen({ connection, roomCode, onLeave }) {
   const { view, status, notice, sendAction, host } = connection;
   const announcement = usePhaseAnnouncement(view);
   const showsAnnouncement = view && view.phase !== 'lobby' && announcement;
-  const scene = view && describeScene(view, Boolean(host));
   const [isLeaving, setIsLeaving] = useState(false);
+  const [isEditingAvatar, setIsEditingAvatar] = useState(false);
+  // Figuren ändras bara i lobbyn, så redigeraren stängs om spelet startar under tiden.
+  const showsAvatarEditor = isEditingAvatar && view?.phase === 'lobby';
+  const scene = view && !showsAvatarEditor && describeScene(view, Boolean(host));
 
   return (
     <>
       <header className="top-bar">
-        <h1 id="phase-title">{view ? describePhaseTitle(view) : 'Maffia'}</h1>
+        <h1 id="phase-title">{showsAvatarEditor ? 'Din figur' : view ? describePhaseTitle(view) : 'Maffia'}</h1>
         <span className="top-bar-name">{view?.me.name}</span>
         <button type="button" className="leave-button" aria-label="Lämna spelet" onClick={() => setIsLeaving(true)}>
           <LeaveIcon />
@@ -46,7 +49,15 @@ export function GameScreen({ connection, roomCode, onLeave }) {
           </ScenePanel>
         )}
         {/* Utan vy står det i meddelanderutan att telefonen ansluter. */}
-        {view && <PhaseContent view={view} sendAction={sendAction} host={host} />}
+        {view && (
+          <PhaseContent
+            view={view}
+            sendAction={sendAction}
+            host={host}
+            isEditingAvatar={showsAvatarEditor}
+            setIsEditingAvatar={setIsEditingAvatar}
+          />
+        )}
       </main>
       <MessageBar status={status} notice={notice} />
       <LeaveDialog isOpen={isLeaving} isHost={Boolean(host)} onStay={() => setIsLeaving(false)} onLeave={onLeave} />
@@ -59,11 +70,21 @@ export function GameScreen({ connection, roomCode, onLeave }) {
  * @param {import('../game/playerView.js').PlayerView} props.view
  * @param {import('../host/useHostGame.js').GameConnection['sendAction']} props.sendAction
  * @param {import('../host/useHostGame.js').HostControls | null} props.host
+ * @param {boolean} props.isEditingAvatar
+ * @param {(isEditing: boolean) => void} props.setIsEditingAvatar
  */
-function PhaseContent({ view, sendAction, host }) {
+function PhaseContent({ view, sendAction, host, isEditingAvatar, setIsEditingAvatar }) {
   switch (view.phase) {
     case 'lobby':
-      return <LobbyScreen view={view} host={host} sendAction={sendAction} />;
+      return (
+        <LobbyScreen
+          view={view}
+          host={host}
+          sendAction={sendAction}
+          isEditingAvatar={isEditingAvatar}
+          setIsEditingAvatar={setIsEditingAvatar}
+        />
+      );
     case 'roleReveal':
       return <RoleScreen view={view} sendAction={sendAction} />;
     case 'night':
