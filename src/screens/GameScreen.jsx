@@ -43,7 +43,8 @@ export function GameScreen({ connection, roomCode, onLeave }) {
     <>
       <header className="top-bar">
         <h1 id="phase-title">{PANEL_TITLES[shownPanel] ?? (view ? describePhaseTitle(view) : 'Maffia')}</h1>
-        <span className="top-bar-name">{view?.me.name}</span>
+        {/* I Din figur och Inställningar tar rubriken hela raden, så ett långt namn inte bryts mitt i ordet. */}
+        <span className="top-bar-name">{shownPanel === 'players' && view?.me.name}</span>
         <button type="button" className="leave-button" aria-label="Lämna spelet" onClick={() => setIsLeaving(true)}>
           <LeaveIcon />
         </button>
