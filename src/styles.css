@@ -100,6 +100,8 @@ body {
   font-family: var(--font-text);
   font-size: 1.0625rem;
   line-height: 1.45;
+  /* Ett namn kan vara ett enda långt ord (upp till MAX_NAME_LENGTH tecken). Det bryts hellre än går utanför rutan. */
+  overflow-wrap: break-word;
 }
 
 main {
@@ -214,12 +216,20 @@ button:disabled {
 }
 
 .top-bar-name {
+  min-width: 0;
   margin-left: auto;
+  overflow: hidden;
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  overflow-wrap: anywhere;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Rubriken står alltid på en rad. Är namnet för långt kortas det av med … i stället. */
+.top-bar h1 {
+  flex: none;
 }
 
 .leave-button {
@@ -416,6 +426,9 @@ main section > p,
 }
 
 .picker-detail {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 45%;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--muted);
@@ -595,6 +608,16 @@ main section .list-lead {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  min-width: 0;
+}
+
+/* Ett långt namn bryts på flera rader, så att knappen eller taggen bredvid stannar i raden. */
+.player-name > :not(.avatar) {
+  min-width: 0;
+}
+
+.player-list li > :not(.player-name) {
+  flex: none;
 }
 
 .player-list .avatar {

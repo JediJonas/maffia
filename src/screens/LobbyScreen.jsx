@@ -44,7 +44,7 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
           <li key={player.id}>
             <span className="player-name">
               <PlayerAvatar player={player} />
-              {player.name}
+              <span>{player.name}</span>
             </span>
             <PlayerRowAction
               player={player}

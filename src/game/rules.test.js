@@ -26,6 +26,11 @@ describe('lobbyn', () => {
     expect(() => addPlayer(state, { id: 'b', name: ' lisa ' })).toThrow(RuleError);
   });
 
+  it('kortar namn till 14 tecken, så att de får plats i listor och rutor', () => {
+    const state = addPlayer(createGame(), { id: 'a', name: 'Maximiliana Svensson' });
+    expect(state.players[0].name).toBe('Maximiliana Sv');
+  });
+
   it('kräver minst fyra spelare för att starta', () => {
     let state = createGame();
     for (const id of ['a', 'b', 'c']) state = addPlayer(state, { id, name: id });
