@@ -29,7 +29,7 @@ export function StartScreen({ initialRoomCode, message, onCreate, onJoin }) {
           <p>Ett spel om lögner</p>
         </hgroup>
         {message && <p className="notice" role="alert">{message}</p>}
-        <p className="caption start-caption">Någon i staden spelar ett falskt spel.</p>
+        <p className="caption start-caption">Någon i staden säger inte sanningen.</p>
         <div className="bottom-actions">
           <button type="button" className="primary" onClick={() => setMode('join')}>Gå med i spel</button>
           <button type="button" className="secondary" onClick={() => setMode('create')}>Starta nytt spel</button>
