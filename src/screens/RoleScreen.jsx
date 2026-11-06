@@ -1,5 +1,8 @@
 // @ts-check
+import { preload } from 'react-dom';
 import { ROLE_INFO } from '../game/roles.js';
+import { ROLE_IMAGES } from '../scenes/describeScene.js';
+import { SCENE_IMAGES } from '../scenes/sceneImages.js';
 import { capitalize, writeNumber } from '../game/numberWords.js';
 import { PersonRow } from './PersonRow.jsx';
 
@@ -15,7 +18,19 @@ import { PersonRow } from './PersonRow.jsx';
  */
 export function RoleScreen({ view, sendAction, isRoleShown, setIsRoleShown }) {
   const role = view.me.role ? ROLE_INFO[view.me.role] : null;
+  const roleImageSrc = view.me.role ? SCENE_IMAGES[ROLE_IMAGES[view.me.role]].src : null;
+  // Rollbilden laddas redan medan akten är stängd. Annars blir bildrutan
+  // svart ett ögonblick när akten öppnas, innan bilden hunnit komma.
+  if (roleImageSrc) preload(roleImageSrc, { as: 'image' });
   const teammates = view.players.filter((p) => p.id !== view.me.id && view.mafiaTeam.some((m) => m.id === p.id));
+
+  /** Bilden avkodas innan akten öppnas, så att den byts utan att blinka. */
+  function openRole() {
+    if (!roleImageSrc) return;
+    const image = new Image();
+    image.src = roleImageSrc;
+    image.decode().catch(() => {}).finally(() => setIsRoleShown(true));
+  }
 
   function closeRole() {
     setIsRoleShown(false);
@@ -47,7 +62,7 @@ export function RoleScreen({ view, sendAction, isRoleShown, setIsRoleShown }) {
         <p>Väntar på de andra. {capitalize(writeNumber(view.readyCount))} av {writeNumber(view.players.length)} har sett sin roll.</p>
       )}
       <div className="bottom-actions">
-        <button type="button" className="primary" onClick={() => setIsRoleShown(true)}>Visa min roll</button>
+        <button type="button" className="primary" onClick={openRole}>Visa min roll</button>
       </div>
     </section>
   );
