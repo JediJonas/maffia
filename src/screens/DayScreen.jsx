@@ -31,7 +31,7 @@ export function DayScreen({ view, sendAction }) {
       {view.investigations.length > 0 && <DetectiveFile key={view.round} view={view} />}
       {view.me.isAlive ? (
         <>
-          <ListCard lead="Någon av er ljuger. Rösta om vem som ska förvisas." tag={progress}>
+          <ListCard lead="Någon av er ljuger. Staden röstar om vem som ska förvisas." tag={progress}>
             <PlayerPicker
               players={listed}
               selectableIds={living.filter((p) => p.id !== view.me.id).map((p) => p.id)}
@@ -53,7 +53,7 @@ export function DayScreen({ view, sendAction }) {
         </>
       ) : (
         <>
-          <ListCard lead="Staden röstar. Du kan bara se på." tag={progress}>
+          <ListCard lead="Staden röstar utan dig." tag={progress}>
             <PlayerPicker players={listed} describe={describeVotes} />
           </ListCard>
           <p className="explanation">Du är borta nu. Se på, men säg inget.</p>

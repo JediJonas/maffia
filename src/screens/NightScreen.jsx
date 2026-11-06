@@ -6,10 +6,10 @@ import { capitalize, writeNumber } from '../game/numberWords.js';
 
 /** @type {Record<import('../game/types.js').Role, string>} */
 const NIGHT_QUESTIONS = {
-  mafia: 'Välj vem som ska mördas.',
-  detective: 'Vem vill du undersöka?',
-  doctor: 'Vem vill du skydda i natt?',
-  citizen: 'Vem misstänker du mest?',
+  mafia: 'Ni väljer vem som ska dö i natt.',
+  detective: 'Du väljer vem du ska skugga.',
+  doctor: 'Du väljer vem du ska vaka över.',
+  citizen: 'I drömmen ser du den du misstänker mest.',
 };
 
 /** @type {Record<import('../game/types.js').Role, string | null>} */
