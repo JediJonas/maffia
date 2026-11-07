@@ -167,14 +167,21 @@ main {
 }
 
 /*
- * I webbläsaren på en stående telefon slutar sidan vid verktygsfältets
- * överkant, och fältet täcker redan hemstrecket. Safari i iOS 26 anger ändå
- * env(safe-area-inset-bottom) = 34 px, och då hamnade knapparna 34 px för
- * högt. Uppmätt i skärmbilder från iPhone 14 (Jonas 2026-11-07).
+ * Safari i iPhone (iOS 26) lämnar själv cirka 17 px mellan sidans nederkant
+ * och det flytande verktygsfältet, och anger då env(safe-area-inset-bottom)
+ * = 0. Med 16 px till hamnade knapparna 33 px ovanför fältet. Där räcker
+ * Safaris eget mellanrum. Uppmätt med ?matt på iPhone 14 (Jonas 2026-11-07):
+ * innerHeight 699, sidans nederkant 745 px från skärmens topp, fältet 762.
+ * Med adressfältet överst finns inget fält nertill, och då anger Safari 34 px
+ * för hemstrecket. Därför står den säkra marginalen kvar utan 16 px till.
+ * -webkit-touch-callout finns bara i Safari på iPhone och iPad, så Android
+ * behåller sina 16 px. iPad har fälten överst och räknas bort med bredden.
  */
-@media (pointer: coarse) and (display-mode: browser) and (orientation: portrait) {
-  :root {
-    --bottom-gap: 1rem;
+@supports (-webkit-touch-callout: none) {
+  @media (display-mode: browser) and (orientation: portrait) and (max-width: 30rem) {
+    :root {
+      --bottom-gap: env(safe-area-inset-bottom);
+    }
   }
 }
 
