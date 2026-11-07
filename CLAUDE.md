@@ -66,8 +66,9 @@ linje räckte inte.
 
 - Rastret ligger på `body::before` med papper under (`--raster-paper`), och
   `body` har `min-height: 100lvh`.
-- Prova en färg för randen med `?matt=gra` eller `?matt=svart` innan den
-  ändras i CSS:en, och titta både längst ner och på statusfältet överst.
+- Randen är vit, sidans papper (Jonas 2026-11-07). Startsidan och natten har
+  svart bakgrund på html och får svart rand.
+- Lägg inte mönster eller bilder på html för att fylla randen. Det syns inte.
 
 **Så testas det.**
 
