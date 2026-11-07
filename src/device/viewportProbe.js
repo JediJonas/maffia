@@ -3,7 +3,7 @@
 // adressen, så visas en ruta överst med visningsytans mått, säkra marginaler
 // och var sista knappen slutar. En röd linje markerar visningsytans nederkant.
 // Används för att mäta på en riktig iPhone, eftersom Chromium inte har
-// Safaris verktygsfält (se CLAUDE.md, "Knappar längst ner i mobilen").
+// Safaris verktygsfält (se CLAUDE.md, "Mobillayout i Safari").
 
 const PROBE_PARAM = 'matt';
 const UPDATE_DELAY_MS = 300;

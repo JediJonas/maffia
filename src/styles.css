@@ -15,6 +15,16 @@
   --line: 2px solid var(--ink);
   --thin-line: 1px solid var(--ink);
   --raster: url('./paper/raster-dag.svg');
+  --raster-paper: var(--paper);
+  /*
+   * Rastrets tätaste rad, upprepad. Den ligger på html och fyller det som syns
+   * under sidan. Safari i iPhone (iOS 26) visar sidan bakom verktygsfältet
+   * ända ner till skärmens kant, en bit längre än 100lvh (uppmätt med ?matt:
+   * lvh 739 från 47 px, skärmen 844). Utan den blev det en vit rand där.
+   * Mönstret är rastrets sista rad (r 1,2 på 6 × 6, varannan rad förskjuten)
+   * i samma skala som rastret har när sidan är 100lvh hög.
+   */
+  --raster-tail: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='12' fill='%23111111'%3E%3Ccircle cx='3' cy='3' r='1.2'/%3E%3Ccircle cx='0' cy='9' r='1.2'/%3E%3Ccircle cx='6' cy='9' r='1.2'/%3E%3C/svg%3E");
   /*
    * Luften mellan två delar räknas från det som sticker ut längst: lappen
    * som hänger under en lista och pratbubblan som sticker upp över en
@@ -27,8 +37,8 @@
   --person-delay: 1s;
   --speech-delay: 0.6s;
   /*
-   * Luften under knapparna längst ner. Se CLAUDE.md, "Knappar längst ner i
-   * mobilen". Utan webbläsarfält (från hemskärmen, eller liggande) ligger sidan
+   * Luften under knapparna längst ner. Se CLAUDE.md, "Mobillayout i
+   * Safari". Utan webbläsarfält (från hemskärmen, eller liggande) ligger sidan
    * ända ner till hemstrecket, och då behövs den säkra marginalen.
    */
   --bottom-gap: max(1rem, env(safe-area-inset-bottom));
@@ -44,6 +54,7 @@
  */
 :root[data-phase='night'] {
   --raster: none;
+  --raster-paper: transparent;
   background: var(--ink);
 }
 
@@ -56,6 +67,7 @@
 :root:has(.start-page),
 :root:has(#root:empty) {
   --raster: none;
+  --raster-paper: transparent;
   background: var(--start-black);
 }
 
@@ -95,7 +107,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  background: var(--paper);
+  background: var(--paper) var(--raster-tail) repeat 0 0 / calc(6 * 100lvh / 920) calc(12 * 100lvh / 920);
 }
 
 /*
@@ -109,7 +121,8 @@ body::before {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--raster) repeat-x 0 0 / auto 100%;
+  /* Papperet under rastret, så att den upprepade raden på html inte syns igenom. */
+  background: var(--raster) repeat-x 0 0 / auto 100%, var(--raster-paper);
   pointer-events: none;
 }
 

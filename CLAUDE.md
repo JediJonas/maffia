@@ -3,7 +3,7 @@
 Svara på svenska. Alla ändringar görs som PR mot main som Jonas godkänner.
 Pusha aldrig direkt till main och merga aldrig själv.
 
-## Knappar längst ner i mobilen
+## Mobillayout i Safari: knappar och bakgrund längst ner
 
 Detta har gått fel flera gånger. Följ mönstret och ändra det inte utan att
 testa på en riktig iPhone.
@@ -55,6 +55,19 @@ main { padding-bottom: var(--bottom-gap); }
 - Lägg inte till egen `margin-bottom` eller extra luft under knappgruppen
   (`.bottom-actions`). All luft nertill kommer från `--bottom-gap`.
 - Startsidan följer samma regel (`.start-content`).
+
+**Bakgrunden längst ner.** Safari i iOS 26 visar sidan bakom verktygsfältet
+ända ner till skärmens kant, längre än `100lvh` (uppmätt: visningsytan börjar
+47 px ner, lvh 739, skärmen 844, alltså 58 px under lvh). Det som syns där är
+html-elementets bakgrund (canvas), inte body. Därför:
+
+- Rastret ligger på `body::before` med papper under (`--raster-paper`), och
+  `body` har `min-height: 100lvh`.
+- `html` har rastrets tätaste rad upprepad (`--raster-tail`) i samma skala,
+  så att det som syns under sidan ser ut som rastrets nederkant. Startsidan och
+  natten sätter `background` på `:root` till svart, och då försvinner mönstret.
+- Lägg aldrig en heltäckande bakgrund bara på `body` eller `#root`. Det som ska
+  synas bakom verktygsfältet måste ligga på `html`.
 
 **Så testas det.**
 
