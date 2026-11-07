@@ -1228,6 +1228,7 @@ main section .person-text {
   z-index: 1;
 }
 
+/* Loggans överkant står lika långt från toppen som rubrikerna på de andra sidorna (ägaren 2026-11-07). */
 .start-content {
   position: relative;
   z-index: 2;
@@ -1237,7 +1238,7 @@ main section .person-text {
   width: 100%;
   max-width: 32rem;
   margin: 0 auto;
-  padding: 2.25rem 0.75rem var(--bottom-gap);
+  padding: 0.875rem 0.75rem var(--bottom-gap);
 }
 
 /* På breda skärmar håller sig texten och knapparna inom bilden. */
