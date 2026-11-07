@@ -13,28 +13,31 @@ nära tummen, 16 px ovanför det som täcker skärmen (Safaris verktygsfält ell
 hemstrecket). De sitter inte fast: är innehållet högre än skärmen trycks de ner
 och rullar med. Med mus flödar de direkt under innehållet.
 
-**Grundorsaken till felet.** `env(safe-area-inset-bottom)` (34 px på iPhone
-med hemstreck) är till för hemstrecket. I Safari på en stående telefon slutar
-sidan vid verktygsfältets överkant, och fältet täcker redan hemstrecket. Safari
-i iOS 26 anger ändå 34 px, även när det flytande verktygsfältet syns, och då
-hamnar knapparna 34 px för högt. Uppmätt i skärmbilder från iPhone 14
-(2026-11-07): knapparna låg 34 px ovanför verktygsfältet, både med
-`max(1rem, env(safe-area-inset-bottom))` och med försöket att dra av
-`100lvh - 100dvh` (i iOS 26 är lvh och dvh lika, båda slutar vid fältet).
+**Grundorsaken till felet.** Safari i iPhone (iOS 26) lämnar själv cirka
+17 px mellan sidans nederkant och det flytande verktygsfältet. Där är
+`env(safe-area-inset-bottom)` 0. Lade vi till 16 px hamnade knapparna 33 px
+ovanför fältet. Uppmätt med `?matt` på iPhone 14 (2026-11-07): innerHeight och
+dvh 699, lvh 739, säkra marginaler 0, sidans nederkant 745 px från skärmens
+topp och fältets överkant 762. Två tidigare försök byggde på gissningar om
+säkra marginaler och lvh/dvh och ändrade ingenting. **Mät alltid med `?matt`
+innan du ändrar.**
 
 **Mönstret.** Använd alltid `--bottom-gap` från `src/styles.css` för luften
-under knappar och fasta rutor längst ner. Skriv aldrig
-`env(safe-area-inset-bottom)` direkt.
+under knappar och fasta rutor längst ner. Skriv inte
+`env(safe-area-inset-bottom)` någon annanstans.
 
 ```css
 :root {
-  /* Utan webbläsarfält (hemskärmen, liggande) behövs hemstreckets marginal. */
+  /* Android, dator, hemskärmen och liggande: 16 px eller hemstrecket. */
   --bottom-gap: max(1rem, env(safe-area-inset-bottom));
 }
 
-/* Stående i webbläsaren täcker verktygsfältet redan hemstrecket. */
-@media (pointer: coarse) and (display-mode: browser) and (orientation: portrait) {
-  :root { --bottom-gap: 1rem; }
+/* Safari i iPhone, stående: Safaris eget mellanrum räcker. Med adressfältet
+   överst anger Safari 34 px för hemstrecket, och det står då kvar. */
+@supports (-webkit-touch-callout: none) {
+  @media (display-mode: browser) and (orientation: portrait) and (max-width: 30rem) {
+    :root { --bottom-gap: env(safe-area-inset-bottom); }
+  }
 }
 
 @media (pointer: coarse) {
@@ -60,10 +63,11 @@ main { padding-bottom: var(--bottom-gap); }
    innehållet är lägre än skärmen. Kör också i 1280×800 med mus: knapparna ska
    stå direkt under innehållet, inte i botten.
 2. Chromium har inga verktygsfält eller säkra marginaler, så en lyckad
-   Playwright-körning bevisar inte att det fungerar i Safari. Det sista provet
-   görs på en riktig iPhone i Safari: be om en skärmbild och mät avståndet
-   mellan sista knappens underkant och verktygsfältets överkant (16 px, alltså
-   cirka 48 bildpunkter på en iPhone med 3x skärm). Prova startsidan, Nytt spel och lobbyn, med
-   verktygsfältet synligt, efter att ha rullat så att det krymper, och från
-   hemskärmen (där finns inget verktygsfält och knapparna ska ligga 34 px
-   ovanför skärmens kant).
+   Playwright-körning bevisar inte att det fungerar i Safari. Be om en
+   skärmbild från iPhonen med `?matt` i adressen (t.ex.
+   jedijonas.github.io/maffia/?matt). Den gula rutan visar visningsytans mått,
+   säkra marginaler, `--bottom-gap` och var sista knappen slutar. Den röda
+   linjen är visningsytans nederkant. Mät avståndet mellan sista knappen och
+   verktygsfältets överkant (cirka 16–18 px, alltså cirka 40 bildpunkter i en
+   skärmbild från en iPhone med 3x skärm). Prova startsidan, Nytt spel och
+   lobbyn, med verktygsfältet synligt och efter att ha rullat.
