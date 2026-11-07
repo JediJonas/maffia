@@ -572,6 +572,30 @@ main :is(section, .screen-content) > p,
 }
 
 /*
+ * Vinnarna på slutet får en liten stämpel framför rollen, i samma stil som
+ * detektivens "Inte maffia". Rollen står kvar längst till höger.
+ */
+.picker-stamp {
+  flex: none;
+  margin-left: auto;
+  transform: rotate(-6deg);
+  border: 1.5px solid var(--ink);
+  padding: 0.1875rem 0.4375rem 0.0625rem;
+  font-size: 1.0625rem;
+  letter-spacing: 0.08em;
+}
+
+/* Luft mellan ett långt namn och den lutade stämpeln. */
+.picker-option:has(.picker-stamp) {
+  gap: 0.75rem;
+}
+
+/* Lika bred plats för rollen bakom stämpeln, så att stämplarna står i en rak kolumn. "Fönstertittare" får plats. */
+.picker-stamp + .picker-detail {
+  min-width: 6.5rem;
+}
+
+/*
  * Listan med berättarens ruta ovanför och en lapp som hänger över nedre
  * kanten. Lappen ligger utanför flödet, så det som följer får luft under.
  */

@@ -1,6 +1,7 @@
 // @ts-check
 import { Fragment, useState } from 'react';
 import { PlayerAvatar } from './PlayerAvatar.jsx';
+import { StampFilter } from './StampFilter.jsx';
 
 const FILE_AVATAR_PX = 52;
 
@@ -52,18 +53,5 @@ export function CaseFile({ content, players }) {
         </button>
       )}
     </div>
-  );
-}
-
-/** Ojämn färg i stämplarna, som när en stämpel inte tar överallt. */
-function StampFilter() {
-  return (
-    <svg width="0" height="0" className="stamp-filter" aria-hidden="true">
-      <filter id="stamp-ink">
-        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" />
-        <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 7" />
-        <feComposite in="SourceGraphic" operator="in" />
-      </filter>
-    </svg>
   );
 }

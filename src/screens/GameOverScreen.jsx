@@ -1,26 +1,27 @@
 // @ts-check
-import { sortByName } from './playerName.js';
-import { ROLE_INFO, teamOf } from '../game/roles.js';
+import { ROLE_INFO } from '../game/roles.js';
+import { isWinner, orderForGameOver } from './gameOver.js';
 import { ListCard } from './ListCard.jsx';
 import { PlayerPicker } from './PlayerPicker.jsx';
+import { StampFilter } from './StampFilter.jsx';
 
 /**
- * Alla roller visas, vinnarna först och sedan i bokstavsordning.
+ * Alla roller visas, vinnarna först och sedan i bokstavsordning. Vinnarna får
+ * en stämpel, som stämplarna i detektivens akt, så att man ser dem direkt.
  * @param {object} props
  * @param {import('../game/playerView.js').PlayerView} props.view
  * @param {import('../host/useHostGame.js').HostControls | null} props.host
  */
 export function GameOverScreen({ view, host }) {
-  const isWinner = (/** @type {import('../game/playerView.js').PublicPlayer} */ p) => teamOf(p.revealedRole) === view.winner;
-  const sorted = sortByName(view.players);
-  const players = [...sorted.filter(isWinner), ...sorted.filter((p) => !isWinner(p))];
   return (
     <section className="screen" aria-labelledby="phase-title">
       <div className="screen-content">
+        <StampFilter />
         <ListCard lead="Så här låg det till.">
           <PlayerPicker
-            players={players}
+            players={orderForGameOver(view.players, view.winner)}
             describe={(player) => player.revealedRole && ROLE_INFO[player.revealedRole].name.toLowerCase()}
+            stamp={(player) => (isWinner(player, view.winner) ? 'Vann' : null)}
           />
         </ListCard>
         {!host && <p className="explanation">Värden kan starta ett nytt spel.</p>}
