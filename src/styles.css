@@ -190,6 +190,15 @@ main {
   margin-top: 0.5rem;
 }
 
+/*
+ * Uppmaningen ovanför knapparna (för många roller) ska ha samma avstånd som
+ * den vita rutan: 1rem upp till rutan ovanför och 1.5rem ner till knappen.
+ * Upp tar den bort knapparnas 0.5rem, ner fyller den ut gapet i griden.
+ */
+.screen > .bottom-actions > .notice {
+  margin: -0.5rem 0 0.875rem;
+}
+
 /* Avståndet under bilden kommer från rutan under den, eftersom marginalerna inte slås ihop i main. */
 main > .scene {
   margin-bottom: 0;
