@@ -1,7 +1,8 @@
 // @ts-check
 // Det enda som skickas till en telefon. Varje fält här är något just den
 // spelaren får veta, så att ingen kan läsa andras roller i nätverkstrafiken.
-import { hasMafiaAgreed, listNightTargets } from './rules.js';
+import { hasMafiaAgreed, listDoubleVoterIds, listNightTargets } from './rules.js';
+import { isMafia as isMafiaRole } from './roles.js';
 import { findHiddenDeathId } from './deathReveal.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
@@ -13,6 +14,7 @@ import { findHiddenDeathId } from './deathReveal.js';
  * @property {string} name
  * @property {boolean} isAlive
  * @property {boolean} isConnected
+ * @property {boolean} isBot Alla får veta vilka som är botar, eftersom botar inte kan prata.
  * @property {import('../avatar/avatarParts.js').Avatar | null} avatar
  * @property {Role | null} revealedRole För döda spelare om inställningen tillåter det, och för alla när spelet är slut.
  */
@@ -30,8 +32,10 @@ import { findHiddenDeathId } from './deathReveal.js';
  * @property {number} nightChosenCount Antal som har valt, men inte vilka, så att ordningen inte avslöjar någon.
  * @property {boolean | null} hasMafiaAgreed Om maffian har valt samma person. Null för alla utom maffian.
  * @property {number} livingCount
- * @property {{ id: string, choiceId: string | null }[]} mafiaTeam Tom för alla utom maffian.
+ * @property {{ id: string, role: Role | null, choiceId: string | null }[]} mafiaTeam Tom för alla utom maffian.
  * @property {import('./types.js').Investigation[]} investigations Tom för alla utom detektiven.
+ * @property {import('./types.js').Sighting[]} sightings Tom för alla utom taxichauffören och fönstertittaren.
+ * @property {string[]} doubleVoterIds Borgmästaren, när den har röstat. Rösten räknas två gånger och syns för alla.
  * @property {Record<string, string>} dayVotes Omröstningen är öppen, som i klassisk maffia.
  * @property {import('./settings.js').GameSettings} settings Alla får se inställningarna.
  * @property {boolean} isRoleRevealPending Sant i domslutet medan nedräkningen till den dödas roll pågår.
@@ -50,7 +54,8 @@ export function buildPlayerView(state, playerId) {
   if (!me) throw new Error(`Okänd spelare ${playerId}`);
   const isGameOver = state.phase === 'gameOver';
   const isNight = state.phase === 'night';
-  const isMafia = me.role === 'mafia';
+  const isVoting = state.phase === 'day' || state.phase === 'verdict';
+  const isMafia = isMafiaRole(me.role);
   const hiddenDeathId = findHiddenDeathId(state);
   const canSeeRoleOf = (/** @type {import('./types.js').Player} */ p) =>
     isGameOver || (!p.isAlive && state.settings.revealsRoleOnDeath && p.id !== hiddenDeathId);
@@ -64,6 +69,7 @@ export function buildPlayerView(state, playerId) {
       name: p.name,
       isAlive: p.isAlive,
       isConnected: p.isConnected,
+      isBot: Boolean(p.isBot),
       avatar: p.avatar ?? null,
       revealedRole: canSeeRoleOf(p) ? p.role : null,
     })),
@@ -76,11 +82,13 @@ export function buildPlayerView(state, playerId) {
     livingCount: state.players.filter((p) => p.isAlive).length,
     mafiaTeam: isMafia
       ? state.players
-        .filter((p) => p.role === 'mafia' && p.id !== me.id)
-        .map((p) => ({ id: p.id, choiceId: isNight ? state.nightChoices[p.id] ?? null : null }))
+        .filter((p) => isMafiaRole(p.role) && p.id !== me.id)
+        .map((p) => ({ id: p.id, role: p.role, choiceId: isNight ? state.nightChoices[p.id] ?? null : null }))
       : [],
     investigations: state.investigations[me.id] ?? [],
-    dayVotes: state.phase === 'day' || state.phase === 'verdict' ? state.dayVotes : {},
+    sightings: state.sightings?.[me.id] ?? [],
+    dayVotes: isVoting ? state.dayVotes : {},
+    doubleVoterIds: isVoting ? listDoubleVoterIds(state) : [],
     lastNight: state.lastNight,
     lastDay: state.lastDay,
     winner: state.winner,

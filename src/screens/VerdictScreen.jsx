@@ -1,10 +1,11 @@
 // @ts-check
+import { Fragment } from 'react';
 import { ROLE_REVEAL_DELAY_MS, VERDICT_PAUSE_MS } from '../game/deathReveal.js';
 import { SKIP_VOTE } from '../game/rules.js';
 import { tallyVotes } from '../game/voteTally.js';
 import { capitalize, writeNumber } from '../game/numberWords.js';
 import { Countdown } from './Countdown.jsx';
-import { describeDeath } from './deathText.js';
+import { describeDeath, writeLastWords } from './deathText.js';
 import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
 import { PlayerPicker } from './PlayerPicker.jsx';
@@ -16,19 +17,22 @@ import { PlayerPicker } from './PlayerPicker.jsx';
  */
 export function VerdictScreen({ view }) {
   const executed = view.players.find((p) => p.id === view.lastDay?.executedId);
+  const lastWords = executed && writeLastWords(executed);
   const rows = tallyVotes(view.dayVotes, view.players.map((p) => p.id));
   const nameOf = (/** @type {string} */ id) => view.players.find((p) => p.id === id)?.name ?? '';
   const voted = rows.filter((row) => row.targetId !== SKIP_VOTE);
   const skipCount = rows.find((row) => row.targetId === SKIP_VOTE)?.voterIds.length ?? 0;
   /** @param {import('../game/playerView.js').PublicPlayer} player */
-  const describeVoters = (player) => voted.find((row) => row.targetId === player.id)?.voterIds.map(nameOf).join(', ') ?? null;
+  const describeVoters = (player) => voted.find((row) => row.targetId === player.id)?.voterIds
+    .map((id) => (view.doubleVoterIds.includes(id) ? `${nameOf(id)} ×2` : nameOf(id))).join(', ') ?? null;
 
   return (
     <section aria-labelledby="phase-title">
       {executed && (
         <PersonRow
           player={executed}
-          speech={<>Jag är<br />oskyldig!</>}
+          speech={lastWords && lastWords.map((line, index) => <Fragment key={line}>{index > 0 && <br />}{line}</Fragment>)}
+          reservesSpeech={view.settings.revealsRoleOnDeath}
           text={view.isRoleRevealPending
             ? <Countdown durationMs={ROLE_REVEAL_DELAY_MS} label="Rollen visas om" />
             : describeDeath(executed, view.me.id, 'förvisad')}
@@ -46,7 +50,7 @@ export function VerdictScreen({ view }) {
         <p>Alla avstod från att rösta.</p>
       )}
       {/* Samma text oavsett om spelet är avgjort, så att ingen ser resultatet i förväg. */}
-      {!view.isRoleRevealPending && <p className="explanation"><Countdown durationMs={VERDICT_PAUSE_MS} label="Natten faller om" /></p>}
+      {!view.isRoleRevealPending && <p className="explanation"><Countdown durationMs={VERDICT_PAUSE_MS} label="Spelet fortsätter om" /></p>}
     </section>
   );
 }

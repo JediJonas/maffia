@@ -1,64 +1,92 @@
 // @ts-check
 import { MIN_PLAYERS } from '../game/roles.js';
-import { findSettingsProblem } from '../game/settings.js';
-import { SettingsPanel } from './SettingsPanel.jsx';
+import { SettingsEditor } from './SettingsEditor.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
+import { RulesView } from './RulesView.jsx';
 import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { loadOrCreateAvatar, saveAvatar } from '../device/savedSession.js';
-import { describeArrivals, describeLobbyStatus } from './lobbyText.js';
+import { sortByName, writeListName } from './playerName.js';
+import { describeArrivals, describeLobbyStatus, findStartProblem } from './lobbyText.js';
 
 /** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
 /** @typedef {import('../game/playerView.js').PublicPlayer} PublicPlayer */
 /** @typedef {import('../host/useHostGame.js').HostControls} HostControls */
+/** @typedef {'players' | 'avatar' | 'settings' | 'rules'} LobbyPanel Vad lobbyn visar: spelarna, Din figur, värdens inställningar eller reglerna. */
 
 /**
- * Lobbyn ser likadan ut för alla. Värden har dessutom knapparna längst ner
- * och kan ta bort spelare, och de andra ser vem som är värd.
+ * Lobbyn ser likadan ut för alla, och alla kan öppna reglerna. Värden har
+ * dessutom inställningarna och startknappen längst ner och kan ta bort spelare, och de andra ser vem som är värd.
  * @param {object} props
  * @param {PlayerView} props.view
  * @param {HostControls | null} props.host
  * @param {import('../host/useHostGame.js').GameConnection['sendAction']} props.sendAction
- * @param {boolean} props.isEditingAvatar Styrs av GameScreen, som byter rubrik och döljer bildrutan.
- * @param {(isEditing: boolean) => void} props.setIsEditingAvatar
+ * @param {LobbyPanel} props.panel Styrs av GameScreen, som byter rubrik och döljer bildrutan.
+ * @param {(panel: LobbyPanel) => void} props.setPanel
  */
-export function LobbyScreen({ view, host, sendAction, isEditingAvatar, setIsEditingAvatar }) {
+export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
   const playerCount = view.players.length;
-  const canStart = playerCount >= MIN_PLAYERS && !findSettingsProblem(view.settings, playerCount);
   // Värden lades till först när spelet skapades.
   const hostPlayer = view.players[0];
 
-  if (isEditingAvatar) {
-    return <MyAvatarEditor view={view} sendAction={sendAction} onClose={() => setIsEditingAvatar(false)} />;
+  const problem = findStartProblem(view.settings, playerCount);
+  const canStart = !problem;
+  // Att det behövs fler är svart bara hos värden, vars Starta-knapp är spärrad. De andra ser det i den vita rutan.
+  const shownProblem = host || playerCount >= MIN_PLAYERS ? problem : null;
+  const status = describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null });
+
+  if (panel === 'avatar') {
+    return <MyAvatarEditor view={view} sendAction={sendAction} onClose={() => setPanel('players')} />;
+  }
+  if (panel === 'rules') {
+    return <RulesView settings={view.settings} playerCount={playerCount} onClose={() => setPanel('players')} />;
+  }
+  if (panel === 'settings' && host) {
+    return (
+      <SettingsEditor
+        settings={view.settings}
+        playerCount={playerCount}
+        botCount={view.players.filter((p) => p.isBot).length}
+        onChange={host.changeSettings}
+        onAddBot={host.addBot}
+        onRemoveBot={host.removeBot}
+        onClose={() => setPanel('players')}
+      />
+    );
   }
   return (
-    <section aria-labelledby="phase-title">
-      <h2>{describeArrivals(playerCount)}</h2>
-      <ul className="player-list">
-        {view.players.map((player) => (
-          <li key={player.id}>
-            <span className="player-name">
-              <PlayerAvatar player={player} />
-              {player.name}
-            </span>
-            <PlayerRowAction
-              player={player}
-              isMe={player.id === view.me.id}
-              isHostPlayer={player.id === hostPlayer?.id}
-              host={host}
-              onEditAvatar={() => setIsEditingAvatar(true)}
-            />
-          </li>
-        ))}
-      </ul>
-      <p className="explanation">{describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null })}</p>
-      {host && (
-        <div className="bottom-actions">
-          <SettingsPanel settings={view.settings} playerCount={playerCount} onChange={host.changeSettings} />
+    <section className="screen" aria-labelledby="phase-title">
+      <div className="screen-content">
+        <h2>{describeArrivals(playerCount)}</h2>
+        <ul className="player-list">
+          {sortByName(view.players).map((player) => (
+            <li key={player.id}>
+              <span className="player-name">
+                <PlayerAvatar player={player} />
+                <span>{writeListName(player)}</span>
+              </span>
+              <PlayerRowAction
+                player={player}
+                isMe={player.id === view.me.id}
+                isHostPlayer={player.id === hostPlayer?.id}
+                host={host}
+                onEditAvatar={() => setPanel('avatar')}
+              />
+            </li>
+          ))}
+        </ul>
+        {status && <p className="explanation">{status}</p>}
+      </div>
+      {/* Alla får knappen till reglerna, så att den som väntar kan läsa på. */}
+      <div className="bottom-actions">
+        {shownProblem && <p className="notice">{shownProblem}</p>}
+        {host && <button type="button" className="secondary" onClick={() => setPanel('settings')}>Inställningar</button>}
+        <button type="button" className="secondary" onClick={() => setPanel('rules')}>Regler</button>
+        {host && (
           <button type="button" className="primary" disabled={!canStart} onClick={host.startGame}>
             Starta spelet
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 }

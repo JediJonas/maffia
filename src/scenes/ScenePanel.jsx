@@ -13,7 +13,7 @@ export function ScenePanel({ scene, roomCode, children }) {
   return (
     <figure className={image ? 'scene' : 'scene scene-plain'}>
       {image ? (
-        <img src={image.src} alt={image.alt} style={{ objectPosition: image.position }} />
+        <img src={image.src} alt={image.alt} decoding="sync" style={{ objectPosition: image.position }} />
       ) : (
         children
       )}

@@ -2,7 +2,10 @@
 // Gemensamma typer för spelets tillstånd. Värden äger GameState, och varje
 // telefon får bara sin egen PlayerView (se playerView.js).
 
-/** @typedef {'mafia' | 'detective' | 'doctor' | 'citizen'} Role */
+/**
+ * @typedef {'mafia' | 'godfather' | 'detective' | 'doctor' | 'taxiDriver' | 'windowWatcher'
+ *   | 'sausageVendor' | 'mayor' | 'citizen' | 'bartender' | 'madman'} Role
+ */
 
 /**
  * verdict är pausen efter dagens omröstning, då alla ser utfallet innan
@@ -10,7 +13,7 @@
  * @typedef {'lobby' | 'roleReveal' | 'night' | 'day' | 'verdict' | 'gameOver'} Phase
  */
 
-/** @typedef {'town' | 'mafia'} Team */
+/** @typedef {'town' | 'mafia' | 'madman'} Team */
 
 /**
  * @typedef {object} Player
@@ -19,6 +22,7 @@
  * @property {Role | null} role Saknas tills spelet har startat.
  * @property {boolean} isAlive
  * @property {boolean} isConnected
+ * @property {boolean} [isBot] Styrs av värdens telefon. Saknas i spel som sparades innan botarna fanns.
  * @property {import('../avatar/avatarParts.js').Avatar | null} avatar Null när telefonen inte skickade någon giltig avatar.
  */
 
@@ -26,7 +30,15 @@
  * @typedef {object} Investigation
  * @property {number} round
  * @property {string} targetId
- * @property {boolean} isMafia
+ * @property {boolean} isMafia Falskt för gudfadern, och när bartendern höll detektiven borta.
+ */
+
+/**
+ * Vad taxichauffören eller fönstertittaren såg en natt.
+ * @typedef {object} Sighting
+ * @property {number} round
+ * @property {string} targetId Den som följdes eller vars hem bevakades.
+ * @property {string[]} seenIds Vem den följda besökte, eller vilka som besökte den bevakade. Tom när ingen gjorde det.
  */
 
 /**
@@ -34,6 +46,8 @@
  * mördades roll visas direkt, eftersom maffian aldrig mördar sina egna.
  * @typedef {object} NightOutcome
  * @property {string | null} killedId Null när ingen dog, till exempel för att läkaren räddade offret.
+ * @property {string | null} [silencedId] Den som fick korvgubbens korv och inte får prata i dag. Saknas i spel som sparades innan korvgubben fanns.
+ * @property {number} [imageRoll] Ett slumptal från 0 till 1 som värden drar när någon mördas, så att alla telefoner visar samma mordbild. Saknas i spel som sparades innan mordbilden slumpades.
  */
 
 /**
@@ -53,6 +67,7 @@
  * @property {NightOutcome | null} lastNight
  * @property {DayOutcome | null} lastDay
  * @property {Record<string, Investigation[]>} investigations Detektivens id till detektivens resultat.
+ * @property {Record<string, Sighting[]>} [sightings] Taxichaufförens och fönstertittarens id till vad de såg. Saknas i spel som sparades innan de fanns.
  * @property {string | null} lastDoctorTargetId Läkaren får inte skydda samma spelare två nätter i rad.
  * @property {Team | null} winner
  * @property {import('./settings.js').GameSettings} settings

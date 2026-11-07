@@ -1,5 +1,20 @@
 // @ts-check
-import { ROLE_INFO } from '../game/roles.js';
+import { ROLE_INFO, isMafia } from '../game/roles.js';
+
+/**
+ * Vad den förvisade säger, en rad i taget. Hen säger något först när rollen
+ * har visats, så att bubblan inte avslöjar något i förväg. Visas rollen
+ * aldrig säger hen inget. Maffian hotar, galningen jublar och alla andra
+ * säger sig vara oskyldiga.
+ * @param {import('../game/playerView.js').PublicPlayer} executed
+ * @returns {string[] | null}
+ */
+export function writeLastWords(executed) {
+  if (executed.revealedRole === null) return null;
+  if (isMafia(executed.revealedRole)) return ['Ni kommer', 'ångra er!'];
+  if (executed.revealedRole === 'madman') return ['Ha haha', 'ha ha!'];
+  return ['Jag är', 'oskyldig!'];
+}
 
 /**
  * Texten bredvid den som har dött. Den döda själv får veta vad som hände,

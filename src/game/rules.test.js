@@ -26,6 +26,11 @@ describe('lobbyn', () => {
     expect(() => addPlayer(state, { id: 'b', name: ' lisa ' })).toThrow(RuleError);
   });
 
+  it('kortar namn till 14 tecken, så att de får plats i listor och rutor', () => {
+    const state = addPlayer(createGame(), { id: 'a', name: 'Maximiliana Svensson' });
+    expect(state.players[0].name).toBe('Maximiliana Sv');
+  });
+
   it('kräver minst fyra spelare för att starta', () => {
     let state = createGame();
     for (const id of ['a', 'b', 'c']) state = addPlayer(state, { id, name: id });
@@ -52,8 +57,14 @@ describe('natten', () => {
   it('dödar maffians offer', () => {
     const day = playNight(night, { p1: 'p4', p2: 'p1', p3: 'p5', p4: 'p2', p5: 'p2' });
     expect(day.phase).toBe('day');
-    expect(day.lastNight).toEqual({ killedId: 'p4' });
+    expect(day.lastNight).toEqual({ killedId: 'p4', imageRoll: expect.any(Number) });
     expect(day.players.find((p) => p.id === 'p4')?.isAlive).toBe(false);
+  });
+
+  it('drar mordbildens slumptal med värdens slumpfunktion', () => {
+    const almostDay = playNight(night, { p2: 'p1', p3: 'p5', p4: 'p2', p5: 'p2' });
+    const day = applyAction(almostDay, 'p1', { type: 'nightChoice', targetId: 'p4' }, () => 0.42);
+    expect(day.lastNight).toEqual({ killedId: 'p4', imageRoll: 0.42 });
   });
 
   it('låter läkaren rädda offret', () => {
@@ -83,14 +94,14 @@ describe('natten', () => {
     expect(disagreeing.phase).toBe('night');
     const agreed = applyAction(disagreeing, 'p2', { type: 'nightChoice', targetId: 'p5' });
     expect(agreed.phase).toBe('day');
-    expect(agreed.lastNight).toEqual({ killedId: 'p5' });
+    expect(agreed.lastNight).toEqual({ killedId: 'p5', imageRoll: expect.any(Number) });
   });
 
   it('låter den som har valt ändra sig medan någon annan väljer', () => {
     let state = applyAction(night, 'p1', { type: 'nightChoice', targetId: 'p4' });
     state = applyAction(state, 'p1', { type: 'nightChoice', targetId: 'p5' });
     state = playNight(state, { p2: 'p1', p3: 'p3', p4: 'p2', p5: 'p2' });
-    expect(state.lastNight).toEqual({ killedId: 'p5' });
+    expect(state.lastNight).toEqual({ killedId: 'p5', imageRoll: expect.any(Number) });
   });
 
   it('räknar bara levande spelares val', () => {

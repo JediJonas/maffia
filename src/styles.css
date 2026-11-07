@@ -1,11 +1,13 @@
 /*
  * Noirserien: svart tusch på vitt papper, utan färg. Fasen syns på håll:
- * på dagen ett ljust raster längst ner, på natten en svart sida.
+ * på dagen ett ljust raster som börjar under toppraden och tätnar nedåt, på natten en svart sida.
  * Se designreglerna i canvasen "Maffia noir".
  */
 :root {
   --paper: #ffffff;
   --ink: #111111;
+  /* Startbildens kanter är helt svarta, så sidan runt bilden måste vara det också för att de ska flyta ihop. */
+  --start-black: #000000;
   --muted: #444444;
   --font-text: 'Archivo Variable', Archivo, 'Helvetica Neue', Arial, sans-serif;
   --font-title: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
@@ -13,6 +15,8 @@
   --line: 2px solid var(--ink);
   --thin-line: 1px solid var(--ink);
   --raster: url('./paper/raster-dag.svg');
+  --raster-tail: url('./paper/raster-dag-slut.svg');
+  --raster-paper: var(--paper);
   /*
    * Luften mellan två delar räknas från det som sticker ut längst: lappen
    * som hänger under en lista och pratbubblan som sticker upp över en
@@ -21,6 +25,15 @@
   --block-gap: 1rem;
   --tag-overhang: 1.25rem;
   --bubble-overhang: 2.5rem;
+  /* Hur länge personraden och därefter pratbubblan dröjer (ägaren 2026-11-06). */
+  --person-delay: 1s;
+  --speech-delay: 0.6s;
+  /*
+   * Luften under knapparna längst ner. Se CLAUDE.md, "Mobillayout i
+   * Safari". Utan webbläsarfält (från hemskärmen, eller liggande) ligger sidan
+   * ända ner till hemstrecket, och då behövs den säkra marginalen.
+   */
+  --bottom-gap: max(1rem, env(safe-area-inset-bottom));
   color-scheme: light;
 }
 
@@ -33,16 +46,23 @@
  */
 :root[data-phase='night'] {
   --raster: none;
+  --raster-tail: none;
+  --raster-paper: transparent;
   background: var(--ink);
 }
 
 /*
  * Startsidans bild slutar vid den lilla visningsytan (dvh). Under Safaris
  * verktygsfält syns då sidan bakom, och där ska det vara svart, inte raster.
+ * Innan skriptet har ritat något är #root tom. Då är sidan också svart, så att
+ * rastret inte blinkar till när startsidan laddas.
  */
-:root:has(.start-page) {
+:root:has(.start-page),
+:root:has(#root:empty) {
   --raster: none;
-  background: var(--ink);
+  --raster-tail: none;
+  --raster-paper: transparent;
+  background: var(--start-black);
 }
 
 :root[data-phase='night'] .top-bar {
@@ -58,7 +78,7 @@
   filter: drop-shadow(2px 0 0 var(--paper)) drop-shadow(-2px 0 0 var(--paper)) drop-shadow(0 2px 0 var(--paper)) drop-shadow(0 -2px 0 var(--paper));
 }
 
-:root[data-phase='night'] :is(.caption, .explanation, .notice, main section > p, .list-lead, .player-list, .picker):not(.list-tag) {
+:root[data-phase='night'] :is(.caption, .explanation, .notice, main :is(section, .screen-content) > p, .list-lead, .player-list, .picker):not(.list-tag) {
   border: none;
 }
 
@@ -72,23 +92,48 @@
  * att punkterna förblir runda. Med en fast bredd krymper webbläsaren
  * SVG:n för att behålla proportionerna, och då blir det vita kanter.
  */
+/*
+ * Safari i iPhone förstorar texten när skärmen vrids till liggande, och
+ * behåller ibland förstoringen när den vrids tillbaka. Då blir knapparnas
+ * text större och ser fetare ut. 100 % stänger av förstoringen men låter
+ * användarens egen textstorlek och zoom gälla.
+ */
 html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   background: var(--paper);
 }
 
 /*
- * Rastret ligger på sidan och rullar med innehållet, och täcker hela sidans
- * höjd. Minsta höjden är den stora visningsytan (lvh), inte 100 %. Safari i
- * iPhone slutar annars rutan ovanför verktygsfältet längst ner, och då syns
- * vitt papper bakom fältet där punkterna ska vara som tätast.
+ * Rastret ligger på sidan och rullar med innehållet. Det är alltid lika högt
+ * som den stora visningsytan (lvh), så att det börjar på samma ställe och har
+ * lika stora punkter på alla sidor, även på en lång sida som Regler (ägaren
+ * 2026-11-07). Bredden följer höjden och rastret upprepas i sidled, så att
+ * punkterna förblir runda. Är sidan längre än skärmen fortsätter de största
+ * punkterna nedåt (body::after).
  */
-body::before {
+body::before,
+body::after {
   content: '';
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
   z-index: -1;
-  background: var(--raster) repeat-x 0 0 / auto 100%;
   pointer-events: none;
+}
+
+body::before {
+  top: 0;
+  bottom: 0;
+  /* Papperet under rastret, så att html-elementets färg inte syns igenom. */
+  background: var(--raster) repeat-x 0 0 / auto 100lvh, var(--raster-paper);
+}
+
+/* Rutan är 6 × 12 px i rastrets skala, där hela rastret är 920 px högt. */
+body::after {
+  top: 100lvh;
+  bottom: 0;
+  background: var(--raster-tail) 0 0 / calc(100lvh * 6 / 920) calc(100lvh * 12 / 920);
 }
 
 body {
@@ -100,13 +145,110 @@ body {
   font-family: var(--font-text);
   font-size: 1.0625rem;
   line-height: 1.45;
+  /* Ett namn kan vara ett enda långt ord (upp till MAX_NAME_LENGTH tecken). Det bryts hellre än går utanför rutan. */
+  overflow-wrap: break-word;
+}
+
+/*
+ * Sidan går ända ut till skärmens kanter (viewport-fit=cover i index.html),
+ * så att rastret täcker även remsan under iPhones verktygsfält. Innehållet
+ * hålls innanför telefonens säkra marginaler. Nertill räknar main dem i sin
+ * egen luft, så att rastret fortsätter bakom.
+ */
+#root {
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
 }
 
 main {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
   max-width: 32rem;
   margin: 0 auto;
-  /* Plats längst ner, så att meddelanderutan inte täcker sista knappen. */
-  padding: 0.5rem 0.75rem 6rem;
+  padding: 0.5rem 0.75rem var(--bottom-gap);
+}
+
+/*
+ * I mobilen ligger knapparna i botten, nära tummen, men sitter inte fast.
+ * Sidan fyller minst skärmens höjd, och innehållet ovanför knapparna växer
+ * så att de hamnar längst ner. Är innehållet högre än skärmen trycks
+ * knapparna ner och rullar med. Med mus står knapparna direkt under
+ * innehållet (ägaren 2026-11-06).
+ */
+@media (pointer: coarse) {
+  #root {
+    min-height: 100dvh;
+  }
+
+  .screen-content {
+    flex: 1 0 auto;
+  }
+}
+
+/*
+ * Safari i iPhone (iOS 26) lämnar själv cirka 17 px mellan sidans nederkant
+ * och det flytande verktygsfältet, och anger då env(safe-area-inset-bottom)
+ * = 0. Med 16 px till hamnade knapparna 33 px ovanför fältet. Där räcker
+ * Safaris eget mellanrum. Uppmätt med ?matt på iPhone 14 (Jonas 2026-11-07):
+ * innerHeight 699, sidans nederkant 745 px från skärmens topp, fältet 762.
+ * Med adressfältet överst finns inget fält nertill, och då anger Safari 34 px
+ * för hemstrecket. Därför står den säkra marginalen kvar utan 16 px till.
+ * -webkit-touch-callout finns bara i Safari på iPhone och iPad, så Android
+ * behåller sina 16 px. iPad har fälten överst och räknas bort med bredden.
+ */
+@supports (-webkit-touch-callout: none) {
+  @media (display-mode: browser) and (orientation: portrait) and (max-width: 30rem) {
+    :root {
+      --bottom-gap: env(safe-area-inset-bottom);
+    }
+  }
+}
+
+/* Plats längst ner när meddelanderutan visas, så att den inte täcker knapparna. */
+:root:has(.message) main {
+  padding-bottom: 6rem;
+}
+
+/*
+ * Innehållet ligger i .screen-content så att marginalerna mellan rutorna slås
+ * ihop som förut. Direkt i en flexbox slås de inte ihop. Knapparnas avstånd
+ * uppåt räknas därför från innehållets sista marginal.
+ */
+.screen {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+
+.screen > .bottom-actions {
+  margin-top: 0.5rem;
+}
+
+/*
+ * Uppmaningen ovanför knapparna (för många roller) ska ha samma avstånd som
+ * den vita rutan: 1rem upp till rutan ovanför och 1.5rem ner till knappen.
+ * Upp tar den bort knapparnas 0.5rem, ner fyller den ut gapet i griden.
+ */
+.screen > .bottom-actions > .notice {
+  margin: -0.5rem 0 0.875rem;
+}
+
+/*
+ * Lobbyns lista har egen luft under sig, så att uppmaningen får sina 16 px
+ * även när den vita rutan inte visas. Följer den vita rutan slås
+ * marginalerna ihop till samma 16 px som förut.
+ */
+.screen-content > .player-list:last-child {
+  margin-bottom: var(--block-gap);
+}
+
+/* Avståndet under bilden kommer från rutan under den, eftersom marginalerna inte slås ihop i main. */
+main > .scene {
+  margin-bottom: 0;
 }
 
 h1 {
@@ -204,6 +346,8 @@ button:disabled {
 /* Toppraden: fasens rubrik till vänster, namnet och hatten till höger, på rent papper. */
 .top-bar {
   display: flex;
+  box-sizing: border-box;
+  width: 100%;
   align-items: center;
   gap: 0.5rem;
   max-width: 32rem;
@@ -214,12 +358,20 @@ button:disabled {
 }
 
 .top-bar-name {
+  min-width: 0;
   margin-left: auto;
+  overflow: hidden;
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  overflow-wrap: anywhere;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Rubriken står alltid på en rad. Är namnet för långt kortas det av med … i stället. */
+.top-bar h1 {
+  flex: none;
 }
 
 .leave-button {
@@ -240,13 +392,12 @@ button:disabled {
 .caption,
 .explanation,
 .notice,
-main section > p,
+main :is(section, .screen-content) > p,
 .person-text,
 .list-lead,
 .list-tag,
 .scene-caption,
-.my-avatar,
-.settings-form {
+.my-avatar {
   background: var(--paper);
   border: var(--line);
 }
@@ -254,7 +405,7 @@ main section > p,
 .caption,
 .explanation,
 .notice,
-main section > p,
+main :is(section, .screen-content) > p,
 .person-text,
 .list-lead,
 .list-tag,
@@ -286,32 +437,6 @@ main section > p,
 }
 
 
-.settings-form {
-  display: grid;
-  gap: 0.5rem;
-  padding: 0.75rem;
-}
-
-.settings-form select {
-  min-height: 3rem;
-  padding: 0.5rem;
-  border-radius: 0;
-  border: var(--line);
-  background: var(--paper);
-}
-
-.toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  min-height: 2.75rem;
-}
-
-.toggle input {
-  width: 1.5rem;
-  height: 1.5rem;
-  accent-color: var(--ink);
-}
 
 
 
@@ -443,6 +568,9 @@ main section > p,
 }
 
 .picker-detail {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 45%;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--muted);
@@ -451,6 +579,16 @@ main section > p,
 
 .picker-option[aria-pressed='true'] .picker-detail {
   color: inherit;
+}
+
+/* Luft mellan ett långt namn och den lutade stämpeln. */
+.picker-option:has(.picker-stamp) {
+  gap: 0.75rem;
+}
+
+/* Lika bred plats för rollen bakom stämpeln, så att stämplarna står i en rak kolumn. "Fönstertittare" får plats. */
+.picker-stamp + .picker-detail {
+  min-width: 6.5rem;
 }
 
 /*
@@ -573,9 +711,12 @@ main section .list-lead {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
+  min-width: 0;
 }
 
 .file-name {
+  /* Ett långt namn bryts, så att stämpeln stannar i raden även i en smal telefon. */
+  overflow-wrap: anywhere;
   font-family: var(--font-caption);
   font-weight: 700;
   font-size: 1.125rem;
@@ -593,12 +734,33 @@ main section .list-lead {
   text-decoration: underline;
 }
 
-.file-verdict {
+/*
+ * Svaret är en diskret stämpel. Bara Maffia blir stor och svart, så att den sticker ut (Jonas 2026-11-06).
+ * Vinnarna på slutsidan får samma stämpel framför rollen, så att stämplarna i appen ser likadana ut.
+ */
+.file-verdict,
+.picker-stamp {
+  flex: none;
+  max-width: 8rem;
   margin-left: auto;
+  /* Lutningen sätts per stämpel (stampTilt.js), åt vänster eller höger. */
+  transform: rotate(var(--stamp-tilt, -4deg));
+  border: 1.5px solid var(--ink);
+  padding: 0.1875rem 0.4375rem 0.0625rem;
+  font-size: 1.0625rem;
+  line-height: 1.05;
+  letter-spacing: 0.06em;
+}
+
+.file-verdict-mafia {
   transform: rotate(-8deg);
-  border: 4px double var(--ink);
-  padding: 0.1875rem 0.625rem 0.0625rem;
+  border: 4px double var(--paper);
+  outline: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.25rem 0.625rem 0.125rem;
   font-size: 1.625rem;
+  letter-spacing: 0.1em;
 }
 
 .dead {
@@ -622,6 +784,16 @@ main section .list-lead {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  min-width: 0;
+}
+
+/* Ett långt namn bryts på flera rader, så att knappen eller taggen bredvid stannar i raden. */
+.player-name > :not(.avatar) {
+  min-width: 0;
+}
+
+.player-list li > :not(.player-name) {
+  flex: none;
 }
 
 .player-list .avatar {
@@ -736,10 +908,28 @@ main section .person-text {
   top: calc(-1 * var(--bubble-overhang));
 }
 
-/* Pratbubblor dyker alltid upp en stund efter resten, som en replik. */
+/*
+ * Personraden kommer en stund efter resten av vyn, som nästa ruta i serien.
+ * Pratbubblor kommer en stund efter det, som en replik. Är figuren redan
+ * framme räknas bubblans tid från när bubblan ritas.
+ */
+.person-figure {
+  animation: person-appear 0.2s ease-out var(--person-delay) both;
+}
+
+@keyframes person-appear {
+  from {
+    opacity: 0;
+  }
+}
+
 .speech-bubble {
   transform-origin: 1rem 5.875rem;
-  animation: speech-pop 0.28s cubic-bezier(0.3, 1.5, 0.6, 1) 1.2s both;
+  animation: speech-pop 0.28s cubic-bezier(0.3, 1.5, 0.6, 1) var(--speech-delay) both;
+}
+
+.person-speech-with-figure {
+  animation-delay: calc(var(--person-delay) + var(--speech-delay));
 }
 
 @keyframes speech-pop {
@@ -771,7 +961,8 @@ main section .person-text {
   background: var(--paper);
 }
 
-.avatar-parts {
+.avatar-parts,
+.settings-list {
   list-style: none;
   padding: 0;
   margin: 0.75rem 0 0;
@@ -779,7 +970,8 @@ main section .person-text {
   border: var(--line);
 }
 
-.avatar-parts li {
+.avatar-parts li,
+.settings-list li {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -789,16 +981,17 @@ main section .person-text {
   font-size: 1rem;
 }
 
-.avatar-parts li + li {
+.avatar-parts li + li,
+.settings-list li + li {
   border-top: var(--thin-line);
 }
 
-.avatar-part-stepper {
+.stepper {
   display: flex;
   align-items: center;
 }
 
-.avatar-part-stepper button {
+.stepper button {
   width: 2.75rem;
   min-height: 2.75rem;
   padding: 0;
@@ -809,7 +1002,58 @@ main section .person-text {
   line-height: 1;
 }
 
-.avatar-part-value {
+/* Inställningarna: listan har sin ram från list-card, och strömbrytare i stället för kryssrutor. */
+.settings-list {
+  margin: 0;
+}
+
+.settings-list li {
+  min-height: 3.5rem;
+}
+
+.stepper button:disabled {
+  opacity: 0.3;
+}
+
+.switch {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 3.25rem;
+  height: 1.875rem;
+  margin: 0 0.75rem 0 0;
+  border: var(--line);
+  border-radius: 1rem;
+  background: var(--paper);
+  cursor: pointer;
+}
+
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--ink);
+  transition: transform 0.15s;
+}
+
+.switch:checked {
+  background: var(--ink);
+}
+
+.switch:checked::after {
+  background: var(--paper);
+  transform: translateX(1.375rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch::after { transition: none; }
+}
+
+.stepper-value {
   width: 4rem;
   text-align: center;
   color: var(--muted);
@@ -827,28 +1071,12 @@ main section .person-text {
   white-space: nowrap;
 }
 
-/* Felsökningsloggen (?debug=1) ligger över allt men tar inte emot tryck. */
-.debug-log {
-  position: fixed;
-  inset: auto 0 0 0;
-  max-height: 30vh;
-  overflow: hidden;
-  margin: 0;
-  padding: 0.25rem 0.5rem;
-  background: rgb(0 0 0 / 0.75);
-  color: #fff;
-  font-size: 0.7rem;
-  white-space: pre-wrap;
-  pointer-events: none;
-  z-index: 10;
-}
-
 /* Meddelanderutan ligger fast längst ner, som en lapp ovanpå sidan. Fel får svart ikon. */
 .message {
   position: fixed;
   z-index: 50;
   left: 50%;
-  bottom: max(16px, env(safe-area-inset-bottom));
+  bottom: var(--bottom-gap);
   transform: translateX(-50%);
   display: flex;
   align-items: center;
@@ -902,9 +1130,19 @@ main section .person-text {
   .spinner { animation-duration: 4s; }
 }
 
-/* Knappar längst ner i en vy, staplade med 10 px emellan. */
+/*
+ * Knappar längst ner i en vy, staplade med 10 px emellan.
+ *
+ * Gridets rader sträcks annars ut när gridet blir högre än knapparna. Safari i
+ * iPhone gjorde det på startsidan efter att skärmen vridits till liggande och
+ * tillbaka: knapparna blev olika höga och mycket högre än 52 px (skärmbild från
+ * ägaren 2026-11-07). Med end behåller raderna och knapparna sin egen höjd, och
+ * blir det luft över hamnar den ovanför knapparna.
+ */
 .bottom-actions {
   display: grid;
+  align-content: end;
+  align-items: end;
   gap: 0.625rem;
   margin-top: 1.5rem;
 }
@@ -988,7 +1226,7 @@ main section .person-text {
   max-width: none;
   min-height: 100dvh;
   padding: 0;
-  background: var(--ink);
+  background: var(--start-black);
   overflow: hidden;
 }
 
@@ -1014,10 +1252,11 @@ main section .person-text {
   left: 0;
   right: 0;
   height: 46%;
-  background: linear-gradient(to bottom, var(--ink) 0%, rgb(17 17 17 / 0.9) 35%, rgb(17 17 17 / 0) 100%);
+  background: linear-gradient(to bottom, var(--start-black) 0%, rgb(0 0 0 / 0.9) 35%, rgb(0 0 0 / 0) 100%);
   z-index: 1;
 }
 
+/* Loggans överkant står lika långt från toppen som rubrikerna på de andra sidorna (ägaren 2026-11-07). */
 .start-content {
   position: relative;
   z-index: 2;
@@ -1027,7 +1266,7 @@ main section .person-text {
   width: 100%;
   max-width: 32rem;
   margin: 0 auto;
-  padding: 2.25rem 0.75rem 1rem;
+  padding: 0.875rem 0.75rem var(--bottom-gap);
 }
 
 /* På breda skärmar håller sig texten och knapparna inom bilden. */
@@ -1083,8 +1322,9 @@ main section .person-text {
   box-shadow: 0 0 0 2px var(--ink);
 }
 
+/* Smal nog att "inte" hamnar på andra raden i mobilen, så att rutan blir tätare (ägaren 2026-11-06). */
 .start-caption {
-  max-width: 70%;
+  max-width: 13.5rem;
   margin: auto 0 0;
 }
 
@@ -1107,6 +1347,12 @@ main section .person-text {
   border: var(--line);
 }
 
+/* Rutan får fokus när den öppnas, så att skärmläsaren läser den. Den ska inte få fokusringen, som blev en vit kant runt ramen. */
+.leave-dialog:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .leave-dialog::backdrop {
   background: rgb(17 17 17 / 0.72);
 }
@@ -1127,4 +1373,79 @@ main section .person-text {
 
 .leave-dialog .bottom-actions {
   margin-top: 0.75rem;
+}
+
+/*
+ * Liggande telefon: bilden till vänster och resten till höger, så att listan
+ * och knapparna syns utan att bilden fyller hela skärmen. Appen får inte kräva
+ * stående läge (WCAG 1.3.4), så den anpassar sig i stället.
+ */
+@media (orientation: landscape) and (max-height: 32rem) {
+  :root:has(main > .scene) .top-bar,
+  main:has(> .scene) {
+    max-width: 56rem;
+  }
+
+  main:has(> .scene) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 1.25rem;
+    align-items: start;
+  }
+
+  main:has(> .scene) > * {
+    grid-column: 2;
+  }
+
+  /* Bilden står kvar medan högerspalten rullar. Den spänner över alla rader i spalten. */
+  main > .scene {
+    position: sticky;
+    top: 0.625rem;
+    grid-column: 1;
+    grid-row: 1 / span 20;
+    height: min(19.875rem, calc(100dvh - 5.5rem));
+  }
+
+  /* Startsidan: bilden täcker hela bredden, och texten och knapparna får vanlig bredd och rullar. */
+  .start-image {
+    object-fit: cover;
+  }
+
+  .start-content {
+    max-width: 32rem;
+  }
+}
+
+/* På en låg skärm får loggan och knapparna plats utan att man rullar, om berättarens ruta göms. */
+@media (max-height: 32rem) {
+  .start-caption {
+    display: none;
+  }
+}
+
+/* Regler: varje rad har namnet överst och förklaringen i grått under. */
+.rules-list {
+  margin: 0;
+  background: var(--paper);
+  border: var(--line);
+}
+
+.rules-list > div {
+  padding: 0.75rem 0.875rem;
+}
+
+.rules-list > div + div {
+  border-top: var(--thin-line);
+}
+
+.rules-list dt {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.rules-list dd {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.4;
 }

@@ -1,17 +1,19 @@
 // @ts-check
 // Spelets regler som rena funktioner: tillstånd in, nytt tillstånd ut.
 // Bara värden kör dem. Inget nätverk, ingen klocka och ingen DOM här.
-import { MAX_PLAYERS, MIN_PLAYERS, shuffle, teamOf } from './roles.js';
+import { MAX_PLAYERS, MIN_PLAYERS, isMafia, shuffle } from './roles.js';
+import { resolveNightChoices } from './night.js';
 import { DEFAULT_SETTINGS, buildRoleList, findSettingsProblem } from './settings.js';
 import { sanitizeAvatar } from '../avatar/avatarParts.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
 /** @typedef {import('./types.js').Player} Player */
 /** @typedef {import('./types.js').PlayerAction} PlayerAction */
+/** @typedef {import('./types.js').NightOutcome} NightOutcome */
 /** @typedef {import('./types.js').Team} Team */
 
 export const SKIP_VOTE = 'skip';
-export const MAX_NAME_LENGTH = 20;
+export const MAX_NAME_LENGTH = 14;
 
 export class RuleError extends Error {}
 
@@ -27,6 +29,7 @@ export function createGame() {
     lastNight: null,
     lastDay: null,
     investigations: {},
+    sightings: {},
     lastDoctorTargetId: null,
     winner: null,
     settings: DEFAULT_SETTINGS,
@@ -35,7 +38,7 @@ export function createGame() {
 
 /**
  * @param {GameState} state
- * @param {{ id: string, name: string, avatar?: unknown }} newPlayer Avataren kommer från telefonen och kontrolleras här.
+ * @param {{ id: string, name: string, avatar?: unknown, isBot?: boolean }} newPlayer Avataren kommer från telefonen och kontrolleras här.
  * @returns {GameState}
  */
 export function addPlayer(state, newPlayer) {
@@ -46,7 +49,7 @@ export function addPlayer(state, newPlayer) {
   const isNameTaken = state.players.some((p) => p.name.toLowerCase() === name.toLowerCase());
   if (isNameTaken) throw new RuleError('Namnet är redan taget.');
   /** @type {Player} */
-  const player = { id: newPlayer.id, name, role: null, isAlive: true, isConnected: true, avatar: sanitizeAvatar(newPlayer.avatar) };
+  const player = { id: newPlayer.id, name, role: null, isAlive: true, isConnected: true, isBot: Boolean(newPlayer.isBot), avatar: sanitizeAvatar(newPlayer.avatar) };
   return { ...state, players: [...state.players, player] };
 }
 
@@ -115,16 +118,17 @@ export function changeSettings(state, changes) {
  * @param {GameState} state
  * @param {string} playerId
  * @param {PlayerAction} action
+ * @param {() => number} [random] Ett tal från 0 till 1, som Math.random. Drar mordbilden när natten tar slut.
  * @returns {GameState}
  */
-export function applyAction(state, playerId, action) {
+export function applyAction(state, playerId, action, random = Math.random) {
   const player = state.players.find((p) => p.id === playerId);
   if (!player) throw new RuleError('Okänd spelare.');
   switch (action.type) {
     case 'ready':
       return markReady(state, player);
     case 'nightChoice':
-      return chooseNightTarget(state, player, action.targetId);
+      return chooseNightTarget(state, player, action.targetId, random);
     case 'vote':
       return castVote(state, player, action.targetId);
     case 'setAvatar':
@@ -179,9 +183,8 @@ function beginNight(state, round) {
  */
 export function listNightTargets(state, player) {
   const living = state.players.filter((p) => p.isAlive);
+  if (isMafia(player.role)) return living.filter((p) => !isMafia(p.role)).map((p) => p.id);
   switch (player.role) {
-    case 'mafia':
-      return living.filter((p) => p.role !== 'mafia').map((p) => p.id);
     case 'doctor':
       return living.filter((p) => p.id !== state.lastDoctorTargetId).map((p) => p.id);
     default:
@@ -193,13 +196,14 @@ export function listNightTargets(state, player) {
  * @param {GameState} state
  * @param {Player} player
  * @param {string} targetId
+ * @param {() => number} random
  * @returns {GameState}
  */
-function chooseNightTarget(state, player, targetId) {
+function chooseNightTarget(state, player, targetId, random) {
   assertLivingIn(state, player, 'night');
   if (!listNightTargets(state, player).includes(targetId)) throw new RuleError('Du kan inte välja den spelaren.');
   const next = { ...state, nightChoices: { ...state.nightChoices, [player.id]: targetId } };
-  return isNightSettled(next) ? resolveNight(next) : next;
+  return isNightSettled(next) ? resolveNight(next, random) : next;
 }
 
 /**
@@ -226,27 +230,19 @@ export function hasMafiaAgreed(state) {
 
 /**
  * @param {GameState} state
+ * @param {() => number} random
  * @returns {GameState}
  */
-function resolveNight(state) {
-  const mafiaTargetId = state.nightChoices[livingMafia(state)[0]?.id] ?? null;
-  const doctor = livingPlayers(state).find((p) => p.role === 'doctor');
-  const protectedId = doctor ? state.nightChoices[doctor.id] : null;
-  const killedId = mafiaTargetId && mafiaTargetId !== protectedId ? mafiaTargetId : null;
-
-  const investigations = { ...state.investigations };
-  for (const detective of livingPlayers(state).filter((p) => p.role === 'detective')) {
-    const targetId = state.nightChoices[detective.id];
-    const target = state.players.find((p) => p.id === targetId);
-    if (!target) continue;
-    const result = { round: state.round, targetId, isMafia: target.role === 'mafia' };
-    investigations[detective.id] = [...(investigations[detective.id] ?? []), result];
-  }
-
-  const afterKill = killPlayer({ ...state, investigations, lastDoctorTargetId: protectedId ?? null }, killedId);
+function resolveNight(state, random) {
+  const { killedId, protectedId, silencedId, investigations, sightings } = resolveNightChoices(state);
+  const afterKill = killPlayer({ ...state, investigations, sightings, lastDoctorTargetId: protectedId }, killedId);
   // Även när mordet avgör spelet blir det morgon först, så att alla får se
   // vem som blev mördad. Se endDecidedMorning i deathReveal.js.
-  return { ...afterKill, phase: 'day', lastNight: { killedId }, dayVotes: {} };
+  /** @type {NightOutcome} */
+  const lastNight = { killedId };
+  if (silencedId) lastNight.silencedId = silencedId;
+  if (killedId) lastNight.imageRoll = random();
+  return { ...afterKill, phase: 'day', lastNight, dayVotes: {} };
 }
 
 /**
@@ -268,15 +264,29 @@ function castVote(state, player, targetId) {
 }
 
 /**
+ * Borgmästarens röst räknas två gånger. Alla får veta det när borgmästaren
+ * har röstat, eftersom omröstningen är öppen (Jonas 2026-11-06).
+ * @param {GameState} state
+ * @returns {string[]}
+ */
+export function listDoubleVoterIds(state) {
+  return state.players.filter((p) => p.role === 'mayor' && state.dayVotes[p.id]).map((p) => p.id);
+}
+
+/**
  * Den som får flest röster blir förvisad, om det är ensam flest och fler röster
  * än de som valde att avstå. Annars blir ingen förvisad.
  * @param {Record<string, string>} votes
+ * @param {string[]} [doubleVoterIds] Väljare vars röst räknas två gånger.
  * @returns {string | null}
  */
-export function findExecutedId(votes) {
+export function findExecutedId(votes, doubleVoterIds = []) {
   /** @type {Map<string, number>} */
   const counts = new Map();
-  for (const targetId of Object.values(votes)) counts.set(targetId, (counts.get(targetId) ?? 0) + 1);
+  for (const [voterId, targetId] of Object.entries(votes)) {
+    const weight = doubleVoterIds.includes(voterId) ? 2 : 1;
+    counts.set(targetId, (counts.get(targetId) ?? 0) + weight);
+  }
   const skipCount = counts.get(SKIP_VOTE) ?? 0;
   counts.delete(SKIP_VOTE);
   const ranked = [...counts.entries()].sort((a, b) => b[1] - a[1]);
@@ -291,7 +301,7 @@ export function findExecutedId(votes) {
  * @returns {GameState}
  */
 function resolveDay(state) {
-  const executedId = findExecutedId(state.dayVotes);
+  const executedId = findExecutedId(state.dayVotes, listDoubleVoterIds(state));
   return { ...killPlayer(state, executedId), phase: 'verdict', lastDay: { executedId, isRoleShown: false } };
 }
 
@@ -302,17 +312,22 @@ function resolveDay(state) {
  */
 export function endVerdict(state) {
   if (state.phase !== 'verdict') throw new RuleError('Det finns inget domslut att avsluta.');
+  const executed = state.players.find((p) => p.id === state.lastDay?.executedId);
+  // Galningen vinner ensam när staden förvisar honom, och då är spelet slut.
+  if (executed?.role === 'madman') return { ...state, phase: 'gameOver', winner: 'madman' };
   const checked = withWinnerCheck(state);
   return checked.phase === 'gameOver' ? checked : beginNight(state, state.round + 1);
 }
 
 /**
+ * Bara maffian själv räknas, inte bartendern som håller på den, och
+ * galningen räknas som en av de andra.
  * @param {GameState} state
  * @returns {Team | null}
  */
 export function findWinner(state) {
   const living = livingPlayers(state);
-  const mafiaCount = living.filter((p) => teamOf(p.role) === 'mafia').length;
+  const mafiaCount = living.filter((p) => isMafia(p.role)).length;
   if (mafiaCount === 0) return 'town';
   if (mafiaCount >= living.length - mafiaCount) return 'mafia';
   return null;
@@ -359,7 +374,7 @@ export function livingPlayers(state) {
  * @returns {Player[]}
  */
 function livingMafia(state) {
-  return livingPlayers(state).filter((p) => p.role === 'mafia');
+  return livingPlayers(state).filter((p) => isMafia(p.role));
 }
 
 /**
