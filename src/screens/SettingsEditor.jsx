@@ -1,16 +1,23 @@
 // @ts-check
-import { MAX_PLAYERS, MIN_PLAYERS } from '../game/roles.js';
+import { MAX_PLAYERS, MIN_PLAYERS, ROLE_INFO } from '../game/roles.js';
 import { MAX_BOTS } from '../game/bots.js';
-import { MAFIA_COUNT_CHOICES, findSettingsProblem, stepMafiaCount } from '../game/settings.js';
+import { MAFIA_COUNT_CHOICES, OPTIONAL_ROLES, findSettingsProblem, stepMafiaCount } from '../game/settings.js';
 import { ListCard } from './ListCard.jsx';
 import { describeLobbyStatus } from './lobbyText.js';
 
 /** @typedef {import('../game/settings.js').GameSettings} GameSettings */
 
+// Gudfadern står bland stadens roller i listan, fast han tar en av maffians platser.
+const GODFATHER_POSITION = OPTIONAL_ROLES.findIndex(([, role]) => role === 'mayor');
+
+/** @type {[keyof GameSettings, string][]} */
+const ROLE_SWITCHES = OPTIONAL_ROLES.map(([key, role]) => [key, ROLE_INFO[role].name]);
+
 /** @type {[keyof GameSettings, string][]} */
 const SWITCHES = [
-  ['hasDetective', 'Detektiv'],
-  ['hasDoctor', 'Läkare'],
+  ...ROLE_SWITCHES.slice(0, GODFATHER_POSITION),
+  ['hasGodfather', ROLE_INFO.godfather.name],
+  ...ROLE_SWITCHES.slice(GODFATHER_POSITION),
   ['revealsRoleOnDeath', 'Avslöja rollen'],
   ['hasNarratorVoice', 'Berättarröst'],
 ];

@@ -8,6 +8,8 @@ många varianter. Här är de klassiska reglerna och hur prototypen tolkar dem.
 - **Maffian** vet vilka som är med i maffian. Den vinner när den är minst lika
   många som alla andra tillsammans.
 - **Staden** är alla andra. Den vinner när all maffia är borta.
+- **Galningen** spelar för sig själv. Han vinner ensam om staden förvisar honom,
+  och då är spelet slut direkt.
 
 ## Rollerna
 
@@ -17,10 +19,57 @@ många varianter. Här är de klassiska reglerna och hur prototypen tolkar dem.
 | Detektiv | Staden | Undersöker en spelare varje natt och får veta om den är maffia. |
 | Läkare | Staden | Skyddar en spelare varje natt. Blir den spelaren maffians offer överlever den. |
 | Stadsbo | Staden | Ingen nattroll. Diskuterar och röstar på dagen. |
+| Gudfadern | Maffian | Leder maffian och väljer offer med den. Detektiven ser honom som oskyldig. |
+| Taxichaufför | Staden | Följer en spelare varje natt och får veta vem den besökte. |
+| Fönstertittare | Staden | Bevakar en spelare varje natt och får veta vilka som kom på besök. |
+| Bartender | Maffian | Bjuder en spelare på en drink varje natt, så att den misslyckas med sin uppgift. Vet inte vilka som är maffia. Han vinner om maffian vinner men räknas inte som maffia. |
+| Korvgubbe | Staden | Bjuder en spelare på en korv varje natt. Den får inte prata nästa dag, men får rösta. |
+| Borgmästare | Staden | Ingen nattroll. Rösten räknas två gånger och det syns för alla. |
+| Galningen | Sig själv | Ingen nattroll. Vinner bara om staden förvisar honom. |
 
 Antal maffia är en per fyra spelare, avrundat nedåt men minst en. Detektiv och
-läkare finns alltid en av vardera. Resten är stadsbor. Spelet kräver minst
-fyra spelare.
+läkare finns en av vardera om de är påslagna. De nya rollerna är avslagna från
+början och slås på under Inställningar. Gudfadern tar en av maffians platser.
+Resten är stadsbor. Spelet kräver minst fyra spelare, och fler roller än
+spelare går inte att starta med.
+
+### Besök på natten
+
+Taxichauffören och fönstertittaren ser vem som går hem till vem på natten.
+Ett besök är när någon går hem till den person den har valt:
+
+- **Räknas som besök:** maffian och gudfadern (alla som valde offret),
+  läkaren, detektiven, bartendern och korvgubben.
+- **Räknas inte som besök:** taxichauffören och fönstertittaren, som bara
+  tittar på håll. Inte heller borgmästaren, galningen och stadsborna, vars
+  val på natten bara är blindknappen och inte gör något.
+
+Om fönstertittaren bevakar Anna och bara taxichauffören följer henne, är
+svaret alltså "ingen". Svaret ligger i en akt som öppnas på morgonen, som
+detektivens. Den som är ute ur spelet kan inte längre öppna akten, inte heller
+svaret från natten då den blev mördad.
+
+### Bartendern
+
+Den som bartendern bjuder på en drink märker inget, men misslyckas med sin
+uppgift den natten:
+
+- **Maffian eller gudfadern:** ingen blir mördad. Det räcker att en i maffian
+  får drinken, eftersom maffian väljer tillsammans. Bartendern vet inte vilka
+  som är maffia och kan alltså stoppa sitt eget lag.
+- **Läkaren:** skyddet misslyckas, så offret dör ändå.
+- **Detektiven:** får svaret "inte maffia", oavsett vem som undersöktes.
+- **Taxichauffören och fönstertittaren:** svaret blir "ingen".
+- **Korvgubben:** ingen får korv av korvgubben, så alla får prata nästa dag.
+- **Borgmästaren, galningen och stadsbor:** ingen skillnad, de gör inget på
+  natten.
+
+Den som fick drinken går ändå hem till sitt mål och kan synas för
+taxichauffören och fönstertittaren.
+
+Bartendern räknas inte som maffia när detektiven undersöker honom eller när
+maffians antal räknas, och maffian kan mörda honom. Han vinner om maffian
+vinner.
 
 ## Gången i spelet
 
@@ -39,7 +88,8 @@ fyra spelare.
    ingen förvisad.
 4. Natt och dag växlar tills ett lag har vunnit.
 
-Den som är ute ur spelet får inte prata eller rösta.
+Den som är ute ur spelet får inte prata eller rösta. Den som fick korvgubbens
+korv visas för alla på morgonen och får inte prata den dagen, men får rösta.
 
 ## Ord vi använder
 
@@ -75,6 +125,7 @@ skärmen. Till exempel:
 | Alla har röstat. Anna blev förvisad ur staden. | Alla har röstat. Anna blev förvisad. |
 | Spelet är slut. Maffian har tagit över staden. | Spelet är slut. Maffian har vunnit. |
 | Spelet är slut. Staden har besegrat maffian. | Spelet är slut. Staden har vunnit. |
+| Spelet är slut. Galningen lurade staden och blev förvisad. | Spelet är slut. Galningen har vunnit. |
 
 Efter domslutets nedräkning säger rösten rollen, till exempel "Anna var läkare". Den
 säger bara det som alla får veta, och samma ord som i listan ovan. Texterna
@@ -86,9 +137,18 @@ finns i `src/game/narration.js`: rutan i `narratePhaseChange` och rösten i
 Klassiska regler skiljer sig mellan grupper. Det här är prototypens val, och
 alla går att ändra i `src/game/rules.js`:
 
-- Döda spelares roller visas för alla.
+- Döda spelares roller visas för alla, om Avslöja rollen är påslagen.
 - Läkaren får skydda sig själv, men inte samma spelare två nätter i rad.
-- Maffian kan inte välja en annan maffia som offer.
+- Maffian kan inte välja en annan maffia som offer. Gudfadern räknas som
+  maffia, men bartendern gör det inte, så maffian kan mörda honom.
+- Den som väljer offer bland maffian går hem till offret och syns för
+  fönstertittaren. Gudfadern räknas som en av dem.
+- Korven går inte till den som blev mördad samma natt. Den tystade visas för
+  alla på morgonen.
+- Borgmästarens dubbla röst syns i domslutet som "Hilda ×2".
+- Förvisas galningen slutar spelet direkt, även om maffian eller staden också
+  hade vunnit. Hans sista ord är "Ha haha ha ha!", maffians "Ni kommer ångra
+  er!" och alla andras "Jag är oskyldig!".
 - På natten finns ingen bekräfta-knapp. Ett tryck på en spelare är valet,
   och man kan ändra sig tills alla har valt och maffian har valt samma person.
 - På morgonen visas den mördades roll direkt, utan nedräkning. Maffian kan
@@ -106,7 +166,7 @@ alla går att ändra i `src/game/rules.js`:
 - Spelet väntar på frånkopplade spelare, eftersom deras val behövs.
 - Botar (datorstyrda spelare) läggs till under Inställningar och står med
   "(bot)" efter namnet. Det får vara högst tre, eftersom botar inte kan prata. De tänker en till fyra sekunder innan de gör något.
-  På natten väljer de slumpvis, men en maffiabot följer den övriga maffian.
+  På natten väljer de slumpvis, men en maffiabot (och gudfadern) följer den övriga maffian.
   På dagen röstar de sist, när alla människor har röstat, och följer den som
   har flest röster. En maffiabot röstar aldrig på sin egen maffia, och en
   detektivbot röstar på maffia som den har hittat.

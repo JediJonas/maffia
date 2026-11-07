@@ -10,6 +10,7 @@ describe('describePhaseTitle', () => {
   it('säger vem som vann när spelet är slut', () => {
     expect(describePhaseTitle({ phase: 'gameOver', round: 4, winner: 'mafia' })).toBe('Maffian vann');
     expect(describePhaseTitle({ phase: 'gameOver', round: 4, winner: 'town' })).toBe('Staden vann');
+    expect(describePhaseTitle({ phase: 'gameOver', round: 4, winner: 'madman' })).toBe('Galningen vann');
   });
 
   it('har en kort rubrik för lobbyn, rollen och domen', () => {
