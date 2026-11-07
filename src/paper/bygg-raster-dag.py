@@ -13,7 +13,7 @@ Kör från repots rot: python3 src/paper/bygg-raster-dag.py src/paper
 import sys
 
 WIDTH, HEIGHT = 390, 920
-FIRST_ROW_Y = 60      # direkt under toppraden (56 px på en skärm utan statusfält)
+FIRST_ROW_Y = 66      # en rad under toppraden (56 px på en skärm utan statusfält, ägaren 2026-11-07)
 LAST_ROW_Y = 918
 ROW_PX = 6
 # Den gamla kurvan: radien som funktion av y (punkter avlästa ur förra filen).
