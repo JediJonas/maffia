@@ -14,7 +14,7 @@ import { writeListName } from './playerName.js';
  * @param {string | null} [props.selectedId]
  * @param {(playerId: string) => void} [props.onSelect]
  * @param {(player: PublicPlayer) => string | null} [props.describe] Text till höger i raden.
- * @param {(player: PublicPlayer) => string | null} [props.stamp] Stämpel framför texten till höger, som "Vann".
+ * @param {(player: PublicPlayer) => string | null} [props.stamp] Stämpel framför texten till höger, som "Vinnare".
  * @param {boolean} [props.showsDead] Döda visas blekta och överstrukna.
  */
 export function PlayerPicker({ players, selectableIds = [], selectedId = null, onSelect, describe, stamp, showsDead = true }) {

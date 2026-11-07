@@ -21,7 +21,7 @@ export function GameOverScreen({ view, host }) {
           <PlayerPicker
             players={orderForGameOver(view.players, view.winner)}
             describe={(player) => player.revealedRole && ROLE_INFO[player.revealedRole].name.toLowerCase()}
-            stamp={(player) => (isWinner(player, view.winner) ? 'Vann' : null)}
+            stamp={(player) => (isWinner(player, view.winner) ? 'Vinnare' : null)}
           />
         </ListCard>
         {!host && <p className="explanation">Värden kan starta ett nytt spel.</p>}

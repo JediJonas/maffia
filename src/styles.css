@@ -571,20 +571,6 @@ main :is(section, .screen-content) > p,
   color: inherit;
 }
 
-/*
- * Vinnarna på slutet får en liten stämpel framför rollen, i samma stil som
- * detektivens "Inte maffia". Rollen står kvar längst till höger.
- */
-.picker-stamp {
-  flex: none;
-  margin-left: auto;
-  transform: rotate(-6deg);
-  border: 1.5px solid var(--ink);
-  padding: 0.1875rem 0.4375rem 0.0625rem;
-  font-size: 1.0625rem;
-  letter-spacing: 0.08em;
-}
-
 /* Luft mellan ett långt namn och den lutade stämpeln. */
 .picker-option:has(.picker-stamp) {
   gap: 0.75rem;
@@ -735,8 +721,12 @@ main section .list-lead {
   text-decoration: underline;
 }
 
-/* Svaret är en diskret stämpel. Bara Maffia blir stor och svart, så att den sticker ut (Jonas 2026-11-06). */
-.file-verdict {
+/*
+ * Svaret är en diskret stämpel. Bara Maffia blir stor och svart, så att den sticker ut (Jonas 2026-11-06).
+ * Vinnarna på slutsidan får samma stämpel framför rollen, så att stämplarna i appen ser likadana ut.
+ */
+.file-verdict,
+.picker-stamp {
   flex: none;
   max-width: 8rem;
   margin-left: auto;
