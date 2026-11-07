@@ -1,24 +1,20 @@
 // @ts-check
-// Berättarens repliker vid fasbyten. De visas på alla skärmar och läses upp
-// högt av värdens telefon, så de får bara bygga på det som alla redan får veta.
+// Berättarens repliker vid fasbyten. De visas på alla skärmar, så de får
+// bara bygga på det som alla redan får veta.
 import { ROLE_INFO } from './roles.js';
 
 /** @typedef {import('./playerView.js').PlayerView} PlayerView */
 
-// Rutan säger hela meningen, rösten den korta (se Ord vi använder i docs/regler.md).
-const WRITTEN_KILL = 'blev mördad av maffian';
-const SPOKEN_KILL = 'blev mördad';
-const WRITTEN_EXECUTION = 'blev förvisad ur staden';
-const SPOKEN_EXECUTION = 'blev förvisad';
+// Rutan säger hela meningen (se Ord vi använder i docs/regler.md).
+const KILL = 'blev mördad av maffian';
+const EXECUTION = 'blev förvisad ur staden';
 
 /** @type {Record<import('./types.js').Team, string>} */
-const WRITTEN_ENDINGS = {
+const ENDINGS = {
   mafia: 'Maffian har tagit över staden.',
   town: 'Staden har besegrat maffian.',
   madman: 'Galningen lurade staden och blev förvisad.',
 };
-/** @type {Record<import('./types.js').Team, string>} */
-const SPOKEN_ENDINGS = { mafia: 'Maffian har vunnit.', town: 'Staden har vunnit.', madman: 'Galningen har vunnit.' };
 
 /**
  * @param {PlayerView | null} previous
@@ -37,39 +33,7 @@ export function narratePhaseChange(previous, next) {
     case 'verdict':
       return `Alla har röstat. ${describeExecution(next)}`;
     case 'gameOver':
-      return `Spelet är slut. ${WRITTEN_ENDINGS[next.winner ?? 'town']}`;
-    default:
-      return null;
-  }
-}
-
-/**
- * Det som värdens telefon läser upp: en kortare version av rutan överst vid
- * varje fasbyte, och den förvisades roll när nedräkningen är slut. Rösten säger bara det
- * viktigaste, eftersom instruktionerna redan står på skärmen. När rösten
- * slås på i lobbyn hörs ett prov, så att värden vet att ljudet fungerar.
- * @param {PlayerView | null} previous Null när sidan just har öppnats, då inget läses upp.
- * @param {PlayerView} next
- * @returns {string | null}
- */
-export function narrateAloud(previous, next) {
-  if (!previous) return null;
-  const isNewPhase = previous.phase !== next.phase || previous.round !== next.round;
-  if (!isNewPhase) {
-    if (!previous.settings.hasNarratorVoice && next.settings.hasNarratorVoice) return 'Berättarrösten är på.';
-    return previous.isRoleRevealPending && !next.isRoleRevealPending ? describeShownRole(next) : null;
-  }
-  switch (next.phase) {
-    case 'roleReveal':
-      return 'Spelet börjar. Titta på din roll.';
-    case 'night':
-      return 'Natten faller. Gör ditt val.';
-    case 'day':
-      return `Staden vaknar. ${describeKill(next, SPOKEN_KILL)}`;
-    case 'verdict':
-      return `Alla har röstat. ${describeExecution(next, SPOKEN_EXECUTION)}`;
-    case 'gameOver':
-      return `Spelet är slut. ${SPOKEN_ENDINGS[next.winner ?? 'town']}`;
+      return `Spelet är slut. ${ENDINGS[next.winner ?? 'town']}`;
     default:
       return null;
   }
@@ -77,40 +41,27 @@ export function narrateAloud(previous, next) {
 
 /**
  * @param {PlayerView} view
- * @returns {string | null} Till exempel "Anna var läkare."
- */
-function describeShownRole(view) {
-  const deadId = view.phase === 'day' ? view.lastNight?.killedId : view.lastDay?.executedId;
-  const player = view.players.find((p) => p.id === deadId);
-  if (!player?.revealedRole) return null;
-  return `${player.name} var ${ROLE_INFO[player.revealedRole].name.toLowerCase()}.`;
-}
-
-/**
- * @param {PlayerView} view
- * @param {string} [whatHappened]
  * @returns {string}
  */
-function describeKill(view, whatHappened = WRITTEN_KILL) {
+function describeKill(view) {
   const killedId = view.lastNight?.killedId;
   if (!killedId) return 'Ingen blev mördad.';
-  return describeDeath(view, killedId, whatHappened);
+  return describeDeath(view, killedId, KILL);
 }
 
 /**
  * @param {PlayerView} view
- * @param {string} [whatHappened]
  * @returns {string}
  */
-function describeExecution(view, whatHappened = WRITTEN_EXECUTION) {
+function describeExecution(view) {
   const executedId = view.lastDay?.executedId;
   if (!executedId) return 'Ingen blev förvisad.';
-  return describeDeath(view, executedId, whatHappened);
+  return describeDeath(view, executedId, EXECUTION);
 }
 
 /**
  * Namnet först och rollen i en egen mening, så att meningen blir lika
- * lätt att läsa och höra oavsett om rollen redan är framvänd.
+ * lätt att läsa oavsett om rollen redan är framvänd.
  * @param {PlayerView} view
  * @param {string} playerId
  * @param {string} whatHappened Till exempel "blev mördad av maffian".

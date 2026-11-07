@@ -18,7 +18,6 @@ import { joinWithAnd, writeNumber } from './numberWords.js';
  * @property {boolean} hasMayor
  * @property {boolean} hasMadman
  * @property {boolean} revealsRoleOnDeath Av gör spelet svårare: rollerna visas först när spelet är slut.
- * @property {boolean} hasNarratorVoice Värdens telefon läser upp vem som dog och rollen.
  */
 
 /** @type {GameSettings} */
@@ -34,7 +33,6 @@ export const DEFAULT_SETTINGS = {
   hasMayor: false,
   hasMadman: false,
   revealsRoleOnDeath: true,
-  hasNarratorVoice: true,
 };
 
 /**

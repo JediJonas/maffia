@@ -28,12 +28,6 @@ varje gång något hamnar i main.
 - **Utseendet** är en noirserie i svart och vitt: Archivo för appens text,
   Big Shoulders Display för rubriker och Comic Neue för berättarens
   serierutor. Typsnitten följer med appen. Förlagan är canvasen "Maffia noir".
-- **Berättarröst.** Värdens telefon läser upp en kort version av rutan överst
-  vid varje fasbyte, och rollen när nedräkningen är slut, med webbläsarens
-  talsyntes. Bara
-  värden talar, och bara om sådant som alla får veta. Stängs av bland
-  inställningarna i lobbyn. Lägg till `?debug=1` i adressen för en
-  felsökningslogg i telefonen.
 - **Botar.** Värden kan lägga till datorstyrda spelare under Inställningar,
   högst tre, till exempel för att nå fyra spelare. Botarna körs i värdens telefon med
   samma regler som alla andra (`src/game/bots.js`, `src/host/useBots.js`)
@@ -58,7 +52,7 @@ varje gång något hamnar i main.
 - `src/host/` och `src/player/` React-hookar som kopplar ihop regler och nätverk
 - `src/screens/` vyerna
 - `src/scenes/` bildrutan överst: bilderna och vad rutan visar i varje fas
-- `src/device/` telefonens funktioner: skärmlås, vibration, talsyntes och sparad session
+- `src/device/` telefonens funktioner: skärmlås, vibration och sparad session
 - `src/avatar/` avatarens delar och hur den ritas
 
 ## Kom igång

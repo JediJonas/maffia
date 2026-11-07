@@ -1,7 +1,6 @@
 // @ts-check
 import { useState } from 'react';
 import { useHostGame } from './host/useHostGame.js';
-import { useNarratorVoice } from './host/useNarratorVoice.js';
 import { useRemoteGame } from './player/useRemoteGame.js';
 import { GameScreen } from './screens/GameScreen.jsx';
 import { StartScreen } from './screens/StartScreen.jsx';
@@ -60,7 +59,6 @@ export function App() {
 /** @param {{ session: Extract<SavedSession, { kind: 'host' }>, onLeave: () => void }} props */
 function HostGame({ session, onLeave }) {
   const connection = useHostGame(session.roomCode, session.name, session.avatar);
-  useNarratorVoice(connection.view);
   return <GameScreen connection={connection} roomCode={session.roomCode} onLeave={onLeave} />;
 }
 
