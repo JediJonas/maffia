@@ -16,7 +16,7 @@ import { joinWithAnd } from '../game/numberWords.js';
  * @typedef {object} CaseRow
  * @property {number} round
  * @property {string} targetId
- * @property {string} when Till exempel "Undersökt natt 1".
+ * @property {string} when Vilken natt, till exempel "Natt 1". Kort, så att stämpeln får plats (Jonas 2026-11-07).
  * @property {CaseVerdict} verdict
  */
 
@@ -53,7 +53,7 @@ function describeCaseFile(view) {
         rows: view.investigations.map((result) => ({
           round: result.round,
           targetId: result.targetId,
-          when: `Undersökt natt ${result.round}`,
+          when: writeNight(result.round),
           verdict: result.isMafia
             ? { lines: ['Maffia'], label: 'maffia', isMafia: true }
             : { lines: ['Inte maffia'], label: 'inte maffia', isMafia: false },
@@ -65,7 +65,7 @@ function describeCaseFile(view) {
         rows: view.sightings.map((sighting) => ({
           round: sighting.round,
           targetId: sighting.targetId,
-          when: `Följd natt ${sighting.round}`,
+          when: writeNight(sighting.round),
           verdict: { lines: ['Besökte:', namesOf(sighting.seenIds)], label: `besökte ${namesOf(sighting.seenIds)}`, isMafia: false },
         })),
       };
@@ -75,11 +75,19 @@ function describeCaseFile(view) {
         rows: view.sightings.map((sighting) => ({
           round: sighting.round,
           targetId: sighting.targetId,
-          when: `Bevakad natt ${sighting.round}`,
+          when: writeNight(sighting.round),
           verdict: { lines: ['Besökt av:', namesOf(sighting.seenIds)], label: `besökt av ${namesOf(sighting.seenIds)}`, isMafia: false },
         })),
       };
     default:
       return null;
   }
+}
+
+/**
+ * @param {number} round
+ * @returns {string} Till exempel "Natt 1".
+ */
+function writeNight(round) {
+  return `Natt ${round}`;
 }

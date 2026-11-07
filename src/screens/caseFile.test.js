@@ -16,7 +16,7 @@ describe('buildCaseFile', () => {
       me: { isAlive: true, role: 'detective' },
       investigations: [{ round: 1, targetId: 'p1', isMafia: false }, { round: 2, targetId: 'p2', isMafia: true }],
     }));
-    expect(content?.rows.map((row) => row.when)).toEqual(['Undersökt natt 2', 'Undersökt natt 1']);
+    expect(content?.rows.map((row) => row.when)).toEqual(['Natt 2', 'Natt 1']);
     expect(content?.rows[0].verdict).toMatchObject({ lines: ['Maffia'], isMafia: true });
   });
 
