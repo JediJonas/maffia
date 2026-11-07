@@ -9,8 +9,8 @@ Detta har gått fel flera gånger. Följ mönstret och ändra det inte utan att
 testa på en riktig iPhone.
 
 **Regeln.** På pekskärmar (`pointer: coarse`) ligger knapparna längst ner,
-nära tummen, 16 px ovanför det som täcker skärmen (Safaris verktygsfält eller
-hemstrecket). De sitter inte fast: är innehållet högre än skärmen trycks de ner
+nära tummen, cirka 16 px ovanför det som täcker skärmen (Safaris verktygsfält
+eller hemstrecket). De sitter inte fast: är innehållet högre än skärmen trycks de ner
 och rullar med. Med mus flödar de direkt under innehållet.
 
 **Grundorsaken till felet.** Safari i iPhone (iOS 26) lämnar själv cirka
