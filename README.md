@@ -44,7 +44,7 @@ varje gång något hamnar i main.
   Display 900, ritat som en bana) på en svart rundad ruta. PNG-filerna är
   utsnitt ur maffians rollbild (`src/scenes/images/roll-maffia.webp`), där
   allt runt honom, röken och regnet, är målat svart, i gråskala med 32 nyanser: `apple-touch-icon.png` (180 px) för hemskärmen i
-  iPhone och iPad, med en tjock svart ram som följer iPhones rundade hörn, 192 och 512 px för Android och en maskbar 512 px med ett
+  iPhone och iPad, och 192 och 512 px för Android, med en tjock svart ram som följer rundade hörn, och en maskbar 512 px med ett
   vidare utsnitt, så att ansiktet ryms i Androids säkra cirkel. Byts
   rollbilden behöver PNG-filerna göras om.
 - `src/game/` spelregler som rena funktioner, med tester
