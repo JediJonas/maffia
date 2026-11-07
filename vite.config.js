@@ -2,13 +2,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import basicSsl from '@vitejs/plugin-basic-ssl';
+import { preloadFonts } from './build/preloadFonts.js';
 
 export default defineConfig({
   // Relativ bas så att bygget fungerar även under en undermapp,
   // till exempel GitHub Pages på /maffia/.
   base: './',
   // Wake Lock kräver https, även när telefonerna testar mot datorn på wifi.
-  plugins: [react(), basicSsl()],
+  plugins: [react(), basicSsl(), preloadFonts()],
   // Visas i felsökningsloggen, så att det syns om telefonen kör en gammal sida ur cachen.
   define: { 'import.meta.env.VITE_BUILD_TIME': JSON.stringify(new Date().toISOString()) },
 });
