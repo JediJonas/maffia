@@ -10,13 +10,21 @@ import { describeLobbyStatus } from './lobbyText.js';
 // Gudfadern står bland stadens roller i listan, fast han tar en av maffians platser.
 const GODFATHER_POSITION = OPTIONAL_ROLES.findIndex(([, role]) => role === 'mayor');
 
+// Rollnamnen står i bestämd form där det bara finns en, som "Du är galningen".
+// I listan står alla roller i obestämd form (Jonas 2026-11-07).
+/** @type {Partial<Record<import('../game/types.js').Role, string>>} */
+const SWITCH_LABELS = { godfather: 'Gudfader', madman: 'Galning' };
+
+/** @param {import('../game/types.js').Role} role */
+const labelOf = (role) => SWITCH_LABELS[role] ?? ROLE_INFO[role].name;
+
 /** @type {[keyof GameSettings, string][]} */
-const ROLE_SWITCHES = OPTIONAL_ROLES.map(([key, role]) => [key, ROLE_INFO[role].name]);
+const ROLE_SWITCHES = OPTIONAL_ROLES.map(([key, role]) => [key, labelOf(role)]);
 
 /** @type {[keyof GameSettings, string][]} */
 const SWITCHES = [
   ...ROLE_SWITCHES.slice(0, GODFATHER_POSITION),
-  ['hasGodfather', ROLE_INFO.godfather.name],
+  ['hasGodfather', labelOf('godfather')],
   ...ROLE_SWITCHES.slice(GODFATHER_POSITION),
   ['revealsRoleOnDeath', 'Avslöja rollen'],
 ];
