@@ -56,18 +56,19 @@ main { padding-bottom: var(--bottom-gap); }
   (`.bottom-actions`). All luft nertill kommer från `--bottom-gap`.
 - Startsidan följer samma regel (`.start-content`).
 
-**Bakgrunden längst ner.** Safari i iOS 26 visar sidan bakom verktygsfältet
-ända ner till skärmens kant, längre än `100lvh` (uppmätt: visningsytan börjar
-47 px ner, lvh 739, skärmen 844, alltså 58 px under lvh). Det som syns där är
-html-elementets bakgrund (canvas), inte body. Därför:
+**Bakgrunden längst ner.** Safari i iOS 26 ritar inte sidan längre ner än
+`100lvh` (uppmätt: visningsytan börjar 47 px ner, lvh 739, skärmen 844). De
+sista 58 px bakom verktygsfältet fyller Safari med en enda färg. Ett mönster
+kan aldrig synas där (prövat med rastrets nederkant på html i PR #64, ingen
+skillnad). Färgen tas från html-elementets bakgrundsfärg, och en stor fast
+ruta vid kanten tar över (mätrutan färgade statusfältet gult). En 2 px hög fast
+linje räckte inte.
 
 - Rastret ligger på `body::before` med papper under (`--raster-paper`), och
   `body` har `min-height: 100lvh`.
-- `html` har rastrets tätaste rad upprepad (`--raster-tail`) i samma skala,
-  så att det som syns under sidan ser ut som rastrets nederkant. Startsidan och
-  natten sätter `background` på `:root` till svart, och då försvinner mönstret.
-- Lägg aldrig en heltäckande bakgrund bara på `body` eller `#root`. Det som ska
-  synas bakom verktygsfältet måste ligga på `html`.
+- Randen är vit, sidans papper (Jonas 2026-11-07). Startsidan och natten har
+  svart bakgrund på html och får svart rand.
+- Lägg inte mönster eller bilder på html för att fylla randen. Det syns inte.
 
 **Så testas det.**
 
