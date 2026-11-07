@@ -1,6 +1,7 @@
 // @ts-check
 import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { writeListName } from './playerName.js';
+import { styleStampTilt } from './stampTilt.js';
 
 /** @typedef {import('../game/playerView.js').PublicPlayer} PublicPlayer */
 
@@ -20,7 +21,7 @@ import { writeListName } from './playerName.js';
 export function PlayerPicker({ players, selectableIds = [], selectedId = null, onSelect, describe, stamp, showsDead = true }) {
   return (
     <ul className="picker">
-      {players.map((player) => {
+      {players.map((player, index) => {
         const detail = describe?.(player);
         const stampText = stamp?.(player);
         const isShownDead = showsDead && !player.isAlive;
@@ -30,7 +31,7 @@ export function PlayerPicker({ players, selectableIds = [], selectedId = null, o
               <PlayerAvatar player={player} isDead={isShownDead} />
               <span className={isShownDead ? 'dead' : ''}>{writeListName(player)}</span>
             </span>
-            {stampText && <span className="stamp picker-stamp">{stampText}</span>}
+            {stampText && <span className="stamp picker-stamp" style={styleStampTilt(index)}>{stampText}</span>}
             {detail && <span className="picker-detail">{detail}</span>}
           </>
         );

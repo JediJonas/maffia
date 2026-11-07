@@ -2,6 +2,7 @@
 import { Fragment, useState } from 'react';
 import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { StampFilter } from './StampFilter.jsx';
+import { styleStampTilt } from './stampTilt.js';
 
 const FILE_AVATAR_PX = 52;
 
@@ -37,6 +38,7 @@ export function CaseFile({ content, players }) {
                 </span>
                 <span
                   className={row.verdict.isMafia ? 'stamp file-verdict file-verdict-mafia' : 'stamp file-verdict'}
+                  style={row.verdict.isMafia ? undefined : styleStampTilt(index)}
                   role="img"
                   aria-label={`Stämpel: ${row.verdict.label}`}
                 >

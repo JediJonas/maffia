@@ -730,7 +730,8 @@ main section .list-lead {
   flex: none;
   max-width: 8rem;
   margin-left: auto;
-  transform: rotate(-4deg);
+  /* Lutningen sätts per stämpel (stampTilt.js), åt vänster eller höger. */
+  transform: rotate(var(--stamp-tilt, -4deg));
   border: 1.5px solid var(--ink);
   padding: 0.1875rem 0.4375rem 0.0625rem;
   font-size: 1.0625rem;
