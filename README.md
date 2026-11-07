@@ -42,8 +42,8 @@ varje gång något hamnar i main.
 - `public/favicon.svg`, `public/icons/`, `public/manifest.webmanifest`:
   ikonerna. Faviconen är ett vitt M i loggans typsnitt (Big Shoulders
   Display 900, ritat som en bana) på en svart rundad ruta. PNG-filerna är
-  utsnitt ur maffians rollbild (`src/scenes/images/roll-maffia.webp`), i
-  gråskala med 32 nyanser: `apple-touch-icon.png` (180 px) för hemskärmen i
+  utsnitt ur maffians rollbild (`src/scenes/images/roll-maffia.webp`), där
+  röken från cigaretten är målad svart, i gråskala med 32 nyanser: `apple-touch-icon.png` (180 px) för hemskärmen i
   iPhone och iPad, 192 och 512 px för Android och en maskbar 512 px med ett
   vidare utsnitt, så att ansiktet ryms i Androids säkra cirkel. Byts
   rollbilden behöver PNG-filerna göras om.
