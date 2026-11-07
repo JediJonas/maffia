@@ -69,7 +69,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En man med hatt bär en kasse och en annan läser tidningen vid en butik.', position: '50% 65%' },
   verdict: { src: verdict, alt: 'Tre män i hatt pekar på en ensam man som står vid en tegelvägg.', position: '50% 45%' },
   mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden i regnet.', position: '50% 15%' },
-  townWins: { src: townWins, alt: 'Stadsborna står lättade på gatan medan två män i mörka kostymer och hatt går förbi.', position: '50% 45%' },
+  townWins: { src: townWins, alt: 'En polis för bort en man i hatt med handbojor längs trottoaren mot en polisbil. Stadsborna står och ser på.', position: '50% 35%' },
   madmanWins: { src: madmanWins, alt: 'Två skötare i vita rockar för bort en skrattande man med armarna i kors längs en regnvåt gata. Några stadsbor ser på.', position: '50% 50%' },
 });
 
