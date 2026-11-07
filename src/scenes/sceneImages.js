@@ -45,7 +45,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   roleTaxiDriver: { src: roleTaxiDriver, alt: 'En taxichaufför i keps lutar sig ut genom bilrutan en regnig natt. Bakom taxin står en man i en hotellentré.', position: '50% 40%' },
   roleWindowWatcher: { src: roleWindowWatcher, alt: 'En kvinna i morgonrock och papiljotter drar undan en spetsgardin och spanar ut i mörkret.', position: '50% 30%' },
   roleBartender: { src: roleBartender, alt: 'En bartender i väst och fluga torkar bardisken under en lampa, med flaskor bakom sig.', position: '50% 30%' },
-  roleSausageVendor: { src: roleSausageVendor, alt: 'En korvgubbe med mustasch och pappersmössa räcker fram en korv med en tång i regnet.', position: '50% 40%' },
+  roleSausageVendor: { src: roleSausageVendor, alt: 'En korvgubbe med mustasch och pappersmössa räcker fram en korv med en tång i regnet.', position: '50% 30%' },
   roleGodfather: { src: roleGodfather, alt: 'En äldre man i mörk kostym sitter med hopknäppta händer bakom ett skrivbord i persiennernas skugga.', position: '50% 35%' },
   roleMayor: { src: roleMayor, alt: 'En borgmästare med ämbetskedja höjer handen på trappan framför stadshuset.', position: '50% 25%' },
   roleMadman: { src: roleMadman, alt: 'En man med rufsigt hår och stirrande ögon sitter fastbunden på en sjukhussäng och flinar.', position: '50% 30%' },
