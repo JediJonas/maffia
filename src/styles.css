@@ -11,7 +11,7 @@
   --muted: #444444;
   --font-text: 'Archivo Variable', Archivo, 'Helvetica Neue', Arial, sans-serif;
   --font-title: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
-  --font-caption: 'Comic Neue', 'Comic Sans MS', cursive;
+  --font-caption: 'Comic Neue', 'Helvetica Neue', Arial, sans-serif;
   --line: 2px solid var(--ink);
   --thin-line: 1px solid var(--ink);
   --raster: url('./paper/raster-dag.svg');
