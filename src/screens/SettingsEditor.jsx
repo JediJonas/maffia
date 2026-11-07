@@ -24,7 +24,8 @@ const SWITCHES = [
 /**
  * Värdens inställningar i en egen vy, som Din figur, så att det finns plats
  * för fler. Varje ändring gäller direkt, och rutan under listan säger vilka
- * roller det blir.
+ * roller det blir. Går inställningarna inte ihop står det i den svarta rutan
+ * ovanför Klar, precis som i lobbyn.
  * @param {object} props
  * @param {GameSettings} props.settings
  * @param {number} props.playerCount
@@ -74,11 +75,12 @@ export function SettingsEditor({ settings, playerCount, botCount, onChange, onAd
             ))}
           </ul>
         </ListCard>
-        {problem
-          ? <p className="notice">{problem}</p>
-          : <p className="explanation">{describeLobbyStatus({ settings, playerCount, hostName: null })}</p>}
+        {!problem && <p className="explanation">{describeLobbyStatus({ settings, playerCount, hostName: null })}</p>}
       </div>
+      {/* Problemet står ovanför knappen, som i lobbyn. Inne i screen-content
+          skulle den vanliga rutans vita bakgrund göra den vita texten osynlig. */}
       <div className="bottom-actions">
+        {problem && <p className="notice">{problem}</p>}
         <button type="button" className="primary" onClick={onClose}>Klar</button>
       </div>
     </section>
