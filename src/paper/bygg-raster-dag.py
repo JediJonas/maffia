@@ -5,7 +5,10 @@ mot botten. Radien följer den gamla kurvan (0,4 px till 1,2 px), men börjar
 där punkterna redan syns (START_RADIUS_Y), så att rastret syns från första
 raden, strax ovanför bildrutan (ägaren 2026-11-07).
 
-Kör från repots rot: python3 src/paper/bygg-raster-dag.py src/paper/raster-dag.svg
+Skriptet bygger också raster-dag-slut.svg: en ruta med de största
+punkterna som upprepas under rastret på sidor som är längre än skärmen.
+
+Kör från repots rot: python3 src/paper/bygg-raster-dag.py src/paper
 """
 import sys
 
@@ -41,4 +44,12 @@ for index, y in enumerate(range(FIRST_ROW_Y, LAST_ROW_Y + 1, ROW_PX)):
 
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" fill="#111111">'
        f'<defs>{"".join(patterns)}</defs>{"".join(rects)}</svg>')
-open(sys.argv[1], 'w').write(svg)
+folder = sys.argv[1]
+open(f'{folder}/raster-dag.svg', 'w').write(svg)
+
+# Rutan fortsätter raderna efter y 920: nästa rad har mitten 7 px ner och
+# punkten i x 3, raden efter har mitten 1 px ner (efter 12 px) och punkten i x 0.
+LAST_RADIUS = round(find_radius(LAST_ROW_Y), 2)
+tail = (f'<svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="#111111">'
+        f'<circle cx="3" cy="7" r="{LAST_RADIUS}"/><circle cx="0" cy="1" r="{LAST_RADIUS}"/><circle cx="6" cy="1" r="{LAST_RADIUS}"/></svg>')
+open(f'{folder}/raster-dag-slut.svg', 'w').write(tail)

@@ -15,6 +15,7 @@
   --line: 2px solid var(--ink);
   --thin-line: 1px solid var(--ink);
   --raster: url('./paper/raster-dag.svg');
+  --raster-tail: url('./paper/raster-dag-slut.svg');
   --raster-paper: var(--paper);
   /*
    * Luften mellan två delar räknas från det som sticker ut längst: lappen
@@ -45,6 +46,7 @@
  */
 :root[data-phase='night'] {
   --raster: none;
+  --raster-tail: none;
   --raster-paper: transparent;
   background: var(--ink);
 }
@@ -58,6 +60,7 @@
 :root:has(.start-page),
 :root:has(#root:empty) {
   --raster: none;
+  --raster-tail: none;
   --raster-paper: transparent;
   background: var(--start-black);
 }
@@ -102,19 +105,35 @@ html {
 }
 
 /*
- * Rastret ligger på sidan och rullar med innehållet, och täcker hela sidans
- * höjd. Minsta höjden är den stora visningsytan (lvh), inte 100 %. Safari i
- * iPhone slutar annars rutan ovanför verktygsfältet längst ner, och då syns
- * vitt papper bakom fältet där punkterna ska vara som tätast.
+ * Rastret ligger på sidan och rullar med innehållet. Det är alltid lika högt
+ * som den stora visningsytan (lvh), så att det börjar på samma ställe och har
+ * lika stora punkter på alla sidor, även på en lång sida som Regler (ägaren
+ * 2026-11-07). Bredden följer höjden och rastret upprepas i sidled, så att
+ * punkterna förblir runda. Är sidan längre än skärmen fortsätter de största
+ * punkterna nedåt (body::after).
  */
-body::before {
+body::before,
+body::after {
   content: '';
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
   z-index: -1;
-  /* Papperet under rastret, så att html-elementets färg inte syns igenom. */
-  background: var(--raster) repeat-x 0 0 / auto 100%, var(--raster-paper);
   pointer-events: none;
+}
+
+body::before {
+  top: 0;
+  bottom: 0;
+  /* Papperet under rastret, så att html-elementets färg inte syns igenom. */
+  background: var(--raster) repeat-x 0 0 / auto 100lvh, var(--raster-paper);
+}
+
+/* Rutan är 6 × 12 px i rastrets skala, där hela rastret är 920 px högt. */
+body::after {
+  top: 100lvh;
+  bottom: 0;
+  background: var(--raster-tail) 0 0 / calc(100lvh * 6 / 920) calc(100lvh * 12 / 920);
 }
 
 body {
