@@ -1,6 +1,6 @@
 /*
  * Noirserien: svart tusch på vitt papper, utan färg. Fasen syns på håll:
- * på dagen ett ljust raster längst ner, på natten en svart sida.
+ * på dagen ett ljust raster som börjar vid bildrutan och tätnar nedåt, på natten en svart sida.
  * Se designreglerna i canvasen "Maffia noir".
  */
 :root {
