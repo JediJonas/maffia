@@ -31,6 +31,7 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
 
   const problem = playerCount >= MIN_PLAYERS ? findSettingsProblem(view.settings, playerCount) : null;
   const canStart = playerCount >= MIN_PLAYERS && !problem;
+  const status = describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null });
 
   if (panel === 'avatar') {
     return <MyAvatarEditor view={view} sendAction={sendAction} onClose={() => setPanel('players')} />;
@@ -72,7 +73,7 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
             </li>
           ))}
         </ul>
-        <p className="explanation">{describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null })}</p>
+        {status && <p className="explanation">{status}</p>}
       </div>
       {/* Alla får knappen till reglerna, så att den som väntar kan läsa på. */}
       <div className="bottom-actions">
