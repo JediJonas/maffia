@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { listRoleRules, listRoundRules } from './rulesText.js';
+import { describeTeamRules, listRoleRules, listRoundRules } from './rulesText.js';
 import { DEFAULT_SETTINGS } from '../game/settings.js';
 
 describe('listRoleRules', () => {
@@ -29,5 +29,26 @@ describe('listRoundRules', () => {
     const [, day, verdict] = listRoundRules({ ...DEFAULT_SETTINGS, revealsRoleOnDeath: false });
     expect(day.text).not.toContain('roll');
     expect(verdict.text).toContain('Rollerna visas först när ett lag har vunnit.');
+  });
+});
+
+describe('describeTeamRules', () => {
+  it('har två lag utan galningen', () => {
+    const teams = describeTeamRules(DEFAULT_SETTINGS);
+    expect(teams.lead).toBe('Staden har två lag.');
+    expect(teams.rows.map((row) => row.title)).toEqual(['Staden', 'Maffian']);
+  });
+
+  it('tar med galningen när han är med', () => {
+    const teams = describeTeamRules({ ...DEFAULT_SETTINGS, hasMadman: true });
+    expect(teams.lead).toBe('Staden har två lag, och en galning.');
+    expect(teams.rows.map((row) => row.title)).toEqual(['Staden', 'Maffian', 'Galningen']);
+  });
+});
+
+describe('listRoleRules med specialroller', () => {
+  it('visar gudfadern i stället för maffia när han tar den enda platsen', () => {
+    const settings = { ...DEFAULT_SETTINGS, hasGodfather: true, hasMayor: true };
+    expect(listRoleRules(settings, 6).map((row) => row.title)).toEqual(['Gudfadern', 'Detektiv', 'Läkare', 'Borgmästare', 'Stadsbo']);
   });
 });

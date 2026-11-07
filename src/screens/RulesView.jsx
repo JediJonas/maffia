@@ -1,6 +1,6 @@
 // @ts-check
 import { ListCard } from './ListCard.jsx';
-import { TEAM_RULES, listRoleRules, listRoundRules } from './rulesText.js';
+import { describeTeamRules, listRoleRules, listRoundRules } from './rulesText.js';
 
 /**
  * Reglerna i en egen vy, som Din figur, så att alla kan läsa dem medan de
@@ -11,10 +11,11 @@ import { TEAM_RULES, listRoleRules, listRoundRules } from './rulesText.js';
  * @param {() => void} props.onClose
  */
 export function RulesView({ settings, playerCount, onClose }) {
+  const teams = describeTeamRules(settings);
   return (
     <section className="screen" aria-labelledby="phase-title">
       <div className="screen-content">
-        <RuleList lead="Staden har två lag." rows={TEAM_RULES} />
+        <RuleList lead={teams.lead} rows={teams.rows} />
         <RuleList lead="De här rollerna finns i staden." rows={listRoleRules(settings, playerCount)} />
         <RuleList lead="Natt och dag växlar tills ett lag har vunnit." rows={listRoundRules(settings)} />
         <p className="explanation">Den som är ute ur spelet får se på, men inte prata eller rösta.</p>

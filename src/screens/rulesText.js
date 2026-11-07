@@ -7,11 +7,18 @@ import { buildRoleList } from '../game/settings.js';
 
 /** @typedef {{ title: string, text: string }} RuleRow En rad i en av listorna i Regler. */
 
-/** @type {RuleRow[]} */
-export const TEAM_RULES = [
-  { title: 'Staden', text: 'Alla som inte är maffia. Staden vinner när all maffia är borta.' },
-  { title: 'Maffian', text: 'Maffian vet vilka som hör till den. Den vinner när den är lika många som alla andra tillsammans.' },
-];
+const TOWN_RULE = { title: 'Staden', text: 'Alla som inte är maffia. Staden vinner när all maffia är borta.' };
+const MAFIA_RULE = { title: 'Maffian', text: 'Maffian vet vilka som hör till den. Den vinner när den är lika många som alla andra tillsammans.' };
+const MADMAN_RULE = { title: 'Galningen', text: 'Spelar för sig själv och vinner ensam om staden förvisar honom. Då är spelet slut direkt.' };
+
+/**
+ * @param {import('../game/settings.js').GameSettings} settings
+ * @returns {{ lead: string, rows: RuleRow[] }} Rutan ovanför listan och en rad för varje sida som kan vinna.
+ */
+export function describeTeamRules(settings) {
+  if (!settings.hasMadman) return { lead: 'Staden har två lag.', rows: [TOWN_RULE, MAFIA_RULE] };
+  return { lead: 'Staden har två lag, och en galning.', rows: [TOWN_RULE, MAFIA_RULE, MADMAN_RULE] };
+}
 
 /**
  * @param {import('../game/settings.js').GameSettings} settings
@@ -36,7 +43,7 @@ export function listRoundRules(settings) {
   return [
     {
       title: 'Natt',
-      text: 'Alla tittar i telefonen och trycker på en spelare, så att ingen ser vem som är vaken. Stadsbornas val räknas inte. Maffian måste välja samma offer, och natten är slut när alla har valt.',
+      text: 'Alla tittar i telefonen och trycker på en spelare, så att ingen ser vem som är vaken. Den som inte har någon uppgift på natten väljer också, men det valet räknas inte. Maffian måste välja samma offer, och natten är slut när alla har valt.',
     },
     {
       title: 'Dag',
