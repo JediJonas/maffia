@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { describeArrivals, describeLobbyStatus } from './lobbyText.js';
+import { describeArrivals, describeLobbyStatus, findStartProblem } from './lobbyText.js';
 import { DEFAULT_SETTINGS } from '../game/settings.js';
 
 describe('describeArrivals', () => {
@@ -12,8 +12,12 @@ describe('describeArrivals', () => {
 describe('describeLobbyStatus', () => {
   const settings = { ...DEFAULT_SETTINGS, mafiaCount: 1, hasDetective: true, hasDoctor: false };
 
-  it('säger hur många som behövs innan fyra har kommit', () => {
-    expect(describeLobbyStatus({ settings, playerCount: 3, hostName: null })).toBe('Det behövs minst fyra för att börja.');
+  it('säger hur många som behövs till de andra innan fyra har kommit', () => {
+    expect(describeLobbyStatus({ settings, playerCount: 3, hostName: 'Bertil' })).toBe('Det behövs minst fyra för att börja.');
+  });
+
+  it('visar ingen vit ruta för värden innan fyra har kommit, eftersom det står i den svarta', () => {
+    expect(describeLobbyStatus({ settings, playerCount: 3, hostName: null })).toBe('');
   });
 
   it('berättar vilka roller som finns i staden för värden', () => {
@@ -34,5 +38,21 @@ describe('describeLobbyStatus', () => {
   it('säger bara vem som startar för de andra när inställningarna inte går ihop', () => {
     const tooMany = { ...settings, mafiaCount: 2 };
     expect(describeLobbyStatus({ settings: tooMany, playerCount: 4, hostName: 'Bertil' })).toBe('Bertil startar när alla är på plats.');
+  });
+});
+
+describe('findStartProblem', () => {
+  const settings = { ...DEFAULT_SETTINGS, mafiaCount: 1, hasDetective: true, hasDoctor: false };
+
+  it('säger att det behövs fler innan fyra har kommit', () => {
+    expect(findStartProblem(settings, 3)).toBe('Det behövs minst fyra för att börja.');
+  });
+
+  it('säger vad som är fel med inställningarna', () => {
+    expect(findStartProblem({ ...settings, mafiaCount: 2 }, 4)).toBeTruthy();
+  });
+
+  it('är null när spelet kan starta', () => {
+    expect(findStartProblem(settings, 4)).toBeNull();
   });
 });

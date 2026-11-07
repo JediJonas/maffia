@@ -1,13 +1,12 @@
 // @ts-check
 import { MIN_PLAYERS } from '../game/roles.js';
-import { findSettingsProblem } from '../game/settings.js';
 import { SettingsEditor } from './SettingsEditor.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
 import { RulesView } from './RulesView.jsx';
 import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { loadOrCreateAvatar, saveAvatar } from '../device/savedSession.js';
 import { sortByName, writeListName } from './playerName.js';
-import { describeArrivals, describeLobbyStatus } from './lobbyText.js';
+import { describeArrivals, describeLobbyStatus, findStartProblem } from './lobbyText.js';
 
 /** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
 /** @typedef {import('../game/playerView.js').PublicPlayer} PublicPlayer */
@@ -29,8 +28,10 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
   // Värden lades till först när spelet skapades.
   const hostPlayer = view.players[0];
 
-  const problem = playerCount >= MIN_PLAYERS ? findSettingsProblem(view.settings, playerCount) : null;
-  const canStart = playerCount >= MIN_PLAYERS && !problem;
+  const problem = findStartProblem(view.settings, playerCount);
+  const canStart = !problem;
+  // Att det behövs fler är svart bara hos värden, vars Starta-knapp är spärrad. De andra ser det i den vita rutan.
+  const shownProblem = host || playerCount >= MIN_PLAYERS ? problem : null;
   const status = describeLobbyStatus({ settings: view.settings, playerCount, hostName: host ? null : hostPlayer?.name ?? null });
 
   if (panel === 'avatar') {
@@ -77,7 +78,7 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
       </div>
       {/* Alla får knappen till reglerna, så att den som väntar kan läsa på. */}
       <div className="bottom-actions">
-        {problem && <p className="notice">{problem}</p>}
+        {shownProblem && <p className="notice">{shownProblem}</p>}
         {host && <button type="button" className="secondary" onClick={() => setPanel('settings')}>Inställningar</button>}
         <button type="button" className="secondary" onClick={() => setPanel('rules')}>Regler</button>
         {host && (

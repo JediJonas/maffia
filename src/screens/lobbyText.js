@@ -14,9 +14,27 @@ export function describeArrivals(playerCount) {
 }
 
 /**
- * Rutan under listan. Ett problem med inställningarna står i den svarta
- * rutan ovanför knapparna, så då står här bara vem som startar. På värdens
- * egen telefon blir det då ingen text alls, och ingen vit ruta.
+ * Varför värden inte kan starta, eller null om spelet kan starta. Står i den
+ * svarta rutan ovanför knapparna hos värden, vars Starta-knapp är spärrad
+ * (ägaren 2026-11-07).
+ * @param {import('../game/settings.js').GameSettings} settings
+ * @param {number} playerCount
+ * @returns {string | null}
+ */
+export function findStartProblem(settings, playerCount) {
+  if (playerCount < MIN_PLAYERS) return describeTooFew();
+  return findSettingsProblem(settings, playerCount);
+}
+
+function describeTooFew() {
+  return `Det behövs minst ${writeNumber(MIN_PLAYERS)} för att börja.`;
+}
+
+/**
+ * Rutan under listan. Varför värden inte kan starta står i den svarta rutan
+ * ovanför knapparna, så på värdens egen telefon blir det då ingen text alls
+ * och ingen vit ruta. De andra ser att det behövs fler, eller bara vem som
+ * startar när inställningarna inte går ihop.
  * @param {object} options
  * @param {import('../game/settings.js').GameSettings} options.settings
  * @param {number} options.playerCount
@@ -24,9 +42,11 @@ export function describeArrivals(playerCount) {
  * @returns {string} Tom när rutan inte ska visas.
  */
 export function describeLobbyStatus({ settings, playerCount, hostName }) {
-  if (playerCount < MIN_PLAYERS) return `Det behövs minst ${writeNumber(MIN_PLAYERS)} för att börja.`;
-  const whoStarts = hostName ? `${hostName} startar när alla är på plats.` : '';
+  const isHost = !hostName;
+  if (isHost && findStartProblem(settings, playerCount)) return '';
+  if (playerCount < MIN_PLAYERS) return describeTooFew();
+  const whoStarts = `${hostName} startar när alla är på plats.`;
   if (findSettingsProblem(settings, playerCount)) return whoStarts;
   const roles = `I staden finns ${describeRoles(buildRoleList(settings, playerCount))}.`;
-  return whoStarts ? `${roles} ${whoStarts}` : roles;
+  return isHost ? roles : `${roles} ${whoStarts}`;
 }
