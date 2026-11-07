@@ -6,7 +6,10 @@ import '@fontsource-variable/archivo';
 import '@fontsource/big-shoulders-display/latin-900';
 import '@fontsource/comic-neue/latin-700';
 import './styles.css';
+import { showViewportProbeIfAsked } from './device/viewportProbe.js';
 
 // Utan StrictMode: dess dubbla effekter skulle öppna värdens PeerJS-id två
 // gånger, och servern håller kvar det första en stund.
 createRoot(/** @type {HTMLElement} */ (document.getElementById('root'))).render(<App />);
+
+showViewportProbeIfAsked();
