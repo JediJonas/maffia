@@ -3,7 +3,7 @@
 Punkterna står i rader var 6:e px, varannan rad förskjuten 3 px, och växer
 mot botten. Radien följer den gamla kurvan (0,4 px till 1,2 px), men börjar
 där punkterna redan syns (START_RADIUS_Y), så att rastret syns från första
-raden, strax ovanför bildrutan (ägaren 2026-11-07).
+raden, direkt under toppraden (ägaren 2026-11-07).
 
 Skriptet bygger också raster-dag-slut.svg: en ruta med de största
 punkterna som upprepas under rastret på sidor som är längre än skärmen.
@@ -13,7 +13,7 @@ Kör från repots rot: python3 src/paper/bygg-raster-dag.py src/paper
 import sys
 
 WIDTH, HEIGHT = 390, 920
-FIRST_ROW_Y = 96      # strax ovanför bildrutan i skissen (44 + 40 + 10 = 94)
+FIRST_ROW_Y = 60      # direkt under toppraden (56 px på en skärm utan statusfält)
 LAST_ROW_Y = 918
 ROW_PX = 6
 # Den gamla kurvan: radien som funktion av y (punkter avlästa ur förra filen).
