@@ -34,7 +34,7 @@ import madmanWins from './images/slut-galningen.webp';
 /** @typedef {{ src: string, alt: string, position: string }} SceneImage */
 
 export const SCENE_IMAGES = /** @type {const} */ ({
-  join: { src: join, alt: 'En dörr står på glänt i en mörk korridor. Ljus och cigarettrök syns genom springan.', position: '50% 50%' },
+  join: { src: join, alt: 'En dörr står på glänt i slutet av en mörk korridor. Ljuset faller över golvet där ett spelkort ligger. Därinne står en stol med en hatt, och rök stiger mot taket.', position: '50% 50%' },
   create: { src: create, alt: 'En tom bardisk sent på kvällen med glas, flaskor och en hatt under en hängande lampa.', position: '50% 55%' },
   lobby: { src: lobby, alt: 'Fyra personer spelar kort runt ett runt bord under en hängande lampa i ett mörkt rum.', position: '50% 75%' },
   roleHidden: { src: roleHidden, alt: 'En förseglad akt på ett skrivbord i lampljus, bredvid en hatt och en revolver.', position: '50% 50%' },

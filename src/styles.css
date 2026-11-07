@@ -86,7 +86,15 @@
  * att punkterna förblir runda. Med en fast bredd krymper webbläsaren
  * SVG:n för att behålla proportionerna, och då blir det vita kanter.
  */
+/*
+ * Safari i iPhone förstorar texten när skärmen vrids till liggande, och
+ * behåller ibland förstoringen när den vrids tillbaka. Då blir knapparnas
+ * text större och ser fetare ut. 100 % stänger av förstoringen men låter
+ * användarens egen textstorlek och zoom gälla.
+ */
 html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   background: var(--paper);
 }
 
