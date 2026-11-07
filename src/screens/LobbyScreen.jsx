@@ -77,14 +77,12 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
       {/* Alla får knappen till reglerna, så att den som väntar kan läsa på. */}
       <div className="bottom-actions">
         {problem && <p className="notice">{problem}</p>}
+        {host && <button type="button" className="secondary" onClick={() => setPanel('settings')}>Inställningar</button>}
         <button type="button" className="secondary" onClick={() => setPanel('rules')}>Regler</button>
         {host && (
-          <>
-            <button type="button" className="secondary" onClick={() => setPanel('settings')}>Inställningar</button>
-            <button type="button" className="primary" disabled={!canStart} onClick={host.startGame}>
-              Starta spelet
-            </button>
-          </>
+          <button type="button" className="primary" disabled={!canStart} onClick={host.startGame}>
+            Starta spelet
+          </button>
         )}
       </div>
     </section>
