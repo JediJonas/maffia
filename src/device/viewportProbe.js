@@ -7,6 +7,10 @@
 
 const PROBE_PARAM = 'matt';
 const UPDATE_DELAY_MS = 300;
+// ?matt=gra och ?matt=svart provar en bakgrundsfärg på html utan mätruta, för
+// att se vilken färg Safari i iOS 26 fyller randen under verktygsfältet och
+// statusfältet med.
+const TEST_TONES = { gra: '#e1e1e1', svart: '#111111' };
 
 /** @param {string} css */
 function measureHeight(css) {
@@ -51,13 +55,21 @@ function readings() {
     `browser ${matches('(display-mode: browser)')} standalone ${matches('(display-mode: standalone)')}`,
     `coarse ${matches('(pointer: coarse)')} stående ${matches('(orientation: portrait)')}`,
     `bottom-gap ${bottomGap()}`,
+    `html-färg ${getComputedStyle(document.documentElement).backgroundColor}`,
     `sista knappen slutar ${lastButtonBottom()}`,
   ];
 }
 
 /** Visar mätrutan om adressen innehåller ?matt. */
 export function showViewportProbeIfAsked() {
-  if (!new URLSearchParams(location.search).has(PROBE_PARAM)) return;
+  const params = new URLSearchParams(location.search);
+  if (!params.has(PROBE_PARAM)) return;
+  const tone = TEST_TONES[/** @type {keyof typeof TEST_TONES} */ (params.get(PROBE_PARAM))];
+  if (tone) {
+    // Utan mätruta, eftersom en fast ruta överst själv färgar statusfältet.
+    document.documentElement.style.backgroundColor = tone;
+    return;
+  }
 
   const box = document.createElement('pre');
   box.style.cssText = 'position:fixed;z-index:999;top:env(safe-area-inset-top);left:4px;right:4px;margin:0;padding:6px;'
