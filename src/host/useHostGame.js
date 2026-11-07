@@ -140,7 +140,7 @@ export function useHostGame(roomCode, hostName, hostAvatar) {
       onAction(secret, action) {
         const playerId = gameRef.current.playerIdsBySecret[secret];
         if (!playerId) return;
-        tryRule((s) => applyAction(s, playerId, action), (message) => network.send(secret, { type: 'error', message }));
+        tryRule((s) => applyAction(s, playerId, action, Math.random), (message) => network.send(secret, { type: 'error', message }));
       },
       onLeave(secret) {
         const game = gameRef.current;
@@ -191,7 +191,7 @@ export function useHostGame(roomCode, hostName, hostAvatar) {
 
   const sendAction = useCallback((/** @type {PlayerAction} */ action) => {
     setNotice(null);
-    tryRule((s) => applyAction(s, hostPlayerId, action), setNotice);
+    tryRule((s) => applyAction(s, hostPlayerId, action, Math.random), setNotice);
   }, [hostPlayerId, tryRule]);
 
   const host = useMemo(() => ({

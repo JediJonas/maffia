@@ -25,6 +25,10 @@ import nightWindowWatcher from './images/natt-fonstertittare.webp';
 import nightBartender from './images/natt-bartender.webp';
 import nightSausageVendor from './images/natt-korvgubbe.webp';
 import morningMurder from './images/morgon-mord.webp';
+import morningMurderBedroom from './images/morgon-mord-sovrum.webp';
+import morningMurderOffice from './images/morgon-mord-kontor.webp';
+import morningMurderRain from './images/morgon-mord-regn.webp';
+import morningMurderSidewalk from './images/morgon-mord-trottoar.webp';
 import morningNoMurder from './images/morgon-ingen.webp';
 import verdict from './images/dom.webp';
 import mafiaWins from './images/slut-maffia.webp';
@@ -58,10 +62,14 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightBartender: { src: nightBartender, alt: 'En bartender häller upp en drink åt en ensam gäst i hatt som sitter hopsjunken vid bardisken.', position: '50% 50%' },
   nightSausageVendor: { src: nightSausageVendor, alt: 'En korvvagn under en gatlykta i regnet. Korvgubben räcker en korv till en man i hatt.', position: '50% 55%' },
   morningMurder: { src: morningMurder, alt: 'En man ligger död på en regnvåt gata under en gatlykta. En gestalt i hatt går därifrån.', position: '50% 62%' },
+  morningMurderBedroom: { src: morningMurderBedroom, alt: 'En kvinna ligger död på golvet i ett sovrum. I den öppna dörren står en man i hatt och rock.', position: '50% 70%' },
+  morningMurderOffice: { src: morningMurderOffice, alt: 'En man i kostym ligger död på trägolvet i ett arbetsrum, med glasögonen bredvid sig.', position: '60% 50%' },
+  morningMurderRain: { src: morningMurderRain, alt: 'En kvinna i trenchcoat ligger död på en regnvåt gata. Hennes handväska och läppstift ligger i en vattenpöl.', position: '50% 60%' },
+  morningMurderSidewalk: { src: morningMurderSidewalk, alt: 'En man ligger död på trottoaren med hatten bredvid sig. En man i rock och hatt springer därifrån.', position: '50% 65%' },
   morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En man med hatt bär en kasse och en annan läser tidningen vid en butik.', position: '50% 65%' },
   verdict: { src: verdict, alt: 'Tre män i hatt pekar på en ensam man som står vid en tegelvägg.', position: '50% 45%' },
   mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden i regnet.', position: '50% 15%' },
-  townWins: { src: townWins, alt: 'Stadsborna står lättade på gatan medan två män i mörka kostymer och hatt går förbi.', position: '50% 45%' },
+  townWins: { src: townWins, alt: 'En polis för bort en man i hatt med handbojor längs trottoaren mot en polisbil. Stadsborna står och ser på.', position: '50% 35%' },
   madmanWins: { src: madmanWins, alt: 'Två skötare i vita rockar för bort en skrattande man med armarna i kors längs en regnvåt gata. Några stadsbor ser på.', position: '50% 50%' },
 });
 

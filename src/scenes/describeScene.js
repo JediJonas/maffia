@@ -47,6 +47,22 @@ export const ROLE_IMAGES = {
 };
 
 /**
+ * Mordbilderna som värden slumpar mellan. Alla telefoner visar samma, eftersom
+ * slumptalet följer med nattens utfall (se NightOutcome).
+ * @type {SceneImageKey[]}
+ */
+export const MURDER_IMAGES = ['morningMurder', 'morningMurderBedroom', 'morningMurderOffice', 'morningMurderRain', 'morningMurderSidewalk'];
+
+/**
+ * @param {number | undefined} imageRoll Saknas i spel som sparades innan mordbilden slumpades.
+ * @returns {SceneImageKey}
+ */
+export function chooseMurderImage(imageRoll = 0) {
+  const index = Math.min(Math.floor(imageRoll * MURDER_IMAGES.length), MURDER_IMAGES.length - 1);
+  return MURDER_IMAGES[index];
+}
+
+/**
  * @param {Pick<PlayerView, 'phase' | 'me' | 'players' | 'lastNight' | 'lastDay' | 'winner'>} view
  * @param {boolean} isHost Värden visar QR-koden i rutan, de andra en bild.
  * @param {boolean} [isRoleShown] Spelaren har öppnat akten och ser sin roll.
@@ -67,7 +83,7 @@ export function describeScene(view, isHost, isRoleShown = false) {
     case 'day': {
       const killedId = view.lastNight?.killedId ?? null;
       if (!killedId) return scene('morningNoMurder', 'Staden vaknar …', 'Ingen blev mördad.');
-      return scene('morningMurder', 'Staden vaknar …', `${describeWho(view, killedId)} blev mördad.`);
+      return scene(chooseMurderImage(view.lastNight?.imageRoll), 'Staden vaknar …', `${describeWho(view, killedId)} blev mördad.`);
     }
     case 'verdict': {
       const executedId = view.lastDay?.executedId ?? null;
@@ -110,7 +126,8 @@ export function listUpcomingImages(view) {
     case 'roleReveal':
       return view.me.role ? [ROLE_IMAGES[view.me.role], chooseNightImage(view.me)] : [];
     case 'night':
-      return ['morningMurder', 'morningNoMurder'];
+      // Vilken mordbild det blir avgörs först när natten tar slut, så alla hämtas.
+      return [...MURDER_IMAGES, 'morningNoMurder'];
     case 'day':
       return ['verdict'];
     case 'verdict':

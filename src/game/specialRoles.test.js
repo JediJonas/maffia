@@ -48,9 +48,9 @@ describe('specialrollerna på natten', () => {
 
   it('låter korvgubben tysta någon, men inte den som blev mördad', () => {
     const silenced = playNight(night, { p1: 'p9', p2: 'p6', p3: 'p9', p4: 'p4', p5: 'p1', p6: 'p1', p7: 'p8', ...QUIET });
-    expect(silenced.lastNight).toEqual({ killedId: 'p9', silencedId: 'p8' });
+    expect(silenced.lastNight).toEqual({ killedId: 'p9', silencedId: 'p8', imageRoll: expect.any(Number) });
     const murdered = playNight(night, { p1: 'p8', p2: 'p6', p3: 'p9', p4: 'p4', p5: 'p1', p6: 'p1', p7: 'p8', p8: 'p1', p9: 'p1' });
-    expect(murdered.lastNight).toEqual({ killedId: 'p8' });
+    expect(murdered.lastNight).toEqual({ killedId: 'p8', imageRoll: expect.any(Number) });
   });
 
   it('låter gudfadern mörda bartendern, som maffian inte känner', () => {

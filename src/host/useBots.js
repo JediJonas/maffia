@@ -24,7 +24,7 @@ export function useBots(state, tryRule, reportError) {
     // Draget räknas ut när tiden har gått, mot spelet som det är då.
     const playNextBotMove = (/** @type {GameState} */ current) => {
       const move = findNextBotMove(current, Math.random);
-      return move ? applyAction(current, move.botId, move.action) : current;
+      return move ? applyAction(current, move.botId, move.action, Math.random) : current;
     };
     const thinkMs = BOT_MIN_THINK_MS + Math.random() * BOT_EXTRA_THINK_MS;
     const timer = setTimeout(() => tryRule(playNextBotMove, reportError), thinkMs);

@@ -9,6 +9,7 @@ import { sanitizeAvatar } from '../avatar/avatarParts.js';
 /** @typedef {import('./types.js').GameState} GameState */
 /** @typedef {import('./types.js').Player} Player */
 /** @typedef {import('./types.js').PlayerAction} PlayerAction */
+/** @typedef {import('./types.js').NightOutcome} NightOutcome */
 /** @typedef {import('./types.js').Team} Team */
 
 export const SKIP_VOTE = 'skip';
@@ -117,16 +118,17 @@ export function changeSettings(state, changes) {
  * @param {GameState} state
  * @param {string} playerId
  * @param {PlayerAction} action
+ * @param {() => number} [random] Ett tal från 0 till 1, som Math.random. Drar mordbilden när natten tar slut.
  * @returns {GameState}
  */
-export function applyAction(state, playerId, action) {
+export function applyAction(state, playerId, action, random = Math.random) {
   const player = state.players.find((p) => p.id === playerId);
   if (!player) throw new RuleError('Okänd spelare.');
   switch (action.type) {
     case 'ready':
       return markReady(state, player);
     case 'nightChoice':
-      return chooseNightTarget(state, player, action.targetId);
+      return chooseNightTarget(state, player, action.targetId, random);
     case 'vote':
       return castVote(state, player, action.targetId);
     case 'setAvatar':
@@ -194,13 +196,14 @@ export function listNightTargets(state, player) {
  * @param {GameState} state
  * @param {Player} player
  * @param {string} targetId
+ * @param {() => number} random
  * @returns {GameState}
  */
-function chooseNightTarget(state, player, targetId) {
+function chooseNightTarget(state, player, targetId, random) {
   assertLivingIn(state, player, 'night');
   if (!listNightTargets(state, player).includes(targetId)) throw new RuleError('Du kan inte välja den spelaren.');
   const next = { ...state, nightChoices: { ...state.nightChoices, [player.id]: targetId } };
-  return isNightSettled(next) ? resolveNight(next) : next;
+  return isNightSettled(next) ? resolveNight(next, random) : next;
 }
 
 /**
@@ -227,14 +230,19 @@ export function hasMafiaAgreed(state) {
 
 /**
  * @param {GameState} state
+ * @param {() => number} random
  * @returns {GameState}
  */
-function resolveNight(state) {
+function resolveNight(state, random) {
   const { killedId, protectedId, silencedId, investigations, sightings } = resolveNightChoices(state);
   const afterKill = killPlayer({ ...state, investigations, sightings, lastDoctorTargetId: protectedId }, killedId);
   // Även när mordet avgör spelet blir det morgon först, så att alla får se
   // vem som blev mördad. Se endDecidedMorning i deathReveal.js.
-  return { ...afterKill, phase: 'day', lastNight: silencedId ? { killedId, silencedId } : { killedId }, dayVotes: {} };
+  /** @type {NightOutcome} */
+  const lastNight = { killedId };
+  if (silencedId) lastNight.silencedId = silencedId;
+  if (killedId) lastNight.imageRoll = random();
+  return { ...afterKill, phase: 'day', lastNight, dayVotes: {} };
 }
 
 /**
