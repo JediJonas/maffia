@@ -1,4 +1,5 @@
 // @ts-check
+import { Fragment } from 'react';
 import { ROLE_REVEAL_DELAY_MS, VERDICT_PAUSE_MS } from '../game/deathReveal.js';
 import { SKIP_VOTE } from '../game/rules.js';
 import { tallyVotes } from '../game/voteTally.js';
@@ -22,14 +23,15 @@ export function VerdictScreen({ view }) {
   const voted = rows.filter((row) => row.targetId !== SKIP_VOTE);
   const skipCount = rows.find((row) => row.targetId === SKIP_VOTE)?.voterIds.length ?? 0;
   /** @param {import('../game/playerView.js').PublicPlayer} player */
-  const describeVoters = (player) => voted.find((row) => row.targetId === player.id)?.voterIds.map(nameOf).join(', ') ?? null;
+  const describeVoters = (player) => voted.find((row) => row.targetId === player.id)?.voterIds
+    .map((id) => (view.doubleVoterIds.includes(id) ? `${nameOf(id)} ×2` : nameOf(id))).join(', ') ?? null;
 
   return (
     <section aria-labelledby="phase-title">
       {executed && (
         <PersonRow
           player={executed}
-          speech={lastWords && <>{lastWords[0]}<br />{lastWords[1]}</>}
+          speech={lastWords && lastWords.map((line, index) => <Fragment key={line}>{index > 0 && <br />}{line}</Fragment>)}
           reservesSpeech={view.settings.revealsRoleOnDeath}
           text={view.isRoleRevealPending
             ? <Countdown durationMs={ROLE_REVEAL_DELAY_MS} label="Rollen visas om" />

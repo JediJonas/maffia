@@ -26,6 +26,11 @@ describe('writeLastWords', () => {
     expect(writeLastWords({ ...cissi, revealedRole: 'mafia' })).toEqual(['Ni kommer', 'ångra er!']);
   });
 
+  it('låter gudfadern hota som maffian och galningen skratta', () => {
+    expect(writeLastWords({ ...cissi, revealedRole: 'godfather' })).toEqual(['Ni kommer', 'ångra er!']);
+    expect(writeLastWords({ ...cissi, revealedRole: 'madman' })).toEqual(['Ha haha', 'ha ha!']);
+  });
+
   it('håller tyst medan rollen är hemlig, och när den aldrig visas', () => {
     expect(writeLastWords({ ...cissi, revealedRole: null })).toBeNull();
   });

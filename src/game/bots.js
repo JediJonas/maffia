@@ -5,6 +5,7 @@
 import { RuleError, SKIP_VOTE, addPlayer, hasMafiaAgreed, listNightTargets, livingPlayers, removePlayer } from './rules.js';
 import { isMorningDecided } from './deathReveal.js';
 import { createRandomAvatar } from '../avatar/avatarParts.js';
+import { isMafia } from './roles.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
 /** @typedef {import('./types.js').Player} Player */
@@ -110,7 +111,7 @@ export function chooseBotAction(state, bot, random) {
 function chooseNightAction(state, bot, random) {
   const currentChoice = state.nightChoices[bot.id];
   const targets = listNightTargets(state, bot);
-  if (bot.role === 'mafia') {
+  if (isMafia(bot.role)) {
     const partnerChoice = findMafiaPartnerChoice(state, bot);
     if (partnerChoice && partnerChoice !== currentChoice) return { type: 'nightChoice', targetId: partnerChoice };
     if (currentChoice) return null;
@@ -134,7 +135,7 @@ function chooseNightAction(state, bot, random) {
  */
 function findMafiaPartnerChoice(state, bot) {
   if (hasMafiaAgreed(state)) return null;
-  const partners = livingPlayers(state).filter((p) => p.role === 'mafia' && p.id !== bot.id && state.nightChoices[p.id]);
+  const partners = livingPlayers(state).filter((p) => isMafia(p.role) && p.id !== bot.id && state.nightChoices[p.id]);
   const leader = partners.find((p) => !p.isBot) ?? partners[0];
   return leader ? state.nightChoices[leader.id] : null;
 }
@@ -155,7 +156,7 @@ function chooseVoteAction(state, bot, random) {
   const isWaitingForHumans = living.some((p) => !p.isBot && !state.dayVotes[p.id]);
   if (isWaitingForHumans) return null;
 
-  const candidates = living.filter((p) => p.id !== bot.id && (bot.role !== 'mafia' || p.role !== 'mafia'));
+  const candidates = living.filter((p) => p.id !== bot.id && (!isMafia(bot.role) || !isMafia(p.role)));
   const candidateIds = candidates.map((p) => p.id);
   if (bot.role === 'detective') {
     const foundMafiaId = (state.investigations[bot.id] ?? [])
@@ -165,7 +166,7 @@ function chooseVoteAction(state, bot, random) {
   const leaders = findMostVoted(state.dayVotes, candidateIds);
   if (leaders.length) return { type: 'vote', targetId: pickRandom(leaders, random) };
   // Har alla andra avstått avstår staden också, medan maffian alltid vill få bort någon.
-  if (bot.role !== 'mafia' && Object.keys(state.dayVotes).length) return { type: 'vote', targetId: SKIP_VOTE };
+  if (!isMafia(bot.role) && Object.keys(state.dayVotes).length) return { type: 'vote', targetId: SKIP_VOTE };
   return { type: 'vote', targetId: candidateIds.length ? pickRandom(candidateIds, random) : SKIP_VOTE };
 }
 

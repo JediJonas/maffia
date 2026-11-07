@@ -11,6 +11,15 @@ const SPOKEN_KILL = 'blev mördad';
 const WRITTEN_EXECUTION = 'blev förvisad ur staden';
 const SPOKEN_EXECUTION = 'blev förvisad';
 
+/** @type {Record<import('./types.js').Team, string>} */
+const WRITTEN_ENDINGS = {
+  mafia: 'Maffian har tagit över staden.',
+  town: 'Staden har besegrat maffian.',
+  madman: 'Galningen lurade staden och blev förvisad.',
+};
+/** @type {Record<import('./types.js').Team, string>} */
+const SPOKEN_ENDINGS = { mafia: 'Maffian har vunnit.', town: 'Staden har vunnit.', madman: 'Galningen har vunnit.' };
+
 /**
  * @param {PlayerView | null} previous
  * @param {PlayerView} next
@@ -28,7 +37,7 @@ export function narratePhaseChange(previous, next) {
     case 'verdict':
       return `Alla har röstat. ${describeExecution(next)}`;
     case 'gameOver':
-      return `Spelet är slut. ${next.winner === 'mafia' ? 'Maffian har tagit över staden.' : 'Staden har besegrat maffian.'}`;
+      return `Spelet är slut. ${WRITTEN_ENDINGS[next.winner ?? 'town']}`;
     default:
       return null;
   }
@@ -60,7 +69,7 @@ export function narrateAloud(previous, next) {
     case 'verdict':
       return `Alla har röstat. ${describeExecution(next, SPOKEN_EXECUTION)}`;
     case 'gameOver':
-      return `Spelet är slut. ${next.winner === 'mafia' ? 'Maffian har vunnit.' : 'Staden har vunnit.'}`;
+      return `Spelet är slut. ${SPOKEN_ENDINGS[next.winner ?? 'town']}`;
     default:
       return null;
   }

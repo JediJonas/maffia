@@ -46,7 +46,7 @@ export function RoleScreen({ view, sendAction, isRoleShown, setIsRoleShown }) {
             <PersonRow
               key={teammate.id}
               player={teammate}
-              text={`${teammate.name} är också maffia.`}
+              text={describeTeammate(teammate.name, view.mafiaTeam.find((m) => m.id === teammate.id)?.role ?? null)}
               speech={index === 0 && <>Vi gör det<br />tillsammans.</>}
             />
           ))}
@@ -70,4 +70,14 @@ export function RoleScreen({ view, sendAction, isRoleShown, setIsRoleShown }) {
       </div>
     </section>
   );
+}
+
+/**
+ * Gudfadern leder maffian, så de andra ska veta vem han är.
+ * @param {string} name
+ * @param {import('../game/types.js').Role | null} role
+ * @returns {string}
+ */
+export function describeTeammate(name, role) {
+  return role === 'godfather' ? `${name} är gudfadern.` : `${name} är också maffia.`;
 }

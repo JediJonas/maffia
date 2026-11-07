@@ -86,6 +86,15 @@ describe('botar under spelet', () => {
     expect(chooseBotAction(state, findPlayer(state, 'p2'), pickFirst)).toEqual({ type: 'nightChoice', targetId: 'p5' });
   });
 
+  it('följer gudfadern som maffia och spelar de nya rollerna', () => {
+    let state = createGameWithBots(['godfather', 'mafia', 'bartender', 'taxiDriver', 'mayor', 'madman'], ['p2', 'p3', 'p4', 'p5', 'p6']);
+    state = applyAction(state, 'p1', { type: 'nightChoice', targetId: 'p4' });
+    expect(chooseBotAction(state, findPlayer(state, 'p2'), pickFirst)).toEqual({ type: 'nightChoice', targetId: 'p4' });
+    for (const id of ['p3', 'p4', 'p5', 'p6']) {
+      expect(chooseBotAction(state, findPlayer(state, id), pickFirst)).toMatchObject({ type: 'nightChoice' });
+    }
+  });
+
   it('väljer samma offer när hela maffian är botar', () => {
     let state = createGameWithBots(['mafia', 'mafia', 'detective', 'doctor', 'citizen', 'citizen'], ['p1', 'p2']);
     for (let i = 0; i < 2; i++) {

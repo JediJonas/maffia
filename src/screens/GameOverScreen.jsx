@@ -1,19 +1,19 @@
 // @ts-check
 import { sortByName } from './playerName.js';
-import { ROLE_INFO } from '../game/roles.js';
+import { ROLE_INFO, teamOf } from '../game/roles.js';
 import { ListCard } from './ListCard.jsx';
 import { PlayerPicker } from './PlayerPicker.jsx';
 
 /**
- * Alla roller visas, maffian först och sedan i bokstavsordning.
+ * Alla roller visas, vinnarna först och sedan i bokstavsordning.
  * @param {object} props
  * @param {import('../game/playerView.js').PlayerView} props.view
  * @param {import('../host/useHostGame.js').HostControls | null} props.host
  */
 export function GameOverScreen({ view, host }) {
-  const isMafia = (/** @type {import('../game/playerView.js').PublicPlayer} */ p) => p.revealedRole === 'mafia';
+  const isWinner = (/** @type {import('../game/playerView.js').PublicPlayer} */ p) => teamOf(p.revealedRole) === view.winner;
   const sorted = sortByName(view.players);
-  const players = [...sorted.filter(isMafia), ...sorted.filter((p) => !isMafia(p))];
+  const players = [...sorted.filter(isWinner), ...sorted.filter((p) => !isWinner(p))];
   return (
     <section className="screen" aria-labelledby="phase-title">
       <div className="screen-content">
