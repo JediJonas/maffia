@@ -1082,9 +1082,19 @@ main section .person-text {
   .spinner { animation-duration: 4s; }
 }
 
-/* Knappar längst ner i en vy, staplade med 10 px emellan. */
+/*
+ * Knappar längst ner i en vy, staplade med 10 px emellan.
+ *
+ * Gridets rader sträcks annars ut när gridet blir högre än knapparna. Safari i
+ * iPhone gjorde det på startsidan efter att skärmen vridits till liggande och
+ * tillbaka: knapparna blev olika höga och mycket högre än 52 px (skärmbild från
+ * ägaren 2026-11-07). Med end behåller raderna och knapparna sin egen höjd, och
+ * blir det luft över hamnar den ovanför knapparna.
+ */
 .bottom-actions {
   display: grid;
+  align-content: end;
+  align-items: end;
   gap: 0.625rem;
   margin-top: 1.5rem;
 }
