@@ -38,7 +38,7 @@ export const ROLE_IMAGES = {
   godfather: 'roleMafia',
   detective: 'roleDetective',
   doctor: 'roleDoctor',
-  taxiDriver: 'roleDetective',
+  taxiDriver: 'roleTaxiDriver',
   windowWatcher: 'roleDetective',
   sausageVendor: 'roleCitizen',
   bartender: 'roleMafia',

@@ -9,6 +9,7 @@ import roleMafia from './images/roll-maffia.webp';
 import roleDetective from './images/roll-detektiv.webp';
 import roleDoctor from './images/roll-lakare.webp';
 import roleCitizen from './images/roll-stadsbo.webp';
+import roleTaxiDriver from './images/roll-taxichauffor.webp';
 import nightMafia from './images/natt-maffia.webp';
 import nightDetective from './images/natt-detektiv.webp';
 import nightDoctor from './images/natt-lakare.webp';
@@ -30,6 +31,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   roleDetective: { src: roleDetective, alt: 'En detektiv i trenchcoat och hatt med ett anteckningsblock under en gatlykta.', position: '50% 25%' },
   roleDoctor: { src: roleDoctor, alt: 'En läkare i mörk kappa med en läkarväska står i en upplyst dörröppning.', position: '50% 50%' },
   roleCitizen: { src: roleCitizen, alt: 'En man i keps och kofta tittar misstänksamt över axeln i sin ytterdörr.', position: '50% 30%' },
+  roleTaxiDriver: { src: roleTaxiDriver, alt: 'En taxichaufför i keps lutar sig ut genom bilrutan en regnig natt. Bakom taxin står en man i en hotellentré.', position: '50% 40%' },
   nightMafia: { src: nightMafia, alt: 'En regnig gata en natt. Två män i hatt står tätt ihop under en gatlykta.', position: '50% 68%' },
   nightDetective: { src: nightDetective, alt: 'En man i skjorta och slips läser ett papper vid ett skrivbord under en lampa. Bakom honom syns stadens fönster i regnet.', position: '50% 35%' },
   nightDoctor: { src: nightDoctor, alt: 'En gestalt i rock med en väska går ensam i regnet längs en tegelmur under en gatlykta.', position: '50% 16%' },
