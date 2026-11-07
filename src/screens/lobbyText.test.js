@@ -26,8 +26,13 @@ describe('describeLobbyStatus', () => {
     );
   });
 
-  it('nämner inte rollerna när inställningarna inte går ihop', () => {
+  it('visar ingen ruta för värden när inställningarna inte går ihop', () => {
     const tooMany = { ...settings, mafiaCount: 2 };
-    expect(describeLobbyStatus({ settings: tooMany, playerCount: 4, hostName: null })).toBe('Ändra inställningarna innan ni börjar.');
+    expect(describeLobbyStatus({ settings: tooMany, playerCount: 4, hostName: null })).toBe('');
+  });
+
+  it('säger bara vem som startar för de andra när inställningarna inte går ihop', () => {
+    const tooMany = { ...settings, mafiaCount: 2 };
+    expect(describeLobbyStatus({ settings: tooMany, playerCount: 4, hostName: 'Bertil' })).toBe('Bertil startar när alla är på plats.');
   });
 });

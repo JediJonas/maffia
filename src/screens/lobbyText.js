@@ -14,18 +14,19 @@ export function describeArrivals(playerCount) {
 }
 
 /**
- * Rutan under listan. Ett problem med inställningarna visas i stället vid
- * inställningarna, så då står här bara vem som startar.
+ * Rutan under listan. Ett problem med inställningarna står i den svarta
+ * rutan ovanför knapparna, så då står här bara vem som startar. På värdens
+ * egen telefon blir det då ingen text alls, och ingen vit ruta.
  * @param {object} options
  * @param {import('../game/settings.js').GameSettings} options.settings
  * @param {number} options.playerCount
  * @param {string | null} options.hostName Null på värdens egen telefon.
- * @returns {string}
+ * @returns {string} Tom när rutan inte ska visas.
  */
 export function describeLobbyStatus({ settings, playerCount, hostName }) {
   if (playerCount < MIN_PLAYERS) return `Det behövs minst ${writeNumber(MIN_PLAYERS)} för att börja.`;
   const whoStarts = hostName ? `${hostName} startar när alla är på plats.` : '';
-  if (findSettingsProblem(settings, playerCount)) return whoStarts || 'Ändra inställningarna innan ni börjar.';
+  if (findSettingsProblem(settings, playerCount)) return whoStarts;
   const roles = `I staden finns ${describeRoles(buildRoleList(settings, playerCount))}.`;
   return whoStarts ? `${roles} ${whoStarts}` : roles;
 }

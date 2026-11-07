@@ -207,6 +207,15 @@ main {
   margin: -0.5rem 0 0.875rem;
 }
 
+/*
+ * Lobbyns lista har egen luft under sig, så att uppmaningen får sina 16 px
+ * även när den vita rutan inte visas. Följer den vita rutan slås
+ * marginalerna ihop till samma 16 px som förut.
+ */
+.screen-content > .player-list:last-child {
+  margin-bottom: var(--block-gap);
+}
+
 /* Avståndet under bilden kommer från rutan under den, eftersom marginalerna inte slås ihop i main. */
 main > .scene {
   margin-bottom: 0;
