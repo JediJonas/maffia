@@ -73,6 +73,6 @@ describe('listUpcomingImages', () => {
   it('hämtar stadsbons nattbild åt den som just blev förvisad', () => {
     const morning = playNight(night, { p2: 'p4', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
     const verdict = playDay(morning, { p1: 'p3', p2: 'p3', p3: 'p1', p5: 'p3' });
-    expect(listUpcomingImages(buildPlayerView({ ...verdict, phase: 'verdict' }, 'p3'))).toEqual(['nightCitizen', 'mafiaWins', 'townWins']);
+    expect(listUpcomingImages(buildPlayerView({ ...verdict, phase: 'verdict' }, 'p3'))).toEqual(['nightCitizen', 'mafiaWins', 'townWins', 'madmanWins']);
   });
 });
