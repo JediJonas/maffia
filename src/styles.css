@@ -37,8 +37,8 @@
   --person-delay: 1s;
   --speech-delay: 0.6s;
   /*
-   * Luften under knapparna längst ner. Se CLAUDE.md, "Knappar längst ner i
-   * mobilen". Utan webbläsarfält (från hemskärmen, eller liggande) ligger sidan
+   * Luften under knapparna längst ner. Se CLAUDE.md, "Mobillayout i
+   * Safari". Utan webbläsarfält (från hemskärmen, eller liggande) ligger sidan
    * ända ner till hemstrecket, och då behövs den säkra marginalen.
    */
   --bottom-gap: max(1rem, env(safe-area-inset-bottom));
