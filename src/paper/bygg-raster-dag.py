@@ -20,7 +20,7 @@ ROW_PX = 6
 OLD_CURVE = [(96, .40), (156, .40), (216, .41), (276, .42), (336, .43), (396, .46),
              (456, .49), (516, .54), (576, .60), (636, .67), (696, .75), (756, .85),
              (816, .97), (876, 1.10), (918, 1.20)]
-START_RADIUS_Y = 560  # radie cirka 0,58, så att de översta punkterna syns i mobilen (ägaren 2026-11-07)
+START_RADIUS_Y = 420  # där den gamla kurvan började synas (radie cirka 0,47)
 
 
 def read_old_radius(y):
