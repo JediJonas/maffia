@@ -1,9 +1,9 @@
 // @ts-check
-import { MAX_PLAYERS, MIN_PLAYERS, ROLE_INFO } from '../game/roles.js';
+import { MAX_PLAYERS, ROLE_INFO } from '../game/roles.js';
 import { MAX_BOTS } from '../game/bots.js';
-import { MAFIA_COUNT_CHOICES, OPTIONAL_ROLES, findSettingsProblem, stepMafiaCount } from '../game/settings.js';
+import { MAFIA_COUNT_CHOICES, OPTIONAL_ROLES, stepMafiaCount } from '../game/settings.js';
 import { ListCard } from './ListCard.jsx';
-import { describeLobbyStatus } from './lobbyText.js';
+import { describeLobbyStatus, findStartProblem } from './lobbyText.js';
 
 /** @typedef {import('../game/settings.js').GameSettings} GameSettings */
 
@@ -44,7 +44,7 @@ const SWITCHES = [
  * @param {() => void} props.onClose
  */
 export function SettingsEditor({ settings, playerCount, botCount, onChange, onAddBot, onRemoveBot, onClose }) {
-  const problem = playerCount >= MIN_PLAYERS ? findSettingsProblem(settings, playerCount) : null;
+  const problem = findStartProblem(settings, playerCount);
   const isFirstChoice = settings.mafiaCount === MAFIA_COUNT_CHOICES[0];
   const isLastChoice = settings.mafiaCount === MAFIA_COUNT_CHOICES[MAFIA_COUNT_CHOICES.length - 1];
   return (
