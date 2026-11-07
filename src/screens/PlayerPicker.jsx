@@ -1,6 +1,7 @@
 // @ts-check
 import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { writeListName } from './playerName.js';
+import { styleStampTilt } from './stampTilt.js';
 
 /** @typedef {import('../game/playerView.js').PublicPlayer} PublicPlayer */
 
@@ -14,13 +15,15 @@ import { writeListName } from './playerName.js';
  * @param {string | null} [props.selectedId]
  * @param {(playerId: string) => void} [props.onSelect]
  * @param {(player: PublicPlayer) => string | null} [props.describe] Text till höger i raden.
+ * @param {(player: PublicPlayer) => string | null} [props.stamp] Stämpel framför texten till höger, som "Vinnare".
  * @param {boolean} [props.showsDead] Döda visas blekta och överstrukna.
  */
-export function PlayerPicker({ players, selectableIds = [], selectedId = null, onSelect, describe, showsDead = true }) {
+export function PlayerPicker({ players, selectableIds = [], selectedId = null, onSelect, describe, stamp, showsDead = true }) {
   return (
     <ul className="picker">
-      {players.map((player) => {
+      {players.map((player, index) => {
         const detail = describe?.(player);
+        const stampText = stamp?.(player);
         const isShownDead = showsDead && !player.isAlive;
         const content = (
           <>
@@ -28,6 +31,7 @@ export function PlayerPicker({ players, selectableIds = [], selectedId = null, o
               <PlayerAvatar player={player} isDead={isShownDead} />
               <span className={isShownDead ? 'dead' : ''}>{writeListName(player)}</span>
             </span>
+            {stampText && <span className="stamp picker-stamp" style={styleStampTilt(index)}>{stampText}</span>}
             {detail && <span className="picker-detail">{detail}</span>}
           </>
         );

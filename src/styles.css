@@ -562,6 +562,16 @@ main :is(section, .screen-content) > p,
   color: inherit;
 }
 
+/* Luft mellan ett långt namn och den lutade stämpeln. */
+.picker-option:has(.picker-stamp) {
+  gap: 0.75rem;
+}
+
+/* Lika bred plats för rollen bakom stämpeln, så att stämplarna står i en rak kolumn. "Fönstertittare" får plats. */
+.picker-stamp + .picker-detail {
+  min-width: 6.5rem;
+}
+
 /*
  * Listan med berättarens ruta ovanför och en lapp som hänger över nedre
  * kanten. Lappen ligger utanför flödet, så det som följer får luft under.
@@ -682,9 +692,12 @@ main section .list-lead {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
+  min-width: 0;
 }
 
 .file-name {
+  /* Ett långt namn bryts, så att stämpeln stannar i raden även i en smal telefon. */
+  overflow-wrap: anywhere;
   font-family: var(--font-caption);
   font-weight: 700;
   font-size: 1.125rem;
@@ -702,12 +715,17 @@ main section .list-lead {
   text-decoration: underline;
 }
 
-/* Svaret är en diskret stämpel. Bara Maffia blir stor och svart, så att den sticker ut (Jonas 2026-11-06). */
-.file-verdict {
+/*
+ * Svaret är en diskret stämpel. Bara Maffia blir stor och svart, så att den sticker ut (Jonas 2026-11-06).
+ * Vinnarna på slutsidan får samma stämpel framför rollen, så att stämplarna i appen ser likadana ut.
+ */
+.file-verdict,
+.picker-stamp {
   flex: none;
   max-width: 8rem;
   margin-left: auto;
-  transform: rotate(-4deg);
+  /* Lutningen sätts per stämpel (stampTilt.js), åt vänster eller höger. */
+  transform: rotate(var(--stamp-tilt, -4deg));
   border: 1.5px solid var(--ink);
   padding: 0.1875rem 0.4375rem 0.0625rem;
   font-size: 1.0625rem;
