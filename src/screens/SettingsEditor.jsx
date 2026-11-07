@@ -19,7 +19,6 @@ const SWITCHES = [
   ['hasGodfather', ROLE_INFO.godfather.name],
   ...ROLE_SWITCHES.slice(GODFATHER_POSITION),
   ['revealsRoleOnDeath', 'Avslöja rollen'],
-  ['hasNarratorVoice', 'Berättarröst'],
 ];
 
 /**

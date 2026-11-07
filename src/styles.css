@@ -979,22 +979,6 @@ main section .person-text {
   white-space: nowrap;
 }
 
-/* Felsökningsloggen (?debug=1) ligger över allt men tar inte emot tryck. */
-.debug-log {
-  position: fixed;
-  inset: auto 0 0 0;
-  max-height: 30vh;
-  overflow: hidden;
-  margin: 0;
-  padding: 0.25rem 0.5rem;
-  background: rgb(0 0 0 / 0.75);
-  color: #fff;
-  font-size: 0.7rem;
-  white-space: pre-wrap;
-  pointer-events: none;
-  z-index: 10;
-}
-
 /* Meddelanderutan ligger fast längst ner, som en lapp ovanpå sidan. Fel får svart ikon. */
 .message {
   position: fixed;

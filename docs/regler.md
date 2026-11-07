@@ -93,7 +93,7 @@ korv visas för alla på morgonen och får inte prata den dagen, men får rösta
 
 ## Ord vi använder
 
-Appen, berättarrösten och dokumentationen använder samma ord:
+Appen och dokumentationen använder samma ord:
 
 - **Mördad.** Den som maffian dödar på natten "blev mördad av maffian", till
   exempel "Anna blev mördad av maffian". Om läkaren räddade offret står det
@@ -102,35 +102,12 @@ Appen, berättarrösten och dokumentationen använder samma ord:
   till exempel "Du blev förvisad ur staden". Om ingen fick flest röster står det
   "Ingen blev förvisad". Själva omröstningen heter fortfarande att rösta.
 - **Kort och långt.** Den stora rubriken vid avataren är kort, "Anna blev
-  mördad" och "Anna blev förvisad", och så säger även berättarrösten.
-  Berättartexten i rutan överst säger hela meningen, "Anna blev mördad av
+  mördad" och "Anna blev förvisad". Berättartexten i rutan överst säger hela meningen, "Anna blev mördad av
   maffian" och "Anna blev förvisad ur staden".
 - **Ute ur spelet.** Både den som blev mördad och den som blev förvisad är ute
   ur spelet. Det är vad skärmen säger till den spelaren, inte "död".
 
 Skriv inte "dog", "åkte ut" eller "röstades ut" i nya texter.
-
-## Berättarrösten
-
-Värdens telefon läser upp berättaren. Rösten läser inte rutan överst ord för
-ord, utan en kortare och lite annorlunda variant av den, så att det inte blir
-samma text två gånger. Rösten säger det viktigaste, och resten står kvar på
-skärmen. Till exempel:
-
-| Rutan överst | Rösten |
-|---|---|
-| Spelet börjar. Titta på din roll i hemlighet och tryck sedan på klar. | Spelet börjar. Titta på din roll. |
-| Natten faller. Alla tittar i sin telefon och gör sitt val. | Natten faller. Gör ditt val. |
-| Staden vaknar. Anna blev mördad av maffian. Diskutera och rösta om vem som ska förvisas. | Staden vaknar. Anna blev mördad. |
-| Alla har röstat. Anna blev förvisad ur staden. | Alla har röstat. Anna blev förvisad. |
-| Spelet är slut. Maffian har tagit över staden. | Spelet är slut. Maffian har vunnit. |
-| Spelet är slut. Staden har besegrat maffian. | Spelet är slut. Staden har vunnit. |
-| Spelet är slut. Galningen lurade staden och blev förvisad. | Spelet är slut. Galningen har vunnit. |
-
-Efter domslutets nedräkning säger rösten rollen, till exempel "Anna var läkare". Den
-säger bara det som alla får veta, och samma ord som i listan ovan. Texterna
-finns i `src/game/narration.js`: rutan i `narratePhaseChange` och rösten i
-`narrateAloud`.
 
 ## Val som prototypen har gjort
 
