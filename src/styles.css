@@ -701,9 +701,12 @@ main section .list-lead {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
+  min-width: 0;
 }
 
 .file-name {
+  /* Ett långt namn bryts, så att stämpeln stannar i raden även i en smal telefon. */
+  overflow-wrap: anywhere;
   font-family: var(--font-caption);
   font-weight: 700;
   font-size: 1.125rem;

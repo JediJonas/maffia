@@ -56,7 +56,7 @@ function describeCaseFile(view) {
           when: `Undersökt natt ${result.round}`,
           verdict: result.isMafia
             ? { lines: ['Maffia'], label: 'maffia', isMafia: true }
-            : { lines: ['Inte', 'maffia'], label: 'inte maffia', isMafia: false },
+            : { lines: ['Inte maffia'], label: 'inte maffia', isMafia: false },
         })),
       };
     case 'taxiDriver':
