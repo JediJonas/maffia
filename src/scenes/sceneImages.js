@@ -29,6 +29,9 @@ import morningMurderBedroom from './images/morgon-mord-sovrum.webp';
 import morningMurderOffice from './images/morgon-mord-kontor.webp';
 import morningMurderRain from './images/morgon-mord-regn.webp';
 import morningMurderSidewalk from './images/morgon-mord-trottoar.webp';
+import morningMurderRevolver from './images/morgon-mord-revolver.webp';
+import morningMurderShadow from './images/morgon-mord-skugga.webp';
+import morningMurderKnife from './images/morgon-mord-kniv.webp';
 import morningNoMurder from './images/morgon-ingen.webp';
 import verdict from './images/dom.webp';
 import mafiaWins from './images/slut-maffia.webp';
@@ -66,6 +69,9 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   morningMurderOffice: { src: morningMurderOffice, alt: 'En man i kostym ligger död på trägolvet i ett arbetsrum, med glasögonen bredvid sig.', position: '60% 50%' },
   morningMurderRain: { src: morningMurderRain, alt: 'En kvinna i trenchcoat ligger död på en regnvåt gata. Hennes handväska och läppstift ligger i en vattenpöl.', position: '50% 60%' },
   morningMurderSidewalk: { src: morningMurderSidewalk, alt: 'En man ligger död på trottoaren med hatten bredvid sig. En man i rock och hatt springer därifrån.', position: '50% 65%' },
+  morningMurderRevolver: { src: morningMurderRevolver, alt: 'En man i hatt och rock avfyrar en revolver rakt mot betraktaren i ett mörkt sovrum.', position: '50% 0%' },
+  morningMurderShadow: { src: morningMurderShadow, alt: 'Skuggan av en man i hatt som höjer en kniv faller över en tegelvägg i en gränd.', position: '50% 0%' },
+  morningMurderKnife: { src: morningMurderKnife, alt: 'En man i hatt och rock höjer en kniv till hugg.', position: '50% 0%' },
   morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En man med hatt bär en kasse och en annan läser tidningen vid en butik.', position: '50% 65%' },
   verdict: { src: verdict, alt: 'Tre män i hatt pekar på en ensam man som står vid en tegelvägg.', position: '50% 45%' },
   mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden i regnet.', position: '50% 15%' },

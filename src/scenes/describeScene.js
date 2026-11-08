@@ -51,7 +51,10 @@ export const ROLE_IMAGES = {
  * slumptalet följer med nattens utfall (se NightOutcome).
  * @type {SceneImageKey[]}
  */
-export const MURDER_IMAGES = ['morningMurder', 'morningMurderBedroom', 'morningMurderOffice', 'morningMurderRain', 'morningMurderSidewalk'];
+export const MURDER_IMAGES = [
+  'morningMurder', 'morningMurderBedroom', 'morningMurderOffice', 'morningMurderRain', 'morningMurderSidewalk',
+  'morningMurderRevolver', 'morningMurderShadow', 'morningMurderKnife',
+];
 
 /**
  * @param {number | undefined} imageRoll Saknas i spel som sparades innan mordbilden slumpades.
