@@ -9,10 +9,8 @@ import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
 import { PlayerPicker } from './PlayerPicker.jsx';
 
-const QUIET_NIGHT_NEWS = 'Någon vakade över staden i natt. Men maffian finns kvar.';
-const MURDER_NEWS = 'Någon av er ljuger. Mördaren går fortfarande fri bland er.';
-// Berättelsen står i rutan ovanför, och rutan på listan är alltid densamma (Jonas 2026-11-08).
-const VOTE_LEAD = 'Ni röstar om vem som ska förvisas.';
+// Rutan på listan är densamma för alla, levande som döda (Jonas 2026-11-08).
+const VOTE_LEAD = 'Staden röstar om vem som ska förvisas.';
 
 /**
  * Morgonen och omröstningen. Röstläget står i listan, så att det syns
@@ -54,7 +52,7 @@ export function DayScreen({ view, sendAction }) {
           </ListCard>
         ) : (
           <>
-            <ListCard lead="Staden röstar utan dig." tag={progress}>
+            <ListCard lead={VOTE_LEAD} tag={progress}>
               <PlayerPicker players={listed} describe={describeVotes} />
             </ListCard>
             <p className="explanation">Du är borta nu. Se på, men säg inget.</p>
@@ -87,19 +85,14 @@ function describeVoteCount(count) {
 }
 
 /**
- * Nattens offer som en personrad, med rollen direkt när roller visas vid död,
- * och berättarens ruta under. En lugn natt har bara berättarens ruta.
+ * Nattens offer som en personrad, med rollen direkt när roller visas vid död.
+ * En lugn natt står bara i bildrutan.
  * @param {{ view: import('../game/playerView.js').PlayerView }} props
  */
 function MorningNews({ view }) {
   const killed = view.players.find((p) => p.id === view.lastNight?.killedId);
-  if (!killed) return <p>{QUIET_NIGHT_NEWS}</p>;
-  return (
-    <>
-      <PersonRow player={killed} text={describeDeath(killed, view.me.id, 'mördad')} />
-      <p>{MURDER_NEWS}</p>
-    </>
-  );
+  if (!killed) return null;
+  return <PersonRow player={killed} text={describeDeath(killed, view.me.id, 'mördad')} />;
 }
 
 /**
