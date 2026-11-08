@@ -22,7 +22,7 @@ export function ScenePanel({ scene, roomCode, children }) {
         {scene.bottomCaption && <span className="scene-caption scene-caption-bottom">{scene.bottomCaption}</span>}
         {scene.showsRoomCode && roomCode && (
           <span className="scene-caption scene-caption-bottom">
-            Kod: <span className="room-code-text" aria-label={[...roomCode].join(' ')}>{roomCode}</span>
+            Koden är <span className="room-code-text" aria-label={[...roomCode].join(' ')}>{roomCode}</span>.
           </span>
         )}
       </figcaption>

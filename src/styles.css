@@ -487,6 +487,11 @@ main :is(section, .screen-content) > p,
   pointer-events: none;
 }
 
+/* Rutorna själva går att trycka på, så att rumskoden kan markeras och kopieras (ägaren 2026-11-08). */
+.scene-plain .scene-caption {
+  pointer-events: auto;
+}
+
 .scene .scene-caption {
   position: absolute;
   margin: 0;
@@ -510,8 +515,14 @@ main :is(section, .screen-content) > p,
   border-top: var(--line);
 }
 
-/* Rumskoden har alltid luft mellan bokstäverna, utan extra luft efter den sista, och bryts aldrig. */
+/*
+ * Rumskoden har alltid luft mellan bokstäverna, utan extra luft efter den
+ * sista, och bryts aldrig. Ett tryck markerar hela koden, så att den är lätt
+ * att kopiera.
+ */
 .room-code-text {
+  -webkit-user-select: all;
+  user-select: all;
   white-space: nowrap;
   letter-spacing: 0.3em;
   margin-right: -0.3em;
