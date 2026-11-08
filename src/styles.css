@@ -1466,3 +1466,38 @@ main section .person-text {
   font-size: 0.875rem;
   line-height: 1.4;
 }
+
+/*
+ * Byten mellan vyerna (viewTransition.js). Vanliga byten tonar över på
+ * webbläsarens 0,25 s. Till och från natten går skärmen genom svart, som när
+ * ljuset släcks och tänds (Jonas 2026-11-08). Hela sidan byts som en bild,
+ * även knapparna längst ner, så att deras plats (--bottom-gap) inte påverkas.
+ */
+:root[data-view-transition='dusk']::view-transition-old(root),
+:root[data-view-transition='dawn']::view-transition-old(root) {
+  animation: view-to-black 0.8s ease-in-out both;
+}
+
+:root[data-view-transition='dusk']::view-transition-new(root),
+:root[data-view-transition='dawn']::view-transition-new(root) {
+  animation: view-from-black 0.8s ease-in-out both;
+}
+
+@keyframes view-to-black {
+  50%,
+  to {
+    filter: brightness(0);
+  }
+}
+
+@keyframes view-from-black {
+  from,
+  50% {
+    opacity: 0;
+    filter: brightness(0);
+  }
+
+  51% {
+    opacity: 1;
+  }
+}

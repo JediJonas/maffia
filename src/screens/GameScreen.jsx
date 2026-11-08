@@ -16,6 +16,7 @@ import { ScenePanel } from '../scenes/ScenePanel.jsx';
 import { describeScene, listUpcomingImages } from '../scenes/describeScene.js';
 import { usePreloadImages } from '../scenes/usePreloadImages.js';
 import { useScrollToTop } from './scrollToTop.js';
+import { changeViewSmoothly, useSmoothPhaseChange } from './viewTransition.js';
 
 /** @type {Partial<Record<import('./LobbyScreen.jsx').LobbyPanel, string>>} */
 const PANEL_TITLES = { avatar: 'Din figur', settings: 'Inställningar', rules: 'Regler' };
@@ -27,7 +28,8 @@ const PANEL_TITLES = { avatar: 'Din figur', settings: 'Inställningar', rules: '
  * @param {() => void} props.onLeave
  */
 export function GameScreen({ connection, roomCode, onLeave }) {
-  const { view, status, notice, sendAction, host } = connection;
+  const { status, notice, sendAction, host } = connection;
+  const view = useSmoothPhaseChange(connection.view);
   const announcement = usePhaseAnnouncement(view);
   const showsAnnouncement = view && view.phase !== 'lobby' && announcement;
   const [isLeaving, setIsLeaving] = useState(false);
@@ -66,9 +68,9 @@ export function GameScreen({ connection, roomCode, onLeave }) {
             sendAction={sendAction}
             host={host}
             lobbyPanel={shownPanel}
-            setLobbyPanel={setLobbyPanel}
+            setLobbyPanel={(panel) => changeViewSmoothly('fade', () => setLobbyPanel(panel))}
             isRoleShown={showsRole}
-            setIsRoleShown={setIsRoleShown}
+            setIsRoleShown={(isShown) => changeViewSmoothly('fade', () => setIsRoleShown(isShown))}
           />
         )}
       </main>

@@ -1,6 +1,6 @@
 // @ts-check
 // Märker fasbyten: byter raster, vibrerar och tar fram berättartexten.
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { narratePhaseChange } from '../game/narration.js';
 import { vibrateForPhaseChange } from '../device/phaseSignals.js';
 
@@ -23,7 +23,8 @@ export function usePhaseAnnouncement(view) {
     if (previous) vibrateForPhaseChange();
   }, [view]);
 
-  useEffect(() => {
+  // Före målningen, så att övertoningen till natten får med den svarta bakgrunden.
+  useLayoutEffect(() => {
     document.documentElement.dataset.phase = view?.phase === 'night' ? 'night' : 'day';
   }, [view?.phase]);
 
