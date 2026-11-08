@@ -57,14 +57,11 @@ export function chooseRoleImage(role, variant) {
 }
 
 /**
- * Mordbilderna som värden slumpar mellan. Alla telefoner visar samma, eftersom
+ * Mordbilderna som värden slumpar mellan, just nu bara en. Alla telefoner visar samma, eftersom
  * slumptalet följer med nattens utfall (se NightOutcome).
  * @type {SceneImageKey[]}
  */
-export const MURDER_IMAGES = [
-  'morningMurder', 'morningMurderBedroom', 'morningMurderOffice', 'morningMurderRain', 'morningMurderSidewalk',
-  'morningMurderRevolver', 'morningMurderShadow', 'morningMurderKnife',
-];
+export const MURDER_IMAGES = ['morningMurder'];
 
 /**
  * @param {number | undefined} imageRoll Saknas i spel som sparades innan mordbilden slumpades.
