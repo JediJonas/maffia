@@ -1,10 +1,10 @@
 // @ts-check
 
 /**
- * En lista i ram med berättarens ruta ovanför och en lapp som hänger över
- * nedre kanten, som i skisserna. Lappen säger hur långt det har kommit.
+ * En lista i ram med berättarens ruta i övre vänstra hörnet och en lapp som
+ * hänger över nedre kanten, som i skisserna. Lappen säger hur långt det har kommit.
  * @param {object} props
- * @param {string} props.lead Rutan ovanför listan.
+ * @param {string} props.lead Rutan uppe till vänster.
  * @param {string | null} [props.tag] Lappen nere till höger.
  * @param {import('react').ReactNode} props.children Listan.
  */

@@ -35,8 +35,8 @@ export function DayScreen({ view, sendAction }) {
   const isQuietNight = !view.players.some((p) => p.id === view.lastNight?.killedId);
   // En lugn natt har ingen personrad. Då står nyheten i listans ruta, så att det blir en ruta i stället för två.
   const voteLead = isQuietNight
-    ? `${QUIET_NIGHT_NEWS} Men maffian finns kvar, och staden röstar om vem som ska förvisas.`
-    : 'Någon av er ljuger. Staden röstar om vem som ska förvisas.';
+    ? `${QUIET_NIGHT_NEWS} Staden röstar ändå.`
+    : 'Staden röstar om vem som ska förvisas.';
 
   return (
     <section className="screen" aria-labelledby="phase-title">
