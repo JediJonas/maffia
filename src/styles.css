@@ -950,6 +950,14 @@ main section .person-text {
   min-width: 13.5em;
 }
 
+/*
+ * I domslutet behåller rutan nedräkningens bredd när rollen visas, men blir
+ * bredare om texten inte får plats, till exempel med ett långt namn.
+ */
+main section .person-text-wide {
+  min-width: calc(13.5em + 2.125rem);
+}
+
 .person-speech {
   left: 7.625rem;
   top: calc(-1 * var(--bubble-overhang));

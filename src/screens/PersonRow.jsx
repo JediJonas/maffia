@@ -14,8 +14,9 @@ const PERSON_AVATAR_PX = 112;
  * @param {import('react').ReactNode} [props.speech] Vad personen säger i bubblan.
  * @param {boolean} [props.reservesSpeech] Plats för en bubbla som visas senare, så att sidan inte hoppar.
  * @param {boolean} [props.isDead] Kryss över figuren, som för maffiakamraten som är borta.
+ * @param {boolean} [props.hasWideText] Textrutan är minst lika bred som nedräkningen, så att den inte krymper när texten byts.
  */
-export function PersonRow({ player, text, speech, reservesSpeech = false, isDead = false }) {
+export function PersonRow({ player, text, speech, reservesSpeech = false, isDead = false, hasWideText = false }) {
   // En bubbla som finns från början väntar in figuren. En som kommer senare,
   // som i domslutet, har bara sin vanliga fördröjning.
   const [isSpeakingOnArrival] = useState(Boolean(speech));
@@ -28,7 +29,7 @@ export function PersonRow({ player, text, speech, reservesSpeech = false, isDead
       )}
       <div className="person-figure">
         <PlayerAvatar player={player} sizePx={PERSON_AVATAR_PX} isDead={isDead} />
-        <p className="person-text">{text}</p>
+        <p className={hasWideText ? 'person-text person-text-wide' : 'person-text'}>{text}</p>
       </div>
     </div>
   );
