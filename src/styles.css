@@ -928,6 +928,19 @@ main section .person-text {
   border: none;
 }
 
+/* Texterna i nedräkningen ligger på varandra, så att rutan inte ändrar bredd. */
+.countdown {
+  display: inline-grid;
+}
+
+.countdown > * {
+  grid-area: 1 / 1;
+}
+
+.countdown-hidden {
+  visibility: hidden;
+}
+
 .person-speech {
   left: 7.625rem;
   top: calc(-1 * var(--bubble-overhang));
