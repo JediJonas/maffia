@@ -62,7 +62,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightBartender: { src: nightBartender, alt: 'En bartender häller upp en drink åt en ensam gäst i hatt som sitter hopsjunken vid bardisken.', position: '50% 50%' },
   nightSausageVendor: { src: nightSausageVendor, alt: 'En korvvagn under en gatlykta i regnet. Korvgubben räcker en korv till en man i hatt.', position: '50% 55%' },
   morningMurder: { src: morningMurder, alt: 'En man ligger död på en regnvåt gata under en gatlykta. En gestalt i hatt går därifrån.', position: '50% 62%' },
-  morningMurderBedroom: { src: morningMurderBedroom, alt: 'En kvinna ligger död på golvet i ett sovrum. I den öppna dörren står en man i hatt och rock.', position: '50% 70%' },
+  morningMurderBedroom: { src: morningMurderBedroom, alt: 'En kvinna ligger död på golvet i ett sovrum. I den öppna dörren står en man i hatt och rock.', position: '50% 100%' },
   morningMurderOffice: { src: morningMurderOffice, alt: 'En man i kostym ligger död på trägolvet i ett arbetsrum, med glasögonen bredvid sig.', position: '60% 50%' },
   morningMurderRain: { src: morningMurderRain, alt: 'En kvinna i trenchcoat ligger död på en regnvåt gata. Hennes handväska och läppstift ligger i en vattenpöl.', position: '50% 60%' },
   morningMurderSidewalk: { src: morningMurderSidewalk, alt: 'En man ligger död på trottoaren med hatten bredvid sig. En man i rock och hatt springer därifrån.', position: '50% 65%' },
