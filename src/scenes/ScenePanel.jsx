@@ -1,5 +1,6 @@
 // @ts-check
 import { SCENE_IMAGES } from './sceneImages.js';
+import { RoomCodeCaption } from './RoomCodeCaption.jsx';
 
 /**
  * Bildrutan överst, med berättarens serierutor i hörnen.
@@ -21,9 +22,7 @@ export function ScenePanel({ scene, roomCode, children }) {
         <span className="scene-caption scene-caption-top">{scene.topCaption}</span>
         {scene.bottomCaption && <span className="scene-caption scene-caption-bottom">{scene.bottomCaption}</span>}
         {scene.showsRoomCode && roomCode && (
-          <span className="scene-caption scene-caption-bottom">
-            Kod: <span className="room-code-text" aria-label={[...roomCode].join(' ')}>{roomCode}</span>
-          </span>
+          <RoomCodeCaption roomCode={roomCode} />
         )}
       </figcaption>
     </figure>

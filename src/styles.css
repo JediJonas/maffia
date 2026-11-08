@@ -487,6 +487,11 @@ main :is(section, .screen-content) > p,
   pointer-events: none;
 }
 
+/* Rutorna själva tar emot tryck, så att rutan med rumskoden kan kopiera koden (ägaren 2026-11-08). */
+.scene-plain .scene-caption {
+  pointer-events: auto;
+}
+
 .scene .scene-caption {
   position: absolute;
   margin: 0;
@@ -508,6 +513,18 @@ main :is(section, .screen-content) > p,
   max-width: 62%;
   border-left: var(--line);
   border-top: var(--line);
+}
+
+/*
+ * Rutan med rumskoden är en knapp som kopierar koden, men ser ut som de andra
+ * serierutorna. Den står på en rad, även med "(kopierad)" (ägaren 2026-11-08).
+ */
+.scene .room-code-button {
+  max-width: none;
+  white-space: nowrap;
+  min-height: 0;
+  border-radius: 0;
+  text-align: left;
 }
 
 /* Rumskoden har alltid luft mellan bokstäverna, utan extra luft efter den sista, och bryts aldrig. */
