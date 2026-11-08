@@ -80,7 +80,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightBartender: { src: nightBartender, alt: 'En bartender häller upp en drink åt en ensam gäst i hatt som sitter hopsjunken vid bardisken.', position: '50% 50%' },
   nightSausageVendor: { src: nightSausageVendor, alt: 'En korvvagn under en gatlykta i regnet. Korvgubben räcker en korv till en man i hatt.', position: '50% 55%' },
   morningMurder: { src: morningMurder, alt: 'En man ligger död på en regnvåt gata under en gatlykta. Hans hatt ligger bredvid, och en man i hatt och rock går därifrån med en pistol i handen.', position: '60% 50%' },
-  morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En mjölkbud ställer flaskor på en trappa, och en man i hatt läser tidningen mot en vägg.', position: '50% 50%' },
+  morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En mjölkbud ställer flaskor på en trappa, och en man i hatt läser tidningen mot en vägg.', position: '65% 50%' },
   verdict: { src: verdict, alt: 'Tre personer i hatt pekar på en rädd man som står med hatten i händerna vid en tegelvägg.', position: '50% 40%' },
   mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden. Den ena tänder en cigarett.', position: '30% 40%' },
   townWins: { src: townWins, alt: 'Stadsborna skakar hand på en regnvåt gata, medan två poliser för bort en man i kostym mot en polisbil.', position: '50% 50%' },
