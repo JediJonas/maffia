@@ -639,7 +639,7 @@ main section .list-lead {
   position: relative;
   z-index: 1;
   width: fit-content;
-  max-width: calc(100% - 1.5rem);
+  max-width: 100%;
   margin: 0 0 calc(-1 * var(--lead-overlap)) -0.5rem;
 }
 
