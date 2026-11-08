@@ -9,6 +9,7 @@ import { describeDeath, writeLastWords } from './deathText.js';
 import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
 import { PlayerPicker } from './PlayerPicker.jsx';
+import { sortByName } from './playerName.js';
 
 /**
  * Pausen efter omröstningen, så att alla hinner se utfallet. Spelet går
@@ -18,7 +19,7 @@ import { PlayerPicker } from './PlayerPicker.jsx';
 export function VerdictScreen({ view }) {
   const executed = view.players.find((p) => p.id === view.lastDay?.executedId);
   const lastWords = executed && writeLastWords(executed);
-  const rows = tallyVotes(view.dayVotes, view.players.map((p) => p.id));
+  const rows = tallyVotes(view.dayVotes, sortByName(view.players).map((p) => p.id));
   const nameOf = (/** @type {string} */ id) => view.players.find((p) => p.id === id)?.name ?? '';
   const voted = rows.filter((row) => row.targetId !== SKIP_VOTE);
   const skipCount = rows.find((row) => row.targetId === SKIP_VOTE)?.voterIds.length ?? 0;

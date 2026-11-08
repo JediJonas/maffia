@@ -25,6 +25,8 @@ describe('buildCaseFile', () => {
     expect(taxi?.rows[0].verdict.lines).toEqual(['Besökte:', 'Fia']);
     const watcher = buildCaseFile(viewOf({ me: { isAlive: true, role: 'windowWatcher' }, sightings: [{ round: 1, targetId: 'p1', seenIds: ['p2', 'p3'] }] }));
     expect(watcher?.rows[0].verdict.lines).toEqual(['Besökt av:', 'Bertil och Fia']);
+    const reversed = buildCaseFile(viewOf({ me: { isAlive: true, role: 'windowWatcher' }, sightings: [{ round: 1, targetId: 'p1', seenIds: ['p3', 'p2'] }] }));
+    expect(reversed?.rows[0].verdict.lines).toEqual(['Besökt av:', 'Bertil och Fia']);
     const empty = buildCaseFile(viewOf({ me: { isAlive: true, role: 'windowWatcher' }, sightings: [{ round: 1, targetId: 'p1', seenIds: [] }] }));
     expect(empty?.rows[0].verdict.lines).toEqual(['Besökt av:', 'ingen']);
   });

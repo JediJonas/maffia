@@ -5,6 +5,7 @@ import { ROLE_IMAGES } from '../scenes/describeScene.js';
 import { SCENE_IMAGES } from '../scenes/sceneImages.js';
 import { capitalize, writeNumber } from '../game/numberWords.js';
 import { PersonRow } from './PersonRow.jsx';
+import { sortByName } from './playerName.js';
 
 /**
  * Först ligger rollen i en stängd akt. "Visa min roll" öppnar den, och
@@ -22,7 +23,7 @@ export function RoleScreen({ view, sendAction, isRoleShown, setIsRoleShown }) {
   // Rollbilden laddas redan medan akten är stängd. Annars blir bildrutan
   // svart ett ögonblick när akten öppnas, innan bilden hunnit komma.
   if (roleImageSrc) preload(roleImageSrc, { as: 'image' });
-  const teammates = view.players.filter((p) => p.id !== view.me.id && view.mafiaTeam.some((m) => m.id === p.id));
+  const teammates = sortByName(view.players).filter((p) => p.id !== view.me.id && view.mafiaTeam.some((m) => m.id === p.id));
 
   /** Bilden avkodas innan akten öppnas, så att den byts utan att blinka. */
   function openRole() {

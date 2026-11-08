@@ -1,6 +1,6 @@
 // @ts-check
 import { describe, expect, it } from 'vitest';
-import { sortByName, writeListName } from './playerName.js';
+import { sortByName, sortNames, writeListName } from './playerName.js';
 
 describe('writeListName', () => {
   it('skriver (bot) efter en bots namn', () => {
@@ -16,5 +16,11 @@ describe('sortByName', () => {
   it('sorterar i svensk bokstavsordning', () => {
     const players = [{ name: 'Örjan' }, { name: 'bertil' }, { name: 'Åsa' }, { name: 'Anna' }, { name: 'Zack' }];
     expect(sortByName(players).map((p) => p.name)).toEqual(['Anna', 'bertil', 'Zack', 'Åsa', 'Örjan']);
+  });
+});
+
+describe('sortNames', () => {
+  it('sorterar uppräknade namn i svensk bokstavsordning', () => {
+    expect(sortNames(['Örjan', 'bertil', 'Åsa', 'Anna'])).toEqual(['Anna', 'bertil', 'Åsa', 'Örjan']);
   });
 });

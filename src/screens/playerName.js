@@ -19,5 +19,24 @@ export function writeListName(player) {
  * @returns {T[]} En ny lista.
  */
 export function sortByName(players) {
-  return [...players].sort((a, b) => a.name.localeCompare(b.name, 'sv'));
+  return [...players].sort((a, b) => compareNames(a.name, b.name));
+}
+
+/**
+ * Namn som står uppräknade i en text, som "Anna, Bertil och Åsa", i samma
+ * bokstavsordning som listorna.
+ * @param {string[]} names
+ * @returns {string[]} En ny lista.
+ */
+export function sortNames(names) {
+  return [...names].sort(compareNames);
+}
+
+/**
+ * @param {string} a
+ * @param {string} b
+ * @returns {number}
+ */
+function compareNames(a, b) {
+  return a.localeCompare(b, 'sv');
 }
