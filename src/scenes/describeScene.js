@@ -167,10 +167,11 @@ function scene(image, topCaption, bottomCaption) {
 }
 
 /**
- * @param {Pick<PlayerView, 'me' | 'players'>} view
+ * Berättarrutan använder namnet även för den det gäller, som i en berättelse.
+ * Bredvid avataren står i stället "Du" (se deathText.js).
+ * @param {Pick<PlayerView, 'players'>} view
  * @param {string} playerId
  */
 function describeWho(view, playerId) {
-  if (playerId === view.me.id) return 'Du';
   return view.players.find((p) => p.id === playerId)?.name ?? 'Någon';
 }

@@ -29,10 +29,10 @@ describe('describeScene', () => {
     expect(describeScene(buildPlayerView(detectiveIsOut, 'p4'), false)).toMatchObject({ image: 'nightCitizen', bottomCaption: null });
   });
 
-  it('berättar på morgonen vem som blev mördad, och säger du till offret', () => {
+  it('berättar på morgonen vem som blev mördad, med namn även för offret', () => {
     const morning = playNight(night, { p2: 'p3', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
     expect(describeScene(buildPlayerView(morning, 'p1'), false)).toMatchObject({ image: chooseMurderImage(morning.lastNight?.imageRoll), bottomCaption: 'Spelare 3 blev mördad.' });
-    expect(describeScene(buildPlayerView(morning, 'p3'), false)).toMatchObject({ bottomCaption: 'Du blev mördad.' });
+    expect(describeScene(buildPlayerView(morning, 'p3'), false)).toMatchObject({ bottomCaption: 'Spelare 3 blev mördad.' });
   });
 
   it('visar samma mordbild på alla telefoner, vald av värdens slumptal', () => {
@@ -55,10 +55,11 @@ describe('describeScene', () => {
     expect(describeScene(buildPlayerView(morning, 'p1'), false)).toMatchObject({ image: 'morningNoMurder', bottomCaption: 'Ingen blev mördad.' });
   });
 
-  it('säger vem som blev förvisad efter omröstningen', () => {
+  it('säger vem som blev förvisad efter omröstningen, med namn även för den förvisade', () => {
     const morning = playNight(night, { p2: 'p3', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
     const verdict = playDay(morning, { p1: 'p2', p2: 'p1', p4: 'p2', p5: 'p2' });
     expect(describeScene(buildPlayerView(verdict, 'p1'), false)).toMatchObject({ image: 'verdict', bottomCaption: 'Spelare 2 blev förvisad.' });
+    expect(describeScene(buildPlayerView(verdict, 'p2'), false)).toMatchObject({ bottomCaption: 'Spelare 2 blev förvisad.' });
   });
 
   it('visar QR-koden för värden och en bild för de andra i lobbyn', () => {
