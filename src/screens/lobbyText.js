@@ -9,7 +9,8 @@ import { capitalize, writeNumber } from '../game/numberWords.js';
  * @returns {string} Rutan ovanför spelarlistan.
  */
 export function describeArrivals(playerCount) {
-  if (playerCount === 1) return 'Bara en har kommit hittills.';
+  // Den enda som har kommit är alltid den som läser, eftersom värden kommer först (ägaren 2026-11-08).
+  if (playerCount === 1) return 'Bara du har kommit hittills.';
   return `${capitalize(writeNumber(playerCount))} har kommit hittills.`;
 }
 

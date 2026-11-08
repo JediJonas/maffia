@@ -5,7 +5,7 @@ import { DEFAULT_SETTINGS } from '../game/settings.js';
 describe('describeArrivals', () => {
   it('skriver antalet med bokstäver', () => {
     expect(describeArrivals(3)).toBe('Tre har kommit hittills.');
-    expect(describeArrivals(1)).toBe('Bara en har kommit hittills.');
+    expect(describeArrivals(1)).toBe('Bara du har kommit hittills.');
   });
 });
 
