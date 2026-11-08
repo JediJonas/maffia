@@ -1079,6 +1079,10 @@ main section .person-text-wide {
   font-size: 1rem;
 }
 
+.avatar-parts.avatar-role-image {
+  margin-top: 1rem;
+}
+
 .avatar-parts li + li,
 .settings-list li + li {
   border-top: var(--thin-line);

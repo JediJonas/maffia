@@ -3,6 +3,7 @@
 // tappar sin flik, kommer tillbaka till samma spel.
 import { createRandomAvatar, sanitizeAvatar } from '../avatar/avatarParts.js';
 import { MAX_NAME_LENGTH } from '../game/rules.js';
+import { sanitizeRoleImageChoice } from '../scenes/roleImageChoice.js';
 
 const SESSION_KEY = 'maffia.session';
 const HOST_GAME_KEY_PREFIX = 'maffia.hostGame.';
@@ -10,6 +11,9 @@ const HOST_GAME_KEY_PREFIX = 'maffia.hostGame.';
 const AVATAR_KEY = 'maffia.avatar';
 // Namnet följer också med, så att man slipper skriva det varje gång.
 const NAME_KEY = 'maffia.name';
+// Rollbilden sparas bredvid figuren men skickas inte med den.
+const ROLE_IMAGE_KEY = 'maffia.roleImage';
+const ROLE_IMAGE_ROLL_KEY = 'maffia.roleImageRoll';
 
 /** @typedef {import('../avatar/avatarParts.js').Avatar} Avatar */
 
@@ -53,6 +57,32 @@ export function loadOrCreateAvatar() {
 /** @param {Avatar} avatar */
 export function saveAvatar(avatar) {
   writeJson(AVATAR_KEY, avatar);
+}
+
+/** @returns {import('../scenes/roleImageChoice.js').RoleImageChoice} */
+export function loadRoleImageChoice() {
+  return sanitizeRoleImageChoice(readJson(ROLE_IMAGE_KEY));
+}
+
+/** @param {import('../scenes/roleImageChoice.js').RoleImageChoice} choice */
+export function saveRoleImageChoice(choice) {
+  writeJson(ROLE_IMAGE_KEY, choice);
+}
+
+/**
+ * Slumpen för rollbilden i nästa eller pågående spel.
+ * @returns {{ gameKey: string, variant: import('../scenes/roleImageChoice.js').RoleImageVariant } | null}
+ */
+export function loadRoleImageRoll() {
+  /** @type {{ gameKey?: unknown, variant?: unknown } | null} */
+  const saved = readJson(ROLE_IMAGE_ROLL_KEY);
+  if (!saved || typeof saved.gameKey !== 'string' || (saved.variant !== 'woman' && saved.variant !== 'man')) return null;
+  return { gameKey: saved.gameKey, variant: saved.variant };
+}
+
+/** @param {{ gameKey: string, variant: import('../scenes/roleImageChoice.js').RoleImageVariant }} roll */
+export function saveRoleImageRoll(roll) {
+  writeJson(ROLE_IMAGE_ROLL_KEY, roll);
 }
 
 /** @returns {string} Tom sträng när inget namn är sparat. */

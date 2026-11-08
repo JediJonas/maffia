@@ -1,7 +1,7 @@
 // @ts-check
 import { preload } from 'react-dom';
 import { ROLE_INFO } from '../game/roles.js';
-import { ROLE_IMAGES } from '../scenes/describeScene.js';
+import { chooseRoleImage } from '../scenes/describeScene.js';
 import { SCENE_IMAGES } from '../scenes/sceneImages.js';
 import { capitalize, writeNumber } from '../game/numberWords.js';
 import { PersonRow } from './PersonRow.jsx';
@@ -15,11 +15,12 @@ import { sortByName } from './playerName.js';
  * @param {import('../game/playerView.js').PlayerView} props.view
  * @param {(action: import('../game/types.js').PlayerAction) => void} props.sendAction
  * @param {boolean} props.isRoleShown
+ * @param {import('../scenes/roleImageChoice.js').RoleImageVariant} props.roleImageVariant
  * @param {(isShown: boolean) => void} props.setIsRoleShown
  */
-export function RoleScreen({ view, sendAction, isRoleShown, setIsRoleShown }) {
+export function RoleScreen({ view, sendAction, isRoleShown, roleImageVariant, setIsRoleShown }) {
   const role = view.me.role ? ROLE_INFO[view.me.role] : null;
-  const roleImageSrc = view.me.role ? SCENE_IMAGES[ROLE_IMAGES[view.me.role]].src : null;
+  const roleImageSrc = view.me.role ? SCENE_IMAGES[chooseRoleImage(view.me.role, roleImageVariant)].src : null;
   // Rollbilden laddas redan medan akten är stängd. Annars blir bildrutan
   // svart ett ögonblick när akten öppnas, innan bilden hunnit komma.
   if (roleImageSrc) preload(roleImageSrc, { as: 'image' });

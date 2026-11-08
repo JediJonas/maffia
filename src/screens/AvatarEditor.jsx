@@ -1,5 +1,6 @@
 // @ts-check
 import { AVATAR_PARTS, NO_CHOICE, createRandomAvatar, stepAvatarPart } from '../avatar/avatarParts.js';
+import { ROLE_IMAGE_CHOICES, stepRoleImageChoice } from '../scenes/roleImageChoice.js';
 import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { SpeechBubble } from './SpeechBubble.jsx';
 
@@ -15,9 +16,12 @@ const EDITOR_AVATAR_PX = 112;
  * @param {string} props.playerId
  * @param {Avatar} props.avatar
  * @param {(avatar: Avatar) => void} props.onChange
+ * @param {import('../scenes/roleImageChoice.js').RoleImageChoice} props.roleImageChoice Hör till figuren men stannar i telefonen.
+ * @param {(choice: import('../scenes/roleImageChoice.js').RoleImageChoice) => void} props.onRoleImageChange
  * @param {() => void} props.onClose
  */
-export function AvatarEditor({ playerId, avatar, onChange, onClose }) {
+export function AvatarEditor({ playerId, avatar, onChange, roleImageChoice, onRoleImageChange, onClose }) {
+  const roleImageLabel = ROLE_IMAGE_CHOICES.find((c) => c.value === roleImageChoice)?.label;
   return (
     <section className="avatar-editor screen" aria-labelledby="phase-title">
       <div className="screen-content">
@@ -39,6 +43,17 @@ export function AvatarEditor({ playerId, avatar, onChange, onClose }) {
               </span>
             </li>
           ))}
+        </ul>
+        {/* Slumpa figur ändrar inte rollbilden, så den har en egen ruta. */}
+        <ul className="avatar-parts avatar-role-image">
+          <li>
+            <span>Rollbild</span>
+            <span className="stepper">
+              <button type="button" aria-label="Föregående rollbild" onClick={() => onRoleImageChange(stepRoleImageChoice(roleImageChoice, -1))}>‹</button>
+              <span className="stepper-value">{roleImageLabel}</span>
+              <button type="button" aria-label="Nästa rollbild" onClick={() => onRoleImageChange(stepRoleImageChoice(roleImageChoice, 1))}>›</button>
+            </span>
+          </li>
         </ul>
       </div>
       <div className="bottom-actions">

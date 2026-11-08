@@ -1,11 +1,12 @@
 // @ts-check
+import { useState } from 'react';
 import { MIN_PLAYERS } from '../game/roles.js';
 import { SettingsEditor } from './SettingsEditor.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
 import { RulesView } from './RulesView.jsx';
 import { ListCard } from './ListCard.jsx';
 import { PlayerAvatar } from './PlayerAvatar.jsx';
-import { loadOrCreateAvatar, saveAvatar } from '../device/savedSession.js';
+import { loadOrCreateAvatar, loadRoleImageChoice, saveAvatar, saveRoleImageChoice } from '../device/savedSession.js';
 import { sortByName, writeListName } from './playerName.js';
 import { describeArrivals, describeLobbyStatus, findStartProblem } from './lobbyText.js';
 
@@ -124,6 +125,7 @@ function PlayerRowAction({ player, isMe, isHostPlayer, host, onEditAvatar }) {
  * @param {() => void} props.onClose
  */
 function MyAvatarEditor({ view, sendAction, onClose }) {
+  const [roleImageChoice, setRoleImageChoice] = useState(loadRoleImageChoice);
   const me = view.players.find((p) => p.id === view.me.id);
   if (!me) return null;
   // Spelare från ett spel som sparades innan avatarerna fanns börjar från telefonens egen.
@@ -135,5 +137,20 @@ function MyAvatarEditor({ view, sendAction, onClose }) {
     sendAction({ type: 'setAvatar', avatar: next });
   }
 
-  return <AvatarEditor playerId={me.id} avatar={avatar} onChange={changeAvatar} onClose={onClose} />;
+  /** @param {import('../scenes/roleImageChoice.js').RoleImageChoice} choice */
+  function changeRoleImage(choice) {
+    saveRoleImageChoice(choice);
+    setRoleImageChoice(choice);
+  }
+
+  return (
+    <AvatarEditor
+      playerId={me.id}
+      avatar={avatar}
+      onChange={changeAvatar}
+      roleImageChoice={roleImageChoice}
+      onRoleImageChange={changeRoleImage}
+      onClose={onClose}
+    />
+  );
 }

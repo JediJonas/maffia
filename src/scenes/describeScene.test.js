@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { MURDER_IMAGES, chooseMurderImage, describeScene, listUpcomingImages } from './describeScene.js';
+import { MURDER_IMAGES, chooseMurderImage, chooseRoleImage, describeScene, listUpcomingImages } from './describeScene.js';
 import { buildPlayerView } from '../game/playerView.js';
 import { createTestGame, playDay, playNight } from '../game/testGame.js';
 
@@ -11,8 +11,13 @@ describe('describeScene', () => {
   it('visar akten tills spelaren öppnar den, och sedan rollens bild', () => {
     const roleReveal = { ...night, phase: /** @type {const} */ ('roleReveal') };
     expect(describeScene(buildPlayerView(roleReveal, 'p2'), false)).toMatchObject({ image: 'roleHidden', bottomCaption: 'Din roll ligger i akten.' });
-    expect(describeScene(buildPlayerView(roleReveal, 'p2'), false, true)).toMatchObject({ image: 'roleMafia', bottomCaption: 'Du är maffia.' });
-    expect(describeScene(buildPlayerView(roleReveal, 'p1'), false, true)).toMatchObject({ image: 'roleCitizen', bottomCaption: 'Du är stadsbo.' });
+    expect(describeScene(buildPlayerView(roleReveal, 'p2'), false, true, 'man')).toMatchObject({ image: 'roleMafiaMan', bottomCaption: 'Du är maffia.' });
+    expect(describeScene(buildPlayerView(roleReveal, 'p1'), false, true, 'woman')).toMatchObject({ image: 'roleCitizenWoman', bottomCaption: 'Du är stadsbo.' });
+  });
+
+  it('har en kvinna och en man för varje roll', () => {
+    expect(chooseRoleImage('madman', 'woman')).toBe('roleMadmanWoman');
+    expect(chooseRoleImage('madman', 'man')).toBe('roleMadmanMan');
   });
 
   it('visar varje roll sin egen nattbild', () => {
@@ -79,7 +84,7 @@ describe('listUpcomingImages', () => {
 
   it('hämtar rollens bild och nattbild medan akten är stängd', () => {
     const roleReveal = { ...night, phase: /** @type {const} */ ('roleReveal') };
-    expect(listUpcomingImages(buildPlayerView(roleReveal, 'p4'))).toEqual(['roleDetective', 'nightDetective']);
+    expect(listUpcomingImages(buildPlayerView(roleReveal, 'p4'), 'man')).toEqual(['roleDetectiveMan', 'nightDetective']);
   });
 
   it('hämtar alla morgonbilder under natten, så att ingen kan se på laddningen om någon dog', () => {
