@@ -12,7 +12,7 @@ import { PlayerPicker } from './PlayerPicker.jsx';
 const QUIET_NIGHT_NEWS = 'Någon vakade över staden i natt. Men maffian finns kvar.';
 const MURDER_NEWS = 'Någon av er ljuger. Mördaren går fortfarande fri bland er.';
 // Berättelsen står i rutan ovanför, och rutan på listan är alltid densamma (Jonas 2026-11-08).
-const VOTE_LEAD = 'Staden röstar om vem som ska förvisas.';
+const VOTE_LEAD = 'Ni röstar om vem som ska förvisas.';
 
 /**
  * Morgonen och omröstningen. Röstläget står i listan, så att det syns
