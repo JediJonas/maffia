@@ -23,6 +23,18 @@ export function describeArrivals(playerCount) {
  */
 export function findStartProblem(settings, playerCount) {
   if (playerCount < MIN_PLAYERS) return describeTooFew();
+  return findRoleProblem(settings, playerCount);
+}
+
+/**
+ * Vad som är fel med rollerna, eller null. Innan fyra har kommit går det inte
+ * att säga, och då står inget i Inställningar (ägaren 2026-11-08).
+ * @param {import('../game/settings.js').GameSettings} settings
+ * @param {number} playerCount
+ * @returns {string | null}
+ */
+export function findRoleProblem(settings, playerCount) {
+  if (playerCount < MIN_PLAYERS) return null;
   return findSettingsProblem(settings, playerCount);
 }
 
