@@ -1,4 +1,5 @@
 // @ts-check
+import { useState } from 'react';
 import { sortByName } from './playerName.js';
 import { PlayerPicker } from './PlayerPicker.jsx';
 import { ListCard } from './ListCard.jsx';
@@ -47,6 +48,9 @@ const NIGHT_NOTES = {
  * @param {(action: import('../game/types.js').PlayerAction) => void} props.sendAction
  */
 export function NightScreen({ view, sendAction }) {
+  // Natten slutar på det sista valet, innan värden hinner svara. Det egna
+  // trycket syns ändå medan vyn tonar ut.
+  const [sentChoice, setSentChoice] = useState(/** @type {string | null} */ (null));
   const progress = describeNightProgress(view.nightChosenCount, view.livingCount);
   if (!view.me.isAlive || !view.me.role) {
     return (
@@ -72,8 +76,11 @@ export function NightScreen({ view, sendAction }) {
         <PlayerPicker
           players={sortByName(view.players.filter((p) => view.nightTargetIds.includes(p.id)))}
           selectableIds={view.nightTargetIds}
-          selectedId={view.myNightChoice}
-          onSelect={(targetId) => sendAction({ type: 'nightChoice', targetId })}
+          selectedId={view.myNightChoice ?? sentChoice}
+          onSelect={(targetId) => {
+            setSentChoice(targetId);
+            sendAction({ type: 'nightChoice', targetId });
+          }}
           describe={isMafia ? describeTeamChoices : undefined}
         />
       </ListCard>

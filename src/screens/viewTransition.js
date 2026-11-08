@@ -60,6 +60,9 @@ export function useSmoothPhaseChange(view) {
   const [shownView, setShownView] = useState(view);
   const latestViewRef = useRef(view);
   const isNewPhase = view?.phase !== shownView?.phase;
+  // Följ med inom fasen, så att den gamla vyn i övertoningen har de senaste
+  // siffrorna och inte fasens första ("Ingen är klar", Jonas 2026-11-08).
+  if (!isNewPhase && view !== shownView) setShownView(view);
 
   useEffect(() => {
     latestViewRef.current = view;
@@ -71,5 +74,24 @@ export function useSmoothPhaseChange(view) {
     changeViewSmoothly(chooseViewTransition(shownView?.phase, view?.phase), () => setShownView(latestViewRef.current));
   }, [isNewPhase, shownView?.phase, view?.phase]);
 
-  return isNewPhase ? shownView : view;
+  return isNewPhase ? settleOutgoingView(shownView, view) : view;
+}
+
+/**
+ * Den gamla vyn i övertoningen ska visa fasens slut, t.ex. "Fyra av fyra är
+ * klara" (Jonas 2026-11-08). Värden byter fas direkt på det sista valet eller
+ * den sista rösten, så någon vy med alla klara skickas aldrig.
+ * @param {import('../game/playerView.js').PlayerView | null} outgoing
+ * @param {import('../game/playerView.js').PlayerView | null} next
+ * @returns {import('../game/playerView.js').PlayerView | null}
+ */
+export function settleOutgoingView(outgoing, next) {
+  if (!outgoing || !next) return outgoing;
+  if (outgoing.phase === 'night' && next.phase === 'day') {
+    return { ...outgoing, nightChosenCount: outgoing.livingCount };
+  }
+  if (outgoing.phase === 'day' && next.phase === 'verdict') {
+    return { ...outgoing, dayVotes: next.dayVotes, doubleVoterIds: next.doubleVoterIds };
+  }
+  return outgoing;
 }
