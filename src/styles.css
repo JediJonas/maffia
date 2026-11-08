@@ -928,17 +928,14 @@ main section .person-text {
   border: none;
 }
 
-/* Texterna i nedräkningen ligger på varandra, så att rutan inte ändrar bredd. */
+/*
+ * Nedräkningen har en fast minsta bredd, så att rutan inte ändrar bredd när
+ * talet byts. Den räcker för "Rollen visas om fyra …", den bredaste texten,
+ * med lite marginal.
+ */
 .countdown {
-  display: inline-grid;
-}
-
-.countdown > * {
-  grid-area: 1 / 1;
-}
-
-.countdown-hidden {
-  visibility: hidden;
+  display: inline-block;
+  min-width: 13.5em;
 }
 
 .person-speech {

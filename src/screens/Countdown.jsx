@@ -20,17 +20,5 @@ export function Countdown({ durationMs, label }) {
     return () => clearInterval(timer);
   }, []);
 
-  // Alla texter ligger i samma ruta, men bara den aktuella syns. Då är rutan
-  // lika bred som den bredaste texten hela tiden och ändrar inte bredd när
-  // talet byts.
-  const counts = Array.from({ length: Math.round(durationMs / SECOND_MS) }, (_, index) => index + 1);
-  return (
-    <span className="countdown">
-      {counts.map((count) => (
-        <span key={count} aria-hidden={count !== secondsLeft} className={count === secondsLeft ? undefined : 'countdown-hidden'}>
-          {label} {writeNumber(count)} …
-        </span>
-      ))}
-    </span>
-  );
+  return <span className="countdown">{label} {writeNumber(secondsLeft)} …</span>;
 }
