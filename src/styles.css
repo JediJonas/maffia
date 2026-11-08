@@ -27,6 +27,8 @@
   --lead-overlap: 0.375rem;
   --list-inset: 0.5rem;
   --bubble-overhang: 2.5rem;
+  /* Bubblans ritade kant börjar en bit under rutan den ritas i. */
+  --bubble-inset: 0.375rem;
   /* Hur länge personraden och därefter pratbubblan dröjer (ägaren 2026-11-06). */
   --person-delay: 1s;
   --speech-delay: 0.6s;
@@ -890,7 +892,7 @@ main section .list-card-lead-above .list-lead {
 .avatar-editor-head {
   position: relative;
   height: 7rem;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   padding-left: 0.875rem;
 }
 
@@ -951,12 +953,12 @@ main section .list-card-lead-above .list-lead {
 }
 
 .person-row-speaking {
-  margin-top: calc(var(--bubble-overhang) + var(--block-gap));
+  margin-top: calc(var(--bubble-overhang) - var(--bubble-inset) + var(--block-gap));
 }
 
 /* Marginaler slås ihop, så både lappen och bubblan måste räknas in här. */
 .list-card-tagged + .person-row-speaking {
-  margin-top: calc(var(--tag-overhang) + var(--bubble-overhang) + var(--block-gap));
+  margin-top: calc(var(--tag-overhang) + var(--bubble-overhang) - var(--bubble-inset) + var(--block-gap));
 }
 
 .person-figure {
