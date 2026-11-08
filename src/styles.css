@@ -598,52 +598,22 @@ main :is(section, .screen-content) > p,
   color: inherit;
 }
 
-/*
- * En lista med stämplar (vinnarna på slutet) är ett rutnät med tre kolumner:
- * namnet, stämpeln och rollen. Rollkolumnen blir lika bred som den längsta
- * rollen i listan, så att stämplarna står i en rak kolumn så långt till
- * höger som möjligt (Jonas 2026-11-08).
- */
-.picker:has(.picker-stamp) {
-  display: grid;
-  /* I en smal telefon får rollen ge vika och brytas, så att namnet behåller sin plats. */
-  grid-template-columns: minmax(8.5rem, 1fr) auto minmax(0, max-content);
-  column-gap: 0.75rem;
+/* Luft mellan ett långt namn och den lutade stämpeln. */
+.picker-option:has(.picker-stamp) {
+  gap: 0.75rem;
 }
 
-.picker:has(.picker-stamp) :is(li, .picker-option) {
-  display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: subgrid;
-  align-items: center;
+/* Namnet och en grå rad under, som rollen på slutsidan och natten i detektivens akt. */
+.picker-who {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
 }
 
-.picker-stamp {
-  grid-column: 2;
-}
-
-.picker:has(.picker-stamp) .picker-detail {
-  grid-column: 3;
-  max-width: none;
-  hyphens: auto;
-  overflow-wrap: anywhere;
-}
-
-/* I de smalaste telefonerna (320 px) tar stämpeln mindre plats, så att rollen får stå kvar på en rad. */
-@media (max-width: 21rem) {
-  .picker:has(.picker-stamp) {
-    grid-template-columns: minmax(7.5rem, 1fr) auto minmax(0, max-content);
-    column-gap: 0.5rem;
-  }
-
-  .picker:has(.picker-stamp) .picker-option {
-    padding-right: 0.625rem;
-  }
-
-  .picker .picker-stamp {
-    padding-inline: 0.25rem;
-    font-size: 0.875rem;
-  }
+.picker-below {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
 }
 
 /*

@@ -6,8 +6,9 @@ import { PlayerPicker } from './PlayerPicker.jsx';
 import { StampFilter } from './StampFilter.jsx';
 
 /**
- * Alla roller visas, vinnarna först och sedan i bokstavsordning. Vinnarna får
- * en stämpel, som stämplarna i detektivens akt, så att man ser dem direkt.
+ * Alla roller visas, vinnarna först och sedan i bokstavsordning. Raderna är
+ * byggda som i detektivens akt: rollen under namnet och vinnarnas stämpel
+ * till höger, så att man ser dem direkt (Jonas 2026-11-08).
  * @param {object} props
  * @param {import('../game/playerView.js').PlayerView} props.view
  * @param {import('../host/useHostGame.js').HostControls | null} props.host
@@ -20,7 +21,7 @@ export function GameOverScreen({ view, host }) {
         <ListCard lead="Så här låg det till.">
           <PlayerPicker
             players={orderForGameOver(view.players, view.winner)}
-            describe={(player) => player.revealedRole && ROLE_INFO[player.revealedRole].name.toLowerCase()}
+            describeBelowName={(player) => player.revealedRole && ROLE_INFO[player.revealedRole].name}
             stamp={(player) => (isWinner(player, view.winner) ? 'Vinnare' : null)}
           />
         </ListCard>
