@@ -5,6 +5,7 @@ import { useRemoteGame } from './player/useRemoteGame.js';
 import { GameScreen } from './screens/GameScreen.jsx';
 import { StartScreen } from './screens/StartScreen.jsx';
 import { createSecret, loadOrCreateAvatar, loadSession, saveHostGame, saveSession } from './device/savedSession.js';
+import { changeViewSmoothly } from './screens/viewTransition.js';
 import { generateRoomCode, readRoomCodeFromUrl } from './network/roomCode.js';
 
 /** @typedef {import('./device/savedSession.js').SavedSession} SavedSession */
@@ -28,7 +29,7 @@ export function App() {
   /** @param {SavedSession | null} next */
   function changeSession(next) {
     saveSession(next);
-    setSession(next);
+    changeViewSmoothly('fade', () => setSession(next));
   }
 
   function leave() {

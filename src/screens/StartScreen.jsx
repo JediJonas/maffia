@@ -6,6 +6,7 @@ import { loadSavedName, saveName } from '../device/savedSession.js';
 import { ScenePanel } from '../scenes/ScenePanel.jsx';
 import startImage from '../scenes/images/start.webp';
 import { scrollToTopWhenDoneTyping, useScrollToTop } from './scrollToTop.js';
+import { changeViewSmoothly } from './viewTransition.js';
 
 /**
  * Först två val, gå med eller skapa. Den som har skannat en QR-kod hamnar
@@ -19,9 +20,11 @@ import { scrollToTopWhenDoneTyping, useScrollToTop } from './scrollToTop.js';
 export function StartScreen({ initialRoomCode, message, onCreate, onJoin }) {
   const [mode, setMode] = useState(/** @type {'choose' | 'join' | 'create'} */ (initialRoomCode ? 'join' : 'choose'));
   useScrollToTop(mode);
+  /** @param {'choose' | 'join' | 'create'} next */
+  const showMode = (next) => changeViewSmoothly('fade', () => setMode(next));
 
-  if (mode === 'join') return <JoinForm initialRoomCode={initialRoomCode} message={message} onJoin={onJoin} onBack={() => setMode('choose')} />;
-  if (mode === 'create') return <CreateForm onCreate={onCreate} onBack={() => setMode('choose')} />;
+  if (mode === 'join') return <JoinForm initialRoomCode={initialRoomCode} message={message} onJoin={onJoin} onBack={() => showMode('choose')} />;
+  if (mode === 'create') return <CreateForm onCreate={onCreate} onBack={() => showMode('choose')} />;
   return (
     <main className="start-page">
       <img className="start-image" src={startImage} alt="" />
@@ -33,8 +36,8 @@ export function StartScreen({ initialRoomCode, message, onCreate, onJoin }) {
         {message && <p className="notice" role="alert">{message}</p>}
         <p className="caption start-caption">Någon i staden säger inte sanningen.</p>
         <div className="bottom-actions">
-          <button type="button" className="primary" onClick={() => setMode('join')}>Gå med i spel</button>
-          <button type="button" className="secondary" onClick={() => setMode('create')}>Starta nytt spel</button>
+          <button type="button" className="primary" onClick={() => showMode('join')}>Gå med i spel</button>
+          <button type="button" className="secondary" onClick={() => showMode('create')}>Starta nytt spel</button>
         </div>
       </div>
     </main>
