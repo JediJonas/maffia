@@ -947,7 +947,7 @@ main section .person-text {
  */
 .countdown {
   display: inline-block;
-  min-width: 13.5em;
+  min-width: 12.75em;
 }
 
 /*
@@ -955,7 +955,7 @@ main section .person-text {
  * bredare om texten inte får plats, till exempel med ett långt namn.
  */
 main section .person-text-wide {
-  min-width: calc(13.5em + 2.125rem);
+  min-width: calc(12.75em + 2.125rem);
 }
 
 .person-speech {
