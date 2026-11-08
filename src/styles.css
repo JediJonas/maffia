@@ -665,6 +665,16 @@ main section .list-lead {
   padding-top: calc(0.75rem + var(--first-row-gap));
 }
 
+/* I inställningarna står rutan ovanför listan, och listan har full bredd (Jonas 2026-11-08). */
+main section .list-card-lead-above .list-lead {
+  margin: 0 0 1.125rem;
+}
+
+.list-card-lead-above .list-frame {
+  --first-row-gap: 0px;
+  margin: 0;
+}
+
 .list-tag {
   position: absolute;
   right: calc(-1 * var(--list-inset));

@@ -52,7 +52,7 @@ export function SettingsEditor({ settings, playerCount, botCount, onChange, onAd
   return (
     <section className="screen" aria-labelledby="phase-title">
       <div className="screen-content">
-        <ListCard lead="Du bestämmer vilka som bor i staden.">
+        <ListCard lead="Du bestämmer vilka som bor i staden." isLeadAbove>
           <ul className="settings-list">
             <li>
               <span>Maffia</span>
