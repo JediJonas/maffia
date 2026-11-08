@@ -5,17 +5,28 @@ import join from './images/ga-med.webp';
 import create from './images/skapa.webp';
 import lobby from './images/lobby.webp';
 import roleHidden from './images/roll-dold.webp';
-import roleMafia from './images/roll-maffia.webp';
-import roleDetective from './images/roll-detektiv.webp';
-import roleDoctor from './images/roll-lakare.webp';
-import roleCitizen from './images/roll-stadsbo.webp';
-import roleTaxiDriver from './images/roll-taxichauffor.webp';
-import roleWindowWatcher from './images/roll-fonstertittare.webp';
-import roleBartender from './images/roll-bartender.webp';
-import roleSausageVendor from './images/roll-korvgubbe.webp';
-import roleGodfather from './images/roll-gudfadern.webp';
-import roleMayor from './images/roll-borgmastare.webp';
-import roleMadman from './images/roll-galningen.webp';
+import roleMafiaWoman from './images/roll-maffia-kvinna.webp';
+import roleMafiaMan from './images/roll-maffia-man.webp';
+import roleDetectiveWoman from './images/roll-detektiv-kvinna.webp';
+import roleDetectiveMan from './images/roll-detektiv-man.webp';
+import roleDoctorWoman from './images/roll-lakare-kvinna.webp';
+import roleDoctorMan from './images/roll-lakare-man.webp';
+import roleCitizenWoman from './images/roll-stadsbo-kvinna.webp';
+import roleCitizenMan from './images/roll-stadsbo-man.webp';
+import roleTaxiDriverWoman from './images/roll-taxichauffor-kvinna.webp';
+import roleTaxiDriverMan from './images/roll-taxichauffor-man.webp';
+import roleWindowWatcherWoman from './images/roll-fonstertittare-kvinna.webp';
+import roleWindowWatcherMan from './images/roll-fonstertittare-man.webp';
+import roleBartenderWoman from './images/roll-bartender-kvinna.webp';
+import roleBartenderMan from './images/roll-bartender-man.webp';
+import roleSausageVendorWoman from './images/roll-korvgubbe-kvinna.webp';
+import roleSausageVendorMan from './images/roll-korvgubbe-man.webp';
+import roleGodfatherWoman from './images/roll-gudfadern-kvinna.webp';
+import roleGodfatherMan from './images/roll-gudfadern-man.webp';
+import roleMayorWoman from './images/roll-borgmastare-kvinna.webp';
+import roleMayorMan from './images/roll-borgmastare-man.webp';
+import roleMadmanWoman from './images/roll-galningen-kvinna.webp';
+import roleMadmanMan from './images/roll-galningen-man.webp';
 import nightMafia from './images/natt-maffia.webp';
 import nightDetective from './images/natt-detektiv.webp';
 import nightDoctor from './images/natt-lakare.webp';
@@ -41,21 +52,32 @@ import madmanWins from './images/slut-galningen.webp';
 /** @typedef {{ src: string, alt: string, position: string }} SceneImage */
 
 export const SCENE_IMAGES = /** @type {const} */ ({
-  join: { src: join, alt: 'En dörr står på glänt i slutet av en mörk korridor. Ljuset faller över golvet där ett spelkort ligger. Därinne står en stol med en hatt, och rök stiger mot taket.', position: '50% 50%' },
-  create: { src: create, alt: 'En tom bardisk sent på kvällen med glas, flaskor och en hatt under en hängande lampa.', position: '50% 55%' },
-  lobby: { src: lobby, alt: 'Fyra personer spelar kort runt ett runt bord under en hängande lampa i ett mörkt rum.', position: '50% 75%' },
+  join: { src: join, alt: 'En mörk korridor med en dörr på glänt. Ljuset faller över golvet där ett papper ligger, och därinne står ett bord med en hatt och en rykande cigarett.', position: '50% 50%' },
+  create: { src: create, alt: 'En tom bar sent på kvällen med glas och flaskor på disken och en hatt på en barstol under en hängande lampa.', position: '50% 50%' },
+  lobby: { src: lobby, alt: 'Två män i hatt och en kvinna med en cigarett spelar kort runt ett runt bord under en hängande lampa i ett mörkt rum.', position: '50% 50%' },
   roleHidden: { src: roleHidden, alt: 'En förseglad akt på ett skrivbord i lampljus, bredvid en hatt och en revolver.', position: '50% 50%' },
-  roleMafia: { src: roleMafia, alt: 'En man i kritstrecksrandig kostym och hatt röker i en mörk dörröppning.', position: '50% 28%' },
-  roleDetective: { src: roleDetective, alt: 'En detektiv i trenchcoat och hatt med ett anteckningsblock under en gatlykta.', position: '50% 25%' },
-  roleDoctor: { src: roleDoctor, alt: 'En läkare i mörk kappa med en läkarväska står i en upplyst dörröppning.', position: '50% 50%' },
-  roleCitizen: { src: roleCitizen, alt: 'En man i keps och kofta tittar misstänksamt över axeln i sin ytterdörr.', position: '50% 30%' },
-  roleTaxiDriver: { src: roleTaxiDriver, alt: 'En taxichaufför i keps lutar sig ut genom bilrutan en regnig natt. Bakom taxin står en man i en hotellentré.', position: '50% 40%' },
-  roleWindowWatcher: { src: roleWindowWatcher, alt: 'En kvinna i morgonrock och papiljotter drar undan en spetsgardin och spanar ut i mörkret.', position: '50% 30%' },
-  roleBartender: { src: roleBartender, alt: 'En bartender i väst och fluga torkar bardisken under en lampa, med flaskor bakom sig.', position: '50% 0%' },
-  roleSausageVendor: { src: roleSausageVendor, alt: 'En korvgubbe med mustasch och pappersmössa räcker fram en korv med en tång i regnet.', position: '50% 30%' },
-  roleGodfather: { src: roleGodfather, alt: 'En äldre man i mörk kostym sitter med hopknäppta händer bakom ett skrivbord i persiennernas skugga.', position: '50% 0%' },
-  roleMayor: { src: roleMayor, alt: 'En borgmästare med ämbetskedja höjer handen på trappan framför stadshuset.', position: '50% 0%' },
-  roleMadman: { src: roleMadman, alt: 'En man med rufsigt hår och stirrande ögon sitter fastbunden på en sjukhussäng och flinar.', position: '50% 30%' },
+  roleMafiaWoman: { src: roleMafiaWoman, alt: 'En kvinna i pälsstola och hatt med flor röker med cigarettmunstycke i en dörröppning en regnig natt.', position: '100% 30%' },
+  roleMafiaMan: { src: roleMafiaMan, alt: 'En man i kritstrecksrandig kostym och hatt röker i en dörröppning en regnig natt.', position: '100% 30%' },
+  roleDetectiveWoman: { src: roleDetectiveWoman, alt: 'En kvinnlig detektiv i ljus trenchcoat och hatt antecknar i ett block i en regnig gränd.', position: '50% 30%' },
+  roleDetectiveMan: { src: roleDetectiveMan, alt: 'En manlig detektiv i mörk trenchcoat och hatt antecknar i ett block i en regnig gränd.', position: '75% 30%' },
+  roleDoctorWoman: { src: roleDoctorWoman, alt: 'En läkare i mörk kappa med stetoskop och läkarväska står i en upplyst dörröppning.', position: '100% 30%' },
+  roleDoctorMan: { src: roleDoctorMan, alt: 'En läkare med glasögon och mustasch, i mörk kappa med stetoskop och läkarväska, står i en upplyst dörröppning.', position: '100% 30%' },
+  roleCitizenWoman: { src: roleCitizenWoman, alt: 'En kvinna i huvudduk och kofta tittar misstänksamt ut genom sin ytterdörr.', position: '100% 30%' },
+  roleCitizenMan: { src: roleCitizenMan, alt: 'En man i keps och kofta tittar misstänksamt ut genom sin ytterdörr.', position: '100% 30%' },
+  roleTaxiDriverWoman: { src: roleTaxiDriverWoman, alt: 'En taxichaufför i skärmmössa och skinnrock sitter vid ratten en regnig natt utanför ett hotell.', position: '100% 30%' },
+  roleTaxiDriverMan: { src: roleTaxiDriverMan, alt: 'En taxichaufför i keps med en cigarett i munnen lutar sig ut genom bilrutan en regnig natt utanför ett hotell.', position: '85% 30%' },
+  roleWindowWatcherWoman: { src: roleWindowWatcherWoman, alt: 'En kvinna i morgonrock och papiljotter drar undan en spetsgardin och spanar ut i mörkret.', position: '100% 30%' },
+  roleWindowWatcherMan: { src: roleWindowWatcherMan, alt: 'En äldre man med glasögonen uppskjutna i pannan och en kikare i handen drar undan en spetsgardin och spanar ut i mörkret.', position: '100% 30%' },
+  roleBartenderWoman: { src: roleBartenderWoman, alt: 'En bartender i väst och fluga ställer fram en cocktail på bardisken, med flaskor bakom sig.', position: '100% 30%' },
+  roleBartenderMan: { src: roleBartenderMan, alt: 'En bartender i väst och fluga torkar ett glas bakom bardisken, med flaskor bakom sig.', position: '100% 30%' },
+  roleSausageVendorWoman: { src: roleSausageVendorWoman, alt: 'En korvgumma i pappersmössa räcker fram en korv med en tång vid sin korvvagn i regnet.', position: '100% 30%' },
+  roleSausageVendorMan: { src: roleSausageVendorMan, alt: 'En korvgubbe med mustasch och pappersmössa räcker fram en korv med en tång vid sin korvvagn i regnet.', position: '100% 30%' },
+  roleGodfatherWoman: { src: roleGodfatherWoman, alt: 'En äldre kvinna med pärlhalsband sitter med hopknäppta händer bakom ett skrivbord i persiennernas skugga.', position: '90% 30%' },
+  roleGodfatherMan: { src: roleGodfatherMan, alt: 'En äldre man i mörk kostym sitter med hopknäppta händer bakom ett skrivbord i persiennernas skugga.', position: '90% 30%' },
+  roleMayorWoman: { src: roleMayorWoman, alt: 'En kvinnlig borgmästare i dräkt och ämbetskedja står på trappan framför stadshuset.', position: '75% 30%' },
+  roleMayorMan: { src: roleMayorMan, alt: 'En manlig borgmästare i kostym och ämbetskedja höjer handen på trappan framför stadshuset.', position: '100% 30%' },
+  roleMadmanWoman: { src: roleMadmanWoman, alt: 'En kvinna med långt rufsigt hår i tvångströja flinar i en vadderad cell under en lampa.', position: '100% 30%' },
+  roleMadmanMan: { src: roleMadmanMan, alt: 'En man med rufsigt hår i tvångströja flinar i en vadderad cell under en lampa.', position: '100% 30%' },
   nightMafia: { src: nightMafia, alt: 'En regnig gata en natt. Två män i hatt står tätt ihop under en gatlykta.', position: '50% 68%' },
   nightDetective: { src: nightDetective, alt: 'En man i skjorta och slips läser ett papper vid ett skrivbord under en lampa. Bakom honom syns stadens fönster i regnet.', position: '50% 35%' },
   nightDoctor: { src: nightDoctor, alt: 'En gestalt i rock med en väska går ensam i regnet längs en tegelmur under en gatlykta.', position: '50% 16%' },

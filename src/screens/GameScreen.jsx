@@ -15,6 +15,7 @@ import { RoomQrCode } from './RoomQrCode.jsx';
 import { ScenePanel } from '../scenes/ScenePanel.jsx';
 import { describeScene, listUpcomingImages } from '../scenes/describeScene.js';
 import { usePreloadImages } from '../scenes/usePreloadImages.js';
+import { useRoleImageVariant } from '../scenes/useRoleImageVariant.js';
 import { useScrollToTop } from './scrollToTop.js';
 import { changeViewSmoothly, useSmoothPhaseChange } from './viewTransition.js';
 
@@ -39,9 +40,10 @@ export function GameScreen({ connection, roomCode, onLeave }) {
   const shownPanel = view?.phase === 'lobby' && (lobbyPanel !== 'settings' || host) ? lobbyPanel : 'players';
   // Rollen visas bara innan spelet startar. Efter det är akten stängd.
   const showsRole = isRoleShown && view?.phase === 'roleReveal';
-  const scene = view && shownPanel === 'players' && describeScene(view, Boolean(host), showsRole);
+  const roleImageVariant = useRoleImageVariant(view, roomCode);
+  const scene = view && shownPanel === 'players' && describeScene(view, Boolean(host), showsRole, roleImageVariant);
   useScrollToTop(`${view?.phase}-${shownPanel}-${showsRole}`);
-  usePreloadImages(view ? listUpcomingImages(view) : []);
+  usePreloadImages(view ? listUpcomingImages(view, roleImageVariant) : []);
 
   return (
     <>
@@ -70,6 +72,7 @@ export function GameScreen({ connection, roomCode, onLeave }) {
             lobbyPanel={shownPanel}
             setLobbyPanel={(panel) => changeViewSmoothly('fade', () => setLobbyPanel(panel))}
             isRoleShown={showsRole}
+            roleImageVariant={roleImageVariant}
             setIsRoleShown={(isShown) => changeViewSmoothly('fade', () => setIsRoleShown(isShown))}
           />
         )}
@@ -88,9 +91,10 @@ export function GameScreen({ connection, roomCode, onLeave }) {
  * @param {import('./LobbyScreen.jsx').LobbyPanel} props.lobbyPanel
  * @param {(panel: import('./LobbyScreen.jsx').LobbyPanel) => void} props.setLobbyPanel
  * @param {boolean} props.isRoleShown
+ * @param {import('../scenes/roleImageChoice.js').RoleImageVariant} props.roleImageVariant
  * @param {(isShown: boolean) => void} props.setIsRoleShown
  */
-function PhaseContent({ view, sendAction, host, lobbyPanel, setLobbyPanel, isRoleShown, setIsRoleShown }) {
+function PhaseContent({ view, sendAction, host, lobbyPanel, setLobbyPanel, isRoleShown, roleImageVariant, setIsRoleShown }) {
   switch (view.phase) {
     case 'lobby':
       return (
@@ -103,7 +107,7 @@ function PhaseContent({ view, sendAction, host, lobbyPanel, setLobbyPanel, isRol
         />
       );
     case 'roleReveal':
-      return <RoleScreen view={view} sendAction={sendAction} isRoleShown={isRoleShown} setIsRoleShown={setIsRoleShown} />;
+      return <RoleScreen view={view} sendAction={sendAction} isRoleShown={isRoleShown} roleImageVariant={roleImageVariant} setIsRoleShown={setIsRoleShown} />;
     case 'night':
       return <NightScreen view={view} sendAction={sendAction} />;
     case 'day':

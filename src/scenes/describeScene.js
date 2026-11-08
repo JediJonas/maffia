@@ -7,6 +7,7 @@ import { ROLE_INFO } from '../game/roles.js';
 
 /** @typedef {import('./sceneImages.js').SceneImageKey} SceneImageKey */
 /** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
+/** @typedef {import('./roleImageChoice.js').RoleImageVariant} RoleImageVariant */
 
 /**
  * @typedef {object} Scene
@@ -31,20 +32,29 @@ const NIGHT_SCENES = {
   citizen: { image: 'nightCitizen', bottomCaption: '… och så även du.' },
 };
 
-/** @type {Record<import('../game/types.js').Role, SceneImageKey>} */
-export const ROLE_IMAGES = {
-  mafia: 'roleMafia',
-  godfather: 'roleGodfather',
-  detective: 'roleDetective',
-  doctor: 'roleDoctor',
-  taxiDriver: 'roleTaxiDriver',
-  windowWatcher: 'roleWindowWatcher',
-  sausageVendor: 'roleSausageVendor',
-  bartender: 'roleBartender',
-  mayor: 'roleMayor',
-  madman: 'roleMadman',
-  citizen: 'roleCitizen',
+/** @type {Record<import('../game/types.js').Role, Record<RoleImageVariant, SceneImageKey>>} Varje roll har en kvinna och en man. */
+const ROLE_IMAGES = {
+  mafia: { woman: 'roleMafiaWoman', man: 'roleMafiaMan' },
+  godfather: { woman: 'roleGodfatherWoman', man: 'roleGodfatherMan' },
+  detective: { woman: 'roleDetectiveWoman', man: 'roleDetectiveMan' },
+  doctor: { woman: 'roleDoctorWoman', man: 'roleDoctorMan' },
+  taxiDriver: { woman: 'roleTaxiDriverWoman', man: 'roleTaxiDriverMan' },
+  windowWatcher: { woman: 'roleWindowWatcherWoman', man: 'roleWindowWatcherMan' },
+  sausageVendor: { woman: 'roleSausageVendorWoman', man: 'roleSausageVendorMan' },
+  bartender: { woman: 'roleBartenderWoman', man: 'roleBartenderMan' },
+  mayor: { woman: 'roleMayorWoman', man: 'roleMayorMan' },
+  madman: { woman: 'roleMadmanWoman', man: 'roleMadmanMan' },
+  citizen: { woman: 'roleCitizenWoman', man: 'roleCitizenMan' },
 };
+
+/**
+ * @param {import('../game/types.js').Role} role
+ * @param {RoleImageVariant} variant Vald i Ändra figur (se roleImageChoice.js).
+ * @returns {SceneImageKey}
+ */
+export function chooseRoleImage(role, variant) {
+  return ROLE_IMAGES[role][variant];
+}
 
 /**
  * Mordbilderna som värden slumpar mellan. Alla telefoner visar samma, eftersom
@@ -69,15 +79,16 @@ export function chooseMurderImage(imageRoll = 0) {
  * @param {Pick<PlayerView, 'phase' | 'me' | 'players' | 'lastNight' | 'lastDay' | 'winner'>} view
  * @param {boolean} isHost Värden visar QR-koden i rutan, de andra en bild.
  * @param {boolean} [isRoleShown] Spelaren har öppnat akten och ser sin roll.
+ * @param {RoleImageVariant} [roleImageVariant]
  * @returns {Scene | null} Null i faser utan bildruta.
  */
-export function describeScene(view, isHost, isRoleShown = false) {
+export function describeScene(view, isHost, isRoleShown = false, roleImageVariant = 'woman') {
   switch (view.phase) {
     case 'lobby':
       return { image: isHost ? null : 'lobby', topCaption: 'Gänget samlas …', bottomCaption: null, showsRoomCode: true };
     case 'roleReveal':
       if (isRoleShown && view.me.role) {
-        return scene(ROLE_IMAGES[view.me.role], 'Bara du får se det här.', `Du är ${ROLE_INFO[view.me.role].name.toLowerCase()}.`);
+        return scene(chooseRoleImage(view.me.role, roleImageVariant), 'Bara du får se det här.', `Du är ${ROLE_INFO[view.me.role].name.toLowerCase()}.`);
       }
       return scene('roleHidden', 'Det är dags.', 'Din roll ligger i akten.');
     case 'night':
@@ -120,14 +131,15 @@ function describeEnding(winner) {
  * blinkar till tom medan bilden laddas när fasen byts. Bara nästa fas, inte
  * hela spelets bilder, så att den som har dåligt nät inte hämtar i onödan.
  * @param {Pick<PlayerView, 'phase' | 'me'>} view
+ * @param {RoleImageVariant} [roleImageVariant]
  * @returns {SceneImageKey[]}
  */
-export function listUpcomingImages(view) {
+export function listUpcomingImages(view, roleImageVariant = 'woman') {
   switch (view.phase) {
     case 'lobby':
       return ['roleHidden'];
     case 'roleReveal':
-      return view.me.role ? [ROLE_IMAGES[view.me.role], chooseNightImage(view.me)] : [];
+      return view.me.role ? [chooseRoleImage(view.me.role, roleImageVariant), chooseNightImage(view.me)] : [];
     case 'night':
       // Vilken mordbild det blir avgörs först när natten tar slut, så alla hämtas.
       return [...MURDER_IMAGES, 'morningNoMurder'];
