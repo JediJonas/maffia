@@ -3,7 +3,7 @@ import { sortByName } from './playerName.js';
 import { PlayerPicker } from './PlayerPicker.jsx';
 import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
-import { capitalize, writeNumber } from '../game/numberWords.js';
+import { describeNightProgress } from './progressText.js';
 import { isMafia as isMafiaRole } from '../game/roles.js';
 
 /** @type {Record<import('../game/types.js').Role, string>} */
@@ -47,7 +47,7 @@ const NIGHT_NOTES = {
  * @param {(action: import('../game/types.js').PlayerAction) => void} props.sendAction
  */
 export function NightScreen({ view, sendAction }) {
-  const progress = capitalize(`${writeNumber(view.nightChosenCount)} av ${writeNumber(view.livingCount)} är klara`);
+  const progress = describeNightProgress(view.nightChosenCount, view.livingCount);
   if (!view.me.isAlive || !view.me.role) {
     return (
       <section aria-labelledby="phase-title">
