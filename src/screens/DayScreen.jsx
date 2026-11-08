@@ -1,7 +1,7 @@
 // @ts-check
 import { sortByName } from './playerName.js';
 import { SKIP_VOTE } from '../game/rules.js';
-import { describeVoteProgress } from './progressText.js';
+import { describeVoteProgress, listVoteProgress } from './progressText.js';
 import { describeDeath } from './deathText.js';
 import { CaseFile } from './CaseFile.jsx';
 import { buildCaseFile } from './caseFile.js';
@@ -41,7 +41,7 @@ export function DayScreen({ view, sendAction }) {
         <SilencedNews view={view} />
         {caseFile && <CaseFile key={view.round} content={caseFile} players={view.players} />}
         {view.me.isAlive ? (
-          <ListCard lead={VOTE_LEAD} tag={progress} isTagCounting>
+          <ListCard lead={VOTE_LEAD} tag={progress} tagChoices={listVoteProgress(living.length)}>
             <PlayerPicker
               players={listed}
               selectableIds={living.filter((p) => p.id !== view.me.id).map((p) => p.id)}
@@ -52,7 +52,7 @@ export function DayScreen({ view, sendAction }) {
           </ListCard>
         ) : (
           <>
-            <ListCard lead={VOTE_LEAD} tag={progress} isTagCounting>
+            <ListCard lead={VOTE_LEAD} tag={progress} tagChoices={listVoteProgress(living.length)}>
               <PlayerPicker players={listed} describe={describeVotes} />
             </ListCard>
             <p className="explanation">Du är borta nu. Se på, men säg inget.</p>

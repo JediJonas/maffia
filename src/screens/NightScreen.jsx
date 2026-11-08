@@ -5,7 +5,7 @@ import { PlayerPicker } from './PlayerPicker.jsx';
 import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
 import { describeNightTeammate } from './deathText.js';
-import { describeNightProgress } from './progressText.js';
+import { describeNightProgress, listNightProgress } from './progressText.js';
 import { isMafia as isMafiaRole } from '../game/roles.js';
 
 /** @type {Record<import('../game/types.js').Role, string>} */
@@ -73,7 +73,7 @@ export function NightScreen({ view, sendAction }) {
 
   return (
     <section aria-labelledby="phase-title">
-      <ListCard lead={NIGHT_QUESTIONS[view.me.role]} tag={isMafia ? describeMafiaTag(view) ?? progress : progress} isTagCounting>
+      <ListCard lead={NIGHT_QUESTIONS[view.me.role]} tag={isMafia ? describeMafiaTag(view) ?? progress : progress} tagChoices={listNightProgress(view.livingCount)}>
         <PlayerPicker
           players={sortByName(view.players.filter((p) => view.nightTargetIds.includes(p.id)))}
           selectableIds={view.nightTargetIds}

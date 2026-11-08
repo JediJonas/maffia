@@ -6,18 +6,23 @@
  * @param {object} props
  * @param {string} props.lead Rutan uppe till vänster.
  * @param {string | null} [props.tag] Lappen nere till höger.
- * @param {boolean} [props.isTagCounting] Lappen räknar, t.ex. "Tre av fem har röstat". Då har den en fast minsta bredd, så att den inte ändrar bredd när talet byts.
+ * @param {readonly string[]} [props.tagChoices] Allt lappen kan visa i den här listan, t.ex. "Ingen har röstat" till "Fem av fem har röstat". Lappen blir lika bred som den längsta, så att den inte ändrar bredd när talet byts.
  * @param {boolean} [props.isLeadAbove] Rutan står ovanför listan i stället för i hörnet, som i inställningarna och reglerna.
  * @param {import('react').ReactNode} props.children Listan.
  */
-export function ListCard({ lead, tag = null, isTagCounting = false, isLeadAbove = false, children }) {
+export function ListCard({ lead, tag = null, tagChoices = [], isLeadAbove = false, children }) {
   const className = ['list-card', tag && 'list-card-tagged', isLeadAbove && 'list-card-lead-above'].filter(Boolean).join(' ');
   return (
     <div className={className}>
       <p className="list-lead">{lead}</p>
       <div className="list-frame">
         {children}
-        {tag && <p className={isTagCounting ? 'list-tag list-tag-counting' : 'list-tag'} aria-live="polite">{tag}</p>}
+        {tag && (
+          <p className={tagChoices.length ? 'list-tag list-tag-counting' : 'list-tag'}>
+            {tagChoices.map((choice) => <span key={choice} className="list-tag-sizer" aria-hidden="true">{choice}</span>)}
+            <span aria-live="polite">{tag}</span>
+          </p>
+        )}
       </div>
     </div>
   );
