@@ -36,13 +36,6 @@ import nightWindowWatcher from './images/natt-fonstertittare.webp';
 import nightBartender from './images/natt-bartender.webp';
 import nightSausageVendor from './images/natt-korvgubbe.webp';
 import morningMurder from './images/morgon-mord.webp';
-import morningMurderBedroom from './images/morgon-mord-sovrum.webp';
-import morningMurderOffice from './images/morgon-mord-kontor.webp';
-import morningMurderRain from './images/morgon-mord-regn.webp';
-import morningMurderSidewalk from './images/morgon-mord-trottoar.webp';
-import morningMurderRevolver from './images/morgon-mord-revolver.webp';
-import morningMurderShadow from './images/morgon-mord-skugga.webp';
-import morningMurderKnife from './images/morgon-mord-kniv.webp';
 import morningNoMurder from './images/morgon-ingen.webp';
 import verdict from './images/dom.webp';
 import mafiaWins from './images/slut-maffia.webp';
@@ -55,7 +48,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   join: { src: join, alt: 'En mörk korridor med en dörr på glänt. Ljuset faller över golvet där ett papper ligger, och därinne står ett bord med en hatt och en rykande cigarett.', position: '50% 50%' },
   create: { src: create, alt: 'En tom bar sent på kvällen med glas och flaskor på disken och en hatt på en barstol under en hängande lampa.', position: '50% 50%' },
   lobby: { src: lobby, alt: 'Två män i hatt och en kvinna med en cigarett spelar kort runt ett runt bord under en hängande lampa i ett mörkt rum.', position: '50% 50%' },
-  roleHidden: { src: roleHidden, alt: 'En förseglad akt på ett skrivbord i lampljus, bredvid en hatt och en revolver.', position: '50% 50%' },
+  roleHidden: { src: roleHidden, alt: 'En förseglad akt på ett skrivbord i lampljus, bredvid en askkopp med en rykande cigarett, en hatt och en revolver.', position: '50% 50%' },
   roleMafiaWoman: { src: roleMafiaWoman, alt: 'En kvinna i pälsstola och hatt med flor röker med cigarettmunstycke i en dörröppning en regnig natt.', position: '100% 30%' },
   roleMafiaMan: { src: roleMafiaMan, alt: 'En man i kritstrecksrandig kostym och hatt röker i en dörröppning en regnig natt.', position: '100% 30%' },
   roleDetectiveWoman: { src: roleDetectiveWoman, alt: 'En kvinnlig detektiv i ljus trenchcoat och hatt antecknar i ett block i en regnig gränd.', position: '50% 30%' },
@@ -86,19 +79,12 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightWindowWatcher: { src: nightWindowWatcher, alt: 'En kvinna bakom en gardin ser genom fönstret hur en man i hatt går fram till en upplyst dörr i regnet.', position: '50% 45%' },
   nightBartender: { src: nightBartender, alt: 'En bartender häller upp en drink åt en ensam gäst i hatt som sitter hopsjunken vid bardisken.', position: '50% 50%' },
   nightSausageVendor: { src: nightSausageVendor, alt: 'En korvvagn under en gatlykta i regnet. Korvgubben räcker en korv till en man i hatt.', position: '50% 55%' },
-  morningMurder: { src: morningMurder, alt: 'En man ligger död på en regnvåt gata under en gatlykta. En gestalt i hatt går därifrån.', position: '50% 62%' },
-  morningMurderBedroom: { src: morningMurderBedroom, alt: 'En kvinna ligger död på golvet i ett sovrum. I den öppna dörren står en man i hatt och rock.', position: '50% 100%' },
-  morningMurderOffice: { src: morningMurderOffice, alt: 'En man i kostym ligger död på trägolvet i ett arbetsrum, med glasögonen bredvid sig.', position: '60% 50%' },
-  morningMurderRain: { src: morningMurderRain, alt: 'En kvinna i trenchcoat ligger död på en regnvåt gata. Hennes handväska och läppstift ligger i en vattenpöl.', position: '50% 60%' },
-  morningMurderSidewalk: { src: morningMurderSidewalk, alt: 'En man ligger död på trottoaren med hatten bredvid sig. En man i rock och hatt springer därifrån.', position: '50% 65%' },
-  morningMurderRevolver: { src: morningMurderRevolver, alt: 'En man i hatt och rock avfyrar en revolver rakt mot betraktaren i ett mörkt sovrum.', position: '50% 0%' },
-  morningMurderShadow: { src: morningMurderShadow, alt: 'Skuggan av en man i hatt som höjer en kniv faller över en tegelvägg i en gränd.', position: '50% 0%' },
-  morningMurderKnife: { src: morningMurderKnife, alt: 'En man i hatt och rock höjer en kniv till hugg.', position: '50% 0%' },
-  morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En man med hatt bär en kasse och en annan läser tidningen vid en butik.', position: '50% 65%' },
-  verdict: { src: verdict, alt: 'Tre män i hatt pekar på en ensam man som står vid en tegelvägg.', position: '50% 45%' },
-  mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden i regnet.', position: '50% 15%' },
-  townWins: { src: townWins, alt: 'En polis för bort en man i hatt med handbojor längs trottoaren mot en polisbil. Stadsborna står och ser på.', position: '50% 35%' },
-  madmanWins: { src: madmanWins, alt: 'Två skötare i vita rockar för bort en skrattande man med armarna i kors längs en regnvåt gata. Några stadsbor ser på.', position: '50% 50%' },
+  morningMurder: { src: morningMurder, alt: 'En man ligger död på en regnvåt gata under en gatlykta. Hans hatt ligger bredvid, och en man i hatt och rock går därifrån med en pistol i handen.', position: '60% 50%' },
+  morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En mjölkbud ställer flaskor på en trappa, och en man i hatt läser tidningen mot en vägg.', position: '50% 50%' },
+  verdict: { src: verdict, alt: 'Tre personer i hatt pekar på en rädd man som står med hatten i händerna vid en tegelvägg.', position: '50% 40%' },
+  mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden. Den ena tänder en cigarett.', position: '30% 40%' },
+  townWins: { src: townWins, alt: 'Stadsborna skakar hand på en regnvåt gata, medan två poliser för bort en man i kostym mot en polisbil.', position: '50% 50%' },
+  madmanWins: { src: madmanWins, alt: 'Två skötare i vita rockar för bort en skrattande man i tvångströja mot en ambulans. Några stadsbor ser på.', position: '75% 50%' },
 });
 
 /** @typedef {keyof typeof SCENE_IMAGES} SceneImageKey */
