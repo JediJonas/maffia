@@ -48,8 +48,8 @@ export function PlayerAvatar({ player, sizePx = SMALL_AVATAR_PX, isDead = false 
     <span className="avatar-crossed">
       {image}
       <svg className="avatar-cross" viewBox="0 0 100 100" aria-hidden="true">
-        <path d="M14 17 L85 84" />
-        <path d="M84 15 L16 85" />
+        <path d="M9 11 L90 90" />
+        <path d="M90 9 L11 90" />
       </svg>
     </span>
   );
