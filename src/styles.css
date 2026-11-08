@@ -666,6 +666,17 @@ main section .list-lead {
   font-size: 0.875rem;
 }
 
+/*
+ * Lappen som räknar har en fast minsta bredd, som nedräkningen, så att den
+ * inte ändrar bredd när talet byts. Den räcker för "Fyra av fyra har röstat",
+ * den bredaste texten i ett spel med upp till tio spelare, med lite marginal.
+ * Texten står till höger.
+ */
+.list-tag-counting {
+  min-width: 14.75em;
+  text-align: right;
+}
+
 /* Detektivens akt: svart och stämplad tills den öppnas. */
 .detective-file {
   margin: 1rem 0;
