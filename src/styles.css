@@ -515,8 +515,13 @@ main :is(section, .screen-content) > p,
   border-top: var(--line);
 }
 
-/* Rutan med rumskoden är en knapp som kopierar koden, men ser ut som de andra serierutorna. */
+/*
+ * Rutan med rumskoden är en knapp som kopierar koden, men ser ut som de andra
+ * serierutorna. Den står på en rad, även med "(kopierad)" (ägaren 2026-11-08).
+ */
 .scene .room-code-button {
+  max-width: none;
+  white-space: nowrap;
   min-height: 0;
   border-radius: 0;
   text-align: left;
