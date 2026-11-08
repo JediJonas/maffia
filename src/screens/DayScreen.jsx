@@ -1,7 +1,7 @@
 // @ts-check
 import { sortByName } from './playerName.js';
 import { SKIP_VOTE } from '../game/rules.js';
-import { describeVoteProgress } from './dayText.js';
+import { describeVoteProgress } from './progressText.js';
 import { describeDeath } from './deathText.js';
 import { CaseFile } from './CaseFile.jsx';
 import { buildCaseFile } from './caseFile.js';
