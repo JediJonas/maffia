@@ -32,7 +32,7 @@ export function RulesView({ settings, playerCount, onClose }) {
  */
 function RuleList({ lead, rows }) {
   return (
-    <ListCard lead={lead}>
+    <ListCard lead={lead} isLeadAbove>
       <dl className="rules-list">
         {rows.map((row) => (
           <div key={row.title}>

@@ -239,15 +239,6 @@ main {
   margin: -0.5rem 0 0.875rem;
 }
 
-/*
- * Lobbyns lista har egen luft under sig, så att uppmaningen får sina 16 px
- * även när den vita rutan inte visas. Följer den vita rutan slås
- * marginalerna ihop till samma 16 px som förut.
- */
-.screen-content > .player-list:last-child {
-  margin-bottom: var(--block-gap);
-}
-
 /* Avståndet under bilden kommer från rutan under den, eftersom marginalerna inte slås ihop i main. */
 main > .scene {
   margin-bottom: 0;
@@ -656,6 +647,7 @@ main section .list-lead {
 }
 
 .list-frame li:first-child > .picker-option,
+.list-frame .player-list li:first-child,
 .list-frame .settings-list li:first-child {
   min-height: calc(3.5rem + var(--first-row-gap));
   padding-top: var(--first-row-gap);
@@ -665,7 +657,10 @@ main section .list-lead {
   padding-top: calc(0.75rem + var(--first-row-gap));
 }
 
-/* I inställningarna står rutan ovanför listan, och listan har full bredd (Jonas 2026-11-08). */
+/*
+ * Rutan ligger ovanpå listor med personer, men står ovanför andra listor,
+ * som inställningarna och reglerna. Där har listan full bredd (Jonas 2026-11-08).
+ */
 main section .list-card-lead-above .list-lead {
   margin: 0 0 1.125rem;
 }
