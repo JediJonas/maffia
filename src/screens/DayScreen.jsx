@@ -1,7 +1,7 @@
 // @ts-check
 import { sortByName } from './playerName.js';
 import { SKIP_VOTE } from '../game/rules.js';
-import { capitalize, writeNumber } from '../game/numberWords.js';
+import { describeVoteProgress } from './dayText.js';
 import { describeDeath } from './deathText.js';
 import { CaseFile } from './CaseFile.jsx';
 import { buildCaseFile } from './caseFile.js';
@@ -28,7 +28,7 @@ export function DayScreen({ view, sendAction }) {
     .reduce((sum, [voterId]) => sum + (view.doubleVoterIds.includes(voterId) ? 2 : 1), 0);
   // Röster på en själv syns också, men man kan inte rösta på sig själv.
   const listed = sortByName(living).filter((p) => p.id !== view.me.id || votesFor(p.id) > 0);
-  const progress = capitalize(`${writeNumber(votedCount)} av ${writeNumber(living.length)} har röstat`);
+  const progress = describeVoteProgress(votedCount, living.length);
   /** @param {import('../game/playerView.js').PublicPlayer} player */
   const describeVotes = (player) => describeVoteCount(votesFor(player.id));
   const caseFile = buildCaseFile(view);
