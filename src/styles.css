@@ -603,9 +603,17 @@ main :is(section, .screen-content) > p,
   gap: 0.75rem;
 }
 
-/* Lika bred plats för rollen bakom stämpeln, så att stämplarna står i en rak kolumn. "Fönstertittare" får plats. */
-.picker-stamp + .picker-detail {
-  min-width: 6.5rem;
+/* Namnet och en grå rad under, som rollen på slutsidan och natten i detektivens akt. */
+.picker-who {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.picker-below {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
 }
 
 /*

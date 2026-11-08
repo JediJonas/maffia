@@ -15,21 +15,26 @@ import { styleStampTilt } from './stampTilt.js';
  * @param {string | null} [props.selectedId]
  * @param {(playerId: string) => void} [props.onSelect]
  * @param {(player: PublicPlayer) => string | null} [props.describe] Text till höger i raden.
- * @param {(player: PublicPlayer) => string | null} [props.stamp] Stämpel framför texten till höger, som "Vinnare".
+ * @param {(player: PublicPlayer) => string | null} [props.describeBelowName] Grå text under namnet, som rollen på slutet.
+ * @param {(player: PublicPlayer) => string | null} [props.stamp] Stämpel till höger i raden, som "Vinnare".
  * @param {boolean} [props.showsDead] Döda visas blekta och överstrukna.
  */
-export function PlayerPicker({ players, selectableIds = [], selectedId = null, onSelect, describe, stamp, showsDead = true }) {
+export function PlayerPicker({ players, selectableIds = [], selectedId = null, onSelect, describe, describeBelowName, stamp, showsDead = true }) {
   return (
     <ul className="picker">
       {players.map((player, index) => {
         const detail = describe?.(player);
+        const belowName = describeBelowName?.(player);
         const stampText = stamp?.(player);
         const isShownDead = showsDead && !player.isAlive;
         const content = (
           <>
             <span className="player-name">
               <PlayerAvatar player={player} isDead={isShownDead} />
-              <span className={isShownDead ? 'dead' : ''}>{writeListName(player)}</span>
+              <span className="picker-who">
+                <span className={isShownDead ? 'dead' : ''}>{writeListName(player)}</span>
+                {belowName && <span className="picker-below">{belowName}</span>}
+              </span>
             </span>
             {stampText && <span className="stamp picker-stamp" style={styleStampTilt(index)}>{stampText}</span>}
             {detail && <span className="picker-detail">{detail}</span>}
