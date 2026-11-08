@@ -73,7 +73,7 @@ export function NightScreen({ view, sendAction }) {
 
   return (
     <section aria-labelledby="phase-title">
-      <ListCard lead={NIGHT_QUESTIONS[view.me.role]} tag={isMafia ? describeMafiaTag(view) ?? progress : progress}>
+      <ListCard lead={NIGHT_QUESTIONS[view.me.role]} tag={isMafia ? describeMafiaTag(view) ?? progress : progress} isTagCounting>
         <PlayerPicker
           players={sortByName(view.players.filter((p) => view.nightTargetIds.includes(p.id)))}
           selectableIds={view.nightTargetIds}
