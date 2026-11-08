@@ -3,7 +3,7 @@ import { MAX_PLAYERS, ROLE_INFO } from '../game/roles.js';
 import { MAX_BOTS } from '../game/bots.js';
 import { MAFIA_COUNT_CHOICES, OPTIONAL_ROLES, stepMafiaCount } from '../game/settings.js';
 import { ListCard } from './ListCard.jsx';
-import { describeLobbyStatus, findStartProblem } from './lobbyText.js';
+import { describeLobbyStatus, findRoleProblem } from './lobbyText.js';
 
 /** @typedef {import('../game/settings.js').GameSettings} GameSettings */
 
@@ -44,7 +44,9 @@ const SWITCHES = [
  * @param {() => void} props.onClose
  */
 export function SettingsEditor({ settings, playerCount, botCount, onChange, onAddBot, onRemoveBot, onClose }) {
-  const problem = findStartProblem(settings, playerCount);
+  const problem = findRoleProblem(settings, playerCount);
+  // Tom innan fyra har kommit, så att Inställningar inte upprepar det som står i lobbyn.
+  const status = problem ? '' : describeLobbyStatus({ settings, playerCount, hostName: null });
   const isFirstChoice = settings.mafiaCount === MAFIA_COUNT_CHOICES[0];
   const isLastChoice = settings.mafiaCount === MAFIA_COUNT_CHOICES[MAFIA_COUNT_CHOICES.length - 1];
   return (
@@ -83,7 +85,7 @@ export function SettingsEditor({ settings, playerCount, botCount, onChange, onAd
             ))}
           </ul>
         </ListCard>
-        {!problem && <p className="explanation">{describeLobbyStatus({ settings, playerCount, hostName: null })}</p>}
+        {status && <p className="explanation">{status}</p>}
       </div>
       {/* Problemet står ovanför knappen, som i lobbyn. Inne i screen-content
           skulle den vanliga rutans vita bakgrund göra den vita texten osynlig. */}

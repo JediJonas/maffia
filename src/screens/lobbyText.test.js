@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { describeArrivals, describeLobbyStatus, findStartProblem } from './lobbyText.js';
+import { describeArrivals, describeLobbyStatus, findRoleProblem, findStartProblem } from './lobbyText.js';
 import { DEFAULT_SETTINGS } from '../game/settings.js';
 
 describe('describeArrivals', () => {
@@ -54,5 +54,17 @@ describe('findStartProblem', () => {
 
   it('är null när spelet kan starta', () => {
     expect(findStartProblem(settings, 4)).toBeNull();
+  });
+});
+
+describe('findRoleProblem', () => {
+  const settings = { ...DEFAULT_SETTINGS, mafiaCount: 1, hasDetective: true, hasDoctor: false };
+
+  it('säger inget innan fyra har kommit, så att Inställningar inte visar det', () => {
+    expect(findRoleProblem(settings, 3)).toBeNull();
+  });
+
+  it('säger vad som är fel med rollerna när fyra har kommit', () => {
+    expect(findRoleProblem({ ...settings, mafiaCount: 2 }, 4)).toBeTruthy();
   });
 });
