@@ -12,6 +12,14 @@ describe('describeDeath', () => {
     expect(describeDeath(cissi, 'p3', 'mördad i natt')).toBe('Du blev mördad i natt.');
   });
 
+  it('visar rollen även för den förvisade när alla ska se samma text', () => {
+    expect(describeDeath(cissi, 'p3', 'förvisad', { showsRoleToAll: true })).toBe('Cissi var stadsbo.');
+  });
+
+  it('säger till den förvisade vad som hände när rollen är hemlig', () => {
+    expect(describeDeath({ ...cissi, revealedRole: null }, 'p3', 'förvisad', { showsRoleToAll: true })).toBe('Du blev förvisad.');
+  });
+
   it('säger bara vad som hände när rollen är hemlig', () => {
     expect(describeDeath({ ...cissi, revealedRole: null }, 'p1', 'förvisad')).toBe('Cissi blev förvisad.');
   });

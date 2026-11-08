@@ -35,7 +35,7 @@ export function VerdictScreen({ view }) {
           reservesSpeech={view.settings.revealsRoleOnDeath}
           text={view.isRoleRevealPending
             ? <Countdown durationMs={ROLE_REVEAL_DELAY_MS} label="Rollen visas om" />
-            : describeDeath(executed, view.me.id, 'förvisad')}
+            : describeDeath(executed, view.me.id, 'förvisad', { showsRoleToAll: true })}
         />
       )}
       {voted.length > 0 ? (
