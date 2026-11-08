@@ -97,7 +97,7 @@ function describeVoteCount(count) {
 function MorningNews({ view, isNewsInList }) {
   const killed = view.players.find((p) => p.id === view.lastNight?.killedId);
   if (!killed) return isNewsInList ? null : <p>{QUIET_NIGHT_NEWS} Men maffian finns kvar.</p>;
-  return <PersonRow player={killed} text={describeDeath(killed, view.me.id, 'mördad i natt')} />;
+  return <PersonRow player={killed} text={describeDeath(killed, view.me.id, 'mördad')} />;
 }
 
 /**

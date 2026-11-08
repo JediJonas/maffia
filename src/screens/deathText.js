@@ -22,9 +22,9 @@ export function writeLastWords(executed) {
  * samma text med rollen, även den förvisade, så att ingen får en annan text.
  * @param {import('../game/playerView.js').PublicPlayer} dead
  * @param {string} myId
- * @param {string} how Till exempel "mördad i natt".
+ * @param {string} how Till exempel "mördad".
  * @param {{ showsRoleToAll?: boolean }} [options]
- * @returns {string} Till exempel "Cissi var stadsbo." eller "Du blev mördad i natt."
+ * @returns {string} Till exempel "Cissi var stadsbo." eller "Du blev mördad."
  */
 export function describeDeath(dead, myId, how, { showsRoleToAll = false } = {}) {
   if (dead.id === myId && !(showsRoleToAll && dead.revealedRole)) return `Du blev ${how}.`;
