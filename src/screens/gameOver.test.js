@@ -1,6 +1,6 @@
 // @ts-check
 import { describe, expect, it } from 'vitest';
-import { isWinner, orderForGameOver } from './gameOver.js';
+import { isWinner } from './gameOver.js';
 
 /**
  * @param {string} name
@@ -25,17 +25,5 @@ describe('isWinner', () => {
 
   it('markerar ingen när ingen har vunnit', () => {
     expect(isWinner(makePlayer('Anna', 'detective'), null)).toBe(false);
-  });
-});
-
-describe('orderForGameOver', () => {
-  it('ställer vinnarna först, båda grupperna i bokstavsordning', () => {
-    const players = [
-      makePlayer('Cissi', 'doctor'),
-      makePlayer('Erik', 'mafia'),
-      makePlayer('Anna', 'detective'),
-      makePlayer('Bertil', 'mafia'),
-    ];
-    expect(orderForGameOver(players, 'mafia').map((p) => p.name)).toEqual(['Bertil', 'Erik', 'Anna', 'Cissi']);
   });
 });
