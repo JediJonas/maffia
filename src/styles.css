@@ -805,6 +805,8 @@ main section .list-lead {
 
 .avatar-cross {
   position: absolute;
+  /* Över figuren även i personraden, där figuren ligger över rutan bredvid. */
+  z-index: 2;
   inset: 0;
   width: 100%;
   height: 100%;

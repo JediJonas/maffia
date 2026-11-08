@@ -31,3 +31,13 @@ export function describeDeath(dead, myId, how, { showsRoleToAll = false } = {}) 
   if (dead.revealedRole) return `${dead.name} var ${ROLE_INFO[dead.revealedRole].name.toLowerCase()}.`;
   return `${dead.name} blev ${how}.`;
 }
+
+/**
+ * Maffiakamraten i natten. Den som är borta står kvar med kryss, så att man
+ * vet att man är ensam (Jonas 2026-11-08).
+ * @param {{ name: string, isAlive: boolean }} teammate
+ * @returns {string}
+ */
+export function describeNightTeammate(teammate) {
+  return teammate.isAlive ? `${teammate.name} är med dig.` : `${teammate.name} var med dig.`;
+}

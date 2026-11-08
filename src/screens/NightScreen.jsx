@@ -4,6 +4,7 @@ import { sortByName } from './playerName.js';
 import { PlayerPicker } from './PlayerPicker.jsx';
 import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
+import { describeNightTeammate } from './deathText.js';
 import { describeNightProgress } from './progressText.js';
 import { isMafia as isMafiaRole } from '../game/roles.js';
 
@@ -92,7 +93,8 @@ export function NightScreen({ view, sendAction }) {
           <PersonRow
             key={teammate.id}
             player={player}
-            text={`${player.name} är med dig.`}
+            text={describeNightTeammate(player)}
+            isDead={!player.isAlive}
             speech={teammate.choiceId && <>Jag väljer<br />{nameOf(teammate.choiceId)}.</>}
           />
         );

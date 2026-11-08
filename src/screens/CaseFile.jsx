@@ -28,7 +28,7 @@ export function CaseFile({ content, players }) {
             if (!target) return null;
             return (
               <span className="file-row" key={row.round}>
-                <PlayerAvatar player={target} sizePx={FILE_AVATAR_PX} />
+                <PlayerAvatar player={target} sizePx={FILE_AVATAR_PX} isDead={!target.isAlive} />
                 <span className="file-who">
                   <span className="file-name">{target.name}</span>
                   <span className="file-when">

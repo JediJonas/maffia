@@ -13,8 +13,9 @@ const PERSON_AVATAR_PX = 112;
  * @param {import('react').ReactNode} props.text
  * @param {import('react').ReactNode} [props.speech] Vad personen säger i bubblan.
  * @param {boolean} [props.reservesSpeech] Plats för en bubbla som visas senare, så att sidan inte hoppar.
+ * @param {boolean} [props.isDead] Kryss över figuren, som för maffiakamraten som är borta.
  */
-export function PersonRow({ player, text, speech, reservesSpeech = false }) {
+export function PersonRow({ player, text, speech, reservesSpeech = false, isDead = false }) {
   // En bubbla som finns från början väntar in figuren. En som kommer senare,
   // som i domslutet, har bara sin vanliga fördröjning.
   const [isSpeakingOnArrival] = useState(Boolean(speech));
@@ -26,7 +27,7 @@ export function PersonRow({ player, text, speech, reservesSpeech = false }) {
         </SpeechBubble>
       )}
       <div className="person-figure">
-        <PlayerAvatar player={player} sizePx={PERSON_AVATAR_PX} />
+        <PlayerAvatar player={player} sizePx={PERSON_AVATAR_PX} isDead={isDead} />
         <p className="person-text">{text}</p>
       </div>
     </div>
