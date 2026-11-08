@@ -1,7 +1,6 @@
 // @ts-check
-// Slutet: vilka som vann och i vilken ordning alla står i listan.
+// Slutet: vilka som vann.
 import { teamOf } from '../game/roles.js';
-import { sortByName } from './playerName.js';
 
 /** @typedef {import('../game/playerView.js').PublicPlayer} PublicPlayer */
 
@@ -13,15 +12,4 @@ import { sortByName } from './playerName.js';
  */
 export function isWinner(player, winner) {
   return winner !== null && teamOf(player.revealedRole) === winner;
-}
-
-/**
- * Vinnarna först och sedan de andra, båda i bokstavsordning.
- * @param {PublicPlayer[]} players
- * @param {import('../game/types.js').Team | null} winner
- * @returns {PublicPlayer[]} En ny lista.
- */
-export function orderForGameOver(players, winner) {
-  const sorted = sortByName(players);
-  return [...sorted.filter((p) => isWinner(p, winner)), ...sorted.filter((p) => !isWinner(p, winner))];
 }
