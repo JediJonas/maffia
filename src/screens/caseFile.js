@@ -2,6 +2,7 @@
 // Akten på morgonen för de roller som får veta något på natten: detektiven,
 // taxichauffören och fönstertittaren. Här bestäms bara vad akten säger.
 import { joinWithAnd } from '../game/numberWords.js';
+import { sortNames } from './playerName.js';
 
 /** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
 
@@ -45,7 +46,7 @@ export function buildCaseFile(view) {
  */
 function describeCaseFile(view) {
   const nameOf = (/** @type {string} */ id) => view.players.find((p) => p.id === id)?.name ?? 'någon';
-  const namesOf = (/** @type {string[]} */ ids) => (ids.length ? joinWithAnd(ids.map(nameOf)) : 'ingen');
+  const namesOf = (/** @type {string[]} */ ids) => (ids.length ? joinWithAnd(sortNames(ids.map(nameOf))) : 'ingen');
   switch (view.me.role) {
     case 'detective':
       return {

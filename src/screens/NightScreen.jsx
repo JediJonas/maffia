@@ -1,6 +1,6 @@
 // @ts-check
 import { useState } from 'react';
-import { sortByName } from './playerName.js';
+import { sortByName, sortNames } from './playerName.js';
 import { PlayerPicker } from './PlayerPicker.jsx';
 import { ListCard } from './ListCard.jsx';
 import { PersonRow } from './PersonRow.jsx';
@@ -66,7 +66,7 @@ export function NightScreen({ view, sendAction }) {
   const nameOf = (/** @type {string | null} */ id) => view.players.find((p) => p.id === id)?.name ?? '';
   /** @param {import('../game/playerView.js').PublicPlayer} player */
   function describeTeamChoices(player) {
-    const choosers = view.mafiaTeam.filter((m) => m.choiceId === player.id).map((m) => nameOf(m.id));
+    const choosers = sortNames(view.mafiaTeam.filter((m) => m.choiceId === player.id).map((m) => nameOf(m.id)));
     return choosers.length ? choosers.join(', ') : null;
   }
   const note = NIGHT_NOTES[view.me.role];
@@ -86,9 +86,9 @@ export function NightScreen({ view, sendAction }) {
         />
       </ListCard>
       {note && <p className="explanation">{note}</p>}
-      {view.mafiaTeam.map((teammate) => {
-        const player = view.players.find((p) => p.id === teammate.id);
-        if (!player) return null;
+      {sortByName(view.players.filter((p) => view.mafiaTeam.some((m) => m.id === p.id))).map((player) => {
+        const teammate = view.mafiaTeam.find((m) => m.id === player.id);
+        if (!teammate) return null;
         return (
           <PersonRow
             key={teammate.id}
