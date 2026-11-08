@@ -5,11 +5,19 @@ const cissi = { id: 'p3', name: 'Cissi', isAlive: false, isConnected: true, avat
 
 describe('describeDeath', () => {
   it('visar rollen för de andra', () => {
-    expect(describeDeath(cissi, 'p1', 'mördad i natt')).toBe('Cissi var stadsbo.');
+    expect(describeDeath(cissi, 'p1', 'mördad')).toBe('Cissi var stadsbo.');
   });
 
   it('säger till den döda vad som hände', () => {
-    expect(describeDeath(cissi, 'p3', 'mördad i natt')).toBe('Du blev mördad i natt.');
+    expect(describeDeath(cissi, 'p3', 'mördad')).toBe('Du blev mördad.');
+  });
+
+  it('visar rollen även för den förvisade när alla ska se samma text', () => {
+    expect(describeDeath(cissi, 'p3', 'förvisad', { showsRoleToAll: true })).toBe('Cissi var stadsbo.');
+  });
+
+  it('säger till den förvisade vad som hände när rollen är hemlig', () => {
+    expect(describeDeath({ ...cissi, revealedRole: null }, 'p3', 'förvisad', { showsRoleToAll: true })).toBe('Du blev förvisad.');
   });
 
   it('säger bara vad som hände när rollen är hemlig', () => {

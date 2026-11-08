@@ -18,14 +18,16 @@ export function writeLastWords(executed) {
 
 /**
  * Texten bredvid den som har dött. Den döda själv får veta vad som hände,
- * de andra får rollen när den visas.
+ * de andra får rollen när den visas. Efter nedräkningen i domslutet får alla
+ * samma text med rollen, även den förvisade, så att ingen får en annan text.
  * @param {import('../game/playerView.js').PublicPlayer} dead
  * @param {string} myId
- * @param {string} how Till exempel "mördad i natt".
- * @returns {string} Till exempel "Cissi var stadsbo." eller "Du blev mördad i natt."
+ * @param {string} how Till exempel "mördad".
+ * @param {{ showsRoleToAll?: boolean }} [options]
+ * @returns {string} Till exempel "Cissi var stadsbo." eller "Du blev mördad."
  */
-export function describeDeath(dead, myId, how) {
-  if (dead.id === myId) return `Du blev ${how}.`;
+export function describeDeath(dead, myId, how, { showsRoleToAll = false } = {}) {
+  if (dead.id === myId && !(showsRoleToAll && dead.revealedRole)) return `Du blev ${how}.`;
   if (dead.revealedRole) return `${dead.name} var ${ROLE_INFO[dead.revealedRole].name.toLowerCase()}.`;
   return `${dead.name} blev ${how}.`;
 }
