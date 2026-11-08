@@ -3,6 +3,7 @@ import { MIN_PLAYERS } from '../game/roles.js';
 import { SettingsEditor } from './SettingsEditor.jsx';
 import { AvatarEditor } from './AvatarEditor.jsx';
 import { RulesView } from './RulesView.jsx';
+import { ListCard } from './ListCard.jsx';
 import { PlayerAvatar } from './PlayerAvatar.jsx';
 import { loadOrCreateAvatar, saveAvatar } from '../device/savedSession.js';
 import { sortByName, writeListName } from './playerName.js';
@@ -56,24 +57,25 @@ export function LobbyScreen({ view, host, sendAction, panel, setPanel }) {
   return (
     <section className="screen" aria-labelledby="phase-title">
       <div className="screen-content">
-        <h2>{describeArrivals(playerCount)}</h2>
-        <ul className="player-list">
-          {sortByName(view.players).map((player) => (
-            <li key={player.id}>
-              <span className="player-name">
-                <PlayerAvatar player={player} />
-                <span>{writeListName(player)}</span>
-              </span>
-              <PlayerRowAction
-                player={player}
-                isMe={player.id === view.me.id}
-                isHostPlayer={player.id === hostPlayer?.id}
-                host={host}
-                onEditAvatar={() => setPanel('avatar')}
-              />
-            </li>
-          ))}
-        </ul>
+        <ListCard lead={describeArrivals(playerCount)}>
+          <ul className="player-list">
+            {sortByName(view.players).map((player) => (
+              <li key={player.id}>
+                <span className="player-name">
+                  <PlayerAvatar player={player} />
+                  <span>{writeListName(player)}</span>
+                </span>
+                <PlayerRowAction
+                  player={player}
+                  isMe={player.id === view.me.id}
+                  isHostPlayer={player.id === hostPlayer?.id}
+                  host={host}
+                  onEditAvatar={() => setPanel('avatar')}
+                />
+              </li>
+            ))}
+          </ul>
+        </ListCard>
         {status && <p className="explanation">{status}</p>}
       </div>
       {/* Alla får knappen till reglerna, så att den som väntar kan läsa på. */}
