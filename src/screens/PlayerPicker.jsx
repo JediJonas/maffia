@@ -17,7 +17,7 @@ import { styleStampTilt } from './stampTilt.js';
  * @param {(player: PublicPlayer) => string | null} [props.describe] Text till höger i raden.
  * @param {(player: PublicPlayer) => string | null} [props.describeBelowName] Grå text under namnet, som rollen på slutet.
  * @param {(player: PublicPlayer) => string | null} [props.stamp] Stämpel till höger i raden, som "Vinnare".
- * @param {boolean} [props.showsDead] Döda visas blekta och överstrukna.
+ * @param {boolean} [props.showsDead] Döda får ett kryss över figuren.
  */
 export function PlayerPicker({ players, selectableIds = [], selectedId = null, onSelect, describe, describeBelowName, stamp, showsDead = true }) {
   return (
@@ -32,7 +32,10 @@ export function PlayerPicker({ players, selectableIds = [], selectedId = null, o
             <span className="player-name">
               <PlayerAvatar player={player} isDead={isShownDead} />
               <span className="picker-who">
-                <span className={isShownDead ? 'dead' : ''}>{writeListName(player)}</span>
+                <span>
+                  {writeListName(player)}
+                  {isShownDead && <span className="visually-hidden">, borta</span>}
+                </span>
                 {belowName && <span className="picker-below">{belowName}</span>}
               </span>
             </span>
