@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { describeDeath, writeLastWords } from './deathText.js';
+import { describeDeath, describeNightTeammate, writeLastWords } from './deathText.js';
 
 const cissi = { id: 'p3', name: 'Cissi', isAlive: false, isConnected: true, avatar: null, revealedRole: /** @type {const} */ ('citizen') };
 
@@ -41,5 +41,12 @@ describe('writeLastWords', () => {
 
   it('håller tyst medan rollen är hemlig, och när den aldrig visas', () => {
     expect(writeLastWords({ ...cissi, revealedRole: null })).toBeNull();
+  });
+});
+
+describe('describeNightTeammate', () => {
+  it('säger att den levande kamraten är med dig och den döda var det', () => {
+    expect(describeNightTeammate({ name: 'Erik', isAlive: true })).toBe('Erik är med dig.');
+    expect(describeNightTeammate({ name: 'Erik', isAlive: false })).toBe('Erik var med dig.');
   });
 });

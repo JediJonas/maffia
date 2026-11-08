@@ -788,10 +788,6 @@ main section .list-lead {
   letter-spacing: 0.1em;
 }
 
-.dead {
-  text-decoration: line-through;
-  color: var(--muted);
-}
 
 .avatar {
   flex-shrink: 0;
@@ -800,9 +796,25 @@ main section .list-lead {
   background: var(--paper);
 }
 
-.avatar-dead {
-  filter: grayscale(1);
-  opacity: 0.6;
+/* Den som är ute får ett kryss i tusch över figuren, som slutar strax utanför cirkeln (Jonas 2026-11-08). */
+.avatar-crossed {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.avatar-cross {
+  position: absolute;
+  /* Över figuren även i personraden, där figuren ligger över rutan bredvid. */
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 6.5;
+  stroke-linecap: round;
 }
 
 .player-name {
