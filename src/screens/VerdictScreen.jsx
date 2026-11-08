@@ -33,6 +33,7 @@ export function VerdictScreen({ view }) {
           player={executed}
           speech={lastWords && lastWords.map((line, index) => <Fragment key={line}>{index > 0 && <br />}{line}</Fragment>)}
           reservesSpeech={view.settings.revealsRoleOnDeath}
+          hasWideText
           text={view.isRoleRevealPending
             ? <Countdown durationMs={ROLE_REVEAL_DELAY_MS} label="Rollen visas om" />
             : describeDeath(executed, view.me.id, 'förvisad', { showsRoleToAll: true })}
