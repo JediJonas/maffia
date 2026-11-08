@@ -646,15 +646,23 @@ main section .list-lead {
   margin: 0 0 calc(-1 * var(--lead-overlap));
 }
 
-/* Första raden får luft upptill, så att rutan inte når figuren eller texten. */
+/*
+ * Första raden får lika mycket luft upptill som rutan når in i den, alltså
+ * överlappet minus listans 2 px ram. Då är det lika långt från rutan till
+ * figuren som från figuren till linjen under (Jonas 2026-11-08).
+ */
+.list-frame {
+  --first-row-gap: calc(var(--lead-overlap) - 2px);
+}
+
 .list-frame li:first-child > .picker-option,
 .list-frame .settings-list li:first-child {
-  min-height: calc(3.5rem + var(--lead-overlap));
-  padding-top: var(--lead-overlap);
+  min-height: calc(3.5rem + var(--first-row-gap));
+  padding-top: var(--first-row-gap);
 }
 
 .list-frame .rules-list > div:first-child {
-  padding-top: calc(0.75rem + var(--lead-overlap));
+  padding-top: calc(0.75rem + var(--first-row-gap));
 }
 
 .list-tag {
