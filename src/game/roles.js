@@ -44,7 +44,7 @@ export const ROLE_INFO = {
   sausageVendor: {
     name: 'Korvgubbe',
     team: 'town',
-    description: 'Varje natt bjuder du någon på en korv med allt. Med munnen full får den inte prata nästa dag, men den får rösta.',
+    description: 'Varje natt bjuder du någon på en korv med extra allt. Med munnen full får den inte prata nästa dag, men den får rösta.',
   },
   mayor: {
     name: 'Borgmästare',
