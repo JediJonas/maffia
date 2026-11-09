@@ -22,7 +22,7 @@ describe('describeScene', () => {
   });
 
   it('visar varje roll sin egen nattbild', () => {
-    expect(describeScene(buildPlayerView(night, 'p2'), false)).toMatchObject({ image: 'nightMafia', bottomCaption: '… men inte maffian.' });
+    expect(describeScene(buildPlayerView(night, 'p2'), false)).toMatchObject({ bottomCaption: '… men inte maffian.' });
     expect(describeScene(buildPlayerView(night, 'p4'), false)).toMatchObject({ image: 'nightDetective', bottomCaption: '… men inte du.' });
     expect(describeScene(buildPlayerView(night, 'p5'), false)).toMatchObject({ image: 'nightDoctor' });
     expect(describeScene(buildPlayerView(night, 'p1'), false)).toMatchObject({ image: 'nightCitizenWoman', bottomCaption: '… och så även du.' });
@@ -30,7 +30,6 @@ describe('describeScene', () => {
 
   it('visar nattbilden med en kvinna eller en man, som rollbilden', () => {
     expect(describeScene(buildPlayerView(night, 'p1'), false, false, 'man')).toMatchObject({ image: 'nightCitizenMan' });
-    expect(describeScene(buildPlayerView(night, 'p2'), false, false, 'man')).toMatchObject({ image: 'nightMafia' });
   });
 
   it('visar den som är ute ur spelet som en sovande stadsbo på natten', () => {
@@ -71,7 +70,7 @@ describe('describeScene', () => {
   it('säger vem som blev förvisad efter omröstningen, med namn även för den förvisade', () => {
     const morning = playNight(night, { p2: 'p3', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
     const verdict = playDay(morning, { p1: 'p2', p2: 'p1', p4: 'p2', p5: 'p2' });
-    expect(describeScene(buildPlayerView(verdict, 'p1'), false)).toMatchObject({ image: 'verdict', bottomCaption: 'Spelare 2 blev förvisad.' });
+    expect(describeScene(buildPlayerView(verdict, 'p1'), false)).toMatchObject({ bottomCaption: 'Spelare 2 blev förvisad.' });
     expect(describeScene(buildPlayerView(verdict, 'p2'), false)).toMatchObject({ bottomCaption: 'Spelare 2 blev förvisad.' });
   });
 
@@ -110,5 +109,21 @@ describe('listUpcomingImages', () => {
     const morning = playNight(night, { p2: 'p4', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
     const verdict = playDay(morning, { p1: 'p3', p2: 'p3', p3: 'p1', p5: 'p3' });
     expect(listUpcomingImages(buildPlayerView({ ...verdict, phase: 'verdict' }, 'p3'))).toEqual(['nightCitizenWoman', 'mafiaWins', 'townWins', 'madmanWinsWoman', 'madmanWinsMan']);
+  });
+
+  it('visar dombilden efter den förvisades val av rollbild, samma på alla telefoner', () => {
+    const morning = playNight(applyAction(night, 'p2', { type: 'setRoleImage', variant: 'woman' }), { p2: 'p3', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
+    const verdict = playDay(morning, { p1: 'p2', p2: 'p1', p4: 'p2', p5: 'p2' });
+    expect(describeScene(buildPlayerView(verdict, 'p1'), false, false, 'man')?.image).toBe('verdictWoman');
+    expect(describeScene(buildPlayerView(verdict, 'p5'), false, false, 'man')?.image).toBe('verdictWoman');
+  });
+
+  it('visar hela maffian samma nattbild, och drar en ny varje natt', () => {
+    const twoMafia = createTestGame(['citizen', 'mafia', 'mafia', 'citizen', 'citizen']);
+    const imageOf = (/** @type {number} */ round, /** @type {string} */ id) => describeScene(buildPlayerView({ ...twoMafia, round }, id), false)?.image;
+    const images = [1, 2, 3, 4, 5, 6].map((round) => imageOf(round, 'p2'));
+    expect([1, 2, 3, 4, 5, 6].map((round) => imageOf(round, 'p3'))).toEqual(images);
+    expect(new Set(images).size).toBeGreaterThan(1);
+    expect(images.every((image) => image?.startsWith('nightMafia'))).toBe(true);
   });
 });

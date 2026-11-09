@@ -142,7 +142,7 @@ export function applyAction(state, playerId, action, random = Math.random) {
 
 /**
  * Varje telefon skickar sitt val av rollbild när spelet har börjat. Den
- * visas för alla bara när spelaren mördas, eller när galningen vinner.
+ * visas för alla bara när spelaren mördas eller förvisas, eller när galningen vinner.
  * @param {GameState} state
  * @param {Player} player
  * @param {unknown} variantInput

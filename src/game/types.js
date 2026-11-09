@@ -24,7 +24,7 @@
  * @property {boolean} isConnected
  * @property {boolean} [isBot] Styrs av värdens telefon. Saknas i spel som sparades innan botarna fanns.
  * @property {import('../avatar/avatarParts.js').Avatar | null} avatar Null när telefonen inte skickade någon giltig avatar.
- * @property {import('../scenes/roleImageChoice.js').RoleImageVariant} [roleImageVariant] Spelarens val av rollbild, som telefonen skickar när spelet har börjat. Visas för alla bara i mordbilden och när galningen vinner. Saknas tills telefonen har skickat det.
+ * @property {import('../scenes/roleImageChoice.js').RoleImageVariant} [roleImageVariant] Spelarens val av rollbild, som telefonen skickar när spelet har börjat. Visas för alla bara i mordbilden, dombilden och när galningen vinner. Saknas tills telefonen har skickat det.
  */
 
 /**
