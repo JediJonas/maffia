@@ -23,7 +23,7 @@ describe('describeNightProgress', () => {
 
 describe('alla rutor i en lista', () => {
   it('går från ingen till alla, så att lappen kan få den längstas bredd', () => {
-    expect(listNightProgress(3)).toEqual(['Ingen är klar', 'En av tre är klara', 'Två av tre är klara', 'Tre av tre är klara']);
-    expect(listVoteProgress(2)).toEqual(['Ingen har röstat', 'En av två har röstat', 'Två av två har röstat']);
+    expect(listNightProgress(3)).toEqual(['En av tre är klara', 'Två av tre är klara', 'Tre av tre är klara']);
+    expect(listVoteProgress(2)).toEqual(['En av två har röstat', 'Två av två har röstat']);
   });
 });
