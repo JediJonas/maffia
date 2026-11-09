@@ -84,7 +84,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightTaxiDriverWoman: { src: nightTaxiDriverWoman, alt: 'En taxichaufför i skärmmössa sitter vid ratten och ser en gestalt i hatt gå ensam på en regnig gata.', position: '50% 50%' },
   nightTaxiDriverMan: { src: nightTaxiDriverMan, alt: 'En taxichaufför i keps sitter vid ratten och ser en gestalt i hatt gå ensam på en regnig gata. Hans ögon syns i backspegeln.', position: '50% 50%' },
   nightWindowWatcherWoman: { src: nightWindowWatcherWoman, alt: 'En kvinna med papiljotter bakom en gardin ser genom fönstret hur en man i hatt går fram till en upplyst dörr i regnet.', position: '60% 50%' },
-  nightWindowWatcherMan: { src: nightWindowWatcherMan, alt: 'En äldre man med glasögon bakom en gardin ser genom fönstret hur en man i hatt går fram till en upplyst dörr i regnet.', position: '70% 50%' },
+  nightWindowWatcherMan: { src: nightWindowWatcherMan, alt: 'En äldre man med glasögon och en kikare i handen ser bakom en gardin hur en man i hatt går fram till en upplyst dörr i regnet.', position: '60% 50%' },
   nightBartenderWoman: { src: nightBartenderWoman, alt: 'En bartender häller upp en drink åt en ensam gäst i hatt som sitter hopsjunken vid bardisken.', position: '25% 50%' },
   nightBartenderMan: { src: nightBartenderMan, alt: 'En bartender häller upp en drink åt en ensam gäst i hatt som sitter hopsjunken vid bardisken.', position: '50% 50%' },
   nightSausageVendorWoman: { src: nightSausageVendorWoman, alt: 'En korvvagn under en gatlykta i regnet. En korvgumma räcker en korv till en man i hatt.', position: '50% 50%' },
