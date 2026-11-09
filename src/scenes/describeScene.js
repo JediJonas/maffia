@@ -68,8 +68,8 @@ export function chooseRoleImage(role, variant) {
  * @type {Record<RoleImageVariant, SceneImageKey[]>}
  */
 export const MURDER_IMAGES = {
-  woman: ['morningMurderWoman', 'morningMurderHotelWoman', 'morningMurderCloseUpWoman'],
-  man: ['morningMurderMan', 'morningMurderHotelMan', 'morningMurderCloseUpMan'],
+  woman: ['morningMurderWoman', 'morningMurderHotelWoman', 'morningMurderCloseUpWoman', 'morningMurderPoliceWoman', 'morningMurderStairsWoman', 'morningMurderPlatformWoman'],
+  man: ['morningMurderMan', 'morningMurderHotelMan', 'morningMurderCloseUpMan', 'morningMurderPoliceMan', 'morningMurderDocksMan', 'morningMurderPhoneBoothMan'],
 };
 
 /**

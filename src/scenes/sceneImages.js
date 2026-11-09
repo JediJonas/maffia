@@ -50,6 +50,12 @@ import morningMurderHotelWoman from './images/morgon-mord-hotell-kvinna.webp';
 import morningMurderHotelMan from './images/morgon-mord-hotell-man.webp';
 import morningMurderCloseUpWoman from './images/morgon-mord-narbild-kvinna.webp';
 import morningMurderCloseUpMan from './images/morgon-mord-narbild-man.webp';
+import morningMurderPoliceWoman from './images/morgon-mord-polis-kvinna.webp';
+import morningMurderPoliceMan from './images/morgon-mord-polis-man.webp';
+import morningMurderStairsWoman from './images/morgon-mord-trappa-kvinna.webp';
+import morningMurderPlatformWoman from './images/morgon-mord-perrong-kvinna.webp';
+import morningMurderDocksMan from './images/morgon-mord-hamn-man.webp';
+import morningMurderPhoneBoothMan from './images/morgon-mord-telefonkiosk-man.webp';
 import morningNoMurder from './images/morgon-ingen.webp';
 import verdictWoman from './images/dom-kvinna.webp';
 import verdictMan from './images/dom-man.webp';
@@ -110,6 +116,12 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   morningMurderHotelMan: { src: morningMurderHotelMan, alt: 'En man ligger död på golvet i ett hotellrum bredvid ett vältat glas. En man i hatt med en pistol i handen går ut genom den öppna dörren.', position: '50% 50%' },
   morningMurderCloseUpWoman: { src: morningMurderCloseUpWoman, alt: 'En kvinna i dräkt ligger död på ett trägolv under en lampa. Hennes pärlhalsband har gått sönder, och glasögonen ligger bredvid.', position: '30% 50%' },
   morningMurderCloseUpMan: { src: morningMurderCloseUpMan, alt: 'En man i kostym och slips ligger död på ett trägolv under en lampa. Glasögonen ligger bredvid honom.', position: '30% 50%' },
+  morningMurderPoliceWoman: { src: morningMurderPoliceWoman, alt: 'En kvinna ligger död på en våt gata en grå morgon. En polis sitter på huk bredvid henne, hennes sko och handväska ligger utspridda, och en bagare, en man med portfölj och en tidningspojke tittar på.', position: '40% 50%' },
+  morningMurderPoliceMan: { src: morningMurderPoliceMan, alt: 'En man ligger död på en våt gata en grå morgon. En polis sitter på huk bredvid honom, hans hatt ligger på gatstenen, och en bagare, en man med portfölj och en tidningspojke tittar på.', position: '40% 50%' },
+  morningMurderStairsWoman: { src: morningMurderStairsWoman, alt: 'Sett uppifrån i ett spiraltrapphus ligger en kvinna död på det rutiga golvet längst ner. Hennes skor ligger kvar på trappstegen.', position: '50% 50%' },
+  morningMurderPlatformWoman: { src: morningMurderPlatformWoman, alt: 'En kvinna i hatt ligger död på en perrong bredvid en uppbruten resväska, medan ett tåg står inne vid plattformen.', position: '35% 50%' },
+  morningMurderDocksMan: { src: morningMurderDocksMan, alt: 'En man ligger död bland lårar på en kaj i dimman, under kranar och ett stort fartyg. Hans hatt flyter i vattnet.', position: '50% 50%' },
+  morningMurderPhoneBoothMan: { src: morningMurderPhoneBoothMan, alt: 'En man i hatt och rock sitter död i en telefonkiosk i regnet. Luren hänger i sin sladd ovanför honom.', position: '45% 50%' },
   morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En mjölkbud ställer flaskor på en trappa, och en man i hatt läser tidningen mot en vägg.', position: '65% 50%' },
   verdictWoman: { src: verdictWoman, alt: 'Två män i hatt pekar på en rädd kvinna som står med hatten i handen vid en tegelvägg.', position: '50% 40%' },
   verdictMan: { src: verdictMan, alt: 'Två män i hatt pekar på en rädd man som står med hatten i händerna vid en tegelvägg.', position: '50% 40%' },
