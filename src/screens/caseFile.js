@@ -7,17 +7,24 @@ import { sortNames } from './playerName.js';
 /** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
 
 /**
+ * Hur svaret ser ut. Maffia blir en stor svart stämpel, så att den sticker ut
+ * (Jonas 2026-11-06). Inte maffia är en vanlig stämpel. Vem som besökte vem
+ * skrivs på maskin, eftersom ingen har stämplar för alla namn (Jonas 2026-11-09).
+ * @typedef {'mafia' | 'stamp' | 'typed'} VerdictLook
+ */
+
+/**
  * @typedef {object} CaseVerdict
- * @property {string[]} lines Stämpelns text, en rad i taget.
- * @property {string} label Stämpelns text för skärmläsare.
- * @property {boolean} isMafia Bara Maffia blir en stor svart stämpel, så att den sticker ut (Jonas 2026-11-06).
+ * @property {string[]} lines Svarets text, en rad i taget.
+ * @property {string} label Svarets text för skärmläsare.
+ * @property {VerdictLook} look
  */
 
 /**
  * @typedef {object} CaseRow
  * @property {number} round
  * @property {string} targetId
- * @property {string} when Vilken natt, till exempel "Natt 1". Kort, så att stämpeln får plats (Jonas 2026-11-07).
+ * @property {string} when Vilken natt, till exempel "Natt 1". Kort, så att svaret får plats (Jonas 2026-11-07).
  * @property {CaseVerdict} verdict
  */
 
@@ -56,8 +63,8 @@ function describeCaseFile(view) {
           targetId: result.targetId,
           when: writeNight(result.round),
           verdict: result.isMafia
-            ? { lines: ['Maffia'], label: 'maffia', isMafia: true }
-            : { lines: ['Inte maffia'], label: 'inte maffia', isMafia: false },
+            ? { lines: ['Maffia'], label: 'maffia', look: 'mafia' }
+            : { lines: ['Inte maffia'], label: 'inte maffia', look: 'stamp' },
         })),
       };
     case 'taxiDriver':
@@ -67,7 +74,7 @@ function describeCaseFile(view) {
           round: sighting.round,
           targetId: sighting.targetId,
           when: writeNight(sighting.round),
-          verdict: { lines: ['Besökte:', namesOf(sighting.seenIds)], label: `besökte ${namesOf(sighting.seenIds)}`, isMafia: false },
+          verdict: { lines: ['Besökte:', namesOf(sighting.seenIds)], label: `besökte ${namesOf(sighting.seenIds)}`, look: 'typed' },
         })),
       };
     case 'windowWatcher':
@@ -77,7 +84,7 @@ function describeCaseFile(view) {
           round: sighting.round,
           targetId: sighting.targetId,
           when: writeNight(sighting.round),
-          verdict: { lines: ['Besökt av:', namesOf(sighting.seenIds)], label: `besökt av ${namesOf(sighting.seenIds)}`, isMafia: false },
+          verdict: { lines: ['Besökt av:', namesOf(sighting.seenIds)], label: `besökt av ${namesOf(sighting.seenIds)}`, look: 'typed' },
         })),
       };
     default:

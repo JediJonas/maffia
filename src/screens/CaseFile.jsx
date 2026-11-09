@@ -9,7 +9,7 @@ const FILE_AVATAR_PX = 52;
 /**
  * Akten på morgonen för detektiven, taxichauffören och fönstertittaren. Den
  * är svart och stämplad hemlig tills spelaren trycker, så att grannen inte
- * hinner läsa med. Öppen visar den varje natt med en stämpel, den senaste
+ * hinner läsa med. Öppen visar den varje natt med sitt svar, den senaste
  * först. Ett tryck var som helst på akten öppnar eller stänger den.
  * @param {object} props
  * @param {import('./caseFile.js').CaseFileContent} props.content
@@ -36,14 +36,7 @@ export function CaseFile({ content, players }) {
                     {index === 0 && <> · <span className="file-hide">Dölj</span></>}
                   </span>
                 </span>
-                <span
-                  className={row.verdict.isMafia ? 'stamp file-verdict file-verdict-mafia' : 'stamp file-verdict'}
-                  style={row.verdict.isMafia ? undefined : styleStampTilt(index)}
-                  role="img"
-                  aria-label={`Stämpel: ${row.verdict.label}`}
-                >
-                  {row.verdict.lines.map((line, lineIndex) => <Fragment key={line}>{lineIndex > 0 && <br />}{line}</Fragment>)}
-                </span>
+                <Verdict verdict={row.verdict} index={index} />
               </span>
             );
           })}
@@ -55,5 +48,29 @@ export function CaseFile({ content, players }) {
         </button>
       )}
     </div>
+  );
+}
+
+/**
+ * Svaret till höger i raden: en stämpel, eller maskinskrivet för vem som besökte vem.
+ * @param {object} props
+ * @param {import('./caseFile.js').CaseVerdict} props.verdict
+ * @param {number} props.index Radens plats, så att stämplarna lutar åt olika håll.
+ */
+function Verdict({ verdict, index }) {
+  const lines = verdict.lines.map((line, lineIndex) => <Fragment key={line}>{lineIndex > 0 && <br />}{line}</Fragment>);
+  if (verdict.look === 'typed') {
+    return <span className="file-typed" aria-label={verdict.label}>{lines}</span>;
+  }
+  const isMafia = verdict.look === 'mafia';
+  return (
+    <span
+      className={isMafia ? 'stamp file-verdict file-verdict-mafia' : 'stamp file-verdict'}
+      style={isMafia ? undefined : styleStampTilt(index)}
+      role="img"
+      aria-label={`Stämpel: ${verdict.label}`}
+    >
+      {lines}
+    </span>
   );
 }
