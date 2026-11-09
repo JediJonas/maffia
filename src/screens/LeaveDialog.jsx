@@ -29,7 +29,7 @@ export function LeaveDialog({ isOpen, isHost, onStay, onLeave }) {
   return (
     <dialog ref={dialogRef} className="leave-dialog" tabIndex={-1} aria-labelledby="leave-title" onClose={onStay}>
       <h2 id="leave-title" className="leave-title">Lämna spelet?</h2>
-      {isHost && <p>Du är värd. Om du lämnar avslutas spelet för alla.</p>}
+      {isHost && <p>Om du lämnar avslutas spelet för alla.</p>}
       <div className="bottom-actions">
         <button type="button" className="secondary" onClick={onStay}>Stanna kvar</button>
         <button type="button" className="primary" onClick={onLeave}>{isHost ? 'Avsluta för alla' : 'Lämna'}</button>
