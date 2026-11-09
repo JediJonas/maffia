@@ -592,13 +592,14 @@ main :is(section, .screen-content) > p,
 
 /*
  * På natten har listan ingen ram, så den valda svarta raden flyter ihop med
- * bakgrunden. Den får en vit kant precis där listans svarta ram ligger på
- * dagen: sidorna, och överkanten på första raden och underkanten på sista.
- * Linjerna mellan raderna är som förut (Jonas 2026-11-09).
+ * bakgrunden. Den får en 2 px vit kant runt om (Jonas 2026-11-09). Mellan
+ * raderna ligger kanten över den tunna svarta linjen, så att det inte blir
+ * en vit linje innanför en svart. Som placerad ritas raden ovanpå linjen under, men under lappen.
  */
 :root[data-phase='night'] .picker-option[aria-pressed='true'] {
-  --ring-top: 0 0 transparent;
-  --ring-bottom: 0 0 transparent;
+  --ring-top: inset 0 1px var(--paper), 0 -1px var(--paper);
+  --ring-bottom: inset 0 -1px var(--paper), 0 1px var(--paper);
+  position: relative;
   box-shadow: inset 2px 0 var(--paper), inset -2px 0 var(--paper), var(--ring-top), var(--ring-bottom);
 }
 
