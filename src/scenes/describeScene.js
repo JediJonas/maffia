@@ -128,7 +128,8 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
     case 'verdict': {
       const executedId = view.lastDay?.executedId ?? null;
       const who = executedId ? describeWho(view, executedId) : 'Ingen';
-      return scene(VERDICT_IMAGES[view.executedImageVariant ?? roleImageVariant], 'Staden har bestämt sig.', `${who} blev förvisad.`);
+      const image = executedId ? VERDICT_IMAGES[view.executedImageVariant ?? roleImageVariant] : 'verdictNobody';
+      return scene(image, 'Staden har bestämt sig.', `${who} blev förvisad.`);
     }
     case 'gameOver':
       return describeEnding(view.winner, view.madmanImageVariant ?? roleImageVariant);
@@ -171,7 +172,7 @@ export function listUpcomingImages(view, roleImageVariant = 'woman') {
       // Vilken mordbild det blir avgörs först när natten tar slut, så alla hämtas.
       return [...MURDER_IMAGES.woman, ...MURDER_IMAGES.man, 'morningNoMurder'];
     case 'day':
-      return [VERDICT_IMAGES.woman, VERDICT_IMAGES.man];
+      return [VERDICT_IMAGES.woman, VERDICT_IMAGES.man, 'verdictNobody'];
     case 'verdict':
       return [...listNightImages(view.me, roleImageVariant), 'mafiaWins', 'townWins', MADMAN_WINS_IMAGES.woman, MADMAN_WINS_IMAGES.man];
     case 'gameOver':

@@ -118,6 +118,13 @@ describe('listUpcomingImages', () => {
     expect(describeScene(buildPlayerView(verdict, 'p5'), false, false, 'man')?.image).toBe('verdictWoman');
   });
 
+  it('visar en egen dombild när ingen blev förvisad', () => {
+    const morning = playNight(night, { p2: 'p3', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
+    const verdict = playDay(morning, { p1: 'p2', p2: 'p1', p4: 'p2', p5: 'p1' });
+    expect(verdict.lastDay?.executedId ?? null).toBeNull();
+    expect(describeScene(buildPlayerView(verdict, 'p1'), false)).toMatchObject({ image: 'verdictNobody', bottomCaption: 'Ingen blev förvisad.' });
+  });
+
   it('visar hela maffian samma nattbild, och drar en ny varje natt', () => {
     const twoMafia = createTestGame(['citizen', 'mafia', 'mafia', 'citizen', 'citizen']);
     const imageOf = (/** @type {number} */ round, /** @type {string} */ id) => describeScene(buildPlayerView({ ...twoMafia, round }, id), false)?.image;

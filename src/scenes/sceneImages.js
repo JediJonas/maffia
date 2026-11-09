@@ -59,6 +59,7 @@ import morningMurderPhoneBoothMan from './images/morgon-mord-telefonkiosk-man.we
 import morningNoMurder from './images/morgon-ingen.webp';
 import verdictWoman from './images/dom-kvinna.webp';
 import verdictMan from './images/dom-man.webp';
+import verdictNobody from './images/dom-ingen.webp';
 import mafiaWins from './images/slut-maffia.webp';
 import townWins from './images/slut-staden.webp';
 import madmanWinsWoman from './images/slut-galningen-kvinna.webp';
@@ -125,6 +126,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En mjölkbud ställer flaskor på en trappa, och en man i hatt läser tidningen mot en vägg.', position: '65% 50%' },
   verdictWoman: { src: verdictWoman, alt: 'Två män i hatt pekar på en rädd kvinna som står med hatten i handen vid en tegelvägg.', position: '50% 40%' },
   verdictMan: { src: verdictMan, alt: 'Två män i hatt pekar på en rädd man som står med hatten i händerna vid en tegelvägg.', position: '50% 40%' },
+  verdictNobody: { src: verdictNobody, alt: 'Stadsborna står utspridda på ett regnvått torg och ser misstänksamt på varandra. En man slår ut med händerna, en kvinna står med armarna i kors, och mitt på torget är det tomt.', position: '45% 50%' },
   mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden. Den ena tänder en cigarett.', position: '30% 40%' },
   townWins: { src: townWins, alt: 'Stadsborna skakar hand på en regnvåt gata, medan två poliser för bort en man i kostym mot en polisbil.', position: '50% 50%' },
   madmanWinsWoman: { src: madmanWinsWoman, alt: 'Två skötare i vita rockar för bort en skrattande kvinna i tvångströja mot en ambulans. Några stadsbor ser på.', position: '75% 50%' },
