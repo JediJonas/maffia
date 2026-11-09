@@ -32,7 +32,8 @@ import nightMafia2 from './images/natt-maffia-2.webp';
 import nightMafia3 from './images/natt-maffia-3.webp';
 import nightDetectiveWoman from './images/natt-detektiv-kvinna.webp';
 import nightDetectiveMan from './images/natt-detektiv-man.webp';
-import nightDoctor from './images/natt-lakare.webp';
+import nightDoctorWoman from './images/natt-lakare-kvinna.webp';
+import nightDoctorMan from './images/natt-lakare-man.webp';
 import nightCitizenWoman from './images/natt-stadsbo-kvinna.webp';
 import nightCitizenMan from './images/natt-stadsbo-man.webp';
 import nightTaxiDriverWoman from './images/natt-taxichauffor-kvinna.webp';
@@ -91,7 +92,8 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightMafia3: { src: nightMafia3, alt: 'En regnig gata med höga hus en natt. Två män i hatt står i en upplyst port, och en bil står parkerad under en gatlykta.', position: '55% 50%' },
   nightDetectiveWoman: { src: nightDetectiveWoman, alt: 'En kvinna sitter vid ett skrivbord under en lampa en regnig natt och läser i en akt med ett fotografi i handen.', position: '70% 50%' },
   nightDetectiveMan: { src: nightDetectiveMan, alt: 'En man i skjorta och slips sitter vid ett skrivbord under en lampa en regnig natt och läser i en akt med ett fotografi i handen.', position: '70% 50%' },
-  nightDoctor: { src: nightDoctor, alt: 'En gestalt i rock med en väska går ensam i regnet längs en tegelmur under en gatlykta.', position: '50% 16%' },
+  nightDoctorWoman: { src: nightDoctorWoman, alt: 'En kvinna i kappa med en läkarväska går ensam längs en regnig gata en natt och ser sig över axeln under en gatlykta.', position: '65% 50%' },
+  nightDoctorMan: { src: nightDoctorMan, alt: 'En man i hatt och rock med en läkarväska går ensam längs en regnig gata en natt under en gatlykta.', position: '65% 50%' },
   nightCitizenWoman: { src: nightCitizenWoman, alt: 'En kvinna sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },
   nightCitizenMan: { src: nightCitizenMan, alt: 'En man sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },
   nightTaxiDriverWoman: { src: nightTaxiDriverWoman, alt: 'En taxichaufför i skärmmössa sitter vid ratten och ser en gestalt i hatt gå ensam på en regnig gata.', position: '50% 50%' },

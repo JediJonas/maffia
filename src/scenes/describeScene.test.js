@@ -24,7 +24,7 @@ describe('describeScene', () => {
   it('visar varje roll sin egen nattbild', () => {
     expect(describeScene(buildPlayerView(night, 'p2'), false)).toMatchObject({ bottomCaption: '… men inte maffian.' });
     expect(describeScene(buildPlayerView(night, 'p4'), false)).toMatchObject({ image: 'nightDetectiveWoman', bottomCaption: '… men inte du.' });
-    expect(describeScene(buildPlayerView(night, 'p5'), false)).toMatchObject({ image: 'nightDoctor' });
+    expect(describeScene(buildPlayerView(night, 'p5'), false)).toMatchObject({ image: 'nightDoctorWoman' });
     expect(describeScene(buildPlayerView(night, 'p1'), false)).toMatchObject({ image: 'nightCitizenWoman', bottomCaption: '… och så även du.' });
   });
 
