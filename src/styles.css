@@ -590,6 +590,27 @@ main :is(section, .screen-content) > p,
   color: var(--paper);
 }
 
+/*
+ * På natten har listan ingen ram, så den valda svarta raden flyter ihop med
+ * bakgrunden. Den får en 2 px vit kant runt om (Jonas 2026-11-09). Mellan
+ * raderna ligger kanten över den tunna svarta linjen, så att det inte blir
+ * en vit linje innanför en svart. Som placerad ritas raden ovanpå linjen under, men under lappen.
+ */
+:root[data-phase='night'] .picker-option[aria-pressed='true'] {
+  --ring-top: inset 0 1px var(--paper), 0 -1px var(--paper);
+  --ring-bottom: inset 0 -1px var(--paper), 0 1px var(--paper);
+  position: relative;
+  box-shadow: inset 2px 0 var(--paper), inset -2px 0 var(--paper), var(--ring-top), var(--ring-bottom);
+}
+
+:root[data-phase='night'] .picker li:first-child > .picker-option[aria-pressed='true'] {
+  --ring-top: inset 0 2px var(--paper);
+}
+
+:root[data-phase='night'] .picker li:last-child > .picker-option[aria-pressed='true'] {
+  --ring-bottom: inset 0 -2px var(--paper);
+}
+
 .picker-option[aria-pressed='true'] .avatar {
   border-color: var(--paper);
 }
