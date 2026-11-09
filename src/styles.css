@@ -135,11 +135,11 @@ body::after {
  *
  * Rastrets första rad ligger 66/920 av höjden ner, vilket är direkt under
  * toppraden på en telefon. På en hög skärm hamnade den långt under toppraden,
- * så där flyttas rastret upp till 66 px (4,125rem) från toppen (Jonas 2026-11-09).
+ * så där flyttas rastret upp så att det börjar där toppraden slutar (3,5rem), som på en telefon (Jonas 2026-11-09).
  */
 @media (min-aspect-ratio: 725/1327) and (min-height: 32rem) {
   :root {
-    --raster-shift: min(0px, 4.125rem - 100lvh * 66 / 920);
+    --raster-shift: min(0px, 3.5rem - 100lvh * 66 / 920);
   }
 
   body::before,
