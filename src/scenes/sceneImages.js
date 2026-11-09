@@ -42,6 +42,10 @@ import nightSausageVendorWoman from './images/natt-korvgubbe-kvinna.webp';
 import nightSausageVendorMan from './images/natt-korvgubbe-man.webp';
 import morningMurderWoman from './images/morgon-mord-kvinna.webp';
 import morningMurderMan from './images/morgon-mord-man.webp';
+import morningMurderHotelWoman from './images/morgon-mord-hotell-kvinna.webp';
+import morningMurderHotelMan from './images/morgon-mord-hotell-man.webp';
+import morningMurderCloseUpWoman from './images/morgon-mord-narbild-kvinna.webp';
+import morningMurderCloseUpMan from './images/morgon-mord-narbild-man.webp';
 import morningNoMurder from './images/morgon-ingen.webp';
 import verdict from './images/dom.webp';
 import mafiaWins from './images/slut-maffia.webp';
@@ -93,6 +97,10 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightSausageVendorMan: { src: nightSausageVendorMan, alt: 'En korvvagn under en gatlykta i regnet. Korvgubben räcker en korv till en man i hatt.', position: '50% 50%' },
   morningMurderWoman: { src: morningMurderWoman, alt: 'En kvinna ligger död på en regnvåt gata under en gatlykta. Hennes handväska ligger bredvid, och en man i hatt och rock går därifrån med en pistol i handen.', position: '60% 50%' },
   morningMurderMan: { src: morningMurderMan, alt: 'En man ligger död på en regnvåt gata under en gatlykta. Hans hatt ligger bredvid, och en man i hatt och rock går därifrån med en pistol i handen.', position: '60% 50%' },
+  morningMurderHotelWoman: { src: morningMurderHotelWoman, alt: 'En kvinna ligger död på golvet i ett hotellrum bredvid ett vältat glas. En man i hatt med en pistol i handen går ut genom den öppna dörren.', position: '50% 50%' },
+  morningMurderHotelMan: { src: morningMurderHotelMan, alt: 'En man ligger död på golvet i ett hotellrum bredvid ett vältat glas. En man i hatt med en pistol i handen går ut genom den öppna dörren.', position: '50% 50%' },
+  morningMurderCloseUpWoman: { src: morningMurderCloseUpWoman, alt: 'En kvinna i dräkt ligger död på ett trägolv under en lampa. Hennes pärlhalsband har gått sönder, och glasögonen ligger bredvid.', position: '30% 50%' },
+  morningMurderCloseUpMan: { src: morningMurderCloseUpMan, alt: 'En man i kostym och slips ligger död på ett trägolv under en lampa. Glasögonen ligger bredvid honom.', position: '30% 50%' },
   morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En mjölkbud ställer flaskor på en trappa, och en man i hatt läser tidningen mot en vägg.', position: '65% 50%' },
   verdict: { src: verdict, alt: 'Tre personer i hatt pekar på en rädd man som står med hatten i händerna vid en tegelvägg.', position: '50% 40%' },
   mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden. Den ena tänder en cigarett.', position: '30% 40%' },

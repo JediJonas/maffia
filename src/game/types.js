@@ -48,7 +48,7 @@
  * @typedef {object} NightOutcome
  * @property {string | null} killedId Null när ingen dog, till exempel för att läkaren räddade offret.
  * @property {string | null} [silencedId] Den som fick korvgubbens korv och inte får prata i dag. Saknas i spel som sparades innan korvgubben fanns.
- * @property {number} [imageRoll] Ett slumptal från 0 till 1 som värden drar när någon mördas, och som avgör mordbilden när den mördade inte skickat någon rollbild, till exempel en bot. Saknas i spel som sparades innan mordbilden slumpades.
+ * @property {number} [imageRoll] Ett slumptal från 0 till 1 som värden drar när någon mördas, så att alla telefoner visar samma mordbild. Saknas i spel som sparades innan mordbilden slumpades.
  */
 
 /**

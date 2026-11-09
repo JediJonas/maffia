@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { MURDER_IMAGES, chooseRoleImage, describeScene, listUpcomingImages } from './describeScene.js';
+import { MURDER_IMAGES, chooseMurderImage, chooseRoleImage, describeScene, listUpcomingImages } from './describeScene.js';
 import { buildPlayerView } from '../game/playerView.js';
 import { applyAction } from '../game/rules.js';
 import { createTestGame, playDay, playNight } from '../game/testGame.js';
@@ -46,18 +46,21 @@ describe('describeScene', () => {
     expect(describeScene(buildPlayerView(morning, 'p3'), false)).toMatchObject({ bottomCaption: 'Spelare 3 blev mördad.' });
   });
 
-  it('visar mordbilden efter den mördades val av rollbild, på alla telefoner', () => {
+  it('visar mordbilden efter den mördades val av rollbild, samma på alla telefoner', () => {
     const chosen = applyAction(night, 'p3', { type: 'setRoleImage', variant: 'woman' });
     const morning = playNight(chosen, { p2: 'p3', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
-    expect(describeScene(buildPlayerView(morning, 'p1'), false, false, 'man')?.image).toBe(MURDER_IMAGES.woman);
-    expect(describeScene(buildPlayerView(morning, 'p4'), true, false, 'man')?.image).toBe(MURDER_IMAGES.woman);
+    const lastRoll = { ...morning, lastNight: { killedId: 'p3', imageRoll: 0.99 } };
+    expect(describeScene(buildPlayerView(lastRoll, 'p1'), false, false, 'man')?.image).toBe(MURDER_IMAGES.woman.at(-1));
+    expect(describeScene(buildPlayerView(lastRoll, 'p4'), true, false, 'man')?.image).toBe(MURDER_IMAGES.woman.at(-1));
   });
 
-  it('låter värdens slumptal välja mordbild när den mördade inte skickat någon rollbild', () => {
-    const morning = playNight(night, { p2: 'p3', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
-    expect(describeScene(buildPlayerView({ ...morning, lastNight: { killedId: 'p3', imageRoll: 0.1 } }, 'p1'), false)?.image).toBe(MURDER_IMAGES.woman);
-    expect(describeScene(buildPlayerView({ ...morning, lastNight: { killedId: 'p3', imageRoll: 0.9 } }, 'p1'), false)?.image).toBe(MURDER_IMAGES.man);
-    expect(describeScene(buildPlayerView({ ...morning, lastNight: { killedId: 'p3' } }, 'p1'), false)?.image).toBe(MURDER_IMAGES.man);
+  it('väljer mordbild jämnt fördelat efter värdens slumptal', () => {
+    const images = MURDER_IMAGES.man;
+    expect(images.map((_, i) => chooseMurderImage((i + 0.5) / images.length, 'man'))).toEqual(images);
+  });
+
+  it('visar mannen i den första mordbilden i spel som sparades innan', () => {
+    expect(chooseMurderImage(undefined, undefined)).toBe(MURDER_IMAGES.man[0]);
   });
 
   it('visar en lugn morgon när läkaren räddade offret', () => {
@@ -100,7 +103,7 @@ describe('listUpcomingImages', () => {
   });
 
   it('hämtar alla morgonbilder under natten, så att ingen kan se på laddningen om någon dog', () => {
-    expect(listUpcomingImages(buildPlayerView(night, 'p1'))).toEqual([MURDER_IMAGES.woman, MURDER_IMAGES.man, 'morningNoMurder']);
+    expect(listUpcomingImages(buildPlayerView(night, 'p1'))).toEqual([...MURDER_IMAGES.woman, ...MURDER_IMAGES.man, 'morningNoMurder']);
   });
 
   it('hämtar stadsbons nattbild åt den som just blev förvisad', () => {

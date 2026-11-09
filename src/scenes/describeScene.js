@@ -61,11 +61,25 @@ export function chooseRoleImage(role, variant) {
 }
 
 /**
- * Mordbilden visar en kvinna eller en man efter den mördades eget val av
- * rollbild, så att alla telefoner visar samma (se killedImageVariant i PlayerView).
- * @type {Record<RoleImageVariant, SceneImageKey>}
+ * Mordbilderna som värden slumpar mellan, med en kvinna eller en man efter
+ * den mördades eget val av rollbild. Alla telefoner visar samma, eftersom
+ * slumptalet följer med nattens utfall och valet med vyn (se killedImageVariant).
+ * @type {Record<RoleImageVariant, SceneImageKey[]>}
  */
-export const MURDER_IMAGES = { woman: 'morningMurderWoman', man: 'morningMurderMan' };
+export const MURDER_IMAGES = {
+  woman: ['morningMurderWoman', 'morningMurderHotelWoman', 'morningMurderCloseUpWoman'],
+  man: ['morningMurderMan', 'morningMurderHotelMan', 'morningMurderCloseUpMan'],
+};
+
+/**
+ * @param {number | undefined} imageRoll Saknas i spel som sparades innan mordbilden slumpades.
+ * @param {RoleImageVariant} variant
+ * @returns {SceneImageKey}
+ */
+export function chooseMurderImage(imageRoll = 0, variant = 'man') {
+  const images = MURDER_IMAGES[variant];
+  return images[Math.min(Math.floor(imageRoll * images.length), images.length - 1)];
+}
 
 /**
  * Galningen förs bort som en kvinna eller en man, efter galningens eget val
@@ -96,7 +110,7 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
     case 'day': {
       const killedId = view.lastNight?.killedId ?? null;
       if (!killedId) return scene('morningNoMurder', 'Staden vaknar …', 'Ingen blev mördad.');
-      return scene(MURDER_IMAGES[view.killedImageVariant ?? 'man'], 'Staden vaknar …', `${describeWho(view, killedId)} blev mördad.`);
+      return scene(chooseMurderImage(view.lastNight?.imageRoll, view.killedImageVariant ?? 'man'), 'Staden vaknar …', `${describeWho(view, killedId)} blev mördad.`);
     }
     case 'verdict': {
       const executedId = view.lastDay?.executedId ?? null;
@@ -142,7 +156,7 @@ export function listUpcomingImages(view, roleImageVariant = 'woman') {
       return view.me.role ? [chooseRoleImage(view.me.role, roleImageVariant), chooseNightImage(view.me, roleImageVariant)] : [];
     case 'night':
       // Vilken mordbild det blir avgörs först när natten tar slut, så alla hämtas.
-      return [MURDER_IMAGES.woman, MURDER_IMAGES.man, 'morningNoMurder'];
+      return [...MURDER_IMAGES.woman, ...MURDER_IMAGES.man, 'morningNoMurder'];
     case 'day':
       return ['verdict'];
     case 'verdict':

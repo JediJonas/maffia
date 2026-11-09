@@ -4,7 +4,7 @@
 import { hasMafiaAgreed, listDoubleVoterIds, listNightTargets } from './rules.js';
 import { isMafia as isMafiaRole } from './roles.js';
 import { findHiddenDeathId } from './deathReveal.js';
-import { resolveRoleImageVariant, rollRoleImageVariant } from '../scenes/roleImageChoice.js';
+import { resolveRoleImageVariant } from '../scenes/roleImageChoice.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
 /** @typedef {import('./types.js').Role} Role */
@@ -104,8 +104,7 @@ export function buildPlayerView(state, playerId) {
 
 /**
  * En bot eller en telefon som inte hann skicka sin rollbild får en som
- * värdens slumptal för mordbilden avgör, så att alla ändå ser samma. Spel som
- * sparades innan mordbilden slumpades visar mannen, den första mordbilden.
+ * bestäms av spelarens id, så att alla ändå ser samma.
  * @param {GameState} state
  * @returns {import('../scenes/roleImageChoice.js').RoleImageVariant | null}
  */
@@ -113,9 +112,7 @@ function findKilledImageVariant(state) {
   const killedId = state.lastNight?.killedId;
   if (!killedId) return null;
   const killed = state.players.find((p) => p.id === killedId);
-  if (killed?.roleImageVariant) return killed.roleImageVariant;
-  const imageRoll = state.lastNight?.imageRoll;
-  return imageRoll === undefined ? 'man' : rollRoleImageVariant(() => imageRoll);
+  return killed?.roleImageVariant ?? resolveRoleImageVariant({ choice: 'random', savedRoll: null, gameKey: killedId });
 }
 
 /**
