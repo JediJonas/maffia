@@ -590,6 +590,15 @@ main :is(section, .screen-content) > p,
   color: var(--paper);
 }
 
+/*
+ * På natten har listan ingen ram, så den valda svarta raden flyter ihop med
+ * bakgrunden. Den får en vit kant, lika tjock och på samma ställe som listans
+ * svarta ram på dagen (Jonas 2026-11-09).
+ */
+:root[data-phase='night'] .picker-option[aria-pressed='true'] {
+  box-shadow: inset 0 0 0 2px var(--paper);
+}
+
 .picker-option[aria-pressed='true'] .avatar {
   border-color: var(--paper);
 }
