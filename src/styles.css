@@ -804,10 +804,7 @@ main section .list-card-lead-above .list-lead {
   text-transform: uppercase;
 }
 
-/* På maskin som svaret, så att akten bara har namnets typsnitt, skrivmaskinen och stämplarna (Jonas 2026-11-09). */
 .file-when {
-  font-family: var(--font-typed);
-  font-weight: 700;
   font-size: 0.8125rem;
   color: var(--muted);
 }
