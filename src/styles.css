@@ -132,8 +132,16 @@ body::after {
  * fyller skärmens höjd, men aldrig smalare än innehållet. Utanför är det
  * vitt papper (Jonas 2026-11-09). Liggande telefon har bredare innehåll och
  * behåller rastret i full bredd.
+ *
+ * Rastrets första rad ligger 66/920 av höjden ner, vilket är direkt under
+ * toppraden på en telefon. På en hög skärm hamnade den långt under toppraden,
+ * så där flyttas rastret upp till 66 px (4,125rem) från toppen (Jonas 2026-11-09).
  */
 @media (min-aspect-ratio: 725/1327) and (min-height: 32rem) {
+  :root {
+    --raster-shift: min(0px, 4.125rem - 100lvh * 66 / 920);
+  }
+
   body::before,
   body::after {
     width: min(100%, max(32rem, 100lvh * 725 / 1327));
@@ -145,12 +153,12 @@ body::before {
   top: 0;
   bottom: 0;
   /* Papperet under rastret, så att html-elementets färg inte syns igenom. */
-  background: var(--raster) repeat-x 0 0 / auto 100lvh, var(--raster-paper);
+  background: var(--raster) repeat-x 0 var(--raster-shift, 0px) / auto 100lvh, var(--raster-paper);
 }
 
 /* Rutan är 6 × 12 px i rastrets skala, där hela rastret är 920 px högt. */
 body::after {
-  top: 100lvh;
+  top: calc(100lvh + var(--raster-shift, 0px));
   bottom: 0;
   background: var(--raster-tail) 0 0 / calc(100lvh * 6 / 920) calc(100lvh * 12 / 920);
 }
