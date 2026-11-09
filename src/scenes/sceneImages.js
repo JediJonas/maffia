@@ -78,7 +78,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   roleDetectiveMan: { src: roleDetectiveMan, alt: 'En manlig detektiv i mörk trenchcoat och hatt antecknar i ett block i en regnig gränd.', position: '75% 30%' },
   roleDoctorWoman: { src: roleDoctorWoman, alt: 'En läkare i mörk kappa med stetoskop och läkarväska står i en upplyst dörröppning.', position: '100% 30%' },
   roleDoctorMan: { src: roleDoctorMan, alt: 'En läkare med glasögon och mustasch, i mörk kappa med stetoskop och läkarväska, står i en upplyst dörröppning.', position: '100% 30%' },
-  roleCitizenWoman: { src: roleCitizenWoman, alt: 'En kvinna i huvudduk och kofta tittar misstänksamt ut genom sin ytterdörr.', position: '100% 30%' },
+  roleCitizenWoman: { src: roleCitizenWoman, alt: 'En kvinna i blommig klänning står i sin öppna ytterdörr och ser ut i mörkret med handen mot dörrkarmen.', position: '75% 30%' },
   roleCitizenMan: { src: roleCitizenMan, alt: 'En man i keps och kofta tittar misstänksamt ut genom sin ytterdörr.', position: '100% 30%' },
   roleTaxiDriverWoman: { src: roleTaxiDriverWoman, alt: 'En taxichaufför i skärmmössa och skinnrock sitter vid ratten en regnig natt utanför ett hotell.', position: '100% 30%' },
   roleTaxiDriverMan: { src: roleTaxiDriverMan, alt: 'En taxichaufför i keps med en cigarett i munnen lutar sig ut genom bilrutan en regnig natt utanför ett hotell.', position: '85% 30%' },
