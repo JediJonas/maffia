@@ -127,6 +127,20 @@ body::after {
   pointer-events: none;
 }
 
+/*
+ * På en bred skärm är rastret lika brett som startbilden (725 × 1327) när den
+ * fyller skärmens höjd, men aldrig smalare än innehållet. Utanför är det
+ * vitt papper (Jonas 2026-11-09). Liggande telefon har bredare innehåll och
+ * behåller rastret i full bredd.
+ */
+@media (min-aspect-ratio: 725/1327) and (min-height: 32rem) {
+  body::before,
+  body::after {
+    width: min(100%, max(32rem, 100lvh * 725 / 1327));
+    margin: 0 auto;
+  }
+}
+
 body::before {
   top: 0;
   bottom: 0;
