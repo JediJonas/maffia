@@ -29,8 +29,6 @@
   --bubble-overhang: 2.5rem;
   /* Bubblans ritade kant börjar en bit under rutan den ritas i. */
   --bubble-inset: 0.375rem;
-  /* Personraden ligger närmare det som står ovanför än andra delar (Jonas 2026-11-08). */
-  --person-gap: 0.625rem;
   /* Hur länge personraden och därefter pratbubblan dröjer (ägaren 2026-11-06). */
   --person-delay: 1s;
   --speech-delay: 0.6s;
@@ -957,17 +955,19 @@ main section .list-card-lead-above .list-lead {
 .person-row {
   position: relative;
   height: 7rem;
-  margin: var(--person-gap) 0 var(--block-gap);
+  margin: var(--block-gap) 0;
   padding-left: 0.875rem;
 }
 
+/* Lika mycket luft ovanför figuren eller bubblan som under figuren (Jonas 2026-11-09). */
 .person-row-speaking {
-  margin-top: calc(var(--bubble-overhang) - var(--bubble-inset) + var(--person-gap));
+  margin-top: calc(var(--bubble-overhang) - var(--bubble-inset) + var(--block-gap));
 }
 
 /* Marginaler slås ihop, så både lappen och bubblan måste räknas in här. */
-.list-card-tagged + .person-row-speaking {
-  margin-top: calc(var(--tag-overhang) + var(--bubble-overhang) - var(--bubble-inset) + var(--person-gap));
+.list-card-tagged + /* Lika mycket luft ovanför figuren eller bubblan som under figuren (Jonas 2026-11-09). */
+.person-row-speaking {
+  margin-top: calc(var(--tag-overhang) + var(--bubble-overhang) - var(--bubble-inset) + var(--block-gap));
 }
 
 .person-figure {
