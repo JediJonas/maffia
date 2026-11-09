@@ -30,17 +30,28 @@ import roleMadmanMan from './images/roll-galningen-man.webp';
 import nightMafia from './images/natt-maffia.webp';
 import nightDetective from './images/natt-detektiv.webp';
 import nightDoctor from './images/natt-lakare.webp';
-import nightCitizen from './images/natt-stadsbo.webp';
-import nightTaxiDriver from './images/natt-taxichauffor.webp';
-import nightWindowWatcher from './images/natt-fonstertittare.webp';
-import nightBartender from './images/natt-bartender.webp';
-import nightSausageVendor from './images/natt-korvgubbe.webp';
-import morningMurder from './images/morgon-mord.webp';
+import nightCitizenWoman from './images/natt-stadsbo-kvinna.webp';
+import nightCitizenMan from './images/natt-stadsbo-man.webp';
+import nightTaxiDriverWoman from './images/natt-taxichauffor-kvinna.webp';
+import nightTaxiDriverMan from './images/natt-taxichauffor-man.webp';
+import nightWindowWatcherWoman from './images/natt-fonstertittare-kvinna.webp';
+import nightWindowWatcherMan from './images/natt-fonstertittare-man.webp';
+import nightBartenderWoman from './images/natt-bartender-kvinna.webp';
+import nightBartenderMan from './images/natt-bartender-man.webp';
+import nightSausageVendorWoman from './images/natt-korvgubbe-kvinna.webp';
+import nightSausageVendorMan from './images/natt-korvgubbe-man.webp';
+import morningMurderWoman from './images/morgon-mord-kvinna.webp';
+import morningMurderMan from './images/morgon-mord-man.webp';
+import morningMurderHotelWoman from './images/morgon-mord-hotell-kvinna.webp';
+import morningMurderHotelMan from './images/morgon-mord-hotell-man.webp';
+import morningMurderCloseUpWoman from './images/morgon-mord-narbild-kvinna.webp';
+import morningMurderCloseUpMan from './images/morgon-mord-narbild-man.webp';
 import morningNoMurder from './images/morgon-ingen.webp';
 import verdict from './images/dom.webp';
 import mafiaWins from './images/slut-maffia.webp';
 import townWins from './images/slut-staden.webp';
-import madmanWins from './images/slut-galningen.webp';
+import madmanWinsWoman from './images/slut-galningen-kvinna.webp';
+import madmanWinsMan from './images/slut-galningen-man.webp';
 
 /** @typedef {{ src: string, alt: string, position: string }} SceneImage */
 
@@ -74,17 +85,28 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightMafia: { src: nightMafia, alt: 'En regnig gata en natt. Två män i hatt står tätt ihop under en gatlykta.', position: '50% 68%' },
   nightDetective: { src: nightDetective, alt: 'En man i skjorta och slips läser ett papper vid ett skrivbord under en lampa. Bakom honom syns stadens fönster i regnet.', position: '50% 35%' },
   nightDoctor: { src: nightDoctor, alt: 'En gestalt i rock med en väska går ensam i regnet längs en tegelmur under en gatlykta.', position: '50% 16%' },
-  nightCitizen: { src: nightCitizen, alt: 'En man sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '50% 55%' },
-  nightTaxiDriver: { src: nightTaxiDriver, alt: 'Från baksätet i en taxi syns en gestalt i hatt som går ensam på en regnig gata. Chaufförens ögon syns i backspegeln.', position: '50% 55%' },
-  nightWindowWatcher: { src: nightWindowWatcher, alt: 'En kvinna bakom en gardin ser genom fönstret hur en man i hatt går fram till en upplyst dörr i regnet.', position: '50% 45%' },
-  nightBartender: { src: nightBartender, alt: 'En bartender häller upp en drink åt en ensam gäst i hatt som sitter hopsjunken vid bardisken.', position: '50% 50%' },
-  nightSausageVendor: { src: nightSausageVendor, alt: 'En korvvagn under en gatlykta i regnet. Korvgubben räcker en korv till en man i hatt.', position: '50% 55%' },
-  morningMurder: { src: morningMurder, alt: 'En man ligger död på en regnvåt gata under en gatlykta. Hans hatt ligger bredvid, och en man i hatt och rock går därifrån med en pistol i handen.', position: '60% 50%' },
+  nightCitizenWoman: { src: nightCitizenWoman, alt: 'En kvinna sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },
+  nightCitizenMan: { src: nightCitizenMan, alt: 'En man sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },
+  nightTaxiDriverWoman: { src: nightTaxiDriverWoman, alt: 'En taxichaufför i skärmmössa sitter vid ratten och ser en gestalt i hatt gå ensam på en regnig gata.', position: '50% 50%' },
+  nightTaxiDriverMan: { src: nightTaxiDriverMan, alt: 'En taxichaufför i keps sitter vid ratten och ser en gestalt i hatt gå ensam på en regnig gata. Hans ögon syns i backspegeln.', position: '50% 50%' },
+  nightWindowWatcherWoman: { src: nightWindowWatcherWoman, alt: 'En kvinna med papiljotter bakom en gardin ser genom fönstret hur en man i hatt går fram till en upplyst dörr i regnet.', position: '60% 50%' },
+  nightWindowWatcherMan: { src: nightWindowWatcherMan, alt: 'En äldre man med glasögon och en kikare i handen ser bakom en gardin hur en man i hatt går fram till en upplyst dörr i regnet.', position: '60% 50%' },
+  nightBartenderWoman: { src: nightBartenderWoman, alt: 'En bartender häller upp en drink åt en ensam gäst i hatt som sitter hopsjunken vid bardisken.', position: '25% 50%' },
+  nightBartenderMan: { src: nightBartenderMan, alt: 'En bartender häller upp en drink åt en ensam gäst i hatt som sitter hopsjunken vid bardisken.', position: '25% 50%' },
+  nightSausageVendorWoman: { src: nightSausageVendorWoman, alt: 'En korvvagn under en gatlykta i regnet. En korvgumma räcker en korv till en man i hatt.', position: '50% 50%' },
+  nightSausageVendorMan: { src: nightSausageVendorMan, alt: 'En korvvagn under en gatlykta i regnet. Korvgubben räcker en korv till en man i hatt.', position: '50% 50%' },
+  morningMurderWoman: { src: morningMurderWoman, alt: 'En kvinna ligger död på en regnvåt gata under en gatlykta. Hennes handväska ligger bredvid, och en man i hatt och rock går därifrån med en pistol i handen.', position: '60% 50%' },
+  morningMurderMan: { src: morningMurderMan, alt: 'En man ligger död på en regnvåt gata under en gatlykta. Hans hatt ligger bredvid, och en man i hatt och rock går därifrån med en pistol i handen.', position: '60% 50%' },
+  morningMurderHotelWoman: { src: morningMurderHotelWoman, alt: 'En kvinna ligger död på golvet i ett hotellrum bredvid ett vältat glas. En man i hatt med en pistol i handen går ut genom den öppna dörren.', position: '50% 50%' },
+  morningMurderHotelMan: { src: morningMurderHotelMan, alt: 'En man ligger död på golvet i ett hotellrum bredvid ett vältat glas. En man i hatt med en pistol i handen går ut genom den öppna dörren.', position: '50% 50%' },
+  morningMurderCloseUpWoman: { src: morningMurderCloseUpWoman, alt: 'En kvinna i dräkt ligger död på ett trägolv under en lampa. Hennes pärlhalsband har gått sönder, och glasögonen ligger bredvid.', position: '30% 50%' },
+  morningMurderCloseUpMan: { src: morningMurderCloseUpMan, alt: 'En man i kostym och slips ligger död på ett trägolv under en lampa. Glasögonen ligger bredvid honom.', position: '30% 50%' },
   morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En mjölkbud ställer flaskor på en trappa, och en man i hatt läser tidningen mot en vägg.', position: '65% 50%' },
   verdict: { src: verdict, alt: 'Tre personer i hatt pekar på en rädd man som står med hatten i händerna vid en tegelvägg.', position: '50% 40%' },
   mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden. Den ena tänder en cigarett.', position: '30% 40%' },
   townWins: { src: townWins, alt: 'Stadsborna skakar hand på en regnvåt gata, medan två poliser för bort en man i kostym mot en polisbil.', position: '50% 50%' },
-  madmanWins: { src: madmanWins, alt: 'Två skötare i vita rockar för bort en skrattande man i tvångströja mot en ambulans. Några stadsbor ser på.', position: '75% 50%' },
+  madmanWinsWoman: { src: madmanWinsWoman, alt: 'Två skötare i vita rockar för bort en skrattande kvinna i tvångströja mot en ambulans. Några stadsbor ser på.', position: '75% 50%' },
+  madmanWinsMan: { src: madmanWinsMan, alt: 'Två skötare i vita rockar för bort en skrattande man i tvångströja mot en ambulans. Några stadsbor ser på.', position: '75% 50%' },
 });
 
 /** @typedef {keyof typeof SCENE_IMAGES} SceneImageKey */

@@ -85,3 +85,14 @@ linje räckte inte.
    verktygsfältets överkant (cirka 16–18 px, alltså cirka 40 bildpunkter i en
    skärmbild från en iPhone med 3x skärm). Prova startsidan, Nytt spel och
    lobbyn, med verktygsfältet synligt och efter att ha rullat.
+
+## Avstånd mellan delar
+
+Grundregeln är 16 px luft mellan två delar (`--block-gap`), mätt från det som
+syns längst ut: lappen under en lista (`--tag-overhang`) och pratbubblans
+ritade kant (`--bubble-overhang` minus `--bubble-inset`). En personrad har
+16 px ovanför och under, även direkt under bildrutan. Undantag: 18 px från
+rubrikraden till bildrutan, 10 px mellan två knappar och 24 px ovanför
+knappgruppen när den står direkt under innehållet. Lägg inte till egen luft
+för en enskild del. Hela tabellen står i designreglerna (designregler.md i
+projektfilerna), och avvikelser beslutas av Jonas.

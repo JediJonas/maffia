@@ -88,7 +88,7 @@ export function startGame(state, random) {
     ...createGame(),
     settings: state.settings,
     phase: 'roleReveal',
-    players: state.players.map((p, i) => ({ ...p, role: roles[i], isAlive: true })),
+    players: state.players.map((p, i) => ({ ...withoutRoleImage(p), role: roles[i], isAlive: true })),
   };
 }
 
@@ -100,7 +100,7 @@ export function returnToLobby(state) {
   return {
     ...createGame(),
     settings: state.settings,
-    players: state.players.map((p) => ({ ...p, role: null, isAlive: true })),
+    players: state.players.map((p) => ({ ...withoutRoleImage(p), role: null, isAlive: true })),
   };
 }
 
@@ -133,9 +133,37 @@ export function applyAction(state, playerId, action, random = Math.random) {
       return castVote(state, player, action.targetId);
     case 'setAvatar':
       return changeAvatar(state, player, action.avatar);
+    case 'setRoleImage':
+      return changeRoleImage(state, player, action.variant);
     default:
       throw new RuleError('Okänd handling.');
   }
+}
+
+/**
+ * Varje telefon skickar sitt val av rollbild när spelet har börjat. Den
+ * visas för alla bara när spelaren mördas, eller när galningen vinner.
+ * @param {GameState} state
+ * @param {Player} player
+ * @param {unknown} variantInput
+ * @returns {GameState}
+ */
+function changeRoleImage(state, player, variantInput) {
+  if (state.phase === 'lobby') throw new RuleError('Rollbilden skickas först när spelet har börjat.');
+  if (variantInput !== 'woman' && variantInput !== 'man') throw new RuleError('Rollbilden gick inte att läsa.');
+  if (player.roleImageVariant === variantInput) return state;
+  return updatePlayers(state, (p) => (p.id === player.id ? { ...p, roleImageVariant: variantInput } : p));
+}
+
+/**
+ * Rollbilden gäller ett spel, så den glöms när ett nytt börjar.
+ * @param {Player} player
+ * @returns {Player}
+ */
+function withoutRoleImage(player) {
+  const rest = { ...player };
+  delete rest.roleImageVariant;
+  return rest;
 }
 
 /**
