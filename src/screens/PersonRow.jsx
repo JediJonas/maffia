@@ -14,7 +14,7 @@ const PERSON_AVATAR_PX = 112;
  * @param {import('react').ReactNode} [props.speech] Vad personen säger i bubblan.
  * @param {boolean} [props.reservesSpeech] Plats för en bubbla som visas senare, så att sidan inte hoppar.
  * @param {boolean} [props.isDead] Kryss över figuren, som för maffiakamraten som är borta.
- * @param {boolean} [props.hasWideText] Textrutan är minst lika bred som nedräkningen, så att den inte krymper när texten byts.
+ * @param {boolean} [props.hasWideText] Textrutan har nedräkningens fasta bredd. Bara medan den räknar ned, så att andra texter får den bredd de behöver.
  */
 export function PersonRow({ player, text, speech, reservesSpeech = false, isDead = false, hasWideText = false }) {
   // En bubbla som finns från början väntar in figuren. En som kommer senare,

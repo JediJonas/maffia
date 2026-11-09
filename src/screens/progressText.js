@@ -25,16 +25,17 @@ export function describeNightProgress(chosenCount, livingCount) {
 
 /**
  * @param {number} livingCount
- * @returns {string[]} Alla rutor som röstlistan kan visa medan staden röstar.
+ * @returns {string[]} Alla uppräkningar som röstlistan kan visa medan staden röstar,
+ * från "En av …". "Ingen har röstat" räknar inte och får sin egen bredd (Jonas 2026-11-09).
  */
 export function listVoteProgress(livingCount) {
-  return Array.from({ length: livingCount + 1 }, (_, count) => describeVoteProgress(count, livingCount));
+  return Array.from({ length: livingCount }, (_, index) => describeVoteProgress(index + 1, livingCount));
 }
 
 /**
  * @param {number} livingCount
- * @returns {string[]} Alla rutor som nattens lista kan visa.
+ * @returns {string[]} Alla uppräkningar som nattens lista kan visa, från "En av …".
  */
 export function listNightProgress(livingCount) {
-  return Array.from({ length: livingCount + 1 }, (_, count) => describeNightProgress(count, livingCount));
+  return Array.from({ length: livingCount }, (_, index) => describeNightProgress(index + 1, livingCount));
 }

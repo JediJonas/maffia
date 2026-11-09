@@ -682,8 +682,9 @@ main section .list-card-lead-above .list-lead {
 }
 
 /*
- * Lappen som räknar är lika bred som den längsta text den kan visa i det här
- * spelet, så att den inte ändrar bredd när talet byts. Alla texter ligger i
+ * Lappen som räknar är lika bred som den längsta uppräkning den kan visa i det
+ * här spelet, så att den inte ändrar bredd när talet byts. Andra texter, som
+ * "Ingen har röstat", får den bredd de behöver. Alla texter ligger i
  * samma cell, och bara den som gäller syns. Texten står till höger.
  */
 .list-tag-counting {
@@ -1005,8 +1006,8 @@ main section .person-text {
 }
 
 /*
- * I domslutet behåller rutan nedräkningens bredd när rollen visas, men blir
- * bredare om texten inte får plats, till exempel med ett långt namn.
+ * Rutan bredvid figuren är lika bred som nedräkningen medan den räknar ned.
+ * När rollen visas får texten den bredd den behöver (Jonas 2026-11-09).
  */
 main section .person-text-wide {
   min-width: calc(12.75em + 2.125rem);
