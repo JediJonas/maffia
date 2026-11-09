@@ -30,7 +30,8 @@ import roleMadmanMan from './images/roll-galningen-man.webp';
 import nightMafia1 from './images/natt-maffia-1.webp';
 import nightMafia2 from './images/natt-maffia-2.webp';
 import nightMafia3 from './images/natt-maffia-3.webp';
-import nightDetective from './images/natt-detektiv.webp';
+import nightDetectiveWoman from './images/natt-detektiv-kvinna.webp';
+import nightDetectiveMan from './images/natt-detektiv-man.webp';
 import nightDoctor from './images/natt-lakare.webp';
 import nightCitizenWoman from './images/natt-stadsbo-kvinna.webp';
 import nightCitizenMan from './images/natt-stadsbo-man.webp';
@@ -88,7 +89,8 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightMafia1: { src: nightMafia1, alt: 'En regnig gata med brandtrappor en natt. Två män i hatt står tätt ihop vid en port, och en bil står parkerad under en gatlykta.', position: '75% 50%' },
   nightMafia2: { src: nightMafia2, alt: 'En regnig gata en natt. En svart bil står under en gatlykta, och längre bort står två män i hatt i en upplyst port.', position: '35% 50%' },
   nightMafia3: { src: nightMafia3, alt: 'En regnig gata med höga hus en natt. Två män i hatt står i en upplyst port, och en bil står parkerad under en gatlykta.', position: '55% 50%' },
-  nightDetective: { src: nightDetective, alt: 'En man i skjorta och slips läser ett papper vid ett skrivbord under en lampa. Bakom honom syns stadens fönster i regnet.', position: '50% 35%' },
+  nightDetectiveWoman: { src: nightDetectiveWoman, alt: 'En kvinna sitter vid ett skrivbord under en lampa en regnig natt och läser i en akt med ett fotografi i handen.', position: '70% 50%' },
+  nightDetectiveMan: { src: nightDetectiveMan, alt: 'En man i skjorta och slips sitter vid ett skrivbord under en lampa en regnig natt och läser i en akt med ett fotografi i handen.', position: '70% 50%' },
   nightDoctor: { src: nightDoctor, alt: 'En gestalt i rock med en väska går ensam i regnet längs en tegelmur under en gatlykta.', position: '50% 16%' },
   nightCitizenWoman: { src: nightCitizenWoman, alt: 'En kvinna sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },
   nightCitizenMan: { src: nightCitizenMan, alt: 'En man sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },

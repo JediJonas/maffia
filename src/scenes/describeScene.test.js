@@ -23,7 +23,7 @@ describe('describeScene', () => {
 
   it('visar varje roll sin egen nattbild', () => {
     expect(describeScene(buildPlayerView(night, 'p2'), false)).toMatchObject({ bottomCaption: '… men inte maffian.' });
-    expect(describeScene(buildPlayerView(night, 'p4'), false)).toMatchObject({ image: 'nightDetective', bottomCaption: '… men inte du.' });
+    expect(describeScene(buildPlayerView(night, 'p4'), false)).toMatchObject({ image: 'nightDetectiveWoman', bottomCaption: '… men inte du.' });
     expect(describeScene(buildPlayerView(night, 'p5'), false)).toMatchObject({ image: 'nightDoctor' });
     expect(describeScene(buildPlayerView(night, 'p1'), false)).toMatchObject({ image: 'nightCitizenWoman', bottomCaption: '… och så även du.' });
   });
@@ -98,7 +98,7 @@ describe('listUpcomingImages', () => {
 
   it('hämtar rollens bild och nattbild medan akten är stängd', () => {
     const roleReveal = { ...night, phase: /** @type {const} */ ('roleReveal') };
-    expect(listUpcomingImages(buildPlayerView(roleReveal, 'p4'), 'man')).toEqual(['roleDetectiveMan', 'nightDetective']);
+    expect(listUpcomingImages(buildPlayerView(roleReveal, 'p4'), 'man')).toEqual(['roleDetectiveMan', 'nightDetectiveMan']);
   });
 
   it('hämtar alla morgonbilder under natten, så att ingen kan se på laddningen om någon dog', () => {

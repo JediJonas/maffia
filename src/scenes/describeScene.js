@@ -26,7 +26,7 @@ import { hashText } from './roleImageChoice.js';
 const NIGHT_SCENES = {
   mafia: { images: { woman: 'nightMafia1', man: 'nightMafia1' }, bottomCaption: '… men inte maffian.' },
   godfather: { images: { woman: 'nightMafia1', man: 'nightMafia1' }, bottomCaption: '… men inte maffian.' },
-  detective: { images: { woman: 'nightDetective', man: 'nightDetective' }, bottomCaption: '… men inte du.' },
+  detective: { images: { woman: 'nightDetectiveWoman', man: 'nightDetectiveMan' }, bottomCaption: '… men inte du.' },
   doctor: { images: { woman: 'nightDoctor', man: 'nightDoctor' }, bottomCaption: '… men inte du.' },
   taxiDriver: { images: { woman: 'nightTaxiDriverWoman', man: 'nightTaxiDriverMan' }, bottomCaption: '… men inte du.' },
   windowWatcher: { images: { woman: 'nightWindowWatcherWoman', man: 'nightWindowWatcherMan' }, bottomCaption: '… men inte du.' },
