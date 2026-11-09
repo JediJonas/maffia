@@ -24,14 +24,19 @@ describe('describeScene', () => {
     expect(describeScene(buildPlayerView(night, 'p2'), false)).toMatchObject({ image: 'nightMafia', bottomCaption: '… men inte maffian.' });
     expect(describeScene(buildPlayerView(night, 'p4'), false)).toMatchObject({ image: 'nightDetective', bottomCaption: '… men inte du.' });
     expect(describeScene(buildPlayerView(night, 'p5'), false)).toMatchObject({ image: 'nightDoctor' });
-    expect(describeScene(buildPlayerView(night, 'p1'), false)).toMatchObject({ image: 'nightCitizen', bottomCaption: '… och så även du.' });
+    expect(describeScene(buildPlayerView(night, 'p1'), false)).toMatchObject({ image: 'nightCitizenWoman', bottomCaption: '… och så även du.' });
+  });
+
+  it('visar nattbilden med en kvinna eller en man, som rollbilden', () => {
+    expect(describeScene(buildPlayerView(night, 'p1'), false, false, 'man')).toMatchObject({ image: 'nightCitizenMan' });
+    expect(describeScene(buildPlayerView(night, 'p2'), false, false, 'man')).toMatchObject({ image: 'nightMafia' });
   });
 
   it('visar den som är ute ur spelet som en sovande stadsbo på natten', () => {
     const morning = playNight(night, { p2: 'p4', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
     const nextNight = playDay(morning, { p1: 'p3', p2: 'p3', p3: 'p1', p5: 'p3' });
     const detectiveIsOut = { ...nextNight, phase: 'night' };
-    expect(describeScene(buildPlayerView(detectiveIsOut, 'p4'), false)).toMatchObject({ image: 'nightCitizen', bottomCaption: null });
+    expect(describeScene(buildPlayerView(detectiveIsOut, 'p4'), false)).toMatchObject({ image: 'nightCitizenWoman', bottomCaption: null });
   });
 
   it('berättar på morgonen vem som blev mördad, med namn även för offret', () => {
@@ -94,6 +99,6 @@ describe('listUpcomingImages', () => {
   it('hämtar stadsbons nattbild åt den som just blev förvisad', () => {
     const morning = playNight(night, { p2: 'p4', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
     const verdict = playDay(morning, { p1: 'p3', p2: 'p3', p3: 'p1', p5: 'p3' });
-    expect(listUpcomingImages(buildPlayerView({ ...verdict, phase: 'verdict' }, 'p3'))).toEqual(['nightCitizen', 'mafiaWins', 'townWins', 'madmanWins']);
+    expect(listUpcomingImages(buildPlayerView({ ...verdict, phase: 'verdict' }, 'p3'))).toEqual(['nightCitizenWoman', 'mafiaWins', 'townWins', 'madmanWins']);
   });
 });

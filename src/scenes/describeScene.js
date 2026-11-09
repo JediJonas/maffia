@@ -17,19 +17,23 @@ import { ROLE_INFO } from '../game/roles.js';
  * @property {boolean} showsRoomCode Rumskoden står i rutan nere till höger.
  */
 
-/** @type {Record<import('../game/types.js').Role, { image: SceneImageKey, bottomCaption: string }>} */
+/**
+ * Nattbilden visar, som rollbilden, en kvinna eller en man. Roller som bara
+ * har en bild visar samma för båda.
+ * @type {Record<import('../game/types.js').Role, { images: Record<RoleImageVariant, SceneImageKey>, bottomCaption: string }>}
+ */
 const NIGHT_SCENES = {
-  mafia: { image: 'nightMafia', bottomCaption: '… men inte maffian.' },
-  godfather: { image: 'nightMafia', bottomCaption: '… men inte maffian.' },
-  detective: { image: 'nightDetective', bottomCaption: '… men inte du.' },
-  doctor: { image: 'nightDoctor', bottomCaption: '… men inte du.' },
-  taxiDriver: { image: 'nightTaxiDriver', bottomCaption: '… men inte du.' },
-  windowWatcher: { image: 'nightWindowWatcher', bottomCaption: '… men inte du.' },
-  sausageVendor: { image: 'nightSausageVendor', bottomCaption: '… men inte du.' },
-  bartender: { image: 'nightBartender', bottomCaption: '… men inte du.' },
-  mayor: { image: 'nightCitizen', bottomCaption: '… och så även du.' },
-  madman: { image: 'nightCitizen', bottomCaption: '… och så även du.' },
-  citizen: { image: 'nightCitizen', bottomCaption: '… och så även du.' },
+  mafia: { images: { woman: 'nightMafia', man: 'nightMafia' }, bottomCaption: '… men inte maffian.' },
+  godfather: { images: { woman: 'nightMafia', man: 'nightMafia' }, bottomCaption: '… men inte maffian.' },
+  detective: { images: { woman: 'nightDetective', man: 'nightDetective' }, bottomCaption: '… men inte du.' },
+  doctor: { images: { woman: 'nightDoctor', man: 'nightDoctor' }, bottomCaption: '… men inte du.' },
+  taxiDriver: { images: { woman: 'nightTaxiDriverWoman', man: 'nightTaxiDriverMan' }, bottomCaption: '… men inte du.' },
+  windowWatcher: { images: { woman: 'nightWindowWatcherWoman', man: 'nightWindowWatcherMan' }, bottomCaption: '… men inte du.' },
+  sausageVendor: { images: { woman: 'nightSausageVendorWoman', man: 'nightSausageVendorMan' }, bottomCaption: '… men inte du.' },
+  bartender: { images: { woman: 'nightBartenderWoman', man: 'nightBartenderMan' }, bottomCaption: '… men inte du.' },
+  mayor: { images: { woman: 'nightCitizenWoman', man: 'nightCitizenMan' }, bottomCaption: '… och så även du.' },
+  madman: { images: { woman: 'nightCitizenWoman', man: 'nightCitizenMan' }, bottomCaption: '… och så även du.' },
+  citizen: { images: { woman: 'nightCitizenWoman', man: 'nightCitizenMan' }, bottomCaption: '… och så även du.' },
 };
 
 /** @type {Record<import('../game/types.js').Role, Record<RoleImageVariant, SceneImageKey>>} Varje roll har en kvinna och en man. */
@@ -90,7 +94,7 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
       return scene('roleHidden', 'Det är dags.', 'Din roll ligger i akten.');
     case 'night':
       // Den som är ute ur spelet ser stadsbons bild, men utan "… och så även du", eftersom den inte är med.
-      return scene(chooseNightImage(view.me), 'Staden sover …', isInGame(view.me) ? NIGHT_SCENES[view.me.role].bottomCaption : null);
+      return scene(chooseNightImage(view.me, roleImageVariant), 'Staden sover …', isInGame(view.me) ? NIGHT_SCENES[view.me.role].bottomCaption : null);
     case 'day': {
       const killedId = view.lastNight?.killedId ?? null;
       if (!killedId) return scene('morningNoMurder', 'Staden vaknar …', 'Ingen blev mördad.');
@@ -136,14 +140,14 @@ export function listUpcomingImages(view, roleImageVariant = 'woman') {
     case 'lobby':
       return ['roleHidden'];
     case 'roleReveal':
-      return view.me.role ? [chooseRoleImage(view.me.role, roleImageVariant), chooseNightImage(view.me)] : [];
+      return view.me.role ? [chooseRoleImage(view.me.role, roleImageVariant), chooseNightImage(view.me, roleImageVariant)] : [];
     case 'night':
       // Vilken mordbild det blir avgörs först när natten tar slut, så alla hämtas.
       return [...MURDER_IMAGES, 'morningNoMurder'];
     case 'day':
       return ['verdict'];
     case 'verdict':
-      return [chooseNightImage(view.me), 'mafiaWins', 'townWins', 'madmanWins'];
+      return [chooseNightImage(view.me, roleImageVariant), 'mafiaWins', 'townWins', 'madmanWins'];
     case 'gameOver':
       return ['lobby', 'roleHidden'];
     default:
@@ -162,10 +166,11 @@ function isInGame(me) {
 /**
  * Den som är ute ur spelet ser stadsbons bild, så att ingen ser vilken roll den hade.
  * @param {PlayerView['me']} me
+ * @param {RoleImageVariant} variant
  * @returns {SceneImageKey}
  */
-function chooseNightImage(me) {
-  return isInGame(me) ? NIGHT_SCENES[me.role].image : NIGHT_SCENES.citizen.image;
+function chooseNightImage(me, variant) {
+  return (isInGame(me) ? NIGHT_SCENES[me.role] : NIGHT_SCENES.citizen).images[variant];
 }
 
 /**
