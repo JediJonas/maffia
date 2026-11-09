@@ -17,6 +17,19 @@ const BOT_NAMES = [
   'Gunnar', 'Viola', 'Ragnar', 'Inez', 'Tore', 'Maud', 'Olof', 'Siri',
 ];
 
+const WOMEN_BOT_NAMES = new Set(['Greta', 'Doris', 'Kajsa', 'Elsa', 'Viola', 'Inez', 'Maud', 'Siri']);
+
+/**
+ * En bot väljer ingen rollbild, så namnet avgör om mord- och dombilden visar
+ * en kvinna eller en man (Jonas 2026-11-09).
+ * @param {Player} bot
+ * @returns {import('../scenes/roleImageChoice.js').RoleImageVariant | null} Null för ett namn utanför listan.
+ */
+export function findBotImageVariant(bot) {
+  if (!BOT_NAMES.includes(bot.name)) return null;
+  return WOMEN_BOT_NAMES.has(bot.name) ? 'woman' : 'man';
+}
+
 // Botar kan inte prata, så fler än tre gör spelet till ett lotteri.
 // Beslutat av Jonas 2026-11-06.
 export const MAX_BOTS = 3;

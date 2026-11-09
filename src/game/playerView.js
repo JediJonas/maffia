@@ -4,6 +4,7 @@
 import { hasMafiaAgreed, listDoubleVoterIds, listNightTargets } from './rules.js';
 import { isMafia as isMafiaRole } from './roles.js';
 import { findHiddenDeathId } from './deathReveal.js';
+import { findBotImageVariant } from './bots.js';
 import { resolveRoleImageVariant } from '../scenes/roleImageChoice.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
@@ -105,9 +106,9 @@ export function buildPlayerView(state, playerId) {
 }
 
 /**
- * Rollbilden som en mördad eller förvisad spelare valt. En bot eller en
- * telefon som inte hann skicka sin får en som bestäms av spelarens id, så
- * att alla ändå ser samma.
+ * Rollbilden som en mördad eller förvisad spelare valt. En bot får en efter
+ * sitt namn. En telefon som inte hann skicka sin får en som bestäms av
+ * spelarens id, så att alla ändå ser samma.
  * @param {GameState} state
  * @param {string | null | undefined} playerId
  * @returns {import('../scenes/roleImageChoice.js').RoleImageVariant | null}
@@ -115,7 +116,8 @@ export function buildPlayerView(state, playerId) {
 function findImageVariant(state, playerId) {
   if (!playerId) return null;
   const player = state.players.find((p) => p.id === playerId);
-  return player?.roleImageVariant ?? resolveRoleImageVariant({ choice: 'random', savedRoll: null, gameKey: playerId });
+  const botVariant = player?.isBot ? findBotImageVariant(player) : null;
+  return player?.roleImageVariant ?? botVariant ?? resolveRoleImageVariant({ choice: 'random', savedRoll: null, gameKey: playerId });
 }
 
 /**

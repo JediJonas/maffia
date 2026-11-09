@@ -1,6 +1,6 @@
 // @ts-check
 import { describe, expect, it } from 'vitest';
-import { MAX_BOTS, addBot, chooseBotAction, findNextBotMove, listBots, pickBotName, removeLastBot } from './bots.js';
+import { MAX_BOTS, addBot, chooseBotAction, findBotImageVariant, findNextBotMove, listBots, pickBotName, removeLastBot } from './bots.js';
 import {
   RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, endVerdict, listNightTargets, startGame,
 } from './rules.js';
@@ -43,6 +43,14 @@ describe('botar i lobbyn', () => {
     expect(bot.isBot).toBe(true);
     expect(bot.avatar).not.toBeNull();
     expect(buildPlayerView(state, 'h').players.map((p) => p.isBot)).toEqual([false, true]);
+  });
+
+  it('får en kvinna eller en man i mord- och dombilden efter sitt namn', () => {
+    let state = addPlayer(createGame(), { id: 'h', name: 'Anna' });
+    state = addBot(addBot(state, 'b1', Math.random), 'b2', Math.random);
+    expect(findBotImageVariant(findPlayer(state, 'b1'))).toBe('man');
+    expect(findBotImageVariant(findPlayer(state, 'b2'))).toBe('woman');
+    expect(findBotImageVariant({ ...findPlayer(state, 'b1'), name: 'Bot 9' })).toBeNull();
   });
 
   it('tar bort den senast tillagda boten men aldrig en människa', () => {
