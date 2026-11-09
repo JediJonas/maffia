@@ -4,6 +4,7 @@
 import { hasMafiaAgreed, listDoubleVoterIds, listNightTargets } from './rules.js';
 import { isMafia as isMafiaRole } from './roles.js';
 import { findHiddenDeathId } from './deathReveal.js';
+import { resolveRoleImageVariant, rollRoleImageVariant } from '../scenes/roleImageChoice.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
 /** @typedef {import('./types.js').Role} Role */
@@ -42,6 +43,8 @@ import { findHiddenDeathId } from './deathReveal.js';
  * @property {import('./types.js').NightOutcome | null} lastNight
  * @property {import('./types.js').DayOutcome | null} lastDay
  * @property {import('./types.js').Team | null} winner
+ * @property {import('../scenes/roleImageChoice.js').RoleImageVariant | null} killedImageVariant Rollbilden som den som mördades i natt valt, för mordbilden. Null när ingen dog.
+ * @property {import('../scenes/roleImageChoice.js').RoleImageVariant | null} madmanImageVariant Galningens rollbild när galningen har vunnit, annars null.
  */
 
 /**
@@ -92,7 +95,37 @@ export function buildPlayerView(state, playerId) {
     lastNight: state.lastNight,
     lastDay: state.lastDay,
     winner: state.winner,
+    killedImageVariant: findKilledImageVariant(state),
+    madmanImageVariant: state.winner === 'madman' ? findMadmanImageVariant(state) : null,
     settings: state.settings,
     isRoleRevealPending: Boolean(hiddenDeathId),
   };
+}
+
+/**
+ * En bot eller en telefon som inte hann skicka sin rollbild får en som
+ * värdens slumptal för mordbilden avgör, så att alla ändå ser samma. Spel som
+ * sparades innan mordbilden slumpades visar mannen, den första mordbilden.
+ * @param {GameState} state
+ * @returns {import('../scenes/roleImageChoice.js').RoleImageVariant | null}
+ */
+function findKilledImageVariant(state) {
+  const killedId = state.lastNight?.killedId;
+  if (!killedId) return null;
+  const killed = state.players.find((p) => p.id === killedId);
+  if (killed?.roleImageVariant) return killed.roleImageVariant;
+  const imageRoll = state.lastNight?.imageRoll;
+  return imageRoll === undefined ? 'man' : rollRoleImageVariant(() => imageRoll);
+}
+
+/**
+ * En bot eller en telefon som inte hann skicka sin rollbild får en som
+ * bestäms av spelarens id, så att alla ändå ser samma.
+ * @param {GameState} state
+ * @returns {import('../scenes/roleImageChoice.js').RoleImageVariant}
+ */
+function findMadmanImageVariant(state) {
+  const madman = state.players.find((p) => p.role === 'madman');
+  if (madman?.roleImageVariant) return madman.roleImageVariant;
+  return resolveRoleImageVariant({ choice: 'random', savedRoll: null, gameKey: madman?.id ?? '' });
 }

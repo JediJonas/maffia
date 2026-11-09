@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { DEFAULT_SETTINGS, buildRoleList } from './settings.js';
 import {
-  RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, endVerdict, findExecutedId, findWinner, startGame,
+  RuleError, SKIP_VOTE, addPlayer, applyAction, createGame, endVerdict, findExecutedId, findWinner, returnToLobby, startGame,
 } from './rules.js';
 import { createTestGame, playDay, playNight } from './testGame.js';
 import { createRandomAvatar } from '../avatar/avatarParts.js';
@@ -201,5 +201,20 @@ describe('avatar', () => {
     const game = createTestGame(ROLES);
     expect(() => applyAction(game, 'p1', { type: 'setAvatar', avatar })).toThrow(RuleError);
     expect(() => applyAction(lobby, 'p1', { type: 'setAvatar', avatar: { ...avatar, eyes: 'x' } })).toThrow(RuleError);
+  });
+});
+
+describe('rollbild', () => {
+  it('sparar spelarens rollbild under spelet och glömmer den till nästa spel', () => {
+    const game = applyAction(createTestGame(ROLES), 'p1', { type: 'setRoleImage', variant: 'woman' });
+    expect(game.players[0].roleImageVariant).toBe('woman');
+    expect(returnToLobby(game).players[0].roleImageVariant).toBeUndefined();
+  });
+
+  it('nekar rollbild i lobbyn och otillåtna värden', () => {
+    const lobby = addPlayer(createGame(), { id: 'p1', name: 'Ada', avatar: null });
+    expect(() => applyAction(lobby, 'p1', { type: 'setRoleImage', variant: 'woman' })).toThrow(RuleError);
+    // @ts-expect-error Telefonen kan skicka vad som helst.
+    expect(() => applyAction(createTestGame(ROLES), 'p1', { type: 'setRoleImage', variant: 'robot' })).toThrow(RuleError);
   });
 });

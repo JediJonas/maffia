@@ -24,6 +24,7 @@
  * @property {boolean} isConnected
  * @property {boolean} [isBot] Styrs av värdens telefon. Saknas i spel som sparades innan botarna fanns.
  * @property {import('../avatar/avatarParts.js').Avatar | null} avatar Null när telefonen inte skickade någon giltig avatar.
+ * @property {import('../scenes/roleImageChoice.js').RoleImageVariant} [roleImageVariant] Spelarens val av rollbild, som telefonen skickar när spelet har börjat. Visas för alla bara i mordbilden och när galningen vinner. Saknas tills telefonen har skickat det.
  */
 
 /**
@@ -47,7 +48,7 @@
  * @typedef {object} NightOutcome
  * @property {string | null} killedId Null när ingen dog, till exempel för att läkaren räddade offret.
  * @property {string | null} [silencedId] Den som fick korvgubbens korv och inte får prata i dag. Saknas i spel som sparades innan korvgubben fanns.
- * @property {number} [imageRoll] Ett slumptal från 0 till 1 som värden drar när någon mördas, så att alla telefoner visar samma mordbild. Saknas i spel som sparades innan mordbilden slumpades.
+ * @property {number} [imageRoll] Ett slumptal från 0 till 1 som värden drar när någon mördas, och som avgör mordbilden när den mördade inte skickat någon rollbild, till exempel en bot. Saknas i spel som sparades innan mordbilden slumpades.
  */
 
 /**
@@ -78,7 +79,8 @@
  * @typedef {{ type: 'ready' }
  *   | { type: 'nightChoice', targetId: string }
  *   | { type: 'vote', targetId: string }
- *   | { type: 'setAvatar', avatar: import('../avatar/avatarParts.js').Avatar }} PlayerAction
+ *   | { type: 'setAvatar', avatar: import('../avatar/avatarParts.js').Avatar }
+ *   | { type: 'setRoleImage', variant: import('../scenes/roleImageChoice.js').RoleImageVariant }} PlayerAction
  */
 
 export {};

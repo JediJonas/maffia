@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { MURDER_IMAGES, chooseMurderImage, chooseRoleImage, describeScene, listUpcomingImages } from './describeScene.js';
+import { MURDER_IMAGES, chooseRoleImage, describeScene, listUpcomingImages } from './describeScene.js';
 import { buildPlayerView } from '../game/playerView.js';
+import { applyAction } from '../game/rules.js';
 import { createTestGame, playDay, playNight } from '../game/testGame.js';
 
 const ROLES = ['citizen', 'mafia', 'citizen', 'detective', 'doctor'];
@@ -41,23 +42,22 @@ describe('describeScene', () => {
 
   it('berättar på morgonen vem som blev mördad, med namn även för offret', () => {
     const morning = playNight(night, { p2: 'p3', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
-    expect(describeScene(buildPlayerView(morning, 'p1'), false)).toMatchObject({ image: chooseMurderImage(morning.lastNight?.imageRoll), bottomCaption: 'Spelare 3 blev mördad.' });
+    expect(describeScene(buildPlayerView(morning, 'p1'), false)).toMatchObject({ bottomCaption: 'Spelare 3 blev mördad.' });
     expect(describeScene(buildPlayerView(morning, 'p3'), false)).toMatchObject({ bottomCaption: 'Spelare 3 blev mördad.' });
   });
 
-  it('visar samma mordbild på alla telefoner, vald av värdens slumptal', () => {
+  it('visar mordbilden efter den mördades val av rollbild, på alla telefoner', () => {
+    const chosen = applyAction(night, 'p3', { type: 'setRoleImage', variant: 'woman' });
+    const morning = playNight(chosen, { p2: 'p3', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
+    expect(describeScene(buildPlayerView(morning, 'p1'), false, false, 'man')?.image).toBe(MURDER_IMAGES.woman);
+    expect(describeScene(buildPlayerView(morning, 'p4'), true, false, 'man')?.image).toBe(MURDER_IMAGES.woman);
+  });
+
+  it('låter värdens slumptal välja mordbild när den mördade inte skickat någon rollbild', () => {
     const morning = playNight(night, { p2: 'p3', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
-    const lastRoll = { ...morning, lastNight: { killedId: 'p3', imageRoll: 0.99 } };
-    expect(describeScene(buildPlayerView(lastRoll, 'p1'), false)?.image).toBe(MURDER_IMAGES.at(-1));
-    expect(describeScene(buildPlayerView(lastRoll, 'p4'), true)?.image).toBe(MURDER_IMAGES.at(-1));
-  });
-
-  it('väljer mordbild jämnt fördelat efter slumptalet', () => {
-    expect(MURDER_IMAGES.map((_, i) => chooseMurderImage((i + 0.5) / MURDER_IMAGES.length))).toEqual(MURDER_IMAGES);
-  });
-
-  it('visar den första mordbilden i spel som sparades innan mordbilden slumpades', () => {
-    expect(chooseMurderImage(undefined)).toBe(MURDER_IMAGES[0]);
+    expect(describeScene(buildPlayerView({ ...morning, lastNight: { killedId: 'p3', imageRoll: 0.1 } }, 'p1'), false)?.image).toBe(MURDER_IMAGES.woman);
+    expect(describeScene(buildPlayerView({ ...morning, lastNight: { killedId: 'p3', imageRoll: 0.9 } }, 'p1'), false)?.image).toBe(MURDER_IMAGES.man);
+    expect(describeScene(buildPlayerView({ ...morning, lastNight: { killedId: 'p3' } }, 'p1'), false)?.image).toBe(MURDER_IMAGES.man);
   });
 
   it('visar en lugn morgon när läkaren räddade offret', () => {
@@ -81,9 +81,13 @@ describe('describeScene', () => {
   it('har en egen slutbild för var och en av vinnarna', () => {
     expect(describeScene(buildPlayerView({ ...night, phase: 'gameOver', winner: 'mafia' }, 'p1'), false)).toMatchObject({ image: 'mafiaWins' });
     expect(describeScene(buildPlayerView({ ...night, phase: 'gameOver', winner: 'town' }, 'p1'), false)).toMatchObject({ image: 'townWins' });
-    const madmanWon = buildPlayerView({ ...night, phase: 'gameOver', winner: 'madman' }, 'p1');
-    expect(describeScene(madmanWon, false, false, 'woman')).toMatchObject({ image: 'madmanWinsWoman' });
-    expect(describeScene(madmanWon, false, false, 'man')).toMatchObject({ image: 'madmanWinsMan' });
+  });
+
+  it('visar galningen som galningen själv valt när galningen vinner, på alla telefoner', () => {
+    const withMadman = applyAction(createTestGame(['citizen', 'madman', 'mafia', 'citizen']), 'p2', { type: 'setRoleImage', variant: 'woman' });
+    const madmanWon = { ...withMadman, phase: /** @type {const} */ ('gameOver'), winner: /** @type {const} */ ('madman') };
+    expect(describeScene(buildPlayerView(madmanWon, 'p1'), false, false, 'man')).toMatchObject({ image: 'madmanWinsWoman' });
+    expect(describeScene(buildPlayerView(madmanWon, 'p2'), false, false, 'man')).toMatchObject({ image: 'madmanWinsWoman' });
   });
 });
 
@@ -96,12 +100,12 @@ describe('listUpcomingImages', () => {
   });
 
   it('hämtar alla morgonbilder under natten, så att ingen kan se på laddningen om någon dog', () => {
-    expect(listUpcomingImages(buildPlayerView(night, 'p1'))).toEqual([...MURDER_IMAGES, 'morningNoMurder']);
+    expect(listUpcomingImages(buildPlayerView(night, 'p1'))).toEqual([MURDER_IMAGES.woman, MURDER_IMAGES.man, 'morningNoMurder']);
   });
 
   it('hämtar stadsbons nattbild åt den som just blev förvisad', () => {
     const morning = playNight(night, { p2: 'p4', p4: 'p2', p5: 'p1', p1: 'p2', p3: 'p1' });
     const verdict = playDay(morning, { p1: 'p3', p2: 'p3', p3: 'p1', p5: 'p3' });
-    expect(listUpcomingImages(buildPlayerView({ ...verdict, phase: 'verdict' }, 'p3'))).toEqual(['nightCitizenWoman', 'mafiaWins', 'townWins', 'madmanWinsWoman']);
+    expect(listUpcomingImages(buildPlayerView({ ...verdict, phase: 'verdict' }, 'p3'))).toEqual(['nightCitizenWoman', 'mafiaWins', 'townWins', 'madmanWinsWoman', 'madmanWinsMan']);
   });
 });

@@ -52,13 +52,6 @@ const ROLE_IMAGES = {
 };
 
 /**
- * Galningen förs bort som en kvinna eller en man. Varje telefon följer sitt
- * eget val av rollbild, eftersom valet aldrig skickas till värden.
- * @type {Record<RoleImageVariant, SceneImageKey>}
- */
-const MADMAN_WINS_IMAGES = { woman: 'madmanWinsWoman', man: 'madmanWinsMan' };
-
-/**
  * @param {import('../game/types.js').Role} role
  * @param {RoleImageVariant} variant Vald i Ändra figur (se roleImageChoice.js).
  * @returns {SceneImageKey}
@@ -68,23 +61,21 @@ export function chooseRoleImage(role, variant) {
 }
 
 /**
- * Mordbilderna som värden slumpar mellan, just nu bara en. Alla telefoner visar samma, eftersom
- * slumptalet följer med nattens utfall (se NightOutcome).
- * @type {SceneImageKey[]}
+ * Mordbilden visar en kvinna eller en man efter den mördades eget val av
+ * rollbild, så att alla telefoner visar samma (se killedImageVariant i PlayerView).
+ * @type {Record<RoleImageVariant, SceneImageKey>}
  */
-export const MURDER_IMAGES = ['morningMurder'];
+export const MURDER_IMAGES = { woman: 'morningMurderWoman', man: 'morningMurderMan' };
 
 /**
- * @param {number | undefined} imageRoll Saknas i spel som sparades innan mordbilden slumpades.
- * @returns {SceneImageKey}
+ * Galningen förs bort som en kvinna eller en man, efter galningens eget val
+ * (se madmanImageVariant i PlayerView).
+ * @type {Record<RoleImageVariant, SceneImageKey>}
  */
-export function chooseMurderImage(imageRoll = 0) {
-  const index = Math.min(Math.floor(imageRoll * MURDER_IMAGES.length), MURDER_IMAGES.length - 1);
-  return MURDER_IMAGES[index];
-}
+const MADMAN_WINS_IMAGES = { woman: 'madmanWinsWoman', man: 'madmanWinsMan' };
 
 /**
- * @param {Pick<PlayerView, 'phase' | 'me' | 'players' | 'lastNight' | 'lastDay' | 'winner'>} view
+ * @param {Pick<PlayerView, 'phase' | 'me' | 'players' | 'lastNight' | 'lastDay' | 'winner' | 'killedImageVariant' | 'madmanImageVariant'>} view
  * @param {boolean} isHost Värden visar QR-koden i rutan, de andra en bild.
  * @param {boolean} [isRoleShown] Spelaren har öppnat akten och ser sin roll.
  * @param {RoleImageVariant} [roleImageVariant]
@@ -105,7 +96,7 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
     case 'day': {
       const killedId = view.lastNight?.killedId ?? null;
       if (!killedId) return scene('morningNoMurder', 'Staden vaknar …', 'Ingen blev mördad.');
-      return scene(chooseMurderImage(view.lastNight?.imageRoll), 'Staden vaknar …', `${describeWho(view, killedId)} blev mördad.`);
+      return scene(MURDER_IMAGES[view.killedImageVariant ?? 'man'], 'Staden vaknar …', `${describeWho(view, killedId)} blev mördad.`);
     }
     case 'verdict': {
       const executedId = view.lastDay?.executedId ?? null;
@@ -113,7 +104,7 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
       return scene('verdict', 'Staden har bestämt sig.', `${who} blev förvisad.`);
     }
     case 'gameOver':
-      return describeEnding(view.winner, roleImageVariant);
+      return describeEnding(view.winner, view.madmanImageVariant ?? roleImageVariant);
     default:
       return null;
   }
@@ -121,15 +112,15 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
 
 /**
  * @param {PlayerView['winner']} winner
- * @param {RoleImageVariant} roleImageVariant
+ * @param {RoleImageVariant} madmanImageVariant
  * @returns {Scene}
  */
-function describeEnding(winner, roleImageVariant) {
+function describeEnding(winner, madmanImageVariant) {
   switch (winner) {
     case 'mafia':
       return scene('mafiaWins', 'Och så var det över …', 'Maffian tar makten.');
     case 'madman':
-      return scene(MADMAN_WINS_IMAGES[roleImageVariant], 'Och så var det över …', 'Galningen skrattar sist.');
+      return scene(MADMAN_WINS_IMAGES[madmanImageVariant], 'Och så var det över …', 'Galningen skrattar sist.');
     default:
       return scene('townWins', 'Och så var det över …', 'Maffian är besegrad.');
   }
@@ -151,11 +142,11 @@ export function listUpcomingImages(view, roleImageVariant = 'woman') {
       return view.me.role ? [chooseRoleImage(view.me.role, roleImageVariant), chooseNightImage(view.me, roleImageVariant)] : [];
     case 'night':
       // Vilken mordbild det blir avgörs först när natten tar slut, så alla hämtas.
-      return [...MURDER_IMAGES, 'morningNoMurder'];
+      return [MURDER_IMAGES.woman, MURDER_IMAGES.man, 'morningNoMurder'];
     case 'day':
       return ['verdict'];
     case 'verdict':
-      return [chooseNightImage(view.me, roleImageVariant), 'mafiaWins', 'townWins', MADMAN_WINS_IMAGES[roleImageVariant]];
+      return [chooseNightImage(view.me, roleImageVariant), 'mafiaWins', 'townWins', MADMAN_WINS_IMAGES.woman, MADMAN_WINS_IMAGES.man];
     case 'gameOver':
       return ['lobby', 'roleHidden'];
     default:

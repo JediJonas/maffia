@@ -1,5 +1,5 @@
 // @ts-check
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DayScreen } from './DayScreen.jsx';
 import { GameOverScreen } from './GameOverScreen.jsx';
 import { LobbyScreen } from './LobbyScreen.jsx';
@@ -41,6 +41,11 @@ export function GameScreen({ connection, roomCode, onLeave }) {
   // Rollen visas bara innan spelet startar. Efter det är akten stängd.
   const showsRole = isRoleShown && view?.phase === 'roleReveal';
   const roleImageVariant = useRoleImageVariant(view, roomCode);
+  const isPlaying = Boolean(view && view.phase !== 'lobby' && view.phase !== 'gameOver');
+  // Värden behöver valet för mordbilden och för slutbilden när galningen vinner.
+  useEffect(() => {
+    if (isPlaying) sendAction({ type: 'setRoleImage', variant: roleImageVariant });
+  }, [isPlaying, roleImageVariant, sendAction]);
   const scene = view && shownPanel === 'players' && describeScene(view, Boolean(host), showsRole, roleImageVariant);
   useScrollToTop(`${view?.phase}-${shownPanel}-${showsRole}`);
   usePreloadImages(view ? listUpcomingImages(view, roleImageVariant) : []);
