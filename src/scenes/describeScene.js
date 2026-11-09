@@ -52,6 +52,13 @@ const ROLE_IMAGES = {
 };
 
 /**
+ * Galningen förs bort som en kvinna eller en man. Varje telefon följer sitt
+ * eget val av rollbild, eftersom valet aldrig skickas till värden.
+ * @type {Record<RoleImageVariant, SceneImageKey>}
+ */
+const MADMAN_WINS_IMAGES = { woman: 'madmanWinsWoman', man: 'madmanWinsMan' };
+
+/**
  * @param {import('../game/types.js').Role} role
  * @param {RoleImageVariant} variant Vald i Ändra figur (se roleImageChoice.js).
  * @returns {SceneImageKey}
@@ -106,7 +113,7 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
       return scene('verdict', 'Staden har bestämt sig.', `${who} blev förvisad.`);
     }
     case 'gameOver':
-      return describeEnding(view.winner);
+      return describeEnding(view.winner, roleImageVariant);
     default:
       return null;
   }
@@ -114,14 +121,15 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
 
 /**
  * @param {PlayerView['winner']} winner
+ * @param {RoleImageVariant} roleImageVariant
  * @returns {Scene}
  */
-function describeEnding(winner) {
+function describeEnding(winner, roleImageVariant) {
   switch (winner) {
     case 'mafia':
       return scene('mafiaWins', 'Och så var det över …', 'Maffian tar makten.');
     case 'madman':
-      return scene('madmanWins', 'Och så var det över …', 'Galningen skrattar sist.');
+      return scene(MADMAN_WINS_IMAGES[roleImageVariant], 'Och så var det över …', 'Galningen skrattar sist.');
     default:
       return scene('townWins', 'Och så var det över …', 'Maffian är besegrad.');
   }
@@ -147,7 +155,7 @@ export function listUpcomingImages(view, roleImageVariant = 'woman') {
     case 'day':
       return ['verdict'];
     case 'verdict':
-      return [chooseNightImage(view.me, roleImageVariant), 'mafiaWins', 'townWins', 'madmanWins'];
+      return [chooseNightImage(view.me, roleImageVariant), 'mafiaWins', 'townWins', MADMAN_WINS_IMAGES[roleImageVariant]];
     case 'gameOver':
       return ['lobby', 'roleHidden'];
     default:

@@ -45,7 +45,8 @@ import morningNoMurder from './images/morgon-ingen.webp';
 import verdict from './images/dom.webp';
 import mafiaWins from './images/slut-maffia.webp';
 import townWins from './images/slut-staden.webp';
-import madmanWins from './images/slut-galningen.webp';
+import madmanWinsWoman from './images/slut-galningen-kvinna.webp';
+import madmanWinsMan from './images/slut-galningen-man.webp';
 
 /** @typedef {{ src: string, alt: string, position: string }} SceneImage */
 
@@ -94,7 +95,8 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   verdict: { src: verdict, alt: 'Tre personer i hatt pekar på en rädd man som står med hatten i händerna vid en tegelvägg.', position: '50% 40%' },
   mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden. Den ena tänder en cigarett.', position: '30% 40%' },
   townWins: { src: townWins, alt: 'Stadsborna skakar hand på en regnvåt gata, medan två poliser för bort en man i kostym mot en polisbil.', position: '50% 50%' },
-  madmanWins: { src: madmanWins, alt: 'Två skötare i vita rockar för bort en skrattande man i tvångströja mot en ambulans. Några stadsbor ser på.', position: '75% 50%' },
+  madmanWinsWoman: { src: madmanWinsWoman, alt: 'Två skötare i vita rockar för bort en skrattande kvinna i tvångströja mot en ambulans. Några stadsbor ser på.', position: '75% 50%' },
+  madmanWinsMan: { src: madmanWinsMan, alt: 'Två skötare i vita rockar för bort en skrattande man i tvångströja mot en ambulans. Några stadsbor ser på.', position: '75% 50%' },
 });
 
 /** @typedef {keyof typeof SCENE_IMAGES} SceneImageKey */
