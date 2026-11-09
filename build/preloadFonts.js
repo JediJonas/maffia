@@ -11,6 +11,7 @@ const PRELOADED_FONTS = [
   'archivo-latin-wght-normal-',
   'big-shoulders-display-latin-900-normal-',
   'comic-neue-latin-700-normal-',
+  'courier-prime-latin-700-normal-',
 ];
 
 /** @returns {import('vite').Plugin} */

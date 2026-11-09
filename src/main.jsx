@@ -5,6 +5,7 @@ import { App } from './App.jsx';
 import '@fontsource-variable/archivo';
 import '@fontsource/big-shoulders-display/latin-900';
 import '@fontsource/comic-neue/latin-700';
+import '@fontsource/courier-prime/latin-700';
 import './styles.css';
 import { waitForFonts } from './device/fontsReady.js';
 import { showViewportProbeIfAsked } from './device/viewportProbe.js';

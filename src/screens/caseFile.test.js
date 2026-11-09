@@ -17,12 +17,12 @@ describe('buildCaseFile', () => {
       investigations: [{ round: 1, targetId: 'p1', isMafia: false }, { round: 2, targetId: 'p2', isMafia: true }],
     }));
     expect(content?.rows.map((row) => row.when)).toEqual(['Natt 2', 'Natt 1']);
-    expect(content?.rows[0].verdict).toMatchObject({ lines: ['Maffia'], isMafia: true });
+    expect(content?.rows[0].verdict).toMatchObject({ lines: ['Maffia'], look: 'mafia' });
   });
 
   it('säger vem den följda besökte och vilka som kom till den bevakade', () => {
     const taxi = buildCaseFile(viewOf({ me: { isAlive: true, role: 'taxiDriver' }, sightings: [{ round: 1, targetId: 'p1', seenIds: ['p3'] }] }));
-    expect(taxi?.rows[0].verdict.lines).toEqual(['Besökte:', 'Fia']);
+    expect(taxi?.rows[0].verdict).toMatchObject({ lines: ['Besökte:', 'Fia'], look: 'typed' });
     const watcher = buildCaseFile(viewOf({ me: { isAlive: true, role: 'windowWatcher' }, sightings: [{ round: 1, targetId: 'p1', seenIds: ['p2', 'p3'] }] }));
     expect(watcher?.rows[0].verdict.lines).toEqual(['Besökt av:', 'Bertil och Fia']);
     const reversed = buildCaseFile(viewOf({ me: { isAlive: true, role: 'windowWatcher' }, sightings: [{ round: 1, targetId: 'p1', seenIds: ['p3', 'p2'] }] }));

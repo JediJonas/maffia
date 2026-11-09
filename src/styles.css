@@ -12,6 +12,7 @@
   --font-text: 'Archivo Variable', Archivo, 'Helvetica Neue', Arial, sans-serif;
   --font-title: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
   --font-caption: 'Comic Neue', 'Helvetica Neue', Arial, sans-serif;
+  --font-typed: 'Courier Prime', 'Courier New', monospace;
   --line: 2px solid var(--ink);
   --thin-line: 1px solid var(--ink);
   --raster: url('./paper/raster-dag.svg');
@@ -828,6 +829,23 @@ main section .list-card-lead-above .list-lead {
   font-size: 1.0625rem;
   line-height: 1.05;
   letter-spacing: 0.06em;
+}
+
+/*
+ * Taxichaufförens och fönstertittarens svar skrivs på maskin, inte stämplas,
+ * eftersom ingen har stämplar för alla namn (Jonas 2026-11-09). Fast bredd,
+ * så att texten börjar i samma kolumn på alla rader.
+ */
+.file-typed {
+  flex: none;
+  width: 9rem;
+  margin-left: auto;
+  overflow-wrap: anywhere;
+  font-family: var(--font-typed);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.2;
+  text-align: left;
 }
 
 .file-verdict-mafia {
