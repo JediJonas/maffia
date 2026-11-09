@@ -29,6 +29,8 @@
   --bubble-overhang: 2.5rem;
   /* Bubblans ritade kant börjar en bit under rutan den ritas i. */
   --bubble-inset: 0.375rem;
+  /* Personraden ligger närmare det som står ovanför än andra delar (Jonas 2026-11-08). */
+  --person-gap: 0.625rem;
   /* Hur länge personraden och därefter pratbubblan dröjer (ägaren 2026-11-06). */
   --person-delay: 1s;
   --speech-delay: 0.6s;
@@ -682,14 +684,21 @@ main section .list-card-lead-above .list-lead {
 }
 
 /*
- * Lappen som räknar har en fast minsta bredd, som nedräkningen, så att den
- * inte ändrar bredd när talet byts. Den räcker för "Fyra av fyra har röstat",
- * den bredaste texten i ett spel med upp till tio spelare, med lite marginal.
- * Texten står till höger.
+ * Lappen som räknar är lika bred som den längsta text den kan visa i det här
+ * spelet, så att den inte ändrar bredd när talet byts. Alla texter ligger i
+ * samma cell, och bara den som gäller syns. Texten står till höger.
  */
 .list-tag-counting {
-  min-width: 14.75em;
-  text-align: right;
+  display: grid;
+  justify-items: end;
+}
+
+.list-tag-counting > * {
+  grid-area: 1 / 1;
+}
+
+.list-tag-sizer {
+  visibility: hidden;
 }
 
 /* Detektivens akt: svart och stämplad tills den öppnas. */
@@ -892,7 +901,7 @@ main section .list-card-lead-above .list-lead {
 .avatar-editor-head {
   position: relative;
   height: 7rem;
-  margin-top: 1rem;
+  margin-top: 0.75rem;
   padding-left: 0.875rem;
 }
 
@@ -948,17 +957,17 @@ main section .list-card-lead-above .list-lead {
 .person-row {
   position: relative;
   height: 7rem;
-  margin: var(--block-gap) 0;
+  margin: var(--person-gap) 0 var(--block-gap);
   padding-left: 0.875rem;
 }
 
 .person-row-speaking {
-  margin-top: calc(var(--bubble-overhang) - var(--bubble-inset) + var(--block-gap));
+  margin-top: calc(var(--bubble-overhang) - var(--bubble-inset) + var(--person-gap));
 }
 
 /* Marginaler slås ihop, så både lappen och bubblan måste räknas in här. */
 .list-card-tagged + .person-row-speaking {
-  margin-top: calc(var(--tag-overhang) + var(--bubble-overhang) - var(--bubble-inset) + var(--block-gap));
+  margin-top: calc(var(--tag-overhang) + var(--bubble-overhang) - var(--bubble-inset) + var(--person-gap));
 }
 
 .person-figure {
@@ -1082,7 +1091,7 @@ main section .person-text-wide {
 }
 
 .avatar-parts.avatar-role-image {
-  margin-top: 1rem;
+  margin: 1rem 0;
 }
 
 .avatar-parts li + li,

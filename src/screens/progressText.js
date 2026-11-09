@@ -22,3 +22,19 @@ export function describeNightProgress(chosenCount, livingCount) {
   if (chosenCount === 0) return 'Ingen är klar';
   return capitalize(`${writeNumber(chosenCount)} av ${writeNumber(livingCount)} är klara`);
 }
+
+/**
+ * @param {number} livingCount
+ * @returns {string[]} Alla rutor som röstlistan kan visa medan staden röstar.
+ */
+export function listVoteProgress(livingCount) {
+  return Array.from({ length: livingCount + 1 }, (_, count) => describeVoteProgress(count, livingCount));
+}
+
+/**
+ * @param {number} livingCount
+ * @returns {string[]} Alla rutor som nattens lista kan visa.
+ */
+export function listNightProgress(livingCount) {
+  return Array.from({ length: livingCount + 1 }, (_, count) => describeNightProgress(count, livingCount));
+}
