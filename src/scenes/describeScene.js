@@ -3,7 +3,8 @@
 // i ett seriealbum. Rutan uppe till vänster säger var vi är i berättelsen,
 // rutan nere till höger vad som har hänt.
 
-import { ROLE_INFO } from '../game/roles.js';
+import { ROLE_INFO, isMafia } from '../game/roles.js';
+import { hashText } from './roleImageChoice.js';
 
 /** @typedef {import('./sceneImages.js').SceneImageKey} SceneImageKey */
 /** @typedef {import('../game/playerView.js').PlayerView} PlayerView */
@@ -23,8 +24,8 @@ import { ROLE_INFO } from '../game/roles.js';
  * @type {Record<import('../game/types.js').Role, { images: Record<RoleImageVariant, SceneImageKey>, bottomCaption: string }>}
  */
 const NIGHT_SCENES = {
-  mafia: { images: { woman: 'nightMafia', man: 'nightMafia' }, bottomCaption: '… men inte maffian.' },
-  godfather: { images: { woman: 'nightMafia', man: 'nightMafia' }, bottomCaption: '… men inte maffian.' },
+  mafia: { images: { woman: 'nightMafia1', man: 'nightMafia1' }, bottomCaption: '… men inte maffian.' },
+  godfather: { images: { woman: 'nightMafia1', man: 'nightMafia1' }, bottomCaption: '… men inte maffian.' },
   detective: { images: { woman: 'nightDetective', man: 'nightDetective' }, bottomCaption: '… men inte du.' },
   doctor: { images: { woman: 'nightDoctor', man: 'nightDoctor' }, bottomCaption: '… men inte du.' },
   taxiDriver: { images: { woman: 'nightTaxiDriverWoman', man: 'nightTaxiDriverMan' }, bottomCaption: '… men inte du.' },
@@ -82,6 +83,18 @@ export function chooseMurderImage(imageRoll = 0, variant = 'man') {
 }
 
 /**
+ * Maffians nattbilder. En ny dras varje natt, men alla i maffian ser samma.
+ * @type {SceneImageKey[]}
+ */
+const NIGHT_MAFIA_IMAGES = ['nightMafia1', 'nightMafia2', 'nightMafia3'];
+
+/**
+ * Dombilden visar den förvisades eget val av rollbild (se executedImageVariant).
+ * @type {Record<RoleImageVariant, SceneImageKey>}
+ */
+const VERDICT_IMAGES = { woman: 'verdictWoman', man: 'verdictMan' };
+
+/**
  * Galningen förs bort som en kvinna eller en man, efter galningens eget val
  * (se madmanImageVariant i PlayerView).
  * @type {Record<RoleImageVariant, SceneImageKey>}
@@ -89,7 +102,7 @@ export function chooseMurderImage(imageRoll = 0, variant = 'man') {
 const MADMAN_WINS_IMAGES = { woman: 'madmanWinsWoman', man: 'madmanWinsMan' };
 
 /**
- * @param {Pick<PlayerView, 'phase' | 'me' | 'players' | 'lastNight' | 'lastDay' | 'winner' | 'killedImageVariant' | 'madmanImageVariant'>} view
+ * @param {Pick<PlayerView, 'phase' | 'me' | 'players' | 'lastNight' | 'lastDay' | 'winner' | 'round' | 'mafiaTeam' | 'killedImageVariant' | 'executedImageVariant' | 'madmanImageVariant'>} view
  * @param {boolean} isHost Värden visar QR-koden i rutan, de andra en bild.
  * @param {boolean} [isRoleShown] Spelaren har öppnat akten och ser sin roll.
  * @param {RoleImageVariant} [roleImageVariant]
@@ -106,7 +119,7 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
       return scene('roleHidden', 'Det är dags.', 'Din roll ligger i akten.');
     case 'night':
       // Den som är ute ur spelet ser stadsbons bild, men utan "… och så även du", eftersom den inte är med.
-      return scene(chooseNightImage(view.me, roleImageVariant), 'Staden sover …', isInGame(view.me) ? NIGHT_SCENES[view.me.role].bottomCaption : null);
+      return scene(chooseNightImage(view, roleImageVariant), 'Staden sover …', isInGame(view.me) ? NIGHT_SCENES[view.me.role].bottomCaption : null);
     case 'day': {
       const killedId = view.lastNight?.killedId ?? null;
       if (!killedId) return scene('morningNoMurder', 'Staden vaknar …', 'Ingen blev mördad.');
@@ -115,7 +128,7 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
     case 'verdict': {
       const executedId = view.lastDay?.executedId ?? null;
       const who = executedId ? describeWho(view, executedId) : 'Ingen';
-      return scene('verdict', 'Staden har bestämt sig.', `${who} blev förvisad.`);
+      return scene(VERDICT_IMAGES[view.executedImageVariant ?? roleImageVariant], 'Staden har bestämt sig.', `${who} blev förvisad.`);
     }
     case 'gameOver':
       return describeEnding(view.winner, view.madmanImageVariant ?? roleImageVariant);
@@ -153,14 +166,14 @@ export function listUpcomingImages(view, roleImageVariant = 'woman') {
     case 'lobby':
       return ['roleHidden'];
     case 'roleReveal':
-      return view.me.role ? [chooseRoleImage(view.me.role, roleImageVariant), chooseNightImage(view.me, roleImageVariant)] : [];
+      return view.me.role ? [chooseRoleImage(view.me.role, roleImageVariant), ...listNightImages(view.me, roleImageVariant)] : [];
     case 'night':
       // Vilken mordbild det blir avgörs först när natten tar slut, så alla hämtas.
       return [...MURDER_IMAGES.woman, ...MURDER_IMAGES.man, 'morningNoMurder'];
     case 'day':
-      return ['verdict'];
+      return [VERDICT_IMAGES.woman, VERDICT_IMAGES.man];
     case 'verdict':
-      return [chooseNightImage(view.me, roleImageVariant), 'mafiaWins', 'townWins', MADMAN_WINS_IMAGES.woman, MADMAN_WINS_IMAGES.man];
+      return [...listNightImages(view.me, roleImageVariant), 'mafiaWins', 'townWins', MADMAN_WINS_IMAGES.woman, MADMAN_WINS_IMAGES.man];
     case 'gameOver':
       return ['lobby', 'roleHidden'];
     default:
@@ -178,12 +191,28 @@ function isInGame(me) {
 
 /**
  * Den som är ute ur spelet ser stadsbons bild, så att ingen ser vilken roll den hade.
- * @param {PlayerView['me']} me
+ * @param {Pick<PlayerView, 'me' | 'round' | 'mafiaTeam'>} view
  * @param {RoleImageVariant} variant
  * @returns {SceneImageKey}
  */
-function chooseNightImage(me, variant) {
+function chooseNightImage({ me, round, mafiaTeam }, variant) {
+  if (isInGame(me) && isMafia(me.role)) {
+    // Natten och maffians id avgör, så att hela maffian ser samma bild.
+    const mafiaIds = [me.id, ...mafiaTeam.map((m) => m.id)].sort().join(',');
+    return NIGHT_MAFIA_IMAGES[hashText(`${round}:${mafiaIds}`) % NIGHT_MAFIA_IMAGES.length];
+  }
   return (isInGame(me) ? NIGHT_SCENES[me.role] : NIGHT_SCENES.citizen).images[variant];
+}
+
+/**
+ * Nattbilderna som nästa natt kan visa. För maffian är det alla tre.
+ * @param {PlayerView['me']} me
+ * @param {RoleImageVariant} variant
+ * @returns {SceneImageKey[]}
+ */
+function listNightImages(me, variant) {
+  if (isInGame(me) && isMafia(me.role)) return NIGHT_MAFIA_IMAGES;
+  return [(isInGame(me) ? NIGHT_SCENES[me.role] : NIGHT_SCENES.citizen).images[variant]];
 }
 
 /**

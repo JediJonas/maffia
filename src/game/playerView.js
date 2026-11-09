@@ -44,6 +44,7 @@ import { resolveRoleImageVariant } from '../scenes/roleImageChoice.js';
  * @property {import('./types.js').DayOutcome | null} lastDay
  * @property {import('./types.js').Team | null} winner
  * @property {import('../scenes/roleImageChoice.js').RoleImageVariant | null} killedImageVariant Rollbilden som den som mördades i natt valt, för mordbilden. Null när ingen dog.
+ * @property {import('../scenes/roleImageChoice.js').RoleImageVariant | null} executedImageVariant Rollbilden som den som förvisades i dag valt, för dombilden. Null när ingen förvisades.
  * @property {import('../scenes/roleImageChoice.js').RoleImageVariant | null} madmanImageVariant Galningens rollbild när galningen har vunnit, annars null.
  */
 
@@ -95,7 +96,8 @@ export function buildPlayerView(state, playerId) {
     lastNight: state.lastNight,
     lastDay: state.lastDay,
     winner: state.winner,
-    killedImageVariant: findKilledImageVariant(state),
+    killedImageVariant: findImageVariant(state, state.lastNight?.killedId),
+    executedImageVariant: findImageVariant(state, state.lastDay?.executedId),
     madmanImageVariant: state.winner === 'madman' ? findMadmanImageVariant(state) : null,
     settings: state.settings,
     isRoleRevealPending: Boolean(hiddenDeathId),
@@ -103,26 +105,23 @@ export function buildPlayerView(state, playerId) {
 }
 
 /**
- * En bot eller en telefon som inte hann skicka sin rollbild får en som
- * bestäms av spelarens id, så att alla ändå ser samma.
+ * Rollbilden som en mördad eller förvisad spelare valt. En bot eller en
+ * telefon som inte hann skicka sin får en som bestäms av spelarens id, så
+ * att alla ändå ser samma.
  * @param {GameState} state
+ * @param {string | null | undefined} playerId
  * @returns {import('../scenes/roleImageChoice.js').RoleImageVariant | null}
  */
-function findKilledImageVariant(state) {
-  const killedId = state.lastNight?.killedId;
-  if (!killedId) return null;
-  const killed = state.players.find((p) => p.id === killedId);
-  return killed?.roleImageVariant ?? resolveRoleImageVariant({ choice: 'random', savedRoll: null, gameKey: killedId });
+function findImageVariant(state, playerId) {
+  if (!playerId) return null;
+  const player = state.players.find((p) => p.id === playerId);
+  return player?.roleImageVariant ?? resolveRoleImageVariant({ choice: 'random', savedRoll: null, gameKey: playerId });
 }
 
 /**
- * En bot eller en telefon som inte hann skicka sin rollbild får en som
- * bestäms av spelarens id, så att alla ändå ser samma.
  * @param {GameState} state
  * @returns {import('../scenes/roleImageChoice.js').RoleImageVariant}
  */
 function findMadmanImageVariant(state) {
-  const madman = state.players.find((p) => p.role === 'madman');
-  if (madman?.roleImageVariant) return madman.roleImageVariant;
-  return resolveRoleImageVariant({ choice: 'random', savedRoll: null, gameKey: madman?.id ?? '' });
+  return findImageVariant(state, state.players.find((p) => p.role === 'madman')?.id) ?? 'man';
 }

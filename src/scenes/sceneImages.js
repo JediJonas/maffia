@@ -27,7 +27,9 @@ import roleMayorWoman from './images/roll-borgmastare-kvinna.webp';
 import roleMayorMan from './images/roll-borgmastare-man.webp';
 import roleMadmanWoman from './images/roll-galningen-kvinna.webp';
 import roleMadmanMan from './images/roll-galningen-man.webp';
-import nightMafia from './images/natt-maffia.webp';
+import nightMafia1 from './images/natt-maffia-1.webp';
+import nightMafia2 from './images/natt-maffia-2.webp';
+import nightMafia3 from './images/natt-maffia-3.webp';
 import nightDetective from './images/natt-detektiv.webp';
 import nightDoctor from './images/natt-lakare.webp';
 import nightCitizenWoman from './images/natt-stadsbo-kvinna.webp';
@@ -47,7 +49,8 @@ import morningMurderHotelMan from './images/morgon-mord-hotell-man.webp';
 import morningMurderCloseUpWoman from './images/morgon-mord-narbild-kvinna.webp';
 import morningMurderCloseUpMan from './images/morgon-mord-narbild-man.webp';
 import morningNoMurder from './images/morgon-ingen.webp';
-import verdict from './images/dom.webp';
+import verdictWoman from './images/dom-kvinna.webp';
+import verdictMan from './images/dom-man.webp';
 import mafiaWins from './images/slut-maffia.webp';
 import townWins from './images/slut-staden.webp';
 import madmanWinsWoman from './images/slut-galningen-kvinna.webp';
@@ -82,7 +85,9 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   roleMayorMan: { src: roleMayorMan, alt: 'En manlig borgmästare i kostym och ämbetskedja höjer handen på trappan framför stadshuset.', position: '100% 30%' },
   roleMadmanWoman: { src: roleMadmanWoman, alt: 'En kvinna med långt rufsigt hår i tvångströja flinar i en vadderad cell under en lampa.', position: '100% 30%' },
   roleMadmanMan: { src: roleMadmanMan, alt: 'En man med rufsigt hår i tvångströja flinar i en vadderad cell under en lampa.', position: '100% 30%' },
-  nightMafia: { src: nightMafia, alt: 'En regnig gata en natt. Två män i hatt står tätt ihop under en gatlykta.', position: '50% 68%' },
+  nightMafia1: { src: nightMafia1, alt: 'En regnig gata med brandtrappor en natt. Två män i hatt står tätt ihop vid en port, och en bil står parkerad under en gatlykta.', position: '75% 50%' },
+  nightMafia2: { src: nightMafia2, alt: 'En regnig gata en natt. En svart bil står under en gatlykta, och längre bort står två män i hatt i en upplyst port.', position: '35% 50%' },
+  nightMafia3: { src: nightMafia3, alt: 'En regnig gata med höga hus en natt. Två män i hatt står i en upplyst port, och en bil står parkerad under en gatlykta.', position: '55% 50%' },
   nightDetective: { src: nightDetective, alt: 'En man i skjorta och slips läser ett papper vid ett skrivbord under en lampa. Bakom honom syns stadens fönster i regnet.', position: '50% 35%' },
   nightDoctor: { src: nightDoctor, alt: 'En gestalt i rock med en väska går ensam i regnet längs en tegelmur under en gatlykta.', position: '50% 16%' },
   nightCitizenWoman: { src: nightCitizenWoman, alt: 'En kvinna sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },
@@ -102,7 +107,8 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   morningMurderCloseUpWoman: { src: morningMurderCloseUpWoman, alt: 'En kvinna i dräkt ligger död på ett trägolv under en lampa. Hennes pärlhalsband har gått sönder, och glasögonen ligger bredvid.', position: '30% 50%' },
   morningMurderCloseUpMan: { src: morningMurderCloseUpMan, alt: 'En man i kostym och slips ligger död på ett trägolv under en lampa. Glasögonen ligger bredvid honom.', position: '30% 50%' },
   morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En mjölkbud ställer flaskor på en trappa, och en man i hatt läser tidningen mot en vägg.', position: '65% 50%' },
-  verdict: { src: verdict, alt: 'Tre personer i hatt pekar på en rädd man som står med hatten i händerna vid en tegelvägg.', position: '50% 40%' },
+  verdictWoman: { src: verdictWoman, alt: 'Två män i hatt pekar på en rädd kvinna som står med hatten i handen vid en tegelvägg.', position: '50% 40%' },
+  verdictMan: { src: verdictMan, alt: 'Två män i hatt pekar på en rädd man som står med hatten i händerna vid en tegelvägg.', position: '50% 40%' },
   mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden. Den ena tänder en cigarett.', position: '30% 40%' },
   townWins: { src: townWins, alt: 'Stadsborna skakar hand på en regnvåt gata, medan två poliser för bort en man i kostym mot en polisbil.', position: '50% 50%' },
   madmanWinsWoman: { src: madmanWinsWoman, alt: 'Två skötare i vita rockar för bort en skrattande kvinna i tvångströja mot en ambulans. Några stadsbor ser på.', position: '75% 50%' },

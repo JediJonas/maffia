@@ -60,10 +60,11 @@ export function resolveRoleImageVariant({ choice, savedRoll, gameKey }) {
 }
 
 /**
+ * Ett tal som alltid blir detsamma för samma text, på alla telefoner.
  * @param {string} text
  * @returns {number}
  */
-function hashText(text) {
+export function hashText(text) {
   const MULTIPLIER = 31;
   let hash = 0;
   for (const char of text) hash = (hash * MULTIPLIER + char.charCodeAt(0)) >>> 0;
