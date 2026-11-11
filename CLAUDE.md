@@ -3,6 +3,96 @@
 Svara på svenska. Alla ändringar görs som PR mot main som Jonas godkänner.
 Pusha aldrig direkt till main och merga aldrig själv.
 
+## Arbetssätt
+
+- Jobba på en egen gren och öppna en PR mot main. Jonas granskar och mergar.
+  Det som hamnar i main publiceras direkt på jedijonas.github.io/maffia.
+- Kör `npm run check` (lint, typkontroll, tester och bygge) innan du pushar.
+  Samma kontroll körs i GitHub Actions.
+- Visuella ändringar: lägg skärmbilder i PR:en (telefon 390 px bred, gärna
+  också dator), och spara dem i projektfilerna under `maffia/pr/`.
+- Commit-meddelanden och kodkommentarer skrivs på svenska. Beslut som Jonas
+  har tagit märks med datum, till exempel `(Jonas 2026-11-06)`.
+
+## Arkitektur
+
+Se README.md för mapparna. Det viktigaste:
+
+- **Stjärntopologi.** En telefon är värd och spelar samtidigt. Värden äger
+  hela spelets tillstånd (roller, vem som lever, fas). De andra skickar bara
+  handlingar, som `{ type: 'vote', targetId }`, via PeerJS.
+- **Skicka aldrig andras roller.** Varje telefon får bara sin egen vy från
+  `src/game/playerView.js`. Lägg aldrig till fält i vyn som avslöjar någon
+  annans roll eller nattval, och skriv ett test i `playerView.test.js` när
+  vyn ändras.
+- **Reglerna är rena funktioner** i `src/game/` (`rules.js`, `night.js`,
+  `roles.js` med flera) och testas med Vitest. `src/host/` och
+  `src/player/` kopplar ihop regler och nätverk. Logik hör hemma i
+  `src/game/`, inte i vyerna.
+- Värden kontrollerar varje handling (t.ex. figurval) innan den används.
+- Återanslutning: varje telefon sparar en hemlig nyckel
+  (`src/device/savedSession.js`) och får tillbaka sin plats. Värdens skärm
+  hålls tänd med Wake Lock.
+
+## Designregler i korthet
+
+Hela reglerna står i `maffia/designregler.md` i projektfilerna. Läs dem före
+en ändring av utseendet. Det viktigaste:
+
+- Noirserie: svart tusch på vitt papper, ingen färg. Natten är svart utan
+  raster. Rastret består alltid av helt svarta punkter, aldrig grå, och ligger
+  aldrig bakom text.
+- Typsnitt: Archivo för appens text, Big Shoulders Display 900 för rubriker,
+  Comic Neue 700 i versaler för berättarens rutor och pratbubblor, Courier
+  Prime för maskinskrivna svar.
+- Berättarens rutor är fyrkantiga och berättar ("Staden sover …"). När appen
+  förklarar något får rutan 10 px rundade hörn (klassen `explanation`). En
+  svart rundad ruta (`notice`) betyder att du själv inte kan gå vidare.
+- Pratbubbla bara när en person själv säger något.
+- Tal skrivs med bokstäver ("tre av fem har röstat"). Siffror bara i rubriker
+  som "Dag 1" och i koder.
+- Ordval: "staden", inte "spelet". "Förvisad", inte utröstad. "Stadsbo",
+  inte medborgare. "Figur", inte avatar.
+- Knappar: 52 px höga piller i `.bottom-actions`. Två knappar: vit överst,
+  svart huvudknapp underst, närmast tummen (undantag startsidan).
+- Listor står i bokstavsordning (domslutet efter antal röster). Namn högst 14
+  tecken.
+- Avstånd: se avsnittet nedan och tabellen i designreglerna.
+- Avvikelser beslutas av Jonas. Skriv in nya beslut i designregler.md.
+
+## Bilder
+
+- Bildrutans bilder ligger i `src/scenes/images/` och registreras i
+  `src/scenes/sceneImages.js` med alt-text och utsnitt (`position`).
+- Filnamn på svenska, små bokstäver utan å, ä, ö, med bindestreck:
+  `<vy>-<motiv>-<kvinna|man>.webp`. Vyerna är `roll`, `natt`,
+  `morgon-mord`, `dom`, `slut`, plus `start`, `ga-med`, `skapa`, `lobby`.
+  Exempel: `roll-lakare-kvinna.webp`, `natt-fonstertittare-man.webp`,
+  `morgon-mord-hotell-kvinna.webp`. Bilder utan kön numreras
+  (`natt-maffia-1.webp`) eller får eget motiv (`dom-ingen.webp`).
+- Varje roll har en kvinna och en man. Vilken som visas styrs av spelarens
+  rollbild (`src/scenes/roleImageChoice.js`); botar får den efter namnet.
+- Efterbehandling innan en bild läggs in: beskär bort marginal, ram och
+  signatur, gör gråskala, sätt rent svart och rent vitt (svartpunkt ca 34,
+  vitpunkt ca 245) och spara som WebP, cirka 1000–1100 px bred i 4:3.
+  Detaljer och promptmallen: `maffia/bilder-och-prompter.md` i
+  projektfilerna.
+
+## Testa med botar
+
+- Värden kan lägga till högst tre botar i lobbyn under Inställningar. Med
+  värden och tre botar är man fyra, så en enda webbläsare kan spela ett helt
+  spel. Botarna körs i värdens telefon med samma regler som alla
+  (`src/game/bots.js`, `src/host/useBots.js`) och tänker 1,5–4 s per drag.
+- Playwright: starta `npm run dev` (https med självsignerat certifikat, så
+  använd `ignoreHTTPSErrors: true`), välj Starta nytt spel, lägg till tre
+  botar i Inställningar och tryck Starta spelet. Värden måste själv välja på
+  natten och rösta på dagen; botarna väntar inte på något annat.
+- Fler riktiga spelare: öppna fler sidor i samma webbläsare (egen `context`
+  per spelare) och gå med med rumskoden.
+- Enhetstester: `createTestGame` och `playNight` i `src/game/testGame.js` ger
+  ett spel med kända roller.
+
 ## Mobillayout i Safari: knappar och bakgrund längst ner
 
 Detta har gått fel flera gånger. Följ mönstret och ändra det inte utan att
