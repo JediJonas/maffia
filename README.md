@@ -4,7 +4,8 @@ Ett sällskapsspel som spelas i telefonen. En av telefonerna är värd och spela
 samtidigt. Inga servrar behövs utöver PeerJS för att telefonerna ska hitta
 varandra; därefter går all trafik direkt mellan telefonerna.
 
-Reglerna finns i [docs/regler.md](docs/regler.md).
+Reglerna finns i [docs/regler.md](docs/regler.md). Designreglerna finns i
+[docs/designregler.md](docs/designregler.md).
 
 Spela på <https://jedijonas.github.io/maffia/>. Sidan publiceras på nytt
 varje gång något hamnar i main.

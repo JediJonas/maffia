@@ -36,8 +36,8 @@ Se README.md för mapparna. Det viktigaste:
 
 ## Designregler i korthet
 
-Hela reglerna står i `maffia/designregler.md` i projektfilerna. Läs dem före
-en ändring av utseendet. Det viktigaste:
+Hela reglerna står i `docs/designregler.md`. Läs dem före en ändring av
+utseendet. Det viktigaste:
 
 - Noirserie: svart tusch på vitt papper, ingen färg. Natten är svart utan
   raster. Rastret består alltid av helt svarta punkter, aldrig grå, och ligger
@@ -58,7 +58,8 @@ en ändring av utseendet. Det viktigaste:
 - Listor står i bokstavsordning (domslutet efter antal röster). Namn högst 14
   tecken.
 - Avstånd: se avsnittet nedan och tabellen i designreglerna.
-- Avvikelser beslutas av Jonas. Skriv in nya beslut i designregler.md.
+- Avvikelser beslutas av Jonas. Skriv in nya beslut i `docs/designregler.md`
+  i samma PR som ändringen.
 
 ## Bilder
 
@@ -75,8 +76,7 @@ en ändring av utseendet. Det viktigaste:
 - Efterbehandling innan en bild läggs in: beskär bort marginal, ram och
   signatur, gör gråskala, sätt rent svart och rent vitt (svartpunkt ca 34,
   vitpunkt ca 245) och spara som WebP, cirka 1000–1100 px bred i 4:3.
-  Detaljer och promptmallen: `maffia/bilder-och-prompter.md` i
-  projektfilerna.
+  Detaljer och promptmallen: `docs/bilder-och-prompter.md`.
 
 ## Testa med botar
 
@@ -184,5 +184,5 @@ ritade kant (`--bubble-overhang` minus `--bubble-inset`). En personrad har
 16 px ovanför och under, även direkt under bildrutan. Undantag: 18 px från
 rubrikraden till bildrutan, 10 px mellan två knappar och 24 px ovanför
 knappgruppen när den står direkt under innehållet. Lägg inte till egen luft
-för en enskild del. Hela tabellen står i designreglerna (designregler.md i
-projektfilerna), och avvikelser beslutas av Jonas.
+för en enskild del. Hela tabellen står i `docs/designregler.md`, och avvikelser beslutas av
+Jonas.
