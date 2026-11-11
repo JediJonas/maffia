@@ -8,7 +8,7 @@ Pusha aldrig direkt till main och merga aldrig själv.
 - Jobba på en egen gren och öppna en PR mot main. Jonas granskar och mergar.
   Det som hamnar i main publiceras direkt på jedijonas.github.io/maffia.
 - Kör `npm run check` (lint, typkontroll, tester och bygge) innan du pushar.
-  Samma kontroll körs i GitHub Actions.
+  GitHub Actions kör samma sak och validerar dessutom HTML:en.
 - Visuella ändringar: lägg skärmbilder i PR:en (telefon 390 px bred, gärna
   också dator), och spara dem i projektfilerna under `maffia/pr/`.
 - Commit-meddelanden och kodkommentarer skrivs på svenska. Beslut som Jonas
