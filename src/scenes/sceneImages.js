@@ -81,7 +81,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   roleDetectiveWoman: { src: roleDetectiveWoman, alt: 'En kvinnlig detektiv i ljus trenchcoat och hatt antecknar i ett block i en regnig gränd.', position: '50% 30%' },
   roleDetectiveMan: { src: roleDetectiveMan, alt: 'En manlig detektiv i mörk trenchcoat och hatt antecknar i ett block i en regnig gränd.', position: '75% 30%' },
   roleDoctorWoman: { src: roleDoctorWoman, alt: 'En läkare i mörk kappa med stetoskop och läkarväska står i en upplyst dörröppning.', position: '100% 30%' },
-  roleBodyguardWoman: { src: roleBodyguardWoman, alt: 'En livvakt i trenchcoat och hatt med flor står i en mörk port i regnet, med handen innanför kappan, och spanar längs gatan.', position: '80% 30%' },
+  roleBodyguardWoman: { src: roleBodyguardWoman, alt: 'En livvakt i trenchcoat och fedora, med uppsatt hår, står i en mörk port i regnet med handen innanför kappan och spanar längs gatan.', position: '80% 30%' },
   roleBodyguardMan: { src: roleBodyguardMan, alt: 'En livvakt med mustasch, i trenchcoat och hatt, står i en mörk port i regnet med handen innanför rocken och spanar längs gatan.', position: '80% 30%' },
   roleDoctorMan: { src: roleDoctorMan, alt: 'En läkare med glasögon och mustasch, i mörk kappa med stetoskop och läkarväska, står i en upplyst dörröppning.', position: '100% 30%' },
   roleCitizenWoman: { src: roleCitizenWoman, alt: 'En kvinna i blommig klänning står i sin öppna ytterdörr och ser ut i mörkret med handen mot dörrkarmen.', position: '75% 30%' },
