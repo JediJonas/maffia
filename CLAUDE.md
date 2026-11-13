@@ -93,6 +93,36 @@ utseendet. Det viktigaste:
 - Enhetstester: `createTestGame` och `playNight` i `src/game/testGame.js` ger
   ett spel med kända roller.
 
+## Läckkontroll
+
+Ingen telefon får veta något den inte ska. Det kontrolleras på två sätt, och
+båda körs på varje PR i GitHub Actions:
+
+- **Enhetstest** (`src/game/leakCheck.test.js`): spelar 45 hela partier med
+  bara botar (fyra och tolv spelare, alla roller, roller vid död av och på)
+  och kontrollerar varje telefons vy efter varje drag. Ingår i `npm test`.
+- **Webbläsartest** (`e2e/lackkontroll.e2e.js`, `npm run test:e2e`): värden
+  och tre riktiga telefoner spelar ett parti genom en egen PeerJS-server.
+  Värden loggar varje meddelande den skickar (`src/network/messageLog.js`,
+  bara i utvecklingsläget), och testet kontrollerar dem när rollerna visas på
+  slutet. Tar ungefär en minut.
+
+Båda använder `findLeaks` i `src/game/leakCheck.js`. Den letar efter andras
+roller (levande, eller döda när rollerna inte visas vid död, eller den
+förvisade under nedräkningen), maffians lag hos andra än maffian, andras
+nattval, detektivens och vittnenas resultat hos andra, rollnamn i oväntade
+fält och andra telefoners hemliga nycklar. Den har också en lista över
+granskade fält i vyn: ett nytt fält i `playerView.js` får testet att fallera
+tills det har lagts till i listan. Tänk efter vem som får se fältet innan du
+gör det.
+
+Skärmbilder i telefonstorlek (390 px) av varje vy för varje telefon:
+`SKARMBILDER=1 npm run test:e2e`. De hamnar i `test-results/skarmbilder/`.
+I molnmiljön finns Chromium redan; kör inte `playwright install` där.
+
+Agenten `testare` (`.claude/agents/testare.md`) kör allt detta och tittar på
+bilderna. Be den om ett test efter ändringar i regler, vyer eller nätverk.
+
 ## Mobillayout i Safari: knappar och bakgrund längst ner
 
 Detta har gått fel flera gånger. Följ mönstret och ändra det inte utan att
