@@ -37,8 +37,12 @@ TEMPLATE_FILE = ROOT / "docs" / "bilder-och-prompter.md"
 CHECK_SCRIPT = ROOT / "scripts" / "kontrollera-bilder.py"
 DEFAULT_OUT_DIR = ROOT / "nya-bilder"
 # Modellen kan bytas utan kodändring. Kör --modeller för att se vilka som finns.
-DEFAULT_MODEL = os.environ.get("GEMINI_BILDMODELL", "gemini-2.5-flash-image")
+# gemini-3.1-flash-image (Nano Banana 2) är den nyaste och billigaste med
+# 4:3 och generateContent, enligt models-listan 2026-11-13.
+DEFAULT_MODEL = os.environ.get("GEMINI_BILDMODELL", "gemini-3.1-flash-image")
 ASPECT_RATIO = "4:3"
+# 1K räcker för 1050 px bredd och är billigast.
+IMAGE_SIZE = "1K"
 API_URL = "https://generativelanguage.googleapis.com/v1beta"
 REQUEST_TIMEOUT_SECONDS = 180
 # Efterbehandlingen i docs/bilder-och-prompter.md.
@@ -101,13 +105,16 @@ def generate(prompt, references, model):
         f"models/{model}:generateContent",
         {
             "contents": [{"role": "user", "parts": parts}],
-            "generationConfig": {"responseModalities": ["IMAGE"], "imageConfig": {"aspectRatio": ASPECT_RATIO}},
+            "generationConfig": {"responseModalities": ["IMAGE"], "imageConfig": {"aspectRatio": ASPECT_RATIO, "imageSize": IMAGE_SIZE}},
         },
     )
     candidates = response.get("candidates") or []
     for candidate in candidates:
         for part in candidate.get("content", {}).get("parts", []):
             inline = part.get("inlineData") or part.get("inline_data")
+            # Modeller som tänker kan skicka utkast först. De hoppas över.
+            if part.get("thought"):
+                continue
             if inline and inline.get("data"):
                 return Image.open(BytesIO(base64.b64decode(inline["data"])))
     reason = candidates[0].get("finishReason") if candidates else response.get("promptFeedback", "inget svar")
