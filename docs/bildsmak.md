@@ -130,6 +130,27 @@ en regel.
   Sedan valdes ändå första versionen, där advokaten är en man i båda: "Jag
   tycker det funkar som nu. Att ansiktet är skuggat får representera att
   advokaten är okänd."
+- 2026-11-13, `roll-livvakt-man`, ny biffigare version (tung slagskämpe med
+  boxarnäsa, tung käke och tjock nacke): "Jag tycker det ser bra ut".
+- 2026-11-13, `roll-livvakt-kvinna`, om att göra henne biffig som mannen:
+  "Fast jag tror inte det ser bra ut om hon är biffig på det sättet".
+- 2026-11-13, `roll-livvakt-kvinna`, ny version (lång och senig, hård blick),
+  där lampan hänger till vänster och käglan går bort från porten men
+  ansiktena i porten ändå är jämnt upplysta: "Ser bra ut. Men jag funderar på
+  belysningen. Känns den realistisk?"
+- 2026-11-13, `roll-livvakt-*` med lampan rakt ovanför porten (skugga över
+  ögonen, upplyst haka): "Ännu konstigare. Kan man låta lampan vara långt
+  bort. En lyktstolpe på avstånd. Och en ganska mörk bild. Följdaktligen. Du
+  kan ändra en av dem bara, först."
+- 2026-11-13, `roll-livvakt-man` med en lyktstolpe på avstånd längst till
+  vänster i en mörk bild: "Den var bra, men lyktstolpen måste kanske vara mer
+  åt höger, för att få plats i mobilvyn, eller?"
+- 2026-11-13, `roll-livvakt-man` med lyktstolpen på avstånd flyttad 200 px åt
+  höger (`roll-livvakt-man-lykta-flyttad`): "Det ser bra ut!" Lyktan och
+  ljuspölen flyttades för hand, eftersom Gemini inte flyttade dem när
+  prompten bad om det.
+- 2026-11-13, `roll-livvakt-kvinna` i samma mörka gata med lyktan på avstånd,
+  bredvid mannen: "Det blir bra!"
 
 ## Bilder att byta
 
