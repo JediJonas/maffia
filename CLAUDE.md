@@ -97,7 +97,8 @@ utseendet. Det viktigaste:
   <mapp>` när bilder läggs till eller byts, och publicera den till samma
   adress så att omdömena följer med.
 - Agenten `bildansvarig` (`.claude/agents/bildansvarig.md`) skriver prompter
-  och kontrollerar bilder. `python3 scripts/generera-bild.py` tar fram en
+  och kontrollerar bilder. Låt den alltid skriva prompterna, ta fram bilderna
+  med Gemini och granska varje ny bild innan den läggs in (Jonas 2026-11-13). `python3 scripts/generera-bild.py` tar fram en
   bild med Geminis Interactions-API (`POST /v1beta/interactions`) och
   modellen `gemini-nano-banana-2.1` (Jonas 2026-11-13). Nyckeln är en Network secret i molnmiljön för
   `generativelanguage.googleapis.com` med headern `x-goog-api-key`, så att
@@ -163,8 +164,8 @@ Skärmbilder i telefonstorlek (390 px) av varje vy för varje telefon:
 I molnmiljön finns Chromium redan; kör inte `playwright install` där.
 
 Agenten `testare` (`.claude/agents/testare.md`) kör allt detta, håller
-regellistan komplett och tittar på bilderna. Be den om ett test efter
-ändringar i regler, vyer eller nätverk.
+regellistan komplett och tittar på bilderna. Kör den alltid före en PR som
+ändrar regler, vyer eller nätverk (Jonas 2026-11-13).
 
 ## Mobillayout i Safari: knappar och bakgrund längst ner
 
