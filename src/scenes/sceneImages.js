@@ -68,9 +68,9 @@ import madmanWinsMan from './images/slut-galningen-man.webp';
 /** @typedef {{ src: string, alt: string, position: string }} SceneImage */
 
 export const SCENE_IMAGES = /** @type {const} */ ({
-  join: { src: join, alt: 'En mörk korridor med en dörr på glänt. Ljuset faller över golvet där ett papper ligger, och därinne står ett bord med en hatt och en rykande cigarett.', position: '50% 50%' },
+  join: { src: join, alt: 'En person i hatt står i en regnig gränd framför en bakdörr som har öppnats. Ljuset faller ut över de våta gatstenarna, och i dörren står någon och väntar.', position: '50% 50%' },
   create: { src: create, alt: 'En tom bar sent på kvällen med glas och flaskor på disken och en hatt på en barstol under en hängande lampa.', position: '50% 50%' },
-  lobby: { src: lobby, alt: 'Två män i hatt och en kvinna med en cigarett spelar kort runt ett runt bord under en hängande lampa i ett mörkt rum.', position: '50% 50%' },
+  lobby: { src: lobby, alt: 'En bar under en hängande lampa. Bartendern ställer fram glas, en kvinna i kappa sätter sig på en barstol med en sedel framför sig, och en man i hatt lutar sig mot disken bredvid henne.', position: '50% 50%' },
   roleHidden: { src: roleHidden, alt: 'En förseglad akt på ett skrivbord i lampljus, bredvid en askkopp med en rykande cigarett, en hatt och en revolver.', position: '50% 50%' },
   roleMafiaWoman: { src: roleMafiaWoman, alt: 'En kvinna i pälsstola och hatt med flor röker med cigarettmunstycke i en dörröppning en regnig natt.', position: '100% 30%' },
   roleMafiaMan: { src: roleMafiaMan, alt: 'En man i kritstrecksrandig kostym och hatt röker i en dörröppning en regnig natt.', position: '100% 30%' },

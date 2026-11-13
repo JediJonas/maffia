@@ -26,7 +26,8 @@ export function RoomCodeCaption({ roomCode }) {
   return (
     <button type="button" className="scene-caption scene-caption-bottom room-code-button" onClick={copyRoomCode}>
       Koden är <span className="room-code-text" aria-label={[...roomCode].join(' ')}>{roomCode}</span>
-      <span aria-live="polite">{isCopied ? ' (kopierad)' : ''}</span>.
+      {/* Ingen punkt efter koden (Jonas 2026-11-13). */}
+      <span aria-live="polite">{isCopied ? ' (kopierad)' : ''}</span>
     </button>
   );
 }

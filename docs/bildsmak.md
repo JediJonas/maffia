@@ -111,7 +111,9 @@ När bildansvarig kan ta fram bilder själv (via Gemini) byts de här först, i
 den här ordningen:
 
 1. Gillar inte: `natt-detektiv-*`, `natt-lakare-*`, `roll-detektiv-*`,
-   `natt-maffia-1`–`3`, `ga-med`.
-2. `lobby`, så att den passar med de andra (Jonas 2026-11-13).
+   `natt-maffia-1`–`3`. (`ga-med` byttes 2026-11-13.)
+2. `lobby` byttes 2026-11-13 mot samma bar som `skapa`, och `ga-med` mot
+   barens bakdörr, så att Nytt spel, Gå med och lobbyn hänger ihop (Jonas
+   2026-11-13).
 3. Okej, men med för mycket grått enligt kontrollen. Kör
    `python3 scripts/kontrollera-bilder.py` för den aktuella listan.

@@ -9,7 +9,7 @@ Gällande förslag: canvasen "Maffia noir" (https://claude.ai/artifact/5wB8bBU9v
 - En textruta med mer än en rad löptext går i full bredd (samma bredd som bildrutan och listor).
 - Formulär (Gå med, Skapa): fälten ligger som rader i en tabell, likt listan i Ändra figur. Rad 56 px, etikett till vänster (Archivo 600, 16 px), fältet till höger utan egen ram, 1 px linje mellan raderna. Fältet ska ha en tydlig fokusmarkering i appen.
 - Appens egen text: Archivo. Grå hjälptext #444, 14 px.
-- Rumskoden skrivs alltid med 0,3 em mellan bokstäverna (KXQ4), både i Gå med och i Lobbyn, som i appen i dag.
+- Rumskoden skrivs alltid med 0,3 em mellan bokstäverna (KXQ4), både i Gå med och i Lobbyn, som i appen i dag. Rutan "Koden är KXQ4" har ingen punkt efter koden (Jonas 2026-11-13).
 - Tal skrivs med bokstäver i serierutor och lappar ("fyra spelare", "tre av fem har röstat"). Siffror bara i rubriker som "Dag 1" och i koder.
 - Bildruta: 318 px hög, 2 px ram, textruta uppe till vänster och nere till höger.
 - Knappar: 52 px höga piller. När två ligger på varandra ligger den svarta huvudknappen längst ner (närmast tummen) och den vita ovanför. Undantag: startsidan, där "Gå med i spel" (svart) ligger överst, och Ändra figur, där "Slumpa figur" ligger uppe vid figuren.
@@ -96,7 +96,7 @@ Se även [bilder-och-prompter.md](bilder-och-prompter.md) för bildernas efterbe
 
 - Domen: den förvisades roll räknas ner i rutan bredvid personcirkeln, i samma typsnitt som avslöjandet: först "Rollen visas om fem …", sedan "Anna var detektiv." Nedräkningen till natten står i en fullbreddsruta längst ner: "Natten faller om fem …". Tal i nedräkningar skrivs med bokstäver.
 
-- Lobbyn för spelarna: som värdens lobby, men med en bild i stället för QR-koden (rumskoden står kvar nere till höger), "värd" vid värdens namn, "Ändra figur" vid den egna raden och inga knappar. När fyra har anslutit står det också "Bertil startar när alla är på plats." Bilden lånas från Gå med tills en egen finns.
+- Lobbyn för spelarna: som värdens lobby, men med en bild i stället för QR-koden (rumskoden står kvar nere till höger), "värd" vid värdens namn, "Ändra figur" vid den egna raden och inga knappar. När fyra har anslutit står det också "Bertil startar när alla är på plats." Bilden är baren från Nytt spel, nu med folk (Jonas 2026-11-13).
 
 - Rollbild: en egen ruta under figurvalen i Ändra figur, 16 px under dem, med raden "Rollbild" med valen Slumpa (förvalt), Kvinna och Man. Valet sparas med figuren och styr vilken av rollbilderna (5–8 eller 5b–8b) som visas på den egna telefonen. Med Slumpa väljs bilden slumpvis varje spel. Slumpa är förvalt för en ny figur, och "Slumpa figur" ändrar inte rollbilden. Ingen fråga om kön när man går med.
 
