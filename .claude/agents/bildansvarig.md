@@ -79,9 +79,9 @@ beskriv avvikelsen och låt projektets ägare bestämma.
 
 `scripts/generera-bild.py` tar fram en bild med Gemini: det bygger prompten
 ur mallen, sparar råbilden, efterbehandlar och kör bildkontrollen. Nyckeln
-läses från miljövariabeln som `CLAUDE.md` nämner, och den skrivs aldrig in i
-en fil, ett meddelande eller en commit. Finns ingen nyckel lämnar du färdiga
-prompter för att klistras in för hand.
+läggs på av nätverket eller läses från miljön, som `CLAUDE.md` beskriver, och
+den skrivs aldrig in i en fil, ett meddelande eller en commit. Nekar API:t
+anropet lämnar du färdiga prompter för att klistras in för hand.
 
 1. Läs smakfilen och välj två eller tre bilder som ägaren gillar, gärna med
    samma ljus eller kamera, och skicka med dem med `--referens`.

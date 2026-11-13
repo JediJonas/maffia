@@ -98,8 +98,10 @@ utseendet. Det viktigaste:
   adress så att omdömena följer med.
 - Agenten `bildansvarig` (`.claude/agents/bildansvarig.md`) skriver prompter
   och kontrollerar bilder. `python3 scripts/generera-bild.py` tar fram en
-  bild med Gemini (Googles SDK `google-genai`) med nyckeln i miljövariabeln
-  `GEMINI_API_KEY`, en hemlighet i molnmiljön och aldrig i repot. Modellen
+  bild med Geminis REST-API. Nyckeln är en Network secret i molnmiljön för
+  `generativelanguage.googleapis.com` med headern `x-goog-api-key`, så att
+  nätverket lägger på den och den aldrig syns (Jonas 2026-11-13). Utanför
+  molnmiljön läses den från `GEMINI_API_KEY`. Aldrig i repot. Modellen
   väljs med `--modell` eller `GEMINI_BILDMODELL`, och `--modeller` listar
   dem. Nya bilder hamnar i `nya-bilder/`, som inte checkas in.
 

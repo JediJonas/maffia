@@ -11,17 +11,23 @@ bilden, och den färdiga kontrolleras med scripts/kontrollera-bilder.py.
     python3 scripts/generera-bild.py --modeller     # visa bildmodellerna
     python3 scripts/generera-bild.py ... --bara-prompt  # inget anrop
 
-Nyckeln läses från miljövariabeln GEMINI_API_KEY och skrivs aldrig ut.
-Kräver google-genai, Pillow och NumPy (pip install google-genai pillow numpy).
+Nyckeln läggs helst på av molnmiljöns nätverk (en Network secret för
+generativelanguage.googleapis.com med headern x-goog-api-key), så att den
+aldrig syns i sessionen. Annars läses den från miljövariabeln GEMINI_API_KEY.
+Den skrivs aldrig ut. Kräver Pillow och NumPy.
 Varje anrop kostar pengar, så skriptet tar fram en bild åt gången.
 """
 import argparse
+import base64
+import json
 import os
 import re
 import subprocess
 import sys
 from io import BytesIO
 from pathlib import Path
+from urllib.error import HTTPError
+from urllib.request import Request, urlopen
 
 import numpy as np
 from PIL import Image
@@ -33,6 +39,8 @@ DEFAULT_OUT_DIR = ROOT / "nya-bilder"
 # Modellen kan bytas utan kodändring. Kör --modeller för att se vilka som finns.
 DEFAULT_MODEL = os.environ.get("GEMINI_BILDMODELL", "gemini-2.5-flash-image")
 ASPECT_RATIO = "4:3"
+API_URL = "https://generativelanguage.googleapis.com/v1beta"
+REQUEST_TIMEOUT_SECONDS = 180
 # Efterbehandlingen i docs/bilder-och-prompter.md.
 BLACK_POINT, WHITE_POINT = 34, 245
 FINAL_WIDTH = 1050
@@ -56,40 +64,53 @@ def build_prompt(scene, camera):
     return template.replace("<vad som händer, var, vilka>", scene).replace("<kamera>", camera)
 
 
-def client():
-    if not os.environ.get("GEMINI_API_KEY"):
-        sys.exit("GEMINI_API_KEY saknas. Lägg nyckeln som hemlighet i miljön, aldrig i en fil.")
-    from google import genai
-
-    return genai.Client()
+def call_api(path, body=None):
+    headers = {"Content-Type": "application/json"}
+    key = os.environ.get("GEMINI_API_KEY")
+    if key:
+        headers["x-goog-api-key"] = key
+    data = json.dumps(body).encode() if body is not None else None
+    request = Request(f"{API_URL}/{path}", data=data, headers=headers)
+    try:
+        with urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+            return json.load(response)
+    except HTTPError as error:
+        message = json.loads(error.read() or b"{}").get("error", {}).get("message", "")
+        if error.code in (401, 403):
+            sys.exit(f"Gemini nekade anropet ({error.code}: {message}). Saknas nyckeln i molnmiljön?")
+        sys.exit(f"Gemini svarade {error.code}: {message}")
 
 
 def list_models():
-    for model in client().models.list():
-        if "image" in model.name:
-            print(model.name.removeprefix("models/"))
+    for model in call_api("models?pageSize=1000").get("models", []):
+        if "image" in model["name"]:
+            print(model["name"].removeprefix("models/"))
+
+
+def image_part(path):
+    buffer = BytesIO()
+    Image.open(path).convert("RGB").save(buffer, "PNG")
+    return {"inline_data": {"mime_type": "image/png", "data": base64.b64encode(buffer.getvalue()).decode()}}
 
 
 def generate(prompt, references, model):
-    from google.genai import types
-
-    contents = [Image.open(path) for path in references]
     if references:
         prompt += "\n\nMatch the drawing style of the attached reference panels. Do not copy their scenes."
-    contents.append(prompt)
-    response = client().models.generate_content(
-        model=model,
-        contents=contents,
-        config=types.GenerateContentConfig(
-            response_modalities=["IMAGE"],
-            image_config=types.ImageConfig(aspect_ratio=ASPECT_RATIO),
-        ),
+    parts = [image_part(path) for path in references] + [{"text": prompt}]
+    response = call_api(
+        f"models/{model}:generateContent",
+        {
+            "contents": [{"role": "user", "parts": parts}],
+            "generationConfig": {"responseModalities": ["IMAGE"], "imageConfig": {"aspectRatio": ASPECT_RATIO}},
+        },
     )
-    for candidate in response.candidates or []:
-        for part in candidate.content.parts or []:
-            if part.inline_data and part.inline_data.data:
-                return Image.open(BytesIO(part.inline_data.data))
-    reason = response.candidates[0].finish_reason if response.candidates else "inget svar"
+    candidates = response.get("candidates") or []
+    for candidate in candidates:
+        for part in candidate.get("content", {}).get("parts", []):
+            inline = part.get("inlineData") or part.get("inline_data")
+            if inline and inline.get("data"):
+                return Image.open(BytesIO(base64.b64decode(inline["data"])))
+    reason = candidates[0].get("finishReason") if candidates else response.get("promptFeedback", "inget svar")
     sys.exit(f"Ingen bild i svaret ({reason}).")
 
 
