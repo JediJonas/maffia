@@ -85,6 +85,15 @@ utseendet. Det viktigaste:
   en kvinna och en man (rollbild, och nattbild utom för maffian), att varje fil används och har
   alt-text och utsnitt. `python3 scripts/kontrollera-bilder.py` kontrollerar
   efterbehandlingen (gråskala, rent svart och vitt, storlek och format).
+- Jonas smak står i `docs/bildsmak.md`, som regler med bilder som exempel.
+  Den växer ur bedömningssidan
+  <https://claude.ai/artifact/XEMHU7vZH4ngKYGMyU7pbA>, där Jonas markerar
+  varje bild med gillar, okej eller gillar inte och skriver varför (Jonas
+  2026-11-13). Omdömena ligger i artefaktens databas: samlingen `bedomning`
+  med filnamnet utan `.webp` som id, och `anteckningar/allmant`. Läs dem med
+  ArtifactData. Bygg om sidan med `python3 scripts/bildbedomning/bygg.py
+  <mapp>` när bilder läggs till eller byts, och publicera den till samma
+  adress så att omdömena följer med.
 - Agenten `bildansvarig` (`.claude/agents/bildansvarig.md`) skriver prompter
   och kontrollerar bilder. Gemini ska kunna generera bilder senare med
   nyckeln i miljövariabeln `GEMINI_API_KEY` (en hemlighet i molnmiljön eller

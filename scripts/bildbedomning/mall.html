@@ -1,0 +1,435 @@
+<title>Bildbedömning</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=Big+Shoulders+Display:wght@900&display=swap">
+<style>
+/* Layout: en kontaktbladsvägg i noir, tusch på papper; bilderna i rutnät per vy, omdömet under varje ruta. */
+:root {
+  --paper: #ffffff;
+  --ink: #0b0b0b;
+  --soft: #ececec;
+  --muted: #5b5b5b;
+  --shade: #000000;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --text: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper: #0b0b0b; --ink: #f4f4f4; --soft: #262626; --muted: #a8a8a8; --shade: #000000; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --paper: #0b0b0b; --ink: #f4f4f4; --soft: #262626; --muted: #a8a8a8; --shade: #000000; color-scheme: dark; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 16px/1.5 var(--text);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 64px;
+}
+main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+h1, h2 { font-family: var(--display); font-weight: 900; text-transform: uppercase; margin: 0; line-height: 0.95; text-wrap: balance; }
+h1 { font-size: clamp(2.8rem, 9vw, 4.6rem); letter-spacing: 0.01em; }
+h2 { font-size: 2rem; letter-spacing: 0.02em; }
+p { margin: 0; }
+.intro { display: flex; flex-direction: column; gap: 12px; max-width: 62ch; }
+.intro .lead { font-size: 1.1rem; }
+.muted { color: var(--muted); }
+
+.progress { display: flex; flex-direction: column; gap: 8px; max-width: 420px; }
+.progress-label { font-weight: 700; font-variant-numeric: tabular-nums; }
+.bar { height: 12px; border: 2px solid var(--ink); }
+.bar span { display: block; height: 100%; width: 0; background: var(--ink); transition: width 0.3s ease; }
+.status { min-height: 1.5em; font-size: 0.9rem; color: var(--muted); }
+.status.problem { color: var(--ink); font-weight: 700; }
+
+.general { display: flex; flex-direction: column; gap: 8px; max-width: 62ch; }
+.general label { font-weight: 700; }
+textarea {
+  width: 100%; box-sizing: border-box; min-height: 64px; resize: vertical;
+  font: inherit; color: var(--ink); background: var(--paper);
+  border: 2px solid var(--ink); border-radius: 0; padding: 8px 10px;
+}
+textarea::placeholder { color: var(--muted); }
+
+.filters { display: flex; flex-direction: column; gap: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  min-height: 40px; padding: 0 16px; border-radius: 999px;
+  border: 2px solid var(--ink); background: var(--paper); color: var(--ink);
+  font: 600 0.95rem/1 var(--text); cursor: pointer; font-variant-numeric: tabular-nums;
+}
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+.group { display: flex; flex-direction: column; gap: 16px; }
+.group-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-bottom: 3px solid var(--ink); padding-bottom: 6px; }
+.group-count { font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 20px; align-items: start; }
+
+.card { display: flex; flex-direction: column; gap: 12px; border: 2px solid var(--ink); background: var(--paper); padding-bottom: 12px; transition: box-shadow 0.15s ease, transform 0.15s ease; }
+.card[data-rating="love"] { box-shadow: 7px 7px 0 var(--ink); transform: translate(-2px, -2px); }
+.card[data-rating="no"] .thumb img { opacity: 0.35; }
+.thumb { display: block; width: 100%; padding: 0; border: 0; background: var(--shade); cursor: zoom-in; }
+.thumb img { display: block; width: 100%; height: auto; max-width: 100%; }
+.card.portrait .thumb img { max-height: 420px; width: auto; margin: 0 auto; }
+.meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 12px; min-width: 0; }
+.name { font-weight: 700; min-width: 0; overflow-wrap: anywhere; }
+.variant { flex: none; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border: 1.5px solid var(--ink); padding: 2px 8px; border-radius: 999px; }
+.rate { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 12px; }
+.rate button {
+  min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: 2px solid var(--ink); border-radius: 999px; background: var(--paper); color: var(--ink);
+  font: 700 0.9rem/1 var(--text); cursor: pointer; padding: 0 6px; white-space: nowrap;
+}
+@media (max-width: 380px) { .rate button { font-size: 0.8rem; gap: 4px; } .rate svg { display: none; } }
+.rate svg { width: 14px; height: 14px; flex: none; stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; }
+.rate button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.rate button.ok[aria-pressed="true"] { background: var(--soft); color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
+.note { padding: 0 12px; }
+.note textarea { min-height: 52px; font-size: 0.95rem; }
+
+button:focus-visible, textarea:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.empty { padding: 24px; border: 2px dashed var(--ink); }
+
+dialog { border: 0; padding: 0; background: transparent; max-width: min(1100px, 100vw - 32px); }
+dialog::backdrop { background: rgb(0 0 0 / 0.85); }
+dialog img { display: block; max-width: 100%; max-height: calc(100dvh - 120px); width: auto; margin: 0 auto; }
+.dialog-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 10px; color: #f4f4f4; }
+.dialog-bar button { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 2px solid #f4f4f4; background: #0b0b0b; color: #f4f4f4; font: 700 0.95rem/1 var(--text); cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<main>
+  <header class="intro">
+    <h1>Bildbedömning</h1>
+    <p class="lead">Markera vad du gillar i bilderna och vad du inte gillar, och skriv gärna ett par ord om varför. Bildansvarig läser dina omdömen och gör om dem till regler för nya bilder.</p>
+    <p class="muted">Tryck på en bild för att se den större. Tryck på samma omdöme igen för att ta bort det. Allt sparas direkt.</p>
+  </header>
+
+  <section class="progress" aria-label="Hur många som är bedömda">
+    <p class="progress-label" id="progress-label">Inga bilder bedömda än</p>
+    <div class="bar" aria-hidden="true"><span id="progress-bar"></span></div>
+    <p class="status" id="status" role="status" aria-live="polite">Hämtar dina omdömen …</p>
+  </section>
+
+  <section class="general">
+    <label for="general-note">Vad är viktigast för dig i en bild?</label>
+    <textarea id="general-note" placeholder="Till exempel: ansiktet ska synas, mycket svart, inget som ser datorgjort ut …"></textarea>
+  </section>
+
+  <section class="filters" aria-label="Visa">
+    <div class="chips" id="rating-filters"></div>
+    <div class="chips" id="group-filters"></div>
+  </section>
+
+  <div id="groups" class="filters"></div>
+  <p class="empty" id="empty" hidden>Inga bilder matchar valet.</p>
+</main>
+
+<dialog id="viewer" aria-label="Bilden i större format">
+  <img id="viewer-img" alt="">
+  <div class="dialog-bar"><span id="viewer-name"></span><button type="button" id="viewer-close">Stäng</button></div>
+</dialog>
+
+<script>
+const DATA = __DATA__;
+const COLLECTION = 'bedomning';
+const GENERAL_DOC = 'anteckningar/allmant';
+const NOTE_PAUSE_MS = 800;
+const LOAD_TIMEOUT_MS = 10000;
+const RATINGS = [
+  { id: 'love', label: 'Gillar', className: 'love', icon: '<path d="M8 3v10M3 8h10"/>' },
+  { id: 'ok', label: 'Okej', className: 'ok', icon: '<path d="M3 6h10M3 10h10"/>' },
+  { id: 'no', label: 'Gillar inte', className: 'no', icon: '<path d="M4 4l8 8M12 4l-8 8"/>' },
+];
+const RATING_FILTERS = [
+  { id: 'all', label: 'Alla' }, { id: 'unrated', label: 'Obedömda' },
+  { id: 'love', label: 'Gillar' }, { id: 'ok', label: 'Okej' }, { id: 'no', label: 'Gillar inte' },
+];
+
+const reviews = new Map(); // bildens id -> { rating, note }
+const cards = new Map();
+const noteTimers = new Map();
+const writing = new Set();
+const writeAgain = new Set();
+let db = null;
+let ratingFilter = 'all';
+let groupFilter = 'all';
+let canWrite = true;
+
+const $ = (id) => document.getElementById(id);
+const imagesById = new Map(DATA.images.map((img) => [img.id, img]));
+
+function reviewOf(id) {
+  return reviews.get(id) ?? { rating: null, note: '' };
+}
+
+function setStatus(text, isProblem = false) {
+  const el = $('status');
+  el.textContent = text;
+  el.classList.toggle('problem', isProblem);
+}
+
+function buildFilters() {
+  const ratingBox = $('rating-filters');
+  for (const f of RATING_FILTERS) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.dataset.filter = f.id; b.textContent = f.label;
+    b.addEventListener('click', () => { ratingFilter = f.id; applyFilters(); });
+    ratingBox.append(b);
+  }
+  const groupBox = $('group-filters');
+  for (const g of [{ id: 'all', title: 'Alla vyer' }, ...DATA.groups]) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.dataset.group = g.id; b.textContent = g.title;
+    b.addEventListener('click', () => { groupFilter = g.id; applyFilters(); });
+    groupBox.append(b);
+  }
+}
+
+function buildGroups() {
+  const box = $('groups');
+  for (const g of DATA.groups) {
+    const images = DATA.images.filter((img) => img.group === g.id);
+    const section = document.createElement('section');
+    section.className = 'group'; section.dataset.group = g.id;
+    const head = document.createElement('div');
+    head.className = 'group-head';
+    const h2 = document.createElement('h2'); h2.textContent = g.title;
+    const count = document.createElement('span'); count.className = 'group-count'; count.dataset.countFor = g.id;
+    head.append(h2, count);
+    const grid = document.createElement('div'); grid.className = 'grid';
+    for (const img of images) grid.append(buildCard(img));
+    section.append(head, grid);
+    box.append(section);
+  }
+}
+
+function buildCard(img) {
+  const card = document.createElement('article');
+  card.className = 'card' + (img.h > img.w ? ' portrait' : '');
+  card.dataset.id = img.id;
+
+  const thumb = document.createElement('button');
+  thumb.type = 'button'; thumb.className = 'thumb';
+  thumb.setAttribute('aria-label', `Visa ${img.label} större`);
+  const pic = document.createElement('img');
+  pic.src = 'bilder/' + img.file; pic.alt = img.alt; pic.loading = 'lazy';
+  pic.width = img.w; pic.height = img.h;
+  thumb.append(pic);
+  thumb.addEventListener('click', () => openViewer(img));
+
+  const meta = document.createElement('div'); meta.className = 'meta';
+  const name = document.createElement('span'); name.className = 'name'; name.textContent = img.label;
+  meta.append(name);
+  if (img.variant) {
+    const v = document.createElement('span'); v.className = 'variant';
+    v.textContent = img.variant === 'kvinna' ? 'Kvinna' : 'Man';
+    meta.append(v);
+  }
+
+  const rate = document.createElement('div'); rate.className = 'rate';
+  rate.setAttribute('role', 'group'); rate.setAttribute('aria-label', `Omdöme om ${img.label}`);
+  for (const r of RATINGS) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = r.className; b.dataset.rating = r.id;
+    b.innerHTML = `<svg viewBox="0 0 16 16" aria-hidden="true">${r.icon}</svg>`;
+    b.append(document.createTextNode(r.label));
+    b.addEventListener('click', () => chooseRating(img.id, r.id));
+    rate.append(b);
+  }
+
+  const noteBox = document.createElement('div'); noteBox.className = 'note';
+  const note = document.createElement('textarea');
+  note.id = 'note-' + img.id;
+  note.placeholder = 'Varför? Ett par ord räcker.';
+  note.setAttribute('aria-label', `Kommentar om ${img.label}`);
+  note.addEventListener('input', () => {
+    reviews.set(img.id, { ...reviewOf(img.id), note: note.value });
+    clearTimeout(noteTimers.get(img.id));
+    noteTimers.set(img.id, setTimeout(() => { noteTimers.delete(img.id); save(img.id); }, NOTE_PAUSE_MS));
+  });
+  note.addEventListener('blur', () => {
+    if (!noteTimers.has(img.id)) return;
+    clearTimeout(noteTimers.get(img.id)); noteTimers.delete(img.id); save(img.id);
+  });
+  noteBox.append(note);
+
+  card.append(thumb, meta, rate, noteBox);
+  cards.set(img.id, card);
+  return card;
+}
+
+function renderCard(id) {
+  const card = cards.get(id);
+  const { rating, note } = reviewOf(id);
+  card.dataset.rating = rating ?? '';
+  for (const b of card.querySelectorAll('.rate button')) {
+    b.setAttribute('aria-pressed', String(b.dataset.rating === rating));
+    b.disabled = !canWrite;
+  }
+  const textarea = card.querySelector('textarea');
+  if (document.activeElement !== textarea && !noteTimers.has(id)) textarea.value = note ?? '';
+  textarea.disabled = !canWrite;
+}
+
+function renderSummary() {
+  const total = DATA.images.length;
+  const rated = DATA.images.filter((img) => reviewOf(img.id).rating).length;
+  $('progress-label').textContent = rated === 0
+    ? `Inga av ${total} bilder bedömda än`
+    : `${rated} av ${total} bilder bedömda`;
+  $('progress-bar').style.width = `${(rated / total) * 100}%`;
+  for (const g of DATA.groups) {
+    const imgs = DATA.images.filter((img) => img.group === g.id);
+    const done = imgs.filter((img) => reviewOf(img.id).rating).length;
+    document.querySelector(`[data-count-for="${g.id}"]`).textContent = `${done} av ${imgs.length}`;
+  }
+}
+
+function matches(img) {
+  const { rating } = reviewOf(img.id);
+  const byRating = ratingFilter === 'all' || (ratingFilter === 'unrated' ? !rating : rating === ratingFilter);
+  return byRating && (groupFilter === 'all' || img.group === groupFilter);
+}
+
+function applyFilters() {
+  for (const b of document.querySelectorAll('#rating-filters .chip')) b.setAttribute('aria-pressed', String(b.dataset.filter === ratingFilter));
+  for (const b of document.querySelectorAll('#group-filters .chip')) b.setAttribute('aria-pressed', String(b.dataset.group === groupFilter));
+  let shown = 0;
+  for (const section of document.querySelectorAll('.group')) {
+    let inSection = 0;
+    for (const card of section.querySelectorAll('.card')) {
+      const visible = matches(imagesById.get(card.dataset.id));
+      card.hidden = !visible;
+      if (visible) inSection++;
+    }
+    section.hidden = inSection === 0;
+    shown += inSection;
+  }
+  $('empty').hidden = shown > 0;
+}
+
+function chooseRating(id, rating) {
+  const current = reviewOf(id);
+  reviews.set(id, { ...current, rating: current.rating === rating ? null : rating });
+  renderCard(id); renderSummary();
+  save(id);
+}
+
+async function save(id) {
+  if (!db) { setStatus('Omdömet kan inte sparas, eftersom lagringen inte går att nå på den här sidan.', true); return; }
+  if (writing.has(id)) { writeAgain.add(id); return; }
+  writing.add(id);
+  setStatus('Sparar …');
+  const img = imagesById.get(id);
+  const { rating, note } = reviewOf(id);
+  try {
+    await db.collection(COLLECTION).doc(id).set({
+      rating: rating ?? null, note: (note ?? '').trim(), file: img.file, group: img.group,
+      label: img.label, variant: img.variant ?? null, updatedAt: new Date().toISOString(),
+    });
+    setStatus('Sparat.');
+  } catch (e) {
+    handleWriteError(e);
+  } finally {
+    writing.delete(id);
+    if (writeAgain.delete(id)) save(id);
+  }
+}
+
+function handleWriteError(e) {
+  if (e?.code === 'invalid_argument') {
+    canWrite = false;
+    for (const id of cards.keys()) renderCard(id);
+    $('general-note').disabled = true;
+    setStatus('Du kan se omdömena men inte ändra dem.', true);
+  } else if (e?.code === 'quota_exceeded') {
+    setStatus('Lagringen är full. Omdömet sparades inte.', true);
+  } else {
+    setStatus('Omdömet sparades inte. Försök igen om en stund.', true);
+  }
+}
+
+let generalTimer = null;
+let generalWriting = false;
+let generalAgain = false;
+async function saveGeneral() {
+  if (!db) return;
+  if (generalWriting) { generalAgain = true; return; }
+  generalWriting = true;
+  setStatus('Sparar …');
+  try {
+    await db.doc(GENERAL_DOC).set({ text: $('general-note').value.trim(), updatedAt: new Date().toISOString() });
+    setStatus('Sparat.');
+  } catch (e) {
+    handleWriteError(e);
+  } finally {
+    generalWriting = false;
+    if (generalAgain) { generalAgain = false; saveGeneral(); }
+  }
+}
+
+function openViewer(img) {
+  const dialog = $('viewer');
+  $('viewer-img').src = 'bilder/' + img.file;
+  $('viewer-img').alt = img.alt;
+  $('viewer-name').textContent = img.label + (img.variant ? `, ${img.variant}` : '');
+  if (typeof dialog.showModal === 'function') dialog.showModal();
+}
+
+function wireViewer() {
+  const dialog = $('viewer');
+  $('viewer-close').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+}
+
+async function connect() {
+  db = window.claude?.use ? await window.claude.use('db').catch(() => null) : null;
+  if (!db) {
+    setStatus('Omdömena kan inte sparas här. Öppna sidan inloggad på claude.ai.', true);
+    return;
+  }
+  let loaded = false;
+  const timer = setTimeout(() => {
+    if (!loaded) setStatus('Lagringen svarar inte än. Det du markerar sparas när den svarar.', true);
+  }, LOAD_TIMEOUT_MS);
+
+  db.collection(COLLECTION).onSnapshot((snap) => {
+    for (const doc of snap.docs) {
+      const id = doc.id;
+      if (!cards.has(id) || writing.has(id) || noteTimers.has(id)) continue;
+      const body = doc.data() ?? {};
+      reviews.set(id, { rating: body.rating ?? null, note: typeof body.note === 'string' ? body.note : '' });
+      renderCard(id);
+    }
+    renderSummary(); applyFilters();
+    if (!snap.metadata.fromCache && !loaded) {
+      loaded = true; clearTimeout(timer);
+      setStatus(snap.empty ? 'Inget bedömt än. Börja var du vill.' : 'Dina omdömen är hämtade.');
+    }
+  }, (e) => {
+    loaded = true; clearTimeout(timer);
+    setStatus(e.code === 'revoked' ? 'Sidan har inte längre tillgång till omdömena.' : 'Omdömena gick inte att hämta. Ladda om sidan senare.', true);
+  });
+
+  db.doc(GENERAL_DOC).onSnapshot((doc) => {
+    const field = $('general-note');
+    if (document.activeElement !== field && !generalTimer && doc.exists) field.value = doc.data()?.text ?? '';
+  }, () => {});
+}
+
+buildFilters();
+buildGroups();
+for (const id of cards.keys()) renderCard(id);
+renderSummary();
+applyFilters();
+wireViewer();
+$('general-note').addEventListener('input', () => {
+  clearTimeout(generalTimer);
+  generalTimer = setTimeout(() => { generalTimer = null; saveGeneral(); }, NOTE_PAUSE_MS);
+});
+connect();
+</script>
