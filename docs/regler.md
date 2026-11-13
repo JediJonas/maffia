@@ -18,7 +18,7 @@ många varianter. Här är de klassiska reglerna och hur prototypen tolkar dem.
 | Maffia | Maffian | Väljer tillsammans ett offer varje natt. |
 | Detektiv | Staden | Undersöker en spelare varje natt och får veta om den är maffia. |
 | Läkare | Staden | Skyddar en spelare varje natt. Blir den spelaren maffians offer överlever den. |
-| Livvakt | Staden | Skyddar en spelare varje natt. Kommer maffian överlever den, och livvakten och maffian slåss. |
+| Livvakt | Staden | Skyddar en spelare varje natt. Om maffian kommer dit överlever den, och livvakten och maffian slåss. |
 | Stadsbo | Staden | Ingen nattroll. Diskuterar och röstar på dagen. |
 | Gudfadern | Maffian | Leder maffian och väljer offer med den. Detektiven ser honom som oskyldig. |
 | Taxichaufför | Staden | Följer en spelare varje natt och får veta vem den besökte. |

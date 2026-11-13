@@ -11,6 +11,8 @@ import roleDetectiveWoman from './images/roll-detektiv-kvinna.webp';
 import roleDetectiveMan from './images/roll-detektiv-man.webp';
 import roleDoctorWoman from './images/roll-lakare-kvinna.webp';
 import roleDoctorMan from './images/roll-lakare-man.webp';
+import roleBodyguardWoman from './images/roll-livvakt-kvinna.webp';
+import roleBodyguardMan from './images/roll-livvakt-man.webp';
 import roleCitizenWoman from './images/roll-stadsbo-kvinna.webp';
 import roleCitizenMan from './images/roll-stadsbo-man.webp';
 import roleTaxiDriverWoman from './images/roll-taxichauffor-kvinna.webp';
@@ -34,6 +36,8 @@ import nightDetectiveWoman from './images/natt-detektiv-kvinna.webp';
 import nightDetectiveMan from './images/natt-detektiv-man.webp';
 import nightDoctorWoman from './images/natt-lakare-kvinna.webp';
 import nightDoctorMan from './images/natt-lakare-man.webp';
+import nightBodyguardWoman from './images/natt-livvakt-kvinna.webp';
+import nightBodyguardMan from './images/natt-livvakt-man.webp';
 import nightCitizenWoman from './images/natt-stadsbo-kvinna.webp';
 import nightCitizenMan from './images/natt-stadsbo-man.webp';
 import nightTaxiDriverWoman from './images/natt-taxichauffor-kvinna.webp';
@@ -77,6 +81,8 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   roleDetectiveWoman: { src: roleDetectiveWoman, alt: 'En kvinnlig detektiv i ljus trenchcoat och hatt antecknar i ett block i en regnig gränd.', position: '50% 30%' },
   roleDetectiveMan: { src: roleDetectiveMan, alt: 'En manlig detektiv i mörk trenchcoat och hatt antecknar i ett block i en regnig gränd.', position: '75% 30%' },
   roleDoctorWoman: { src: roleDoctorWoman, alt: 'En läkare i mörk kappa med stetoskop och läkarväska står i en upplyst dörröppning.', position: '100% 30%' },
+  roleBodyguardWoman: { src: roleBodyguardWoman, alt: 'En livvakt i trenchcoat och hatt med flor står i en mörk port i regnet, med handen innanför kappan, och spanar längs gatan.', position: '80% 30%' },
+  roleBodyguardMan: { src: roleBodyguardMan, alt: 'En livvakt med mustasch, i trenchcoat och hatt, står i en mörk port i regnet med handen innanför rocken och spanar längs gatan.', position: '80% 30%' },
   roleDoctorMan: { src: roleDoctorMan, alt: 'En läkare med glasögon och mustasch, i mörk kappa med stetoskop och läkarväska, står i en upplyst dörröppning.', position: '100% 30%' },
   roleCitizenWoman: { src: roleCitizenWoman, alt: 'En kvinna i blommig klänning står i sin öppna ytterdörr och ser ut i mörkret med handen mot dörrkarmen.', position: '75% 30%' },
   roleCitizenMan: { src: roleCitizenMan, alt: 'En man i keps och kofta tittar misstänksamt ut genom sin ytterdörr.', position: '100% 30%' },
@@ -100,6 +106,8 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightDetectiveWoman: { src: nightDetectiveWoman, alt: 'En kvinna sitter vid ett skrivbord under en lampa en regnig natt och läser i en akt med ett fotografi i handen.', position: '70% 50%' },
   nightDetectiveMan: { src: nightDetectiveMan, alt: 'En man i skjorta och slips sitter vid ett skrivbord under en lampa en regnig natt och läser i en akt med ett fotografi i handen.', position: '70% 50%' },
   nightDoctorWoman: { src: nightDoctorWoman, alt: 'En kvinna i kappa med en läkarväska går ensam längs en regnig gata en natt och ser sig över axeln under en gatlykta.', position: '65% 50%' },
+  nightBodyguardWoman: { src: nightBodyguardWoman, alt: 'En livvakt i trenchcoat står med en revolver i handen framför en stängd dörr i ett trapphus under en naken glödlampa och lyssnar ner i trappan.', position: '85% 50%' },
+  nightBodyguardMan: { src: nightBodyguardMan, alt: 'En livvakt i hatt och rock står med en revolver i handen framför en stängd dörr i ett trapphus under en naken glödlampa och lyssnar ner i trappan.', position: '85% 50%' },
   nightDoctorMan: { src: nightDoctorMan, alt: 'En man i hatt och rock med en läkarväska går ensam längs en regnig gata en natt under en gatlykta.', position: '65% 50%' },
   nightCitizenWoman: { src: nightCitizenWoman, alt: 'En kvinna sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },
   nightCitizenMan: { src: nightCitizenMan, alt: 'En man sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },
