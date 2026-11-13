@@ -144,6 +144,8 @@ Appen och dokumentationen använder samma ord:
   "Ingen blev förvisad". Själva omröstningen heter fortfarande att rösta.
 - **Kort och långt.** Den stora rubriken vid avataren är kort, "Anna blev
   mördad" och "Anna blev förvisad". Berättartexten i rutan överst säger hela meningen, "Anna blev mördad" och "Anna blev förvisad ur staden".
+- **Frikänd.** Advokatens klient som fick flest röster "blev frikänd", till
+  exempel "Anna blev frikänd". Klienten är kvar i staden (Jonas 2026-11-13).
 - **Ute ur spelet.** Både den som blev mördad och den som blev förvisad är ute
   ur spelet. Det är vad skärmen säger till den spelaren, inte "död".
 

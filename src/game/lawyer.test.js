@@ -95,6 +95,10 @@ describe('advokaten', () => {
     expect(listNightTargets(nextNight, lawyer)).toContain('p4');
   });
 
+  it('nekar värden ett otillåtet val av klient', () => {
+    expect(() => applyAction(night, 'p2', { type: 'nightChoice', targetId: 'p2' })).toThrow();
+  });
+
   it('kommer ihåg klienten även när bartendern stoppade försvaret', () => {
     const day = playNight(night, { ...CHOICES, p3: 'p2' });
     expect(day.lastLawyerClientId).toBe('p7');

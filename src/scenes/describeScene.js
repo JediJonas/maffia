@@ -141,7 +141,7 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
     case 'verdict': {
       const defendedId = view.lastDay?.defendedId;
       if (defendedId) {
-        return scene(DEFENDED_IMAGES[view.defendedImageVariant ?? roleImageVariant], 'Staden har bestämt sig …', `… men advokaten trädde in för ${describeWho(view, defendedId)}.`);
+        return scene(DEFENDED_IMAGES[view.defendedImageVariant ?? roleImageVariant], 'Staden har bestämt sig.', `Men advokaten trädde in för ${describeWho(view, defendedId)}.`);
       }
       const executedId = view.lastDay?.executedId ?? null;
       const who = executedId ? describeWho(view, executedId) : 'Ingen';
