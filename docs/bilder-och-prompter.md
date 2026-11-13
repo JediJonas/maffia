@@ -19,16 +19,16 @@ Stilen, och vad som gäller för kvinna och man, står i [bildstil.md](bildstil.
 
 ## Promptmall (engelska)
 Ge alltid hela prompten (alla fem stycken) till Jonas, aldrig bara Scene.
-De två första styckena och det sista är alltid desamma (Jonas omarbetade version, 2026-11-09). Byt bara "Scene" och vid behov kameran i "Composition". Formatet är alltid wide 4:3, eftersom bildrutan är 318 px hög och 1,15:1 (mobil) till 1,5:1 (dator) bred. Ställ in 4:3 även i Leonardo. Undantag: startsidan, som fyller hela skärmen (9:16).
+De två första styckena och det sista är alltid desamma (Jonas omarbetade version, 2026-11-09, utökad med tecknarens stil ur [bildsmak.md](bildsmak.md), Jonas 2026-11-13). Byt bara "Scene" och vid behov kameran och ljuskällan i "Composition". Välj nära eller halvnära bild. Formatet är alltid wide 4:3, eftersom bildrutan är 318 px hög och 1,15:1 (mobil) till 1,5:1 (dator) bred. Ställ in 4:3 även i Leonardo. Undantag: startsidan, som fyller hela skärmen (9:16).
 
 ```
-A single comic panel inspired by realistic 1960s newspaper adventure strips. Traditional black ink illustration on pure white paper. Hand-drawn pen and brush work with simple, expressive lines and bold areas of solid black. Loose, slightly irregular linework with natural variations in thickness and precision. Use cross-hatching sparingly. No grey tones, no colour, no halftone dots.
+A single comic panel inspired by realistic 1960s newspaper adventure strips. Traditional black ink illustration on pure white paper. Hand-drawn pen and brush work with simple, expressive lines and bold areas of solid black. Loose, slightly irregular linework with natural variations in thickness and precision. Large flat areas of solid black, with backgrounds dissolving into black. Rain and texture drawn as white scratches in the black. Use cross-hatching sparingly. No grey tones, no grey wash, no colour, no halftone dots.
 
-The illustration should feel genuinely hand-drawn, with a slightly imperfect and spontaneous quality. Use simplified shapes, understated details and somewhat irregular proportions. Avoid overly precise contours, perfect symmetry and excessive refinement. Not every shape needs to be perfectly resolved. Prioritize strong visual storytelling over technical detail.
+The illustration should feel genuinely hand-drawn, with a slightly imperfect and spontaneous quality. Use simplified shapes, understated details and somewhat irregular proportions. Avoid overly precise contours, perfect symmetry and excessive refinement. Not every shape needs to be perfectly resolved. Prioritize strong visual storytelling over technical detail. Show a moment of action rather than a posed portrait. Faces are simply drawn and often partly hidden: in profile, from behind, under a hat brim or in shadow. No glamorous, smooth or polished faces.
 
 Scene: <vad som händer, var, vilka>
 
-Composition: wide 4:3 frame, <kamera>, strong contrast between light and deep black shadows.
+Composition: wide 4:3 frame, <kamera>, a single hard light source casting a sharp cone or pool of light, the rest in deep solid black.
 
 Original characters only. No text, no speech bubbles, no captions, no panel borders, no signature.
 ```

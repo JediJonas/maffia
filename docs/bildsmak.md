@@ -24,6 +24,41 @@ trovärdiga som innehåll i en serieruta från 60- eller 70-talet: inte för
 mycket detaljer och inte överarbetade. En bild som ser för bra ut avslöjar att
 den är gjord med AI (Jonas 2026-11-13).
 
+## Tecknarens stil
+
+Det som Jonas favoriter har gemensamt, jämfört med bilderna han gav okej
+(Jonas 2026-11-13). Promptmallen i [bilder-och-prompter.md](bilder-och-prompter.md)
+bygger på det.
+
+1. **Svart som yta, inte som skugga.** Helt svarta partier täcker ofta halva
+   bilden och bakgrunden försvinner i svart. Ljuset kommer från en enda källa,
+   oftast en lampskärm eller gatlykta, och bildar en skarp ljuskägla eller
+   ljuspöl.
+   - Gillar: `natt-bartender-*`, `natt-korvgubbe-*`, `roll-dold`, `skapa`.
+   - Okej: `roll-borgmastare-*`, `roll-stadsbo-kvinna` (väggar och tyger
+     ritade ända ut i kanterna).
+2. **Ett ögonblick, inte en pose.** Bilden visar något som händer: fingrar som
+   pekar, en korv som räcks över, en drink som hälls upp.
+   - Gillar: `dom-*`, `natt-korvgubbe-*`, `natt-bartender-*`,
+     `morgon-mord-trappa-kvinna`.
+   - Okej: `roll-galningen-*`, `roll-lakare-*`, `roll-stadsbo-*` (personen
+     står still och tittar på oss).
+3. **Ansiktet är inte huvudsaken.** Personen syns ofta bakifrån, i profil,
+   under en hattbrätte, i skugga eller liten i bilden. Stora, detaljerade
+   ansikten rakt framifrån är där det släta och perfekta syns mest.
+   - Gillar: `natt-fonstertittare-*`, `natt-taxichauffor-*`,
+     `roll-maffia-man`, `morgon-mord-telefonkiosk-man`.
+   - Okej: `roll-fonstertittare-*`, `roll-taxichauffor-kvinna`,
+     `roll-detektiv-kvinna`.
+   - Undantag: `roll-bartender-kvinna`, `roll-maffia-kvinna` och
+     `roll-taxichauffor-man` är porträtt som Jonas gillar, men även där ligger
+     halva bilden i svart och ansiktet är enkelt tecknat.
+4. **Grova penseldrag i stället för fin penna.** Regnet är vita repor i det
+   svarta och skrafferingen är kort och snabb. Tunna linjer och mönster i
+   tyger och smycken gör bilden för välgjord.
+   - Okej: `roll-lakare-*` (rocken), `roll-stadsbo-kvinna` (klänningen),
+     `roll-borgmastare-kvinna` (kedjan).
+
 ## Regler
 
 Från första bedömningen av alla 64 bilder (Jonas 2026-11-13). Filnamnen syftar
