@@ -40,6 +40,26 @@ fel? Text eller signatur, fel antal personer, huvudpersonen på fel sida,
 gråtoner, för digital stil? Jämför med den godkända bilden av det andra könet
 om det finns en.
 
+## Lära sig ägarens smak
+
+Projektet kan ha en sida där ägaren bedömer bilderna och en fil där smaken
+står som regler (se `CLAUDE.md`). Läs regelfilen före varje ny bild, och följ
+den före dina egna bedömningar.
+
+När ägaren har bedömt bilder:
+
+1. Läs alla omdömen och kommentarer, även de gamla.
+2. Jämför favoriterna med de andra i samma vy: kamera och avstånd, hur mycket
+   svart, linjernas tjocklek, ljuset, vad personen gör, hur mycket som händer.
+   Titta på bilderna själv, inte bara på kommentarerna.
+3. Föreslå regler som går att använda i en prompt, var och en med bilder som
+   exempel. Skriv vad som talar emot en regel också, till exempel en favorit
+   som bryter mot den.
+4. Skriv in en regel först när ägaren har godkänt den, med datum.
+
+När en bild läggs till, byts eller genereras: bygg om bedömningssidan så att
+den kommer med, och be ägaren bedöma den.
+
 ## Lägga in en bild
 
 När en ny bild ska in i spelet:
