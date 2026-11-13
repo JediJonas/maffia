@@ -98,12 +98,14 @@ utseendet. Det viktigaste:
   adress så att omdömena följer med.
 - Agenten `bildansvarig` (`.claude/agents/bildansvarig.md`) skriver prompter
   och kontrollerar bilder. `python3 scripts/generera-bild.py` tar fram en
-  bild med Geminis REST-API. Nyckeln är en Network secret i molnmiljön för
+  bild med Geminis Interactions-API (`POST /v1beta/interactions`) och
+  modellen `gemini-nano-banana-2.1` (Jonas 2026-11-13). Nyckeln är en Network secret i molnmiljön för
   `generativelanguage.googleapis.com` med headern `x-goog-api-key`, så att
   nätverket lägger på den och den aldrig syns (Jonas 2026-11-13). Utanför
   molnmiljön läses den från `GEMINI_API_KEY`. Aldrig i repot.
-- Slå upp Geminis aktuella modeller och anrop i MCP-servern `geminiDocs`
-  (`.mcp.json`, Googles dokumentation för kodagenter) innan skriptet ändras. Modellen
+- Slå upp Geminis aktuella modeller och anrop i skillen `gemini-api-dev`
+  (`.claude/skills/`, Googles egen, källa i `KALLA.md`) innan skriptet ändras.
+  MCP-servern `geminiDocs` (`.mcp.json`) nås inte från molnmiljön. Modellen
   väljs med `--modell` eller `GEMINI_BILDMODELL`, och `--modeller` listar
   dem. Nya bilder hamnar i `nya-bilder/`, som inte checkas in.
 

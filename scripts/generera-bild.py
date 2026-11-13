@@ -1,5 +1,8 @@
 """Tar fram en bild till bildrutan med Gemini och efterbehandlar den.
 
+Anropar Geminis Interactions-API. Aktuella modeller och anrop står i skillen
+.claude/skills/gemini-api-dev.
+
 Prompten byggs ur mallen i docs/bilder-och-prompter.md, så att bara scenen
 och kameran skiljer sig mellan bilderna. Råbilden sparas bredvid den färdiga
 bilden, och den färdiga kontrolleras med scripts/kontrollera-bilder.py.
@@ -37,9 +40,16 @@ TEMPLATE_FILE = ROOT / "docs" / "bilder-och-prompter.md"
 CHECK_SCRIPT = ROOT / "scripts" / "kontrollera-bilder.py"
 DEFAULT_OUT_DIR = ROOT / "nya-bilder"
 # Modellen kan bytas utan kodändring. Kör --modeller för att se vilka som finns.
-DEFAULT_MODEL = os.environ.get("GEMINI_BILDMODELL", "gemini-2.5-flash-image")
+# gemini-nano-banana-2.1 är Googles förval för bilder enligt skillen
+# gemini-api-dev (2026-11-13). gemini-3.1-flash-image är föråldrad.
+DEFAULT_MODEL = os.environ.get("GEMINI_BILDMODELL", "gemini-nano-banana-2.1")
 ASPECT_RATIO = "4:3"
+# 1K räcker för 1050 px bredd och är billigast.
+IMAGE_SIZE = "1K"
 API_URL = "https://generativelanguage.googleapis.com/v1beta"
+# Interactions-API:ts version av svarsformatet (stegen), enligt skillen
+# gemini-api-dev i google-gemini/gemini-skills.
+API_REVISION = "2026-05-20"
 REQUEST_TIMEOUT_SECONDS = 180
 # Efterbehandlingen i docs/bilder-och-prompter.md.
 BLACK_POINT, WHITE_POINT = 34, 245
@@ -65,7 +75,7 @@ def build_prompt(scene, camera):
 
 
 def call_api(path, body=None):
-    headers = {"Content-Type": "application/json"}
+    headers = {"Content-Type": "application/json", "Api-Revision": API_REVISION}
     key = os.environ.get("GEMINI_API_KEY")
     if key:
         headers["x-goog-api-key"] = key
@@ -83,35 +93,38 @@ def call_api(path, body=None):
 
 def list_models():
     for model in call_api("models?pageSize=1000").get("models", []):
-        if "image" in model["name"]:
+        # Nya bildmodeller heter nano-banana och har inte "image" i namnet.
+        if "image" in model["name"] or "banana" in model["name"]:
             print(model["name"].removeprefix("models/"))
 
 
 def image_part(path):
     buffer = BytesIO()
     Image.open(path).convert("RGB").save(buffer, "PNG")
-    return {"inline_data": {"mime_type": "image/png", "data": base64.b64encode(buffer.getvalue()).decode()}}
+    return {"type": "image", "mime_type": "image/png", "data": base64.b64encode(buffer.getvalue()).decode()}
 
 
 def generate(prompt, references, model):
     if references:
         prompt += "\n\nMatch the drawing style of the attached reference panels. Do not copy their scenes."
-    parts = [image_part(path) for path in references] + [{"text": prompt}]
     response = call_api(
-        f"models/{model}:generateContent",
+        "interactions",
         {
-            "contents": [{"role": "user", "parts": parts}],
-            "generationConfig": {"responseModalities": ["IMAGE"], "imageConfig": {"aspectRatio": ASPECT_RATIO}},
+            "model": model,
+            "input": [image_part(path) for path in references] + [{"type": "text", "text": prompt}],
+            "response_format": {"type": "image", "aspect_ratio": ASPECT_RATIO, "image_size": IMAGE_SIZE},
+            # Inget behöver sparas hos Google; varje bild är ett eget anrop.
+            "store": False,
         },
     )
-    candidates = response.get("candidates") or []
-    for candidate in candidates:
-        for part in candidate.get("content", {}).get("parts", []):
-            inline = part.get("inlineData") or part.get("inline_data")
-            if inline and inline.get("data"):
-                return Image.open(BytesIO(base64.b64decode(inline["data"])))
-    reason = candidates[0].get("finishReason") if candidates else response.get("promptFeedback", "inget svar")
-    sys.exit(f"Ingen bild i svaret ({reason}).")
+    # Svaret är en tidslinje av steg. Bilden ligger i det sista model_output.
+    for step in reversed(response.get("steps") or []):
+        if step.get("type") != "model_output":
+            continue
+        for content in step.get("content") or []:
+            if content.get("type") == "image" and content.get("data"):
+                return Image.open(BytesIO(base64.b64decode(content["data"])))
+    sys.exit(f"Ingen bild i svaret (status {response.get('status', 'okänd')}).")
 
 
 def finish(image):
