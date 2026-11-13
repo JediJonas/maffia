@@ -18,6 +18,8 @@ import { sortByName } from './playerName.js';
  */
 export function VerdictScreen({ view }) {
   const executed = view.players.find((p) => p.id === view.lastDay?.executedId);
+  // Advokatens klient fick flest röster men blev inte förvisad (Jonas 2026-11-13).
+  const client = view.players.find((p) => p.id === view.lastDay?.defendedId);
   const lastWords = executed && writeLastWords(executed);
   const rows = tallyVotes(view.dayVotes, sortByName(view.players).map((p) => p.id));
   const nameOf = (/** @type {string} */ id) => view.players.find((p) => p.id === id)?.name ?? '';
@@ -40,6 +42,7 @@ export function VerdictScreen({ view }) {
             : describeDeath(executed, view.me.id, 'förvisad', { showsRoleToAll: true })}
         />
       )}
+      {client && <PersonRow player={client} text={client.id === view.me.id ? 'Du blev frikänd.' : `${client.name} blev frikänd.`} />}
       {voted.length > 0 ? (
         <ListCard lead="Så röstade staden." tag={skipCount ? capitalize(`${writeNumber(skipCount)} avstod`) : null}>
           <PlayerPicker

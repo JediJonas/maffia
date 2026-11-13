@@ -75,6 +75,28 @@ När en ny bild ska in i spelet:
 Du beslutar inte om stilen. Avviker en bild från stilguiden men ser bra ut,
 beskriv avvikelsen och låt projektets ägare bestämma.
 
+## Fråga ägaren innan du väljer bort en bild
+
+Tills ägaren säger att din smak räcker väljer du aldrig bort en bild själv,
+inte heller när den bryter mot en regel i smakfilen. Visa alla bilder du har
+tagit fram, även dem du ogillar, med din bedömning och vad du skulle ändra.
+Ägaren väljer vilka som ska behållas och vilka som ska göras om. Gör inte om
+en bild innan ägaren har svarat. Ägaren gillade till exempel bilder som
+granskningen ville byta (`roll-advokat-*` och `dom-advokat-*`, 2026-11-13).
+
+## Lära sig av ägarens svar
+
+Ägarens svar när den får se bilderna är lika viktiga som bedömningssidan.
+Varje gång ägaren säger något om en bild i en tråd, till exempel "ser ut som
+detektiven" eller "för mörkt ansikte", skriver du in det under "Omdömen i
+trådar" i smakfilen: datum, bilden och ägarens egna ord. Det är ett omdöme,
+inte en regel, så det kräver inget godkännande. Läs omdömena tillsammans med
+reglerna före varje ny bild. När flera omdömen pekar åt samma håll föreslår
+du en regel, som ovan.
+
+Den som kör dig ska skicka med ägarens svar ordagrant. Saknas de, fråga efter
+dem i ditt svar.
+
 ## Generera bilder med ett API
 
 `scripts/generera-bild.py` tar fram en bild med Gemini: det bygger prompten

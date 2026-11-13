@@ -53,4 +53,20 @@ describe('buildPlayerView', () => {
     const over = { ...state, phase: /** @type {const} */ ('gameOver'), winner: /** @type {const} */ ('town') };
     expect(buildPlayerView(over, 'p5').players.every((p) => p.revealedRole)).toBe(true);
   });
+
+  it('visar advokatens klient för alla först när advokaten har trätt in', () => {
+    const lawyerGame = createTestGame(['mafia', 'lawyer', 'citizen', 'citizen', 'citizen']);
+    let next = applyAction(lawyerGame, 'p1', { type: 'nightChoice', targetId: 'p5' });
+    for (const id of ['p2', 'p3', 'p4', 'p5']) next = applyAction(next, id, { type: 'nightChoice', targetId: id === 'p2' ? 'p3' : 'p1' });
+    expect(next.phase).toBe('day');
+    expect(buildPlayerView(next, 'p4').lastDay).toBeNull();
+    expect(buildPlayerView(next, 'p4').defendedImageVariant).toBeNull();
+    for (const id of ['p1', 'p2', 'p4']) next = applyAction(next, id, { type: 'vote', targetId: 'p3' });
+    next = applyAction(next, 'p3', { type: 'vote', targetId: 'p1' });
+    const view = buildPlayerView(next, 'p4');
+    expect(view.lastDay?.defendedId).toBe('p3');
+    expect(view.defendedImageVariant).toMatch(/^(woman|man)$/);
+    expect(view.players[1].revealedRole).toBeNull();
+    expect(view.players[2].revealedRole).toBeNull();
+  });
 });

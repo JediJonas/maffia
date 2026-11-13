@@ -32,6 +32,8 @@ export function createGame() {
     sightings: {},
     lastDoctorTargetId: null,
     lastBodyguardTargetId: null,
+    lastLawyerClientId: null,
+    defendedClientId: null,
     winner: null,
     settings: DEFAULT_SETTINGS,
   };
@@ -218,6 +220,8 @@ export function listNightTargets(state, player) {
       return living.filter((p) => p.id !== state.lastDoctorTargetId).map((p) => p.id);
     case 'bodyguard':
       return living.filter((p) => p.id !== player.id && p.id !== state.lastBodyguardTargetId).map((p) => p.id);
+    case 'lawyer':
+      return living.filter((p) => p.id !== player.id && p.id !== state.lastLawyerClientId).map((p) => p.id);
     default:
       return living.filter((p) => p.id !== player.id).map((p) => p.id);
   }
@@ -265,8 +269,10 @@ export function hasMafiaAgreed(state) {
  * @returns {GameState}
  */
 function resolveNight(state, random) {
-  const { killedId, protectedId, guardedId, silencedId, investigations, sightings } = resolveNightChoices(state, random);
-  const remembered = { lastDoctorTargetId: protectedId, lastBodyguardTargetId: guardedId };
+  const { killedId, protectedId, guardedId, clientId, defendedClientId, silencedId, investigations, sightings } = resolveNightChoices(state, random);
+  const remembered = {
+    lastDoctorTargetId: protectedId, lastBodyguardTargetId: guardedId, lastLawyerClientId: clientId, defendedClientId,
+  };
   const afterKill = killPlayer({ ...state, investigations, sightings, ...remembered }, killedId);
   // Även när mordet avgör spelet blir det morgon först, så att alla får se
   // vem som blev mördad. Se endDecidedMorning i deathReveal.js.
@@ -333,8 +339,15 @@ export function findExecutedId(votes, doubleVoterIds = []) {
  * @returns {GameState}
  */
 function resolveDay(state) {
-  const executedId = findExecutedId(state.dayVotes, listDoubleVoterIds(state));
-  return { ...killPlayer(state, executedId), phase: 'verdict', lastDay: { executedId, isRoleShown: false } };
+  const mostVotedId = findExecutedId(state.dayVotes, listDoubleVoterIds(state));
+  // Advokaten träder in för sin klient, och då blir ingen förvisad. Inte
+  // heller någon annan i stället (Jonas 2026-11-13).
+  const isDefended = Boolean(mostVotedId && mostVotedId === state.defendedClientId);
+  const executedId = isDefended ? null : mostVotedId;
+  /** @type {import('./types.js').DayOutcome} */
+  const lastDay = { executedId, isRoleShown: false };
+  if (isDefended && mostVotedId) lastDay.defendedId = mostVotedId;
+  return { ...killPlayer(state, executedId), phase: 'verdict', lastDay, defendedClientId: null };
 }
 
 /**

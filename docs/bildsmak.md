@@ -100,10 +100,36 @@ på `src/scenes/images/`.
      (`morgon-mord-polis-kvinna`).
    - Kläderna passar vädret: stadsbon i regnet borde ha en kappa, inte bara en
      klänning (`roll-stadsbo-kvinna`).
-7. **Samma tecknare i alla bilder.** Personerna i `lobby` och hela `start` ser
+7. **Hellre ett synligt ansikte än ett helt svart.** Ansiktet får ligga i
+   skugga, men ett ansikte som är helt svart blir för mörkt. Ett ansikte i
+   ljuset gör inget när bilden i övrigt är bra.
+   - Gillar: `roll-advokat-*`, `dom-advokat-*`.
+   - Valdes bort: versionerna med advokaten i motljus och med helt svart
+     ansikte (Jonas 2026-11-13).
+8. **Samma tecknare i alla bilder.** Personerna i `lobby` och hela `start` ser
    ut att vara ritade av någon annan. Startsidan får vara kvar tills vidare.
-8. **Ljust nog att se motivet.** `ga-med` är så mörk att det är svårt att se
+9. **Ljust nog att se motivet.** `ga-med` är så mörk att det är svårt att se
    vad den föreställer.
+
+## Omdömen i trådar
+
+Vad Jonas har sagt om bilder när han har fått se dem i en tråd, med hans egna
+ord. Läs dem tillsammans med reglerna. När flera pekar åt samma håll blir de
+en regel.
+
+- 2026-11-13, `roll-advokat-*` i motljus (bortvald): "ser ut som
+  detektiven". Rollbilden måste skilja sig från de andra rollerna, inte bara
+  följa stilen.
+- 2026-11-13, `dom-advokat-*` med helt svart ansikte (bortvald): "Jag
+  tycker inte heller det blev bra med ansikte som var så mörkt."
+- 2026-11-13, första versionerna av `roll-advokat-*` och `dom-advokat-*`,
+  som granskningen ville byta (regn inomhus, för välgjorda ansikten): "ser
+  bra ut". Nattbilderna `natt-advokat-*`: "ser bra ut".
+- 2026-11-13, dombilden för advokaten: först "en kvinna på manlig bild och
+  en man på kvinnlig bild", alltså advokaten med motsatt kön mot klienten.
+  Sedan valdes ändå första versionen, där advokaten är en man i båda: "Jag
+  tycker det funkar som nu. Att ansiktet är skuggat får representera att
+  advokaten är okänd."
 
 ## Bilder att byta
 

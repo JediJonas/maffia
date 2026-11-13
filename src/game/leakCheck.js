@@ -24,7 +24,7 @@ const ALLOWED_FIELDS = {
     'phase', 'round', 'me', 'players', 'readyCount', 'isReady', 'nightTargetIds', 'myNightChoice', 'nightChosenCount',
     'hasMafiaAgreed', 'livingCount', 'mafiaTeam', 'investigations', 'sightings', 'doubleVoterIds', 'dayVotes', 'settings',
     'isRoleRevealPending', 'lastNight', 'lastDay', 'winner', 'killedImageVariant', 'executedImageVariant',
-    'madmanImageVariant',
+    'madmanImageVariant', 'defendedImageVariant',
   ],
   me: ['id', 'name', 'role', 'isAlive'],
   player: ['id', 'name', 'isAlive', 'isConnected', 'isBot', 'avatar', 'revealedRole'],
@@ -32,7 +32,7 @@ const ALLOWED_FIELDS = {
   investigation: ['round', 'targetId', 'isMafia'],
   sighting: ['round', 'targetId', 'seenIds'],
   lastNight: ['killedId', 'silencedId', 'imageRoll'],
-  lastDay: ['executedId', 'isRoleShown'],
+  lastDay: ['executedId', 'isRoleShown', 'defendedId'],
 };
 
 // Ställen där ett rollnamn får stå. winner är ett lag, men lagen mafia och

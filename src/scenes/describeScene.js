@@ -29,6 +29,7 @@ const NIGHT_SCENES = {
   detective: { images: { woman: 'nightDetectiveWoman', man: 'nightDetectiveMan' }, bottomCaption: '… men inte du.' },
   doctor: { images: { woman: 'nightDoctorWoman', man: 'nightDoctorMan' }, bottomCaption: '… men inte du.' },
   bodyguard: { images: { woman: 'nightBodyguardWoman', man: 'nightBodyguardMan' }, bottomCaption: '… men inte du.' },
+  lawyer: { images: { woman: 'nightLawyerWoman', man: 'nightLawyerMan' }, bottomCaption: '… men inte du.' },
   taxiDriver: { images: { woman: 'nightTaxiDriverWoman', man: 'nightTaxiDriverMan' }, bottomCaption: '… men inte du.' },
   windowWatcher: { images: { woman: 'nightWindowWatcherWoman', man: 'nightWindowWatcherMan' }, bottomCaption: '… men inte du.' },
   sausageVendor: { images: { woman: 'nightSausageVendorWoman', man: 'nightSausageVendorMan' }, bottomCaption: '… men inte du.' },
@@ -45,6 +46,7 @@ const ROLE_IMAGES = {
   detective: { woman: 'roleDetectiveWoman', man: 'roleDetectiveMan' },
   doctor: { woman: 'roleDoctorWoman', man: 'roleDoctorMan' },
   bodyguard: { woman: 'roleBodyguardWoman', man: 'roleBodyguardMan' },
+  lawyer: { woman: 'roleLawyerWoman', man: 'roleLawyerMan' },
   taxiDriver: { woman: 'roleTaxiDriverWoman', man: 'roleTaxiDriverMan' },
   windowWatcher: { woman: 'roleWindowWatcherWoman', man: 'roleWindowWatcherMan' },
   sausageVendor: { woman: 'roleSausageVendorWoman', man: 'roleSausageVendorMan' },
@@ -97,6 +99,15 @@ const NIGHT_MAFIA_IMAGES = ['nightMafia1', 'nightMafia2', 'nightMafia3'];
 const VERDICT_IMAGES = { woman: 'verdictWoman', man: 'verdictMan' };
 
 /**
+ * Advokaten träder in för klienten, som är en kvinna eller en man efter
+ * klientens eget val av rollbild (se defendedImageVariant). Advokaten är
+ * densamma i båda och följer inte den riktiga advokaten, så bilden avslöjar
+ * inte vem som är advokat (Jonas 2026-11-13).
+ * @type {Record<RoleImageVariant, SceneImageKey>}
+ */
+const DEFENDED_IMAGES = { woman: 'verdictLawyerWoman', man: 'verdictLawyerMan' };
+
+/**
  * Galningen förs bort som en kvinna eller en man, efter galningens eget val
  * (se madmanImageVariant i PlayerView).
  * @type {Record<RoleImageVariant, SceneImageKey>}
@@ -104,7 +115,7 @@ const VERDICT_IMAGES = { woman: 'verdictWoman', man: 'verdictMan' };
 const MADMAN_WINS_IMAGES = { woman: 'madmanWinsWoman', man: 'madmanWinsMan' };
 
 /**
- * @param {Pick<PlayerView, 'phase' | 'me' | 'players' | 'lastNight' | 'lastDay' | 'winner' | 'round' | 'mafiaTeam' | 'killedImageVariant' | 'executedImageVariant' | 'madmanImageVariant'>} view
+ * @param {Pick<PlayerView, 'phase' | 'me' | 'players' | 'lastNight' | 'lastDay' | 'winner' | 'round' | 'mafiaTeam' | 'killedImageVariant' | 'executedImageVariant' | 'madmanImageVariant' | 'defendedImageVariant'>} view
  * @param {boolean} isHost Värden visar QR-koden i rutan, de andra en bild.
  * @param {boolean} [isRoleShown] Spelaren har öppnat akten och ser sin roll.
  * @param {RoleImageVariant} [roleImageVariant]
@@ -128,6 +139,10 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
       return scene(chooseMurderImage(view.lastNight?.imageRoll, view.killedImageVariant ?? 'man'), 'Staden vaknar …', `${describeWho(view, killedId)} blev mördad.`);
     }
     case 'verdict': {
+      const defendedId = view.lastDay?.defendedId;
+      if (defendedId) {
+        return scene(DEFENDED_IMAGES[view.defendedImageVariant ?? roleImageVariant], 'Staden har bestämt sig.', 'Men advokaten träder in.');
+      }
       const executedId = view.lastDay?.executedId ?? null;
       const who = executedId ? describeWho(view, executedId) : 'Ingen';
       const image = executedId ? VERDICT_IMAGES[view.executedImageVariant ?? roleImageVariant] : 'verdictNobody';
@@ -160,7 +175,7 @@ function describeEnding(winner, madmanImageVariant) {
  * Bilderna som nästa fas kan visa. De hämtas i förväg, så att bildrutan inte
  * blinkar till tom medan bilden laddas när fasen byts. Bara nästa fas, inte
  * hela spelets bilder, så att den som har dåligt nät inte hämtar i onödan.
- * @param {Pick<PlayerView, 'phase' | 'me'>} view
+ * @param {Pick<PlayerView, 'phase' | 'me' | 'settings'>} view
  * @param {RoleImageVariant} [roleImageVariant]
  * @returns {SceneImageKey[]}
  */
@@ -174,7 +189,8 @@ export function listUpcomingImages(view, roleImageVariant = 'woman') {
       // Vilken mordbild det blir avgörs först när natten tar slut, så alla hämtas.
       return [...MURDER_IMAGES.woman, ...MURDER_IMAGES.man, 'morningNoMurder'];
     case 'day':
-      return [VERDICT_IMAGES.woman, VERDICT_IMAGES.man, 'verdictNobody'];
+      // Advokatens bilder bara när advokaten är med, så att ingen hämtar dem i onödan.
+      return [VERDICT_IMAGES.woman, VERDICT_IMAGES.man, 'verdictNobody', ...(view.settings.hasLawyer ? Object.values(DEFENDED_IMAGES) : [])];
     case 'verdict':
       return [...listNightImages(view.me, roleImageVariant), 'mafiaWins', 'townWins', MADMAN_WINS_IMAGES.woman, MADMAN_WINS_IMAGES.man];
     case 'gameOver':

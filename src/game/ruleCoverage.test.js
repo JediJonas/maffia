@@ -33,6 +33,7 @@ const COVERAGE = [
     'game/bodyguard.test.js: räddar den skyddade och mördar en i maffian när livvakten vinner striden',
     'game/bodyguard.test.js: blir mördad i stället när maffian vinner striden, och den skyddade överlever',
   ]],
+  ['Advokat Staden Väljer en klient', ['game/lawyer.test.js: träder in när klienten får flest röster, och ingen blir förvisad']],
   ['Stadsbo Staden Ingen nattroll', ['game/ruleScenarios.test.js: låter stadsbons, borgmästarens och galningens nattval inte göra något']],
   ['Gudfadern Maffian Leder', ['game/specialRoles.test.js: låter gudfadern se ut som oskyldig för detektiven']],
   ['Taxichaufför Staden Följer', ['game/specialRoles.test.js: visar taxichauffören vem den följda besökte och fönstertittaren vilka som kom']],
@@ -59,6 +60,7 @@ const COVERAGE = [
   ['Räknas som besök', [
     'game/ruleScenarios.test.js: räknar alla i maffian som valde offret, läkaren, detektiven, bartendern och korvgubben som besök',
     'game/bodyguard.test.js: räknas som besök av fönstertittaren',
+    'game/lawyer.test.js: räknas som besök av fönstertittaren',
   ]],
   ['Räknas inte som besök', ['game/specialRoles.test.js: räknar inte taxichauffören, fönstertittaren eller blinda val som besök']],
   ['Om fönstertittaren bevakar Anna', [
@@ -84,10 +86,32 @@ const COVERAGE = [
     'game/bodyguard.test.js: säger bara att maffian blev mördad, och inget mer när rollerna inte visas',
     'game/bodyguard.test.js: säger likadant när livvakten blev mördad',
   ]],
+  // Advokaten
+  ['Advokaten träder in', [
+    'game/lawyer.test.js: träder in när klienten får flest röster, och ingen blir förvisad',
+    'game/lawyer.test.js: förvisar inte heller den som fick näst flest röster',
+    'game/lawyer.test.js: gör inget när någon annan än klienten får flest röster',
+    'game/lawyer.test.js: skyddar bara dagen efter, inte nästa dag',
+  ]],
+  ['Domslutet säger', ['game/lawyer.test.js: säger i domslutet att advokaten trädde in, utan klientens roll']],
+  ['Galningen som klient', ['game/lawyer.test.js: räddar galningen från att vinna, och staden fortsätter']],
+  ['Advokaten måste leva', [
+    'game/lawyer.test.js: skyddar ingen när advokaten blir mördad på natten',
+    'game/lawyer.test.js: skyddar ingen när klienten blir mördad på natten',
+  ]],
+  ['Ingen annan får veta', [
+    'game/lawyer.test.js: avslöjar inte klienten för någon förrän advokaten träder in',
+    'game/playerView.test.js: visar advokatens klient för alla först när advokaten har trätt in',
+  ]],
+  ['Advokaten får inte välja sig själv', [
+    'game/lawyer.test.js: får inte välja sig själv eller samma klient två nätter i rad',
+    'game/lawyer.test.js: kommer ihåg klienten även när bartendern stoppade försvaret',
+  ]],
   // Bartendern
   ['Maffian eller gudfadern: ingen blir mördad', ['game/specialRoles.test.js: stoppar mordet när bartendern bjuder någon i maffian']],
   ['Livvakten: skyddet misslyckas', ['game/bodyguard.test.js: misslyckas med skyddet efter bartenderns drink, så offret blir mördat']],
   ['Läkaren: skyddet misslyckas', ['game/specialRoles.test.js: låter bartendern stoppa läkarens skydd utan att någon märker det']],
+  ['Advokaten: inget skydd nästa dag', ['game/lawyer.test.js: skyddar ingen dagen efter bartenderns drink, så klienten blir förvisad']],
   ['Detektiven: får svaret "inte maffia"', ['game/ruleScenarios.test.js: får detektiven att se "inte maffia" även när målet är maffia']],
   ['Taxichauffören och fönstertittaren: svaret blir "ingen"', ['game/specialRoles.test.js: ger den som bartendern bjöd ett tomt svar']],
   ['Korvgubben: ingen får korv', ['game/ruleScenarios.test.js: stoppar korvgubben, så att alla får prata nästa dag']],

@@ -11,6 +11,7 @@ import { joinWithAnd, writeNumber } from './numberWords.js';
  * @property {boolean} hasDetective
  * @property {boolean} hasDoctor
  * @property {boolean} hasBodyguard
+ * @property {boolean} hasLawyer
  * @property {boolean} hasTaxiDriver
  * @property {boolean} hasWindowWatcher
  * @property {boolean} hasBartender
@@ -27,6 +28,7 @@ export const DEFAULT_SETTINGS = {
   hasDetective: true,
   hasDoctor: true,
   hasBodyguard: false,
+  hasLawyer: false,
   hasTaxiDriver: false,
   hasWindowWatcher: false,
   hasBartender: false,
@@ -46,6 +48,7 @@ export const OPTIONAL_ROLES = [
   ['hasDetective', 'detective'],
   ['hasDoctor', 'doctor'],
   ['hasBodyguard', 'bodyguard'],
+  ['hasLawyer', 'lawyer'],
   ['hasTaxiDriver', 'taxiDriver'],
   ['hasWindowWatcher', 'windowWatcher'],
   ['hasBartender', 'bartender'],
@@ -137,6 +140,7 @@ export function describeRoles(roles) {
     ['detective', 'detektiv', 'detektiver'],
     ['doctor', 'läkare', 'läkare'],
     ['bodyguard', 'livvakt', 'livvakter'],
+    ['lawyer', 'advokat', 'advokater'],
     ['taxiDriver', 'taxichaufför', 'taxichaufförer'],
     ['windowWatcher', 'fönstertittare', 'fönstertittare'],
     ['bartender', 'bartender', 'bartendrar'],

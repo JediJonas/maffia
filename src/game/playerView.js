@@ -46,6 +46,7 @@ import { resolveRoleImageVariant } from '../scenes/roleImageChoice.js';
  * @property {import('./types.js').Team | null} winner
  * @property {import('../scenes/roleImageChoice.js').RoleImageVariant | null} killedImageVariant Rollbilden som den som mördades i natt valt, för mordbilden. Null när ingen dog.
  * @property {import('../scenes/roleImageChoice.js').RoleImageVariant | null} executedImageVariant Rollbilden som den som förvisades i dag valt, för dombilden. Null när ingen förvisades.
+ * @property {import('../scenes/roleImageChoice.js').RoleImageVariant | null} defendedImageVariant Rollbilden som advokatens klient valt, när advokaten trädde in i dag, för bilden av advokaten. Annars null.
  * @property {import('../scenes/roleImageChoice.js').RoleImageVariant | null} madmanImageVariant Galningens rollbild när galningen har vunnit, annars null.
  */
 
@@ -99,6 +100,7 @@ export function buildPlayerView(state, playerId) {
     winner: state.winner,
     killedImageVariant: findImageVariant(state, state.lastNight?.killedId),
     executedImageVariant: findImageVariant(state, state.lastDay?.executedId),
+    defendedImageVariant: findImageVariant(state, state.lastDay?.defendedId),
     madmanImageVariant: state.winner === 'madman' ? findMadmanImageVariant(state) : null,
     settings: state.settings,
     isRoleRevealPending: Boolean(hiddenDeathId),

@@ -3,7 +3,7 @@
 // telefon får bara sin egen PlayerView (se playerView.js).
 
 /**
- * @typedef {'mafia' | 'godfather' | 'detective' | 'doctor' | 'bodyguard' | 'taxiDriver' | 'windowWatcher'
+ * @typedef {'mafia' | 'godfather' | 'detective' | 'doctor' | 'bodyguard' | 'lawyer' | 'taxiDriver' | 'windowWatcher'
  *   | 'sausageVendor' | 'mayor' | 'citizen' | 'bartender' | 'madman'} Role
  */
 
@@ -55,6 +55,7 @@
  * @typedef {object} DayOutcome
  * @property {string | null} executedId Null vid oavgjort eller när de flesta röstade att avstå.
  * @property {boolean} isRoleShown Domslutet visar först bara vem som blev förvisad, och värden vänder sedan fram rollen för spänningens skull.
+ * @property {string} [defendedId] Advokatens klient, som fick flest röster men inte blev förvisad. Finns bara när advokaten trädde in.
  */
 
 /**
@@ -71,6 +72,8 @@
  * @property {Record<string, Sighting[]>} [sightings] Taxichaufförens och fönstertittarens id till vad de såg. Saknas i spel som sparades innan de fanns.
  * @property {string | null} lastDoctorTargetId Läkaren får inte skydda samma spelare två nätter i rad.
  * @property {string | null} [lastBodyguardTargetId] Inte livvakten heller. Saknas i spel som sparades innan livvakten fanns.
+ * @property {string | null} [lastLawyerClientId] Inte advokaten heller. Saknas i spel som sparades innan advokaten fanns.
+ * @property {string | null} [defendedClientId] Klienten som advokaten försvarar i dag. Bara värden vet det, och det skickas aldrig till telefonerna.
  * @property {Team | null} winner
  * @property {import('./settings.js').GameSettings} settings
  */
