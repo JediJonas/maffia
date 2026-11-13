@@ -26,7 +26,6 @@ const SWITCHES = [
   ...ROLE_SWITCHES.slice(0, GODFATHER_POSITION),
   ['hasGodfather', labelOf('godfather')],
   ...ROLE_SWITCHES.slice(GODFATHER_POSITION),
-  ['revealsRoleOnDeath', 'Avslöja rollen'],
 ];
 
 /**
@@ -62,6 +61,15 @@ export function SettingsEditor({ settings, playerCount, botCount, onChange, onAd
                 <button type="button" aria-label="Fler maffia" disabled={isLastChoice} onClick={() => onChange({ mafiaCount: stepMafiaCount(settings.mafiaCount, 1) })}>›</button>
               </span>
             </li>
+            {SWITCHES.map(([key, label]) => (
+              <SettingSwitch key={key} settingKey={key} label={label} settings={settings} onChange={onChange} />
+            ))}
+          </ul>
+        </ListCard>
+        {/* Botar och Avslöja rollen är inga roller, så de har en egen ruta under
+            rollerna, som Rollbild i Din figur (Jonas 2026-11-13). Den står före
+            förklaringen, så att den inte flyttar sig när förklaringen kommer och går. */}
+        <ul className="settings-list settings-other">
             <li>
               <span>Botar</span>
               <span className="stepper">
@@ -70,21 +78,8 @@ export function SettingsEditor({ settings, playerCount, botCount, onChange, onAd
                 <button type="button" aria-label="Fler botar" disabled={botCount >= MAX_BOTS || playerCount >= MAX_PLAYERS} onClick={onAddBot}>›</button>
               </span>
             </li>
-            {SWITCHES.map(([key, label]) => (
-              <li key={key}>
-                <label htmlFor={`setting-${key}`}>{label}</label>
-                <input
-                  id={`setting-${key}`}
-                  type="checkbox"
-                  role="switch"
-                  className="switch"
-                  checked={Boolean(settings[key])}
-                  onChange={(event) => onChange({ [key]: event.target.checked })}
-                />
-              </li>
-            ))}
-          </ul>
-        </ListCard>
+            <SettingSwitch settingKey="revealsRoleOnDeath" label="Avslöja rollen" settings={settings} onChange={onChange} />
+        </ul>
         {status && <p className="explanation">{status}</p>}
       </div>
       {/* Problemet står ovanför knappen, som i lobbyn. Inne i screen-content
@@ -94,5 +89,29 @@ export function SettingsEditor({ settings, playerCount, botCount, onChange, onAd
         <button type="button" className="primary" onClick={onClose}>Klar</button>
       </div>
     </section>
+  );
+}
+
+/**
+ * En rad med strömbrytare för en inställning som är på eller av.
+ * @param {object} props
+ * @param {keyof GameSettings} props.settingKey
+ * @param {string} props.label
+ * @param {GameSettings} props.settings
+ * @param {(changes: Partial<GameSettings>) => void} props.onChange
+ */
+function SettingSwitch({ settingKey, label, settings, onChange }) {
+  return (
+    <li>
+      <label htmlFor={`setting-${settingKey}`}>{label}</label>
+      <input
+        id={`setting-${settingKey}`}
+        type="checkbox"
+        role="switch"
+        className="switch"
+        checked={Boolean(settings[settingKey])}
+        onChange={(event) => onChange({ [settingKey]: event.target.checked })}
+      />
+    </li>
   );
 }
