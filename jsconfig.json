@@ -12,6 +12,6 @@
     "skipLibCheck": true,
     "types": ["vite/client"]
   },
-  "include": ["src", "build", "vite.config.js"],
+  "include": ["src", "build", "e2e", "vite.config.js", "playwright.config.js"],
   "exclude": ["src/**/*.test.js"]
 }

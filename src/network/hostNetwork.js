@@ -3,6 +3,7 @@
 import Peer from 'peerjs';
 import { HEARTBEAT_INTERVAL_MS, HOST_DROP_AFTER_MS } from './messages.js';
 import { readPeerOptions } from './peerServer.js';
+import { logSentMessage } from './messageLog.js';
 import { toPeerId } from './roomCode.js';
 
 /** @typedef {import('peerjs').DataConnection} DataConnection */
@@ -81,7 +82,9 @@ export function openHostNetwork(roomCode, handlers) {
         const rejection = handlers.onJoin(message.secret, message.name, message.avatar);
         if (rejection) {
           players.delete(message.secret);
-          connection.send(/** @type {HostMessage} */ ({ type: 'rejected', message: rejection }));
+          const rejected = /** @type {HostMessage} */ ({ type: 'rejected', message: rejection });
+          logSentMessage(message.secret, rejected);
+          connection.send(rejected);
           return;
         }
         secret = message.secret;
@@ -148,7 +151,9 @@ export function openHostNetwork(roomCode, handlers) {
       const entry = players.get(secret);
       if (!entry?.connection.open) return;
       const isReply = message.type === 'view' || message.type === 'error';
-      entry.connection.send(isReply ? { ...message, handledActionId: entry.handledActionId } : message);
+      const sent = isReply ? { ...message, handledActionId: entry.handledActionId } : message;
+      logSentMessage(secret, sent);
+      entry.connection.send(sent);
     },
     close() {
       isClosed = true;

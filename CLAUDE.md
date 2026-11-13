@@ -77,6 +77,18 @@ utseendet. Det viktigaste:
   signatur, gör gråskala, sätt rent svart och rent vitt (svartpunkt ca 34,
   vitpunkt ca 245) och spara som WebP, cirka 1000–1100 px bred i 4:3.
   Detaljer och promptmallen: `docs/bilder-och-prompter.md`.
+- Stilguiden är `docs/bildstil.md`: noir i svart tusch, vitt ljus, ingen
+  text, död utan blod, kvinna och man i samma scen. Alla prompter finns i
+  `maffia/alla-bildprompter.md` i projektfilerna; uppdatera filen när en bild
+  byts eller läggs till.
+- `src/scenes/sceneFiles.test.js` kontrollerar filnamnen, att varje roll har
+  en kvinna och en man (rollbild, och nattbild utom för maffian), att varje fil används och har
+  alt-text och utsnitt. `python3 scripts/kontrollera-bilder.py` kontrollerar
+  efterbehandlingen (gråskala, rent svart och vitt, storlek och format).
+- Agenten `bildansvarig` (`.claude/agents/bildansvarig.md`) skriver prompter
+  och kontrollerar bilder. Gemini ska kunna generera bilder senare med
+  nyckeln i miljövariabeln `GEMINI_API_KEY` (en hemlighet i molnmiljön eller
+  på GitHub, aldrig i repot). Anropet är inte byggt än.
 
 ## Testa med botar
 
@@ -92,6 +104,48 @@ utseendet. Det viktigaste:
   per spelare) och gå med med rumskoden.
 - Enhetstester: `createTestGame` och `playNight` i `src/game/testGame.js` ger
   ett spel med kända roller.
+
+## Regler och tester
+
+Varje regel i `docs/regler.md` ska ha minst ett test.
+`src/game/ruleCoverage.test.js` delar dokumentet i regler (tabellrader,
+punkter och stycken, utom "Ord vi använder") och har en lista som kopplar
+varje regel till sina tester. Testet fallerar när en regel saknas i listan,
+när listan pekar på en regel som inte finns kvar och när ett test som listan
+nämner inte finns. Ändrar du en regel: skriv eller ändra testet och
+uppdatera listan i samma PR. Regler som saknade test står i
+`src/game/ruleScenarios.test.js`, som bestämda partier med kända roller.
+
+## Läckkontroll
+
+Ingen telefon får veta något den inte ska. Det kontrolleras på två sätt, och
+båda körs på varje PR i GitHub Actions:
+
+- **Enhetstest** (`src/game/leakCheck.test.js`): spelar 45 hela partier med
+  bara botar (fyra och tolv spelare, alla roller, roller vid död av och på)
+  och kontrollerar varje telefons vy efter varje drag. Ingår i `npm test`.
+- **Webbläsartest** (`e2e/lackkontroll.e2e.js`, `npm run test:e2e`): värden
+  och tre riktiga telefoner spelar ett parti genom en egen PeerJS-server.
+  Värden loggar varje meddelande den skickar (`src/network/messageLog.js`,
+  bara i utvecklingsläget), och testet kontrollerar dem när rollerna visas på
+  slutet. Tar ungefär en minut.
+
+Båda använder `findLeaks` i `src/game/leakCheck.js`. Den letar efter andras
+roller (levande, eller döda när rollerna inte visas vid död, eller den
+förvisade under nedräkningen), maffians lag hos andra än maffian, andras
+nattval, detektivens och vittnenas resultat hos andra, rollnamn i oväntade
+fält och andra telefoners hemliga nycklar. Den har också en lista över
+granskade fält i vyn: ett nytt fält i `playerView.js` får testet att fallera
+tills det har lagts till i listan. Tänk efter vem som får se fältet innan du
+gör det.
+
+Skärmbilder i telefonstorlek (390 px) av varje vy för varje telefon:
+`SKARMBILDER=1 npm run test:e2e`. De hamnar i `test-results/skarmbilder/`.
+I molnmiljön finns Chromium redan; kör inte `playwright install` där.
+
+Agenten `testare` (`.claude/agents/testare.md`) kör allt detta, håller
+regellistan komplett och tittar på bilderna. Be den om ett test efter
+ändringar i regler, vyer eller nätverk.
 
 ## Mobillayout i Safari: knappar och bakgrund längst ner
 
