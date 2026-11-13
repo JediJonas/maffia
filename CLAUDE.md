@@ -101,7 +101,9 @@ utseendet. Det viktigaste:
   bild med Geminis REST-API. Nyckeln är en Network secret i molnmiljön för
   `generativelanguage.googleapis.com` med headern `x-goog-api-key`, så att
   nätverket lägger på den och den aldrig syns (Jonas 2026-11-13). Utanför
-  molnmiljön läses den från `GEMINI_API_KEY`. Aldrig i repot. Modellen
+  molnmiljön läses den från `GEMINI_API_KEY`. Aldrig i repot.
+- Slå upp Geminis aktuella modeller och anrop i MCP-servern `geminiDocs`
+  (`.mcp.json`, Googles dokumentation för kodagenter) innan skriptet ändras. Modellen
   väljs med `--modell` eller `GEMINI_BILDMODELL`, och `--modeller` listar
   dem. Nya bilder hamnar i `nya-bilder/`, som inte checkas in.
 
