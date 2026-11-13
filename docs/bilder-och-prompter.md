@@ -11,6 +11,9 @@ Gäller alla serieillustrationer i Maffia (Leonardo AI). Bilderna ska se ut att 
 4. Spara som WebP, cirka 1000–1100 px bred.
 5. Kontrollera med `python3 scripts/kontrollera-bilder.py <fil>`.
 
+`python3 scripts/generera-bild.py` gör allt detta själv när en bild tas fram
+med Gemini. Det beskär till 4:3 från mitten, så kontrollera utsnittet.
+
 Stilen, och vad som gäller för kvinna och man, står i [bildstil.md](bildstil.md).
 
 ## Bildrutan i appen

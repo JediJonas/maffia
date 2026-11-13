@@ -97,9 +97,11 @@ utseendet. Det viktigaste:
   <mapp>` när bilder läggs till eller byts, och publicera den till samma
   adress så att omdömena följer med.
 - Agenten `bildansvarig` (`.claude/agents/bildansvarig.md`) skriver prompter
-  och kontrollerar bilder. Gemini ska kunna generera bilder senare med
-  nyckeln i miljövariabeln `GEMINI_API_KEY` (en hemlighet i molnmiljön eller
-  på GitHub, aldrig i repot). Anropet är inte byggt än.
+  och kontrollerar bilder. `python3 scripts/generera-bild.py` tar fram en
+  bild med Gemini (Googles SDK `google-genai`) med nyckeln i miljövariabeln
+  `GEMINI_API_KEY`, en hemlighet i molnmiljön och aldrig i repot. Modellen
+  väljs med `--modell` eller `GEMINI_BILDMODELL`, och `--modeller` listar
+  dem. Nya bilder hamnar i `nya-bilder/`, som inte checkas in.
 
 ## Testa med botar
 
