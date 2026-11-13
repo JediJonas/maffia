@@ -84,7 +84,9 @@ utseendet. Det viktigaste:
 - `src/scenes/sceneFiles.test.js` kontrollerar filnamnen, att varje roll har
   en kvinna och en man (rollbild, och nattbild utom för maffian), att varje fil används och har
   alt-text och utsnitt. `python3 scripts/kontrollera-bilder.py` kontrollerar
-  efterbehandlingen (gråskala, rent svart och vitt, storlek och format).
+  efterbehandlingen (gråskala, rent svart och vitt, storlek och format) och
+  mäter jämna grå ytor. En ny bild ska klara allt. Äldre bilder med för
+  mycket grått står i `docs/bildsmak.md` under "Bilder att byta".
 - Jonas smak står i `docs/bildsmak.md`, som regler med bilder som exempel.
   Den växer ur bedömningssidan
   <https://claude.ai/artifact/XEMHU7vZH4ngKYGMyU7pbA>, där Jonas markerar
@@ -95,9 +97,15 @@ utseendet. Det viktigaste:
   <mapp>` när bilder läggs till eller byts, och publicera den till samma
   adress så att omdömena följer med.
 - Agenten `bildansvarig` (`.claude/agents/bildansvarig.md`) skriver prompter
-  och kontrollerar bilder. Gemini ska kunna generera bilder senare med
-  nyckeln i miljövariabeln `GEMINI_API_KEY` (en hemlighet i molnmiljön eller
-  på GitHub, aldrig i repot). Anropet är inte byggt än.
+  och kontrollerar bilder. `python3 scripts/generera-bild.py` tar fram en
+  bild med Geminis REST-API. Nyckeln är en Network secret i molnmiljön för
+  `generativelanguage.googleapis.com` med headern `x-goog-api-key`, så att
+  nätverket lägger på den och den aldrig syns (Jonas 2026-11-13). Utanför
+  molnmiljön läses den från `GEMINI_API_KEY`. Aldrig i repot.
+- Slå upp Geminis aktuella modeller och anrop i MCP-servern `geminiDocs`
+  (`.mcp.json`, Googles dokumentation för kodagenter) innan skriptet ändras. Modellen
+  väljs med `--modell` eller `GEMINI_BILDMODELL`, och `--modeller` listar
+  dem. Nya bilder hamnar i `nya-bilder/`, som inte checkas in.
 
 ## Testa med botar
 

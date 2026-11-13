@@ -77,11 +77,22 @@ beskriv avvikelsen och låt projektets ägare bestämma.
 
 ## Generera bilder med ett API
 
-Ett bild-API (Gemini) ska kunna kopplas på senare. Nyckeln läses då från
-miljövariabeln som `CLAUDE.md` nämner, och den skrivs aldrig in i en fil,
-ett meddelande eller en commit. Finns ingen nyckel, eller inget verktyg för
-anropet i projektet, så lämnar du färdiga prompter för att klistras in för
-hand. Bygg inte API-anropet själv.
+`scripts/generera-bild.py` tar fram en bild med Gemini: det bygger prompten
+ur mallen, sparar råbilden, efterbehandlar och kör bildkontrollen. Nyckeln
+läggs på av nätverket eller läses från miljön, som `CLAUDE.md` beskriver, och
+den skrivs aldrig in i en fil, ett meddelande eller en commit. Nekar API:t
+anropet lämnar du färdiga prompter för att klistras in för hand.
+
+1. Läs smakfilen och välj två eller tre bilder som ägaren gillar, gärna med
+   samma ljus eller kamera, och skicka med dem med `--referens`.
+2. Ta fram en bild åt gången. Varje anrop kostar pengar, så gör inte om en
+   bild mer än tre gånger utan att fråga.
+3. Titta på resultatet själv innan du visar det: klarar bilden smakfilens
+   regler, inte bara kontrollskriptet? Skriv vad som brister och prova igen
+   med en ändrad scen eller kamera, inte en ändrad mall.
+4. Bilderna hamnar i `nya-bilder/`, som inte checkas in. Lägg en bild i
+   `src/scenes/images/` först när ägaren har sagt ja, och lägg den på
+   bedömningssidan.
 
 ## Svaret
 
