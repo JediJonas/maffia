@@ -84,7 +84,9 @@ utseendet. Det viktigaste:
 - `src/scenes/sceneFiles.test.js` kontrollerar filnamnen, att varje roll har
   en kvinna och en man (rollbild, och nattbild utom för maffian), att varje fil används och har
   alt-text och utsnitt. `python3 scripts/kontrollera-bilder.py` kontrollerar
-  efterbehandlingen (gråskala, rent svart och vitt, storlek och format).
+  efterbehandlingen (gråskala, rent svart och vitt, storlek och format) och
+  mäter jämna grå ytor. En ny bild ska klara allt. Äldre bilder med för
+  mycket grått står i `docs/bildsmak.md` under "Bilder att byta".
 - Jonas smak står i `docs/bildsmak.md`, som regler med bilder som exempel.
   Den växer ur bedömningssidan
   <https://claude.ai/artifact/XEMHU7vZH4ngKYGMyU7pbA>, där Jonas markerar
