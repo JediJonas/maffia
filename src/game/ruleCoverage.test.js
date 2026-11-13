@@ -29,6 +29,10 @@ const COVERAGE = [
   ['Maffia Maffian Väljer tillsammans', ['game/rules.test.js: fortsätter natten tills maffian har valt samma person']],
   ['Detektiv Staden Undersöker', ['game/rules.test.js: ger detektiven svar på om målet är maffia']],
   ['Läkare Staden Skyddar', ['game/rules.test.js: låter läkaren rädda offret']],
+  ['Livvakt Staden Skyddar', [
+    'game/bodyguard.test.js: räddar den skyddade och skjuter en i maffian när livvakten vinner striden',
+    'game/bodyguard.test.js: blir mördad i stället när maffian vinner striden, och den skyddade överlever',
+  ]],
   ['Stadsbo Staden Ingen nattroll', ['game/ruleScenarios.test.js: låter stadsbons, borgmästarens och galningens nattval inte göra något']],
   ['Gudfadern Maffian Leder', ['game/specialRoles.test.js: låter gudfadern se ut som oskyldig för detektiven']],
   ['Taxichaufför Staden Följer', ['game/specialRoles.test.js: visar taxichauffören vem den följda besökte och fönstertittaren vilka som kom']],
@@ -52,14 +56,34 @@ const COVERAGE = [
     'game/settings.test.js: nekar fler roller än spelare',
   ]],
   // Besök på natten
-  ['Räknas som besök', ['game/ruleScenarios.test.js: räknar alla i maffian som valde offret, läkaren, detektiven, bartendern och korvgubben som besök']],
+  ['Räknas som besök', [
+    'game/ruleScenarios.test.js: räknar alla i maffian som valde offret, läkaren, detektiven, bartendern och korvgubben som besök',
+    'game/bodyguard.test.js: räknas som besök av fönstertittaren',
+  ]],
   ['Räknas inte som besök', ['game/specialRoles.test.js: räknar inte taxichauffören, fönstertittaren eller blinda val som besök']],
   ['Om fönstertittaren bevakar Anna', [
     'game/specialRoles.test.js: räknar inte taxichauffören, fönstertittaren eller blinda val som besök',
     'screens/caseFile.test.js: har ingen akt för den som är ute ur spelet',
   ]],
+  // Livvakten
+  ['Den skyddade överlever', [
+    'game/bodyguard.test.js: räddar den skyddade och skjuter en i maffian när livvakten vinner striden',
+    'game/bodyguard.test.js: blir mördad i stället när maffian vinner striden, och den skyddade överlever',
+  ]],
+  ['Hälften av gångerna vinner livvakten', [
+    'game/bodyguard.test.js: räddar den skyddade och skjuter en i maffian när livvakten vinner striden',
+    'game/bodyguard.test.js: lottar vem i maffian som blir skjuten, även gudfadern',
+  ]],
+  ['Andra hälften förlorar livvakten', ['game/bodyguard.test.js: blir mördad i stället när maffian vinner striden, och den skyddade överlever']],
+  ['Läkaren: den som läkaren skyddar överlever natten', ['game/bodyguard.test.js: låter läkaren rädda livvakten som förlorar striden']],
+  ['Livvakten får inte skydda sig själv', ['game/bodyguard.test.js: får inte skydda sig själv men samma person flera nätter i rad']],
+  ['På morgonen står det "Bosse blev skjuten av livvakten"', [
+    'game/bodyguard.test.js: berättar att maffian blev skjuten av livvakten, även när rollerna inte visas',
+    'game/bodyguard.test.js: berättar som vanligt att livvakten blev mördad av maffian',
+  ]],
   // Bartendern
   ['Maffian eller gudfadern: ingen blir mördad', ['game/specialRoles.test.js: stoppar mordet när bartendern bjuder någon i maffian']],
+  ['Livvakten: skyddet misslyckas', ['game/bodyguard.test.js: misslyckas med skyddet efter bartenderns drink, så offret blir mördat']],
   ['Läkaren: skyddet misslyckas', ['game/specialRoles.test.js: låter bartendern stoppa läkarens skydd utan att någon märker det']],
   ['Detektiven: får svaret "inte maffia"', ['game/ruleScenarios.test.js: får detektiven att se "inte maffia" även när målet är maffia']],
   ['Taxichauffören och fönstertittaren: svaret blir "ingen"', ['game/specialRoles.test.js: ger den som bartendern bjöd ett tomt svar']],

@@ -18,6 +18,7 @@ många varianter. Här är de klassiska reglerna och hur prototypen tolkar dem.
 | Maffia | Maffian | Väljer tillsammans ett offer varje natt. |
 | Detektiv | Staden | Undersöker en spelare varje natt och får veta om den är maffia. |
 | Läkare | Staden | Skyddar en spelare varje natt. Blir den spelaren maffians offer överlever den. |
+| Livvakt | Staden | Skyddar en spelare varje natt. Kommer maffian överlever den, och livvakten och maffian slåss. |
 | Stadsbo | Staden | Ingen nattroll. Diskuterar och röstar på dagen. |
 | Gudfadern | Maffian | Leder maffian och väljer offer med den. Detektiven ser honom som oskyldig. |
 | Taxichaufför | Staden | Följer en spelare varje natt och får veta vem den besökte. |
@@ -39,7 +40,7 @@ Taxichauffören och fönstertittaren ser vem som går hem till vem på natten.
 Ett besök är när någon går hem till den person den har valt:
 
 - **Räknas som besök:** maffian och gudfadern (alla som valde offret),
-  läkaren, detektiven, bartendern och korvgubben.
+  läkaren, livvakten, detektiven, bartendern och korvgubben.
 - **Räknas inte som besök:** taxichauffören och fönstertittaren, som bara
   tittar på håll. Inte heller borgmästaren, galningen och stadsborna, vars
   val på natten bara är blindknappen och inte gör något.
@@ -48,6 +49,23 @@ Om fönstertittaren bevakar Anna och bara taxichauffören följer henne, är
 svaret alltså "ingen". Svaret ligger i en akt som öppnas på morgonen, som
 detektivens. Den som är ute ur spelet kan inte längre öppna akten, inte heller
 svaret från natten då den blev mördad.
+
+### Livvakten
+
+Livvakten väljer varje natt någon att skydda. Kommer maffian hem till den
+personen blir det strid (Jonas 2026-11-13):
+
+- **Den skyddade överlever** alltid när maffian kommer.
+- **Hälften av gångerna vinner livvakten** och skjuter en i maffian. Maffian
+  väljer offer tillsammans, så värden lottar vem av dem det blir. Gudfadern
+  kan också bli skjuten.
+- **Andra hälften förlorar livvakten** och blir mördad av maffian i stället.
+- **Läkaren:** den som läkaren skyddar överlever natten, även efter striden.
+- Livvakten får inte skydda sig själv, men får skydda samma person flera
+  nätter i rad.
+- På morgonen står det "Bosse blev skjuten av livvakten" när maffian
+  förlorade. Det står även när rollerna inte visas vid död, så alla får veta
+  att Bosse var maffia.
 
 ### Bartendern
 
@@ -58,6 +76,8 @@ uppgift den natten:
   får drinken, eftersom maffian väljer tillsammans. Bartendern vet inte vilka
   som är maffia och kan alltså stoppa sitt eget lag.
 - **Läkaren:** skyddet misslyckas, så offret dör ändå.
+- **Livvakten:** skyddet misslyckas, så offret blir mördat och ingen strid
+  blir av.
 - **Detektiven:** får svaret "inte maffia", oavsett vem som undersöktes.
 - **Taxichauffören och fönstertittaren:** svaret blir "ingen".
 - **Korvgubben:** ingen får korv av korvgubben, så alla får prata nästa dag.
@@ -104,6 +124,9 @@ Appen och dokumentationen använder samma ord:
 - **Kort och långt.** Den stora rubriken vid avataren är kort, "Anna blev
   mördad" och "Anna blev förvisad". Berättartexten i rutan överst säger hela meningen, "Anna blev mördad av
   maffian" och "Anna blev förvisad ur staden".
+- **Skjuten.** Maffia som livvakten dödar "blev skjuten av livvakten", till
+  exempel "Bosse blev skjuten av livvakten". Den stora rubriken är "Bosse blev
+  skjuten".
 - **Ute ur spelet.** Både den som blev mördad och den som blev förvisad är ute
   ur spelet. Det är vad skärmen säger till den spelaren, inte "död".
 

@@ -118,7 +118,7 @@ export function changeSettings(state, changes) {
  * @param {GameState} state
  * @param {string} playerId
  * @param {PlayerAction} action
- * @param {() => number} [random] Ett tal från 0 till 1, som Math.random. Drar mordbilden när natten tar slut.
+ * @param {() => number} [random] Ett tal från 0 till 1, som Math.random. Avgör livvaktens strid och drar mordbilden när natten tar slut.
  * @returns {GameState}
  */
 export function applyAction(state, playerId, action, random = Math.random) {
@@ -262,13 +262,14 @@ export function hasMafiaAgreed(state) {
  * @returns {GameState}
  */
 function resolveNight(state, random) {
-  const { killedId, protectedId, silencedId, investigations, sightings } = resolveNightChoices(state);
+  const { killedId, isShotByBodyguard, protectedId, silencedId, investigations, sightings } = resolveNightChoices(state, random);
   const afterKill = killPlayer({ ...state, investigations, sightings, lastDoctorTargetId: protectedId }, killedId);
   // Även när mordet avgör spelet blir det morgon först, så att alla får se
   // vem som blev mördad. Se endDecidedMorning i deathReveal.js.
   /** @type {NightOutcome} */
   const lastNight = { killedId };
   if (silencedId) lastNight.silencedId = silencedId;
+  if (isShotByBodyguard) lastNight.isShotByBodyguard = true;
   if (killedId) lastNight.imageRoll = random();
   return { ...afterKill, phase: 'day', lastNight, dayVotes: {} };
 }

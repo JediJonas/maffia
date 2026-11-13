@@ -86,13 +86,13 @@ function describeVoteCount(count) {
 
 /**
  * Nattens offer som en personrad, med rollen direkt när roller visas vid död.
- * En lugn natt står bara i bildrutan.
+ * En lugn natt står bara i bildrutan. Maffia som livvakten sköt står som skjuten.
  * @param {{ view: import('../game/playerView.js').PlayerView }} props
  */
 function MorningNews({ view }) {
   const killed = view.players.find((p) => p.id === view.lastNight?.killedId);
   if (!killed) return null;
-  return <PersonRow player={killed} text={describeDeath(killed, view.me.id, 'mördad')} />;
+  return <PersonRow player={killed} text={describeDeath(killed, view.me.id, view.lastNight?.isShotByBodyguard ? 'skjuten' : 'mördad')} />;
 }
 
 /**

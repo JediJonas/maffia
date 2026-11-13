@@ -31,6 +31,11 @@ export const ROLE_INFO = {
     team: 'town',
     description: 'Varje natt skyddar du en spelare från maffian. Du får inte skydda samma spelare två nätter i rad.',
   },
+  bodyguard: {
+    name: 'Livvakt',
+    team: 'town',
+    description: 'Varje natt skyddar du en person. Kommer maffian överlever personen, men det blir strid: lika stor chans att du skjuter en i maffian som att du själv blir mördad.',
+  },
   taxiDriver: {
     name: 'Taxichaufför',
     team: 'town',

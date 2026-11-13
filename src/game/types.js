@@ -3,7 +3,7 @@
 // telefon får bara sin egen PlayerView (se playerView.js).
 
 /**
- * @typedef {'mafia' | 'godfather' | 'detective' | 'doctor' | 'taxiDriver' | 'windowWatcher'
+ * @typedef {'mafia' | 'godfather' | 'detective' | 'doctor' | 'bodyguard' | 'taxiDriver' | 'windowWatcher'
  *   | 'sausageVendor' | 'mayor' | 'citizen' | 'bartender' | 'madman'} Role
  */
 
@@ -48,6 +48,7 @@
  * @typedef {object} NightOutcome
  * @property {string | null} killedId Null när ingen dog, till exempel för att läkaren räddade offret.
  * @property {string | null} [silencedId] Den som fick korvgubbens korv och inte får prata i dag. Saknas i spel som sparades innan korvgubben fanns.
+ * @property {boolean} [isShotByBodyguard] Sant när den döda var maffia och blev skjuten av livvakten. Alla får veta det (Jonas 2026-11-13). Saknas annars.
  * @property {number} [imageRoll] Ett slumptal från 0 till 1 som värden drar när någon mördas, så att alla telefoner visar samma mordbild. Saknas i spel som sparades innan mordbilden slumpades.
  */
 

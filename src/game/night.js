@@ -2,7 +2,8 @@
 // Vad som händer när natten är slut: vem som dör, vad detektiven,
 // taxichauffören och fönstertittaren får veta och vem som fick korven.
 // Alla val sker samtidigt, så ordningen spelar ingen roll, utom att
-// bartenderns drink gäller före allt annat.
+// bartenderns drink gäller före allt annat och att livvaktens strid avgör
+// vem maffians mord drabbar innan läkarens skydd prövas.
 import { isMafia } from './roles.js';
 
 /** @typedef {import('./types.js').GameState} GameState */
@@ -15,11 +16,12 @@ import { isMafia } from './roles.js';
  * så ingen av dem syns för de andra (Jonas 2026-11-06).
  * @type {Role[]}
  */
-const VISITING_ROLES = ['mafia', 'godfather', 'doctor', 'detective', 'bartender', 'sausageVendor'];
+const VISITING_ROLES = ['mafia', 'godfather', 'doctor', 'bodyguard', 'detective', 'bartender', 'sausageVendor'];
 
 /**
  * @typedef {object} NightResult
  * @property {string | null} killedId
+ * @property {boolean} isShotByBodyguard Sant när den döda var maffia och blev skjuten av livvakten.
  * @property {string | null} protectedId Vem läkaren skyddade, även när bartendern stoppade skyddet, så att läkaren inte kan välja samma igen.
  * @property {string | null} silencedId
  * @property {Record<string, import('./types.js').Investigation[]>} investigations
@@ -28,9 +30,10 @@ const VISITING_ROLES = ['mafia', 'godfather', 'doctor', 'detective', 'bartender'
 
 /**
  * @param {GameState} state En natt där alla levande har valt.
+ * @param {() => number} random Ett tal från 0 till 1, som Math.random. Avgör livvaktens strid.
  * @returns {NightResult}
  */
-export function resolveNightChoices(state) {
+export function resolveNightChoices(state, random) {
   const living = state.players.filter((p) => p.isAlive);
   const choiceOf = (/** @type {Player | undefined} */ player) => (player ? state.nightChoices[player.id] ?? null : null);
   const withRole = (/** @type {Role} */ role) => living.filter((p) => p.role === role);
@@ -44,10 +47,17 @@ export function resolveNightChoices(state) {
   // alltså råka stoppa sitt eget lag.
   const mafia = living.filter((p) => isMafia(p.role));
   const mafiaTargetId = mafia.every(isActive) ? choiceOf(mafia[0]) : null;
+  const bodyguard = withRole('bodyguard')[0];
+  const guardedId = bodyguard && isActive(bodyguard) ? choiceOf(bodyguard) : null;
+  const isFight = Boolean(mafiaTargetId && guardedId === mafiaTargetId);
+  const fight = isFight && bodyguard ? fightBodyguard(bodyguard, mafia, random) : null;
+  const attackedId = fight ? fight.loserId : mafiaTargetId;
+  // Den som läkaren skyddar överlever natten, även efter livvaktens strid (Jonas 2026-11-13).
   const doctor = withRole('doctor')[0];
   const protectedId = choiceOf(doctor);
-  const isSaved = Boolean(doctor && isActive(doctor) && protectedId === mafiaTargetId);
-  const killedId = mafiaTargetId && !isSaved ? mafiaTargetId : null;
+  const isSaved = Boolean(doctor && isActive(doctor) && protectedId === attackedId);
+  const killedId = attackedId && !isSaved ? attackedId : null;
+  const isShotByBodyguard = Boolean(killedId && fight?.isMafiaShot);
 
   const investigations = { ...state.investigations };
   for (const detective of withRole('detective')) {
@@ -75,5 +85,24 @@ export function resolveNightChoices(state) {
   const sausageTargetId = sausageVendor && isActive(sausageVendor) ? choiceOf(sausageVendor) : null;
   const silencedId = sausageTargetId && sausageTargetId !== killedId ? sausageTargetId : null;
 
-  return { killedId, protectedId, silencedId, investigations, sightings };
+  return { killedId, isShotByBodyguard, protectedId, silencedId, investigations, sightings };
+}
+
+/** Hälften av gångerna vinner livvakten striden (Jonas 2026-11-13). */
+const BODYGUARD_WIN_CHANCE = 0.5;
+
+/**
+ * Kommer maffian hem till den som livvakten skyddar överlever personen, och
+ * livvakten och maffian slåss. Vinner livvakten blir en i maffian skjuten,
+ * lottad bland dem, eftersom maffian väljer offer tillsammans. Annars blir
+ * livvakten mördad i stället.
+ * @param {Player} bodyguard
+ * @param {Player[]} mafia Den levande maffian.
+ * @param {() => number} random
+ * @returns {{ loserId: string, isMafiaShot: boolean }}
+ */
+function fightBodyguard(bodyguard, mafia, random) {
+  if (random() >= BODYGUARD_WIN_CHANCE) return { loserId: bodyguard.id, isMafiaShot: false };
+  const shot = mafia[Math.min(Math.floor(random() * mafia.length), mafia.length - 1)];
+  return { loserId: shot.id, isMafiaShot: true };
 }

@@ -28,6 +28,7 @@ const NIGHT_SCENES = {
   godfather: { images: { woman: 'nightMafia1', man: 'nightMafia1' }, bottomCaption: '… men inte maffian.' },
   detective: { images: { woman: 'nightDetectiveWoman', man: 'nightDetectiveMan' }, bottomCaption: '… men inte du.' },
   doctor: { images: { woman: 'nightDoctorWoman', man: 'nightDoctorMan' }, bottomCaption: '… men inte du.' },
+  bodyguard: { images: { woman: 'nightDoctorWoman', man: 'nightDoctorMan' }, bottomCaption: '… men inte du.' },
   taxiDriver: { images: { woman: 'nightTaxiDriverWoman', man: 'nightTaxiDriverMan' }, bottomCaption: '… men inte du.' },
   windowWatcher: { images: { woman: 'nightWindowWatcherWoman', man: 'nightWindowWatcherMan' }, bottomCaption: '… men inte du.' },
   sausageVendor: { images: { woman: 'nightSausageVendorWoman', man: 'nightSausageVendorMan' }, bottomCaption: '… men inte du.' },
@@ -43,6 +44,7 @@ const ROLE_IMAGES = {
   godfather: { woman: 'roleGodfatherWoman', man: 'roleGodfatherMan' },
   detective: { woman: 'roleDetectiveWoman', man: 'roleDetectiveMan' },
   doctor: { woman: 'roleDoctorWoman', man: 'roleDoctorMan' },
+  bodyguard: { woman: 'roleDoctorWoman', man: 'roleDoctorMan' },
   taxiDriver: { woman: 'roleTaxiDriverWoman', man: 'roleTaxiDriverMan' },
   windowWatcher: { woman: 'roleWindowWatcherWoman', man: 'roleWindowWatcherMan' },
   sausageVendor: { woman: 'roleSausageVendorWoman', man: 'roleSausageVendorMan' },
@@ -123,7 +125,7 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
     case 'day': {
       const killedId = view.lastNight?.killedId ?? null;
       if (!killedId) return scene('morningNoMurder', 'Staden vaknar …', 'Ingen blev mördad.');
-      return scene(chooseMurderImage(view.lastNight?.imageRoll, view.killedImageVariant ?? 'man'), 'Staden vaknar …', `${describeWho(view, killedId)} blev mördad.`);
+      return scene(chooseMurderImage(view.lastNight?.imageRoll, view.killedImageVariant ?? 'man'), 'Staden vaknar …', `${describeWho(view, killedId)} blev ${view.lastNight?.isShotByBodyguard ? 'skjuten' : 'mördad'}.`);
     }
     case 'verdict': {
       const executedId = view.lastDay?.executedId ?? null;

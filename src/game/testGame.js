@@ -25,12 +25,13 @@ export function createTestGame(roles) {
  * Låter varje spelare välja. Natten tar slut av sig själv när alla har valt.
  * @param {import('./types.js').GameState} state
  * @param {Record<string, string>} choices Spelarens id och målets id.
+ * @param {() => number} [random] Styr livvaktens strid och mordbilden.
  * @returns {import('./types.js').GameState}
  */
-export function playNight(state, choices) {
+export function playNight(state, choices, random = Math.random) {
   let next = state;
   for (const [playerId, targetId] of Object.entries(choices)) {
-    next = applyAction(next, playerId, { type: 'nightChoice', targetId });
+    next = applyAction(next, playerId, { type: 'nightChoice', targetId }, random);
   }
   return next;
 }

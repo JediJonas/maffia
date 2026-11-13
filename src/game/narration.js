@@ -7,6 +7,7 @@ import { ROLE_INFO } from './roles.js';
 
 // Rutan säger hela meningen (se Ord vi använder i docs/regler.md).
 const KILL = 'blev mördad av maffian';
+const SHOT = 'blev skjuten av livvakten';
 const EXECUTION = 'blev förvisad ur staden';
 
 /** @type {Record<import('./types.js').Team, string>} */
@@ -46,7 +47,7 @@ export function narratePhaseChange(previous, next) {
 function describeKill(view) {
   const killedId = view.lastNight?.killedId;
   if (!killedId) return 'Ingen blev mördad.';
-  return describeDeath(view, killedId, KILL);
+  return describeDeath(view, killedId, view.lastNight?.isShotByBodyguard ? SHOT : KILL);
 }
 
 /**
