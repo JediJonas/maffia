@@ -44,11 +44,10 @@
 
 /**
  * Vad som hände under den senaste natten, som alla får veta på dagen. Den
- * mördades roll visas direkt, eftersom maffian aldrig mördar sina egna.
+ * mördades roll visas direkt.
  * @typedef {object} NightOutcome
  * @property {string | null} killedId Null när ingen dog, till exempel för att läkaren räddade offret.
  * @property {string | null} [silencedId] Den som fick korvgubbens korv och inte får prata i dag. Saknas i spel som sparades innan korvgubben fanns.
- * @property {boolean} [isShotByBodyguard] Sant när den döda var maffia och blev skjuten av livvakten. Alla får veta det (Jonas 2026-11-13). Saknas annars.
  * @property {number} [imageRoll] Ett slumptal från 0 till 1 som värden drar när någon mördas, så att alla telefoner visar samma mordbild. Saknas i spel som sparades innan mordbilden slumpades.
  */
 
@@ -71,6 +70,7 @@
  * @property {Record<string, Investigation[]>} investigations Detektivens id till detektivens resultat.
  * @property {Record<string, Sighting[]>} [sightings] Taxichaufförens och fönstertittarens id till vad de såg. Saknas i spel som sparades innan de fanns.
  * @property {string | null} lastDoctorTargetId Läkaren får inte skydda samma spelare två nätter i rad.
+ * @property {string | null} [lastBodyguardTargetId] Inte livvakten heller. Saknas i spel som sparades innan livvakten fanns.
  * @property {Team | null} winner
  * @property {import('./settings.js').GameSettings} settings
  */

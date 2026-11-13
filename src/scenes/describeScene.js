@@ -125,7 +125,7 @@ export function describeScene(view, isHost, isRoleShown = false, roleImageVarian
     case 'day': {
       const killedId = view.lastNight?.killedId ?? null;
       if (!killedId) return scene('morningNoMurder', 'Staden vaknar …', 'Ingen blev mördad.');
-      return scene(chooseMurderImage(view.lastNight?.imageRoll, view.killedImageVariant ?? 'man'), 'Staden vaknar …', `${describeWho(view, killedId)} blev ${view.lastNight?.isShotByBodyguard ? 'skjuten' : 'mördad'}.`);
+      return scene(chooseMurderImage(view.lastNight?.imageRoll, view.killedImageVariant ?? 'man'), 'Staden vaknar …', `${describeWho(view, killedId)} blev mördad.`);
     }
     case 'verdict': {
       const executedId = view.lastDay?.executedId ?? null;

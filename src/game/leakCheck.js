@@ -31,7 +31,7 @@ const ALLOWED_FIELDS = {
   mafiaTeam: ['id', 'role', 'choiceId'],
   investigation: ['round', 'targetId', 'isMafia'],
   sighting: ['round', 'targetId', 'seenIds'],
-  lastNight: ['killedId', 'silencedId', 'isShotByBodyguard', 'imageRoll'],
+  lastNight: ['killedId', 'silencedId', 'imageRoll'],
   lastDay: ['executedId', 'isRoleShown'],
 };
 
@@ -55,7 +55,6 @@ export function findLeaks(view, truth) {
     ...findRoleLeaks(view, truth, myRole),
     ...findTeamLeaks(view, truth, myRole),
     ...findChoiceLeaks(view, truth),
-    ...findShotLeaks(view, truth),
     ...findStrayRoleNames(view),
     ...findSecrets(view, truth.secrets ?? []),
   ];
@@ -144,20 +143,6 @@ function findChoiceLeaks(view, truth) {
     if (member.choiceId !== null && member.choiceId !== choices[member.id]) leaks.push(`mafiaTeam visar fel val för ${member.id}.`);
   }
   return leaks;
-}
-
-/**
- * Att någon blev skjuten av livvakten säger alla att den var maffia, även när
- * rollerna inte visas vid död. Det får bara stå när det är sant.
- * @param {import('./playerView.js').PlayerView} view
- * @param {LeakTruth} truth
- * @returns {string[]}
- */
-function findShotLeaks(view, truth) {
-  const killedId = view.lastNight?.killedId;
-  if (!view.lastNight?.isShotByBodyguard) return [];
-  if (killedId && isMafia(truth.roles[killedId] ?? null)) return [];
-  return [`lastNight säger att ${killedId ?? 'ingen'} blev skjuten av livvakten, men den var inte maffia.`];
 }
 
 /**

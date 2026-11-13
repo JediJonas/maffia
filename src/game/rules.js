@@ -31,6 +31,7 @@ export function createGame() {
     investigations: {},
     sightings: {},
     lastDoctorTargetId: null,
+    lastBodyguardTargetId: null,
     winner: null,
     settings: DEFAULT_SETTINGS,
   };
@@ -215,6 +216,8 @@ export function listNightTargets(state, player) {
   switch (player.role) {
     case 'doctor':
       return living.filter((p) => p.id !== state.lastDoctorTargetId).map((p) => p.id);
+    case 'bodyguard':
+      return living.filter((p) => p.id !== player.id && p.id !== state.lastBodyguardTargetId).map((p) => p.id);
     default:
       return living.filter((p) => p.id !== player.id).map((p) => p.id);
   }
@@ -262,14 +265,14 @@ export function hasMafiaAgreed(state) {
  * @returns {GameState}
  */
 function resolveNight(state, random) {
-  const { killedId, isShotByBodyguard, protectedId, silencedId, investigations, sightings } = resolveNightChoices(state, random);
-  const afterKill = killPlayer({ ...state, investigations, sightings, lastDoctorTargetId: protectedId }, killedId);
+  const { killedId, protectedId, guardedId, silencedId, investigations, sightings } = resolveNightChoices(state, random);
+  const remembered = { lastDoctorTargetId: protectedId, lastBodyguardTargetId: guardedId };
+  const afterKill = killPlayer({ ...state, investigations, sightings, ...remembered }, killedId);
   // Även när mordet avgör spelet blir det morgon först, så att alla får se
   // vem som blev mördad. Se endDecidedMorning i deathReveal.js.
   /** @type {NightOutcome} */
   const lastNight = { killedId };
   if (silencedId) lastNight.silencedId = silencedId;
-  if (isShotByBodyguard) lastNight.isShotByBodyguard = true;
   if (killedId) lastNight.imageRoll = random();
   return { ...afterKill, phase: 'day', lastNight, dayVotes: {} };
 }

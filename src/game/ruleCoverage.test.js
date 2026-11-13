@@ -30,7 +30,7 @@ const COVERAGE = [
   ['Detektiv Staden Undersöker', ['game/rules.test.js: ger detektiven svar på om målet är maffia']],
   ['Läkare Staden Skyddar', ['game/rules.test.js: låter läkaren rädda offret']],
   ['Livvakt Staden Skyddar', [
-    'game/bodyguard.test.js: räddar den skyddade och skjuter en i maffian när livvakten vinner striden',
+    'game/bodyguard.test.js: räddar den skyddade och mördar en i maffian när livvakten vinner striden',
     'game/bodyguard.test.js: blir mördad i stället när maffian vinner striden, och den skyddade överlever',
   ]],
   ['Stadsbo Staden Ingen nattroll', ['game/ruleScenarios.test.js: låter stadsbons, borgmästarens och galningens nattval inte göra något']],
@@ -67,19 +67,22 @@ const COVERAGE = [
   ]],
   // Livvakten
   ['Den skyddade överlever', [
-    'game/bodyguard.test.js: räddar den skyddade och skjuter en i maffian när livvakten vinner striden',
+    'game/bodyguard.test.js: räddar den skyddade och mördar en i maffian när livvakten vinner striden',
     'game/bodyguard.test.js: blir mördad i stället när maffian vinner striden, och den skyddade överlever',
   ]],
   ['Hälften av gångerna vinner livvakten', [
-    'game/bodyguard.test.js: räddar den skyddade och skjuter en i maffian när livvakten vinner striden',
-    'game/bodyguard.test.js: lottar vem i maffian som blir skjuten, även gudfadern',
+    'game/bodyguard.test.js: räddar den skyddade och mördar en i maffian när livvakten vinner striden',
+    'game/bodyguard.test.js: lottar vem i maffian som blir mördad, även gudfadern',
   ]],
   ['Andra hälften förlorar livvakten', ['game/bodyguard.test.js: blir mördad i stället när maffian vinner striden, och den skyddade överlever']],
   ['Läkaren: den som läkaren skyddar överlever natten', ['game/bodyguard.test.js: låter läkaren rädda livvakten som förlorar striden']],
-  ['Livvakten får inte skydda sig själv', ['game/bodyguard.test.js: får inte skydda sig själv men samma person flera nätter i rad']],
-  ['På morgonen står det "Bosse blev skjuten av livvakten"', [
-    'game/bodyguard.test.js: berättar att maffian blev skjuten av livvakten, även när rollerna inte visas',
-    'game/bodyguard.test.js: berättar som vanligt att livvakten blev mördad av maffian',
+  ['Livvakten får inte skydda sig själv', [
+    'game/bodyguard.test.js: får inte skydda sig själv eller samma person två nätter i rad',
+    'game/bodyguard.test.js: kommer ihåg skyddet även när bartendern stoppade det',
+  ]],
+  ['På morgonen står det bara "Bosse blev mördad"', [
+    'game/bodyguard.test.js: säger bara att maffian blev mördad, och inget mer när rollerna inte visas',
+    'game/bodyguard.test.js: säger likadant när livvakten blev mördad',
   ]],
   // Bartendern
   ['Maffian eller gudfadern: ingen blir mördad', ['game/specialRoles.test.js: stoppar mordet när bartendern bjuder någon i maffian']],

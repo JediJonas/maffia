@@ -56,16 +56,16 @@ Livvakten väljer varje natt någon att skydda. Kommer maffian hem till den
 personen blir det strid (Jonas 2026-11-13):
 
 - **Den skyddade överlever** alltid när maffian kommer.
-- **Hälften av gångerna vinner livvakten** och skjuter en i maffian. Maffian
+- **Hälften av gångerna vinner livvakten** och mördar en i maffian. Maffian
   väljer offer tillsammans, så värden lottar vem av dem det blir. Gudfadern
-  kan också bli skjuten.
-- **Andra hälften förlorar livvakten** och blir mördad av maffian i stället.
+  kan också bli mördad.
+- **Andra hälften förlorar livvakten** och blir mördad i stället.
 - **Läkaren:** den som läkaren skyddar överlever natten, även efter striden.
-- Livvakten får inte skydda sig själv, men får skydda samma person flera
-  nätter i rad.
-- På morgonen står det "Bosse blev skjuten av livvakten" när maffian
-  förlorade. Det står även när rollerna inte visas vid död, så alla får veta
-  att Bosse var maffia.
+- Livvakten får inte skydda sig själv och inte samma person två nätter i
+  rad, som läkaren (Jonas 2026-11-13).
+- På morgonen står det bara "Bosse blev mördad", vem som än dog. Visas
+  rollerna vid död ser alla att Bosse var maffia, annars får ingen veta hur
+  det gick till.
 
 ### Bartendern
 
@@ -115,18 +115,15 @@ korv visas för alla på morgonen och får inte prata den dagen, men får rösta
 
 Appen och dokumentationen använder samma ord:
 
-- **Mördad.** Den som maffian dödar på natten "blev mördad av maffian", till
-  exempel "Anna blev mördad av maffian". Om läkaren räddade offret står det
+- **Mördad.** Den som dör på natten "blev mördad", till exempel "Anna blev
+  mördad". Det står inte vem som mördade, eftersom livvakten också kan döda
+  (Jonas 2026-11-13). Om läkaren räddade offret står det
   "Ingen blev mördad".
 - **Förvisad.** Den som staden röstar bort på dagen "blev förvisad ur staden",
   till exempel "Du blev förvisad ur staden". Om ingen fick flest röster står det
   "Ingen blev förvisad". Själva omröstningen heter fortfarande att rösta.
 - **Kort och långt.** Den stora rubriken vid avataren är kort, "Anna blev
-  mördad" och "Anna blev förvisad". Berättartexten i rutan överst säger hela meningen, "Anna blev mördad av
-  maffian" och "Anna blev förvisad ur staden".
-- **Skjuten.** Maffia som livvakten dödar "blev skjuten av livvakten", till
-  exempel "Bosse blev skjuten av livvakten". Den stora rubriken är "Bosse blev
-  skjuten".
+  mördad" och "Anna blev förvisad". Berättartexten i rutan överst säger hela meningen, "Anna blev mördad" och "Anna blev förvisad ur staden".
 - **Ute ur spelet.** Både den som blev mördad och den som blev förvisad är ute
   ur spelet. Det är vad skärmen säger till den spelaren, inte "död".
 
@@ -151,8 +148,7 @@ alla går att ändra i `src/game/rules.js`:
   er!" och alla andras "Jag är oskyldig!".
 - På natten finns ingen bekräfta-knapp. Ett tryck på en spelare är valet,
   och man kan ändra sig tills alla har valt och maffian har valt samma person.
-- På morgonen visas den mördades roll direkt, utan nedräkning. Maffian kan
-  inte mörda sina egna, så det finns inget att hålla hemligt.
+- På morgonen visas den mördades roll direkt, utan nedräkning.
 - Avgör nattens mord spelet visas morgonen ändå. Några sekunder senare kommer
   "Spelet är slut" av sig självt. Röster som läggs under en sådan morgon
   räknas inte.

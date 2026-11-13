@@ -32,7 +32,7 @@ const NIGHT_NOTES = {
   godfather: null,
   detective: 'Du får veta om personen är maffia. Svaret får du när staden vaknar.',
   doctor: 'Du skyddar personen från maffian. Samma person får inte skyddas två nätter i rad.',
-  bodyguard: 'Kommer maffian överlever personen. Sedan är det lika stor chans att du skjuter en i maffian som att du blir mördad.',
+  bodyguard: 'Kommer maffian överlever personen, och sedan är det lika stor chans att du dödar en i maffian som att du blir mördad. Samma person får inte skyddas två nätter i rad.',
   taxiDriver: 'Du får veta vem personen besöker i natt. Svaret får du när staden vaknar.',
   windowWatcher: 'Du får veta vem som besöker personen i natt. Svaret får du när staden vaknar.',
   bartender: 'Personen misslyckas med sin uppgift i natt men märker inget.',

@@ -6,8 +6,8 @@ import { ROLE_INFO } from './roles.js';
 /** @typedef {import('./playerView.js').PlayerView} PlayerView */
 
 // Rutan säger hela meningen (se Ord vi använder i docs/regler.md).
-const KILL = 'blev mördad av maffian';
-const SHOT = 'blev skjuten av livvakten';
+// Inte "av maffian", eftersom livvakten också kan döda (Jonas 2026-11-13).
+const KILL = 'blev mördad';
 const EXECUTION = 'blev förvisad ur staden';
 
 /** @type {Record<import('./types.js').Team, string>} */
@@ -47,7 +47,7 @@ export function narratePhaseChange(previous, next) {
 function describeKill(view) {
   const killedId = view.lastNight?.killedId;
   if (!killedId) return 'Ingen blev mördad.';
-  return describeDeath(view, killedId, view.lastNight?.isShotByBodyguard ? SHOT : KILL);
+  return describeDeath(view, killedId, KILL);
 }
 
 /**
@@ -65,8 +65,8 @@ function describeExecution(view) {
  * lätt att läsa oavsett om rollen redan är framvänd.
  * @param {PlayerView} view
  * @param {string} playerId
- * @param {string} whatHappened Till exempel "blev mördad av maffian".
- * @returns {string} Till exempel "Anna blev mördad av maffian. Anna var läkare."
+ * @param {string} whatHappened Till exempel "blev mördad".
+ * @returns {string} Till exempel "Anna blev mördad. Anna var läkare."
  */
 function describeDeath(view, playerId, whatHappened) {
   const player = view.players.find((p) => p.id === playerId);
