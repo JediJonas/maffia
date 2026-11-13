@@ -127,7 +127,9 @@ en regel.
   bra ut". Nattbilderna `natt-advokat-*`: "ser bra ut".
 - 2026-11-13, dombilden för advokaten: först "en kvinna på manlig bild och
   en man på kvinnlig bild", alltså advokaten med motsatt kön mot klienten.
-  Sedan valdes ändå första versionen, där advokaten är en man i båda.
+  Sedan valdes ändå första versionen, där advokaten är en man i båda: "Jag
+  tycker det funkar som nu. Att ansiktet är skuggat får representera att
+  advokaten är okänd."
 
 ## Bilder att byta
 
