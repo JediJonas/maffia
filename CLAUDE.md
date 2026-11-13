@@ -77,6 +77,18 @@ utseendet. Det viktigaste:
   signatur, gör gråskala, sätt rent svart och rent vitt (svartpunkt ca 34,
   vitpunkt ca 245) och spara som WebP, cirka 1000–1100 px bred i 4:3.
   Detaljer och promptmallen: `docs/bilder-och-prompter.md`.
+- Stilguiden är `docs/bildstil.md`: noir i svart tusch, vitt ljus, ingen
+  text, död utan blod, kvinna och man i samma scen. Alla prompter finns i
+  `maffia/alla-bildprompter.md` i projektfilerna; uppdatera filen när en bild
+  byts eller läggs till.
+- `src/scenes/sceneFiles.test.js` kontrollerar filnamnen, att varje roll har
+  en kvinna och en man (rollbild, och nattbild utom för maffian), att varje fil används och har
+  alt-text och utsnitt. `python3 scripts/kontrollera-bilder.py` kontrollerar
+  efterbehandlingen (gråskala, rent svart och vitt, storlek och format).
+- Agenten `bildansvarig` (`.claude/agents/bildansvarig.md`) skriver prompter
+  och kontrollerar bilder. Gemini ska kunna generera bilder senare med
+  nyckeln i miljövariabeln `GEMINI_API_KEY` (en hemlighet i molnmiljön eller
+  på GitHub, aldrig i repot). Anropet är inte byggt än.
 
 ## Testa med botar
 
