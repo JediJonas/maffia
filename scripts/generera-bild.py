@@ -37,9 +37,9 @@ TEMPLATE_FILE = ROOT / "docs" / "bilder-och-prompter.md"
 CHECK_SCRIPT = ROOT / "scripts" / "kontrollera-bilder.py"
 DEFAULT_OUT_DIR = ROOT / "nya-bilder"
 # Modellen kan bytas utan kodändring. Kör --modeller för att se vilka som finns.
-# gemini-3.1-flash-image (Nano Banana 2) är den nyaste och billigaste med
-# 4:3 och generateContent, enligt models-listan 2026-11-13.
-DEFAULT_MODEL = os.environ.get("GEMINI_BILDMODELL", "gemini-3.1-flash-image")
+# gemini-nano-banana-2.1 är Googles förval för bilder enligt skillen
+# gemini-api-dev (2026-11-13). gemini-3.1-flash-image är föråldrad.
+DEFAULT_MODEL = os.environ.get("GEMINI_BILDMODELL", "gemini-nano-banana-2.1")
 ASPECT_RATIO = "4:3"
 # 1K räcker för 1050 px bredd och är billigast.
 IMAGE_SIZE = "1K"
@@ -87,7 +87,8 @@ def call_api(path, body=None):
 
 def list_models():
     for model in call_api("models?pageSize=1000").get("models", []):
-        if "image" in model["name"]:
+        # Nya bildmodeller heter nano-banana och har inte "image" i namnet.
+        if "image" in model["name"] or "banana" in model["name"]:
             print(model["name"].removeprefix("models/"))
 
 
