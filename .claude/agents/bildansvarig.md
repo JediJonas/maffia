@@ -57,8 +57,9 @@ När ägaren har bedömt bilder:
    som bryter mot den.
 4. Skriv in en regel först när ägaren har godkänt den, med datum.
 
-När en bild läggs till, byts eller genereras: bygg om bedömningssidan så att
-den kommer med, och be ägaren bedöma den.
+När en bild läggs till i spelet eller byts: bygg alltid om bedömningssidan så
+att den kommer med (Jonas 2026-11-13), säg i svaret att sidan ska publiceras
+till samma adress (du kan inte publicera själv) och be ägaren bedöma bilden.
 
 ## Lägga in en bild
 
