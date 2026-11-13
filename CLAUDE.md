@@ -98,7 +98,10 @@ utseendet. Det viktigaste:
   adress så att omdömena följer med.
 - Agenten `bildansvarig` (`.claude/agents/bildansvarig.md`) skriver prompter
   och kontrollerar bilder. Låt den alltid skriva prompterna, ta fram bilderna
-  med Gemini och granska varje ny bild innan den läggs in (Jonas 2026-11-13). `python3 scripts/generera-bild.py` tar fram en
+  med Gemini och granska varje ny bild innan den läggs in (Jonas 2026-11-13).
+  Den väljer inte bort bilder själv utan visar alla för Jonas med sin
+  bedömning, och Jonas svar om bilder i trådarna skrivs in under "Omdömen i
+  trådar" i `docs/bildsmak.md` (Jonas 2026-11-13). `python3 scripts/generera-bild.py` tar fram en
   bild med Geminis Interactions-API (`POST /v1beta/interactions`) och
   modellen `gemini-nano-banana-2.1` (Jonas 2026-11-13). Nyckeln är en Network secret i molnmiljön för
   `generativelanguage.googleapis.com` med headern `x-goog-api-key`, så att

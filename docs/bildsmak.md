@@ -111,6 +111,24 @@ på `src/scenes/images/`.
 9. **Ljust nog att se motivet.** `ga-med` är så mörk att det är svårt att se
    vad den föreställer.
 
+## Omdömen i trådar
+
+Vad Jonas har sagt om bilder när han har fått se dem i en tråd, med hans egna
+ord. Läs dem tillsammans med reglerna. När flera pekar åt samma håll blir de
+en regel.
+
+- 2026-11-13, `roll-advokat-*` i motljus (bortvald): "ser ut som
+  detektiven". Rollbilden måste skilja sig från de andra rollerna, inte bara
+  följa stilen.
+- 2026-11-13, `dom-advokat-*` med helt svart ansikte (bortvald): "Jag
+  tycker inte heller det blev bra med ansikte som var så mörkt."
+- 2026-11-13, första versionerna av `roll-advokat-*` och `dom-advokat-*`,
+  som granskningen ville byta (regn inomhus, för välgjorda ansikten): "ser
+  bra ut". Nattbilderna `natt-advokat-*`: "ser bra ut".
+- 2026-11-13, dombilden för advokaten: först "en kvinna på manlig bild och
+  en man på kvinnlig bild", alltså advokaten med motsatt kön mot klienten.
+  Sedan valdes ändå första versionen, där advokaten är en man i båda.
+
 ## Bilder att byta
 
 När bildansvarig kan ta fram bilder själv (via Gemini) byts de här först, i
