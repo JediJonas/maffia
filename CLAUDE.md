@@ -141,7 +141,7 @@ Ingen telefon får veta något den inte ska. Det kontrolleras på två sätt, oc
 båda körs på varje PR i GitHub Actions:
 
 - **Enhetstest** (`src/game/leakCheck.test.js`): spelar 45 hela partier med
-  bara botar (fyra och tolv spelare, alla roller, roller vid död av och på)
+  bara botar (fyra och tretton spelare, alla roller, roller vid död av och på)
   och kontrollerar varje telefons vy efter varje drag. Ingår i `npm test`.
 - **Webbläsartest** (`e2e/lackkontroll.e2e.js`, `npm run test:e2e`): värden
   och tre riktiga telefoner spelar ett parti genom en egen PeerJS-server.

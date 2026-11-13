@@ -19,6 +19,7 @@ många varianter. Här är de klassiska reglerna och hur prototypen tolkar dem.
 | Detektiv | Staden | Undersöker en spelare varje natt och får veta om den är maffia. |
 | Läkare | Staden | Skyddar en spelare varje natt. Blir den spelaren maffians offer överlever den. |
 | Livvakt | Staden | Skyddar en spelare varje natt. Om maffian kommer dit överlever den, och livvakten och maffian slåss. |
+| Advokat | Staden | Väljer en klient varje natt. Får klienten flest röster nästa dag träder advokaten in, och ingen blir förvisad. |
 | Stadsbo | Staden | Ingen nattroll. Diskuterar och röstar på dagen. |
 | Gudfadern | Maffian | Leder maffian och väljer offer med den. Detektiven ser honom som oskyldig. |
 | Taxichaufför | Staden | Följer en spelare varje natt och får veta vem den besökte. |
@@ -40,7 +41,7 @@ Taxichauffören och fönstertittaren ser vem som går hem till vem på natten.
 Ett besök är när någon går hem till den person den har valt:
 
 - **Räknas som besök:** maffian och gudfadern (alla som valde offret),
-  läkaren, livvakten, detektiven, bartendern och korvgubben.
+  läkaren, livvakten, advokaten, detektiven, bartendern och korvgubben.
 - **Räknas inte som besök:** taxichauffören och fönstertittaren, som bara
   tittar på håll. Inte heller borgmästaren, galningen och stadsborna, vars
   val på natten bara är blindknappen och inte gör något.
@@ -67,6 +68,24 @@ personen blir det strid (Jonas 2026-11-13):
   rollerna vid död ser alla att Bosse var maffia, annars får ingen veta hur
   det gick till.
 
+### Advokaten
+
+Advokaten väljer varje natt en klient. Skyddet gäller dagen efter
+(Jonas 2026-11-13):
+
+- **Advokaten träder in** när klienten får flest röster. Klienten blir inte
+  förvisad, och ingen annan blir förvisad i stället.
+- **Domslutet säger** "Anna fick flest röster, men advokaten trädde in. Ingen
+  blev förvisad." Klientens namn syns, eftersom alla har sett rösterna, men
+  inte klientens roll och inte vem som är advokat.
+- **Galningen** som klient vinner inte när advokaten träder in, och staden
+  fortsätter.
+- **Advokaten måste leva.** Blir advokaten eller klienten mördad på natten
+  gäller inget skydd.
+- **Ingen annan får veta** vem advokaten har valt, förrän advokaten träder in.
+- Advokaten får inte välja sig själv och inte samma klient två nätter i rad,
+  som livvakten.
+
 ### Bartendern
 
 Den som bartendern bjuder på en drink märker inget, men misslyckas med sin
@@ -78,6 +97,7 @@ uppgift den natten:
 - **Läkaren:** skyddet misslyckas, så offret dör ändå.
 - **Livvakten:** skyddet misslyckas, så offret blir mördat och ingen strid
   blir av.
+- **Advokaten:** inget skydd nästa dag, så klienten kan bli förvisad.
 - **Detektiven:** får svaret "inte maffia", oavsett vem som undersöktes.
 - **Taxichauffören och fönstertittaren:** svaret blir "ingen".
 - **Korvgubben:** ingen får korv av korvgubben, så alla får prata nästa dag.

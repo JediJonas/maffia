@@ -16,13 +16,15 @@ import { isMafia } from './roles.js';
  * så ingen av dem syns för de andra (Jonas 2026-11-06).
  * @type {Role[]}
  */
-const VISITING_ROLES = ['mafia', 'godfather', 'doctor', 'bodyguard', 'detective', 'bartender', 'sausageVendor'];
+const VISITING_ROLES = ['mafia', 'godfather', 'doctor', 'bodyguard', 'lawyer', 'detective', 'bartender', 'sausageVendor'];
 
 /**
  * @typedef {object} NightResult
  * @property {string | null} killedId
  * @property {string | null} protectedId Vem läkaren skyddade, även när bartendern stoppade skyddet, så att läkaren inte kan välja samma igen.
  * @property {string | null} guardedId Vem livvakten skyddade, även när bartendern stoppade skyddet, så att livvakten inte kan välja samma igen.
+ * @property {string | null} clientId Vem advokaten valde, även när bartendern stoppade försvaret, så att advokaten inte kan välja samma igen.
+ * @property {string | null} defendedClientId Klienten som advokaten försvarar i dag. Null när advokaten fick en drink eller blev mördad.
  * @property {string | null} silencedId
  * @property {Record<string, import('./types.js').Investigation[]>} investigations
  * @property {Record<string, import('./types.js').Sighting[]>} sightings
@@ -83,7 +85,14 @@ export function resolveNightChoices(state, random) {
   const sausageTargetId = sausageVendor && isActive(sausageVendor) ? choiceOf(sausageVendor) : null;
   const silencedId = sausageTargetId && sausageTargetId !== killedId ? sausageTargetId : null;
 
-  return { killedId, protectedId, guardedId, silencedId, investigations, sightings };
+  // Advokaten försvarar sin klient nästa dag, om advokaten lever och inte
+  // fick bartenderns drink (Jonas 2026-11-13).
+  const lawyer = withRole('lawyer')[0];
+  const clientId = choiceOf(lawyer);
+  const canDefend = Boolean(lawyer && isActive(lawyer) && lawyer.id !== killedId && clientId !== killedId);
+  const defendedClientId = canDefend ? clientId : null;
+
+  return { killedId, protectedId, guardedId, clientId, defendedClientId, silencedId, investigations, sightings };
 }
 
 /** Hälften av gångerna vinner livvakten striden (Jonas 2026-11-13). */

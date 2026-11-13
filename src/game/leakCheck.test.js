@@ -9,14 +9,14 @@ import { createTestGame } from './testGame.js';
 /** @typedef {import('./types.js').GameState} GameState */
 
 const ALL_ROLES_ON = {
-  hasBodyguard: true, hasTaxiDriver: true, hasWindowWatcher: true, hasBartender: true, hasSausageVendor: true,
+  hasBodyguard: true, hasLawyer: true, hasTaxiDriver: true, hasWindowWatcher: true, hasBartender: true, hasSausageVendor: true,
   hasGodfather: true, hasMayor: true, hasMadman: true,
 };
 
 const SCENARIOS = [
   { name: 'fyra spelare med standardroller', playerCount: 4, settings: {} },
-  { name: 'tolv spelare med alla roller', playerCount: 12, settings: ALL_ROLES_ON },
-  { name: 'tolv spelare där rollerna visas först på slutet', playerCount: 12, settings: { ...ALL_ROLES_ON, revealsRoleOnDeath: false } },
+  { name: 'tretton spelare med alla roller', playerCount: 13, settings: ALL_ROLES_ON },
+  { name: 'tretton spelare där rollerna visas först på slutet', playerCount: 13, settings: { ...ALL_ROLES_ON, revealsRoleOnDeath: false } },
 ];
 const GAMES_PER_SCENARIO = 15;
 const MAX_STEPS = 2000;

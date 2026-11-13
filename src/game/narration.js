@@ -56,6 +56,8 @@ function describeKill(view) {
  */
 function describeExecution(view) {
   const executedId = view.lastDay?.executedId;
+  const client = view.players.find((p) => p.id === view.lastDay?.defendedId);
+  if (client) return `${client.name} fick flest röster, men advokaten trädde in. Ingen blev förvisad.`;
   if (!executedId) return 'Ingen blev förvisad.';
   return describeDeath(view, executedId, EXECUTION);
 }
