@@ -105,6 +105,17 @@ utseendet. Det viktigaste:
 - Enhetstester: `createTestGame` och `playNight` i `src/game/testGame.js` ger
   ett spel med kända roller.
 
+## Regler och tester
+
+Varje regel i `docs/regler.md` ska ha minst ett test.
+`src/game/ruleCoverage.test.js` delar dokumentet i regler (tabellrader,
+punkter och stycken, utom "Ord vi använder") och har en lista som kopplar
+varje regel till sina tester. Testet fallerar när en regel saknas i listan,
+när listan pekar på en regel som inte finns kvar och när ett test som listan
+nämner inte finns. Ändrar du en regel: skriv eller ändra testet och
+uppdatera listan i samma PR. Regler som saknade test står i
+`src/game/ruleScenarios.test.js`, som bestämda partier med kända roller.
+
 ## Läckkontroll
 
 Ingen telefon får veta något den inte ska. Det kontrolleras på två sätt, och
@@ -132,8 +143,9 @@ Skärmbilder i telefonstorlek (390 px) av varje vy för varje telefon:
 `SKARMBILDER=1 npm run test:e2e`. De hamnar i `test-results/skarmbilder/`.
 I molnmiljön finns Chromium redan; kör inte `playwright install` där.
 
-Agenten `testare` (`.claude/agents/testare.md`) kör allt detta och tittar på
-bilderna. Be den om ett test efter ändringar i regler, vyer eller nätverk.
+Agenten `testare` (`.claude/agents/testare.md`) kör allt detta, håller
+regellistan komplett och tittar på bilderna. Be den om ett test efter
+ändringar i regler, vyer eller nätverk.
 
 ## Mobillayout i Safari: knappar och bakgrund längst ner
 
