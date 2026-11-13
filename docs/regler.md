@@ -18,6 +18,7 @@ många varianter. Här är de klassiska reglerna och hur prototypen tolkar dem.
 | Maffia | Maffian | Väljer tillsammans ett offer varje natt. |
 | Detektiv | Staden | Undersöker en spelare varje natt och får veta om den är maffia. |
 | Läkare | Staden | Skyddar en spelare varje natt. Blir den spelaren maffians offer överlever den. |
+| Livvakt | Staden | Skyddar en spelare varje natt. Om maffian kommer dit överlever den, och livvakten och maffian slåss. |
 | Stadsbo | Staden | Ingen nattroll. Diskuterar och röstar på dagen. |
 | Gudfadern | Maffian | Leder maffian och väljer offer med den. Detektiven ser honom som oskyldig. |
 | Taxichaufför | Staden | Följer en spelare varje natt och får veta vem den besökte. |
@@ -39,7 +40,7 @@ Taxichauffören och fönstertittaren ser vem som går hem till vem på natten.
 Ett besök är när någon går hem till den person den har valt:
 
 - **Räknas som besök:** maffian och gudfadern (alla som valde offret),
-  läkaren, detektiven, bartendern och korvgubben.
+  läkaren, livvakten, detektiven, bartendern och korvgubben.
 - **Räknas inte som besök:** taxichauffören och fönstertittaren, som bara
   tittar på håll. Inte heller borgmästaren, galningen och stadsborna, vars
   val på natten bara är blindknappen och inte gör något.
@@ -48,6 +49,23 @@ Om fönstertittaren bevakar Anna och bara taxichauffören följer henne, är
 svaret alltså "ingen". Svaret ligger i en akt som öppnas på morgonen, som
 detektivens. Den som är ute ur spelet kan inte längre öppna akten, inte heller
 svaret från natten då den blev mördad.
+
+### Livvakten
+
+Livvakten väljer varje natt någon att skydda. Kommer maffian hem till den
+personen blir det strid (Jonas 2026-11-13):
+
+- **Den skyddade överlever** alltid när maffian kommer.
+- **Hälften av gångerna vinner livvakten** och mördar en i maffian. Maffian
+  väljer offer tillsammans, så värden lottar vem av dem det blir. Gudfadern
+  kan också bli mördad.
+- **Andra hälften förlorar livvakten** och blir mördad i stället.
+- **Läkaren:** den som läkaren skyddar överlever natten, även efter striden.
+- Livvakten får inte skydda sig själv och inte samma person två nätter i
+  rad, som läkaren (Jonas 2026-11-13).
+- På morgonen står det bara "Bosse blev mördad", vem som än dog. Visas
+  rollerna vid död ser alla att Bosse var maffia, annars får ingen veta hur
+  det gick till.
 
 ### Bartendern
 
@@ -58,6 +76,8 @@ uppgift den natten:
   får drinken, eftersom maffian väljer tillsammans. Bartendern vet inte vilka
   som är maffia och kan alltså stoppa sitt eget lag.
 - **Läkaren:** skyddet misslyckas, så offret dör ändå.
+- **Livvakten:** skyddet misslyckas, så offret blir mördat och ingen strid
+  blir av.
 - **Detektiven:** får svaret "inte maffia", oavsett vem som undersöktes.
 - **Taxichauffören och fönstertittaren:** svaret blir "ingen".
 - **Korvgubben:** ingen får korv av korvgubben, så alla får prata nästa dag.
@@ -95,15 +115,15 @@ korv visas för alla på morgonen och får inte prata den dagen, men får rösta
 
 Appen och dokumentationen använder samma ord:
 
-- **Mördad.** Den som maffian dödar på natten "blev mördad av maffian", till
-  exempel "Anna blev mördad av maffian". Om läkaren räddade offret står det
+- **Mördad.** Den som dör på natten "blev mördad", till exempel "Anna blev
+  mördad". Det står inte vem som mördade, eftersom livvakten också kan döda
+  (Jonas 2026-11-13). Om läkaren räddade offret står det
   "Ingen blev mördad".
 - **Förvisad.** Den som staden röstar bort på dagen "blev förvisad ur staden",
   till exempel "Du blev förvisad ur staden". Om ingen fick flest röster står det
   "Ingen blev förvisad". Själva omröstningen heter fortfarande att rösta.
 - **Kort och långt.** Den stora rubriken vid avataren är kort, "Anna blev
-  mördad" och "Anna blev förvisad". Berättartexten i rutan överst säger hela meningen, "Anna blev mördad av
-  maffian" och "Anna blev förvisad ur staden".
+  mördad" och "Anna blev förvisad". Berättartexten i rutan överst säger hela meningen, "Anna blev mördad" och "Anna blev förvisad ur staden".
 - **Ute ur spelet.** Både den som blev mördad och den som blev förvisad är ute
   ur spelet. Det är vad skärmen säger till den spelaren, inte "död".
 
@@ -128,8 +148,7 @@ alla går att ändra i `src/game/rules.js`:
   er!" och alla andras "Jag är oskyldig!".
 - På natten finns ingen bekräfta-knapp. Ett tryck på en spelare är valet,
   och man kan ändra sig tills alla har valt och maffian har valt samma person.
-- På morgonen visas den mördades roll direkt, utan nedräkning. Maffian kan
-  inte mörda sina egna, så det finns inget att hålla hemligt.
+- På morgonen visas den mördades roll direkt, utan nedräkning.
 - Avgör nattens mord spelet visas morgonen ändå. Några sekunder senare kommer
   "Spelet är slut" av sig självt. Röster som läggs under en sådan morgon
   räknas inte.

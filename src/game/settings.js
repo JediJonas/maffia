@@ -10,6 +10,7 @@ import { joinWithAnd, writeNumber } from './numberWords.js';
  * @property {'auto' | number} mafiaCount auto ger en maffia per fyra spelare.
  * @property {boolean} hasDetective
  * @property {boolean} hasDoctor
+ * @property {boolean} hasBodyguard
  * @property {boolean} hasTaxiDriver
  * @property {boolean} hasWindowWatcher
  * @property {boolean} hasBartender
@@ -25,6 +26,7 @@ export const DEFAULT_SETTINGS = {
   mafiaCount: 'auto',
   hasDetective: true,
   hasDoctor: true,
+  hasBodyguard: false,
   hasTaxiDriver: false,
   hasWindowWatcher: false,
   hasBartender: false,
@@ -43,6 +45,7 @@ export const DEFAULT_SETTINGS = {
 export const OPTIONAL_ROLES = [
   ['hasDetective', 'detective'],
   ['hasDoctor', 'doctor'],
+  ['hasBodyguard', 'bodyguard'],
   ['hasTaxiDriver', 'taxiDriver'],
   ['hasWindowWatcher', 'windowWatcher'],
   ['hasBartender', 'bartender'],
@@ -133,6 +136,7 @@ export function describeRoles(roles) {
     ['mafia', 'maffia', 'maffia'],
     ['detective', 'detektiv', 'detektiver'],
     ['doctor', 'läkare', 'läkare'],
+    ['bodyguard', 'livvakt', 'livvakter'],
     ['taxiDriver', 'taxichaufför', 'taxichaufförer'],
     ['windowWatcher', 'fönstertittare', 'fönstertittare'],
     ['bartender', 'bartender', 'bartendrar'],

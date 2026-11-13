@@ -18,7 +18,7 @@ describe('narratePhaseChange', () => {
   it('berättar vem som blev mördad och rollen direkt', () => {
     const state = playNight(night, { p1: 'p3', p2: 'p4', p3: 'p4', p4: 'p2', p5: 'p2' });
     const text = narratePhaseChange(buildPlayerView(night, 'p1'), buildPlayerView(state, 'p1'));
-    expect(text).toContain('Spelare 3 blev mördad av maffian. Spelare 3 var läkare.');
+    expect(text).toContain('Spelare 3 blev mördad. Spelare 3 var läkare.');
   });
 
   it('avslöjar aldrig värdens egen roll', () => {

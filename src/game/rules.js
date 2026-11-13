@@ -31,6 +31,7 @@ export function createGame() {
     investigations: {},
     sightings: {},
     lastDoctorTargetId: null,
+    lastBodyguardTargetId: null,
     winner: null,
     settings: DEFAULT_SETTINGS,
   };
@@ -118,7 +119,7 @@ export function changeSettings(state, changes) {
  * @param {GameState} state
  * @param {string} playerId
  * @param {PlayerAction} action
- * @param {() => number} [random] Ett tal från 0 till 1, som Math.random. Drar mordbilden när natten tar slut.
+ * @param {() => number} [random] Ett tal från 0 till 1, som Math.random. Avgör livvaktens strid och drar mordbilden när natten tar slut.
  * @returns {GameState}
  */
 export function applyAction(state, playerId, action, random = Math.random) {
@@ -215,6 +216,8 @@ export function listNightTargets(state, player) {
   switch (player.role) {
     case 'doctor':
       return living.filter((p) => p.id !== state.lastDoctorTargetId).map((p) => p.id);
+    case 'bodyguard':
+      return living.filter((p) => p.id !== player.id && p.id !== state.lastBodyguardTargetId).map((p) => p.id);
     default:
       return living.filter((p) => p.id !== player.id).map((p) => p.id);
   }
@@ -262,8 +265,9 @@ export function hasMafiaAgreed(state) {
  * @returns {GameState}
  */
 function resolveNight(state, random) {
-  const { killedId, protectedId, silencedId, investigations, sightings } = resolveNightChoices(state);
-  const afterKill = killPlayer({ ...state, investigations, sightings, lastDoctorTargetId: protectedId }, killedId);
+  const { killedId, protectedId, guardedId, silencedId, investigations, sightings } = resolveNightChoices(state, random);
+  const remembered = { lastDoctorTargetId: protectedId, lastBodyguardTargetId: guardedId };
+  const afterKill = killPlayer({ ...state, investigations, sightings, ...remembered }, killedId);
   // Även när mordet avgör spelet blir det morgon först, så att alla får se
   // vem som blev mördad. Se endDecidedMorning i deathReveal.js.
   /** @type {NightOutcome} */

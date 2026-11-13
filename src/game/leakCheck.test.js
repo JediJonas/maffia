@@ -9,7 +9,7 @@ import { createTestGame } from './testGame.js';
 /** @typedef {import('./types.js').GameState} GameState */
 
 const ALL_ROLES_ON = {
-  hasTaxiDriver: true, hasWindowWatcher: true, hasBartender: true, hasSausageVendor: true,
+  hasBodyguard: true, hasTaxiDriver: true, hasWindowWatcher: true, hasBartender: true, hasSausageVendor: true,
   hasGodfather: true, hasMayor: true, hasMadman: true,
 };
 
