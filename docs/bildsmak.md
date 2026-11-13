@@ -100,9 +100,15 @@ på `src/scenes/images/`.
      (`morgon-mord-polis-kvinna`).
    - Kläderna passar vädret: stadsbon i regnet borde ha en kappa, inte bara en
      klänning (`roll-stadsbo-kvinna`).
-7. **Samma tecknare i alla bilder.** Personerna i `lobby` och hela `start` ser
+7. **Hellre ett synligt ansikte än ett helt svart.** Ansiktet får ligga i
+   skugga, men ett ansikte som är helt svart blir för mörkt. Ett ansikte i
+   ljuset gör inget när bilden i övrigt är bra.
+   - Gillar: `roll-advokat-*`, `dom-advokat-*`.
+   - Valdes bort: versionerna med advokaten i motljus och med helt svart
+     ansikte (Jonas 2026-11-13).
+8. **Samma tecknare i alla bilder.** Personerna i `lobby` och hela `start` ser
    ut att vara ritade av någon annan. Startsidan får vara kvar tills vidare.
-8. **Ljust nog att se motivet.** `ga-med` är så mörk att det är svårt att se
+9. **Ljust nog att se motivet.** `ga-med` är så mörk att det är svårt att se
    vad den föreställer.
 
 ## Bilder att byta
