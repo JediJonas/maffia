@@ -1,5 +1,8 @@
 """Tar fram en bild till bildrutan med Gemini och efterbehandlar den.
 
+Anropar Geminis Interactions-API. Aktuella modeller och anrop står i skillen
+.claude/skills/gemini-api-dev.
+
 Prompten byggs ur mallen i docs/bilder-och-prompter.md, så att bara scenen
 och kameran skiljer sig mellan bilderna. Råbilden sparas bredvid den färdiga
 bilden, och den färdiga kontrolleras med scripts/kontrollera-bilder.py.
@@ -44,6 +47,9 @@ ASPECT_RATIO = "4:3"
 # 1K räcker för 1050 px bredd och är billigast.
 IMAGE_SIZE = "1K"
 API_URL = "https://generativelanguage.googleapis.com/v1beta"
+# Interactions-API:ts version av svarsformatet (stegen), enligt skillen
+# gemini-api-dev i google-gemini/gemini-skills.
+API_REVISION = "2026-05-20"
 REQUEST_TIMEOUT_SECONDS = 180
 # Efterbehandlingen i docs/bilder-och-prompter.md.
 BLACK_POINT, WHITE_POINT = 34, 245
@@ -69,7 +75,7 @@ def build_prompt(scene, camera):
 
 
 def call_api(path, body=None):
-    headers = {"Content-Type": "application/json"}
+    headers = {"Content-Type": "application/json", "Api-Revision": API_REVISION}
     key = os.environ.get("GEMINI_API_KEY")
     if key:
         headers["x-goog-api-key"] = key
@@ -95,31 +101,30 @@ def list_models():
 def image_part(path):
     buffer = BytesIO()
     Image.open(path).convert("RGB").save(buffer, "PNG")
-    return {"inline_data": {"mime_type": "image/png", "data": base64.b64encode(buffer.getvalue()).decode()}}
+    return {"type": "image", "mime_type": "image/png", "data": base64.b64encode(buffer.getvalue()).decode()}
 
 
 def generate(prompt, references, model):
     if references:
         prompt += "\n\nMatch the drawing style of the attached reference panels. Do not copy their scenes."
-    parts = [image_part(path) for path in references] + [{"text": prompt}]
     response = call_api(
-        f"models/{model}:generateContent",
+        "interactions",
         {
-            "contents": [{"role": "user", "parts": parts}],
-            "generationConfig": {"responseModalities": ["IMAGE"], "imageConfig": {"aspectRatio": ASPECT_RATIO, "imageSize": IMAGE_SIZE}},
+            "model": model,
+            "input": [image_part(path) for path in references] + [{"type": "text", "text": prompt}],
+            "response_format": {"type": "image", "aspect_ratio": ASPECT_RATIO, "image_size": IMAGE_SIZE},
+            # Inget behöver sparas hos Google; varje bild är ett eget anrop.
+            "store": False,
         },
     )
-    candidates = response.get("candidates") or []
-    for candidate in candidates:
-        for part in candidate.get("content", {}).get("parts", []):
-            inline = part.get("inlineData") or part.get("inline_data")
-            # Modeller som tänker kan skicka utkast först. De hoppas över.
-            if part.get("thought"):
-                continue
-            if inline and inline.get("data"):
-                return Image.open(BytesIO(base64.b64decode(inline["data"])))
-    reason = candidates[0].get("finishReason") if candidates else response.get("promptFeedback", "inget svar")
-    sys.exit(f"Ingen bild i svaret ({reason}).")
+    # Svaret är en tidslinje av steg. Bilden ligger i det sista model_output.
+    for step in reversed(response.get("steps") or []):
+        if step.get("type") != "model_output":
+            continue
+        for content in step.get("content") or []:
+            if content.get("type") == "image" and content.get("data"):
+                return Image.open(BytesIO(base64.b64decode(content["data"])))
+    sys.exit(f"Ingen bild i svaret (status {response.get('status', 'okänd')}).")
 
 
 def finish(image):
