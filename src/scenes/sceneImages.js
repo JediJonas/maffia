@@ -13,6 +13,8 @@ import roleDoctorWoman from './images/roll-lakare-kvinna.webp';
 import roleDoctorMan from './images/roll-lakare-man.webp';
 import roleBodyguardWoman from './images/roll-livvakt-kvinna.webp';
 import roleBodyguardMan from './images/roll-livvakt-man.webp';
+import roleLawyerWoman from './images/roll-advokat-kvinna.webp';
+import roleLawyerMan from './images/roll-advokat-man.webp';
 import roleCitizenWoman from './images/roll-stadsbo-kvinna.webp';
 import roleCitizenMan from './images/roll-stadsbo-man.webp';
 import roleTaxiDriverWoman from './images/roll-taxichauffor-kvinna.webp';
@@ -38,6 +40,8 @@ import nightDoctorWoman from './images/natt-lakare-kvinna.webp';
 import nightDoctorMan from './images/natt-lakare-man.webp';
 import nightBodyguardWoman from './images/natt-livvakt-kvinna.webp';
 import nightBodyguardMan from './images/natt-livvakt-man.webp';
+import nightLawyerWoman from './images/natt-advokat-kvinna.webp';
+import nightLawyerMan from './images/natt-advokat-man.webp';
 import nightCitizenWoman from './images/natt-stadsbo-kvinna.webp';
 import nightCitizenMan from './images/natt-stadsbo-man.webp';
 import nightTaxiDriverWoman from './images/natt-taxichauffor-kvinna.webp';
@@ -64,6 +68,8 @@ import morningNoMurder from './images/morgon-ingen.webp';
 import verdictWoman from './images/dom-kvinna.webp';
 import verdictMan from './images/dom-man.webp';
 import verdictNobody from './images/dom-ingen.webp';
+import verdictLawyerWoman from './images/dom-advokat-kvinna.webp';
+import verdictLawyerMan from './images/dom-advokat-man.webp';
 import mafiaWins from './images/slut-maffia.webp';
 import townWins from './images/slut-staden.webp';
 import madmanWinsWoman from './images/slut-galningen-kvinna.webp';
@@ -84,6 +90,8 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   roleBodyguardWoman: { src: roleBodyguardWoman, alt: 'En livvakt i trenchcoat och fedora, med uppsatt hår, står i en mörk port i regnet med handen innanför kappan och spanar längs gatan.', position: '80% 30%' },
   roleBodyguardMan: { src: roleBodyguardMan, alt: 'En livvakt med mustasch, i trenchcoat och hatt, står i en mörk port i regnet med handen innanför rocken och spanar längs gatan.', position: '80% 30%' },
   roleDoctorMan: { src: roleDoctorMan, alt: 'En läkare med glasögon och mustasch, i mörk kappa med stetoskop och läkarväska, står i en upplyst dörröppning.', position: '100% 30%' },
+  roleLawyerWoman: { src: roleLawyerWoman, alt: 'En advokat i mörk dräkt och liten hatt kliver med portföljen i handen ut ur ljuset från en glasdörr i tingshusets mörka korridor.', position: '85% 30%' },
+  roleLawyerMan: { src: roleLawyerMan, alt: 'En advokat med mustasch, i kostym med väst och hatt, kliver med portföljen i handen ut ur ljuset från en glasdörr i tingshusets mörka korridor.', position: '85% 30%' },
   roleCitizenWoman: { src: roleCitizenWoman, alt: 'En kvinna i blommig klänning står i sin öppna ytterdörr och ser ut i mörkret med handen mot dörrkarmen.', position: '75% 30%' },
   roleCitizenMan: { src: roleCitizenMan, alt: 'En man i keps och kofta tittar misstänksamt ut genom sin ytterdörr.', position: '100% 30%' },
   roleTaxiDriverWoman: { src: roleTaxiDriverWoman, alt: 'En taxichaufför i skärmmössa och skinnrock sitter vid ratten en regnig natt utanför ett hotell.', position: '100% 30%' },
@@ -109,6 +117,8 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightBodyguardWoman: { src: nightBodyguardWoman, alt: 'En livvakt i trenchcoat står med en revolver i handen framför en stängd dörr i ett trapphus under en naken glödlampa och lyssnar ner i trappan.', position: '85% 50%' },
   nightBodyguardMan: { src: nightBodyguardMan, alt: 'En livvakt i hatt och rock står med en revolver i handen framför en stängd dörr i ett trapphus under en naken glödlampa och lyssnar ner i trappan.', position: '85% 50%' },
   nightDoctorMan: { src: nightDoctorMan, alt: 'En man i hatt och rock med en läkarväska går ensam längs en regnig gata en natt under en gatlykta.', position: '65% 50%' },
+  nightLawyerWoman: { src: nightLawyerWoman, alt: 'En advokat i dräkt och liten hatt sitter vid ett köksbord under en hängande lampa och antecknar. Mitt emot syns bara klientens händer med en cigarett.', position: '75% 50%' },
+  nightLawyerMan: { src: nightLawyerMan, alt: 'En advokat med mustasch, i kostym, sitter vid ett köksbord under en hängande lampa och antecknar. Mitt emot syns bara klientens händer med en cigarett.', position: '75% 50%' },
   nightCitizenWoman: { src: nightCitizenWoman, alt: 'En kvinna sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },
   nightCitizenMan: { src: nightCitizenMan, alt: 'En man sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },
   nightTaxiDriverWoman: { src: nightTaxiDriverWoman, alt: 'En taxichaufför i skärmmössa sitter vid ratten och ser en gestalt i hatt gå ensam på en regnig gata.', position: '50% 50%' },
@@ -133,6 +143,8 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   morningMurderPhoneBoothMan: { src: morningMurderPhoneBoothMan, alt: 'En man i hatt och rock sitter död i en telefonkiosk i regnet. Luren hänger i sin sladd ovanför honom.', position: '45% 50%' },
   morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En mjölkbud ställer flaskor på en trappa, och en man i hatt läser tidningen mot en vägg.', position: '65% 50%' },
   verdictWoman: { src: verdictWoman, alt: 'Två män i hatt pekar på en rädd kvinna som står med hatten i handen vid en tegelvägg.', position: '50% 40%' },
+  verdictLawyerWoman: { src: verdictLawyerWoman, alt: 'Två män i hatt pekar på en rädd kvinna, men en advokat i lång rock med ansiktet i skugga har klivit emellan och håller upp handen.', position: '55% 40%' },
+  verdictLawyerMan: { src: verdictLawyerMan, alt: 'Två män i hatt pekar på en rädd man, men en advokat i lång rock med ansiktet i skugga har klivit emellan och håller upp handen.', position: '55% 40%' },
   verdictMan: { src: verdictMan, alt: 'Två män i hatt pekar på en rädd man som står med hatten i händerna vid en tegelvägg.', position: '50% 40%' },
   verdictNobody: { src: verdictNobody, alt: 'Stadsborna står kvar på en våt gata efter omröstningen. Två män skakar hand, några står och tittar, och en man går därifrån.', position: '30% 50%' },
   mafiaWins: { src: mafiaWins, alt: 'Två män i rock och hatt står på ett tak och ser ut över den mörka staden. Den ena tänder en cigarett.', position: '30% 40%' },

@@ -100,8 +100,9 @@ const VERDICT_IMAGES = { woman: 'verdictWoman', man: 'verdictMan' };
 
 /**
  * Advokaten träder in för klienten, som är en kvinna eller en man efter
- * klientens eget val av rollbild (se defendedImageVariant). Advokaten syns
- * bakifrån, så att bilden inte avslöjar något om advokaten.
+ * klientens eget val av rollbild (se defendedImageVariant). Advokaten är
+ * densamma i båda, med ansiktet i skugga, så att bilden inte avslöjar något
+ * om vem som är advokat (Jonas 2026-11-13).
  * @type {Record<RoleImageVariant, SceneImageKey>}
  */
 const DEFENDED_IMAGES = { woman: 'verdictLawyerWoman', man: 'verdictLawyerMan' };
