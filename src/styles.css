@@ -1186,6 +1186,11 @@ main section .person-text-wide {
   min-height: 3.5rem;
 }
 
+/* Botar och Avslöja rollen står i en egen ruta under rollerna, som Rollbild i Din figur. */
+.settings-list.settings-other {
+  margin: var(--block-gap) 0;
+}
+
 .stepper button:disabled {
   opacity: 0.3;
 }
