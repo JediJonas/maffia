@@ -64,6 +64,10 @@ import morningMurderStairsWoman from './images/morgon-mord-trappa-kvinna.webp';
 import morningMurderPlatformWoman from './images/morgon-mord-perrong-kvinna.webp';
 import morningMurderDocksMan from './images/morgon-mord-hamn-man.webp';
 import morningMurderPhoneBoothMan from './images/morgon-mord-telefonkiosk-man.webp';
+import morningMurderStairsMan from './images/morgon-mord-trappa-man.webp';
+import morningMurderPlatformMan from './images/morgon-mord-perrong-man.webp';
+import morningMurderDocksWoman from './images/morgon-mord-hamn-kvinna.webp';
+import morningMurderPhoneBoothWoman from './images/morgon-mord-telefonkiosk-kvinna.webp';
 import morningNoMurder from './images/morgon-ingen.webp';
 import verdictWoman from './images/dom-kvinna.webp';
 import verdictMan from './images/dom-man.webp';
@@ -137,10 +141,14 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   morningMurderCloseUpMan: { src: morningMurderCloseUpMan, alt: 'En man i kostym ligger död på ett mörkt trägolv. En nedslagen skrivbordslampa ligger på sidan bredvid honom, och glasögonen ligger i ljuset.', position: '35% 50%' },
   morningMurderPoliceWoman: { src: morningMurderPoliceWoman, alt: 'En kvinna ligger död på en våt gata en grå morgon. En polis sitter på huk bredvid henne, hennes sko och handväska ligger utspridda, och en bagare, en man med portfölj och en tidningspojke tittar på.', position: '40% 50%' },
   morningMurderPoliceMan: { src: morningMurderPoliceMan, alt: 'En man ligger död på en våt gata en grå morgon. En polis sitter på huk bredvid honom, hans hatt ligger på gatstenen, och en bagare, en man med portfölj och en tidningspojke tittar på.', position: '40% 50%' },
-  morningMurderStairsWoman: { src: morningMurderStairsWoman, alt: 'Sett uppifrån i ett spiraltrapphus ligger en kvinna död på det rutiga golvet längst ner. Hennes skor ligger kvar på trappstegen.', position: '50% 50%' },
+  morningMurderStairsWoman: { src: morningMurderStairsWoman, alt: 'Sett uppifrån i ett spiraltrapphus ligger en kvinna död på det rutiga golvet längst ner. En av hennes skor ligger kvar på trappstegen.', position: '50% 50%' },
   morningMurderPlatformWoman: { src: morningMurderPlatformWoman, alt: 'En kvinna i hatt ligger död på en perrong bredvid en uppbruten resväska, medan ett tåg står inne vid plattformen.', position: '35% 50%' },
   morningMurderDocksMan: { src: morningMurderDocksMan, alt: 'En man ligger död bland lårar på en kaj i dimman, under kranar och ett stort fartyg. Hans hatt flyter i vattnet.', position: '50% 50%' },
   morningMurderPhoneBoothMan: { src: morningMurderPhoneBoothMan, alt: 'En man i hatt och rock sitter död i en telefonkiosk i regnet. Luren hänger i sin sladd ovanför honom.', position: '45% 50%' },
+  morningMurderStairsMan: { src: morningMurderStairsMan, alt: 'Sett uppifrån i ett spiraltrapphus ligger en man död på det rutiga golvet längst ner. Hans hatt ligger kvar på trappstegen.', position: '50% 50%' },
+  morningMurderPlatformMan: { src: morningMurderPlatformMan, alt: 'En man i mörk rock ligger död på en perrong bredvid en uppbruten resväska och sin hatt, medan ett tåg står inne vid plattformen.', position: '35% 50%' },
+  morningMurderDocksWoman: { src: morningMurderDocksWoman, alt: 'En kvinna ligger död bland lårar på en kaj i dimman, under kranar och ett stort fartyg. Hennes hatt flyter i vattnet.', position: '50% 50%' },
+  morningMurderPhoneBoothWoman: { src: morningMurderPhoneBoothWoman, alt: 'En kvinna i ljus kappa sitter död i en telefonkiosk i regnet med hatten i knät. Luren hänger i sin sladd ovanför henne.', position: '45% 50%' },
   morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En mjölkbud ställer flaskor på en trappa, och en man i hatt läser tidningen mot en vägg.', position: '65% 50%' },
   verdictWoman: { src: verdictWoman, alt: 'Två män i hatt pekar på en rädd kvinna som står med hatten i handen vid en tegelvägg.', position: '50% 40%' },
   verdictLawyerWoman: { src: verdictLawyerWoman, alt: 'Två män i hatt pekar på en rädd kvinna, men en advokat i lång rock och hatt har klivit fram bredvid henne och håller upp handen.', position: '55% 40%' },

@@ -72,10 +72,16 @@ på `src/scenes/images/`.
    mäter jämna grå ytor och godkänner högst 12 procent av bilden; de
    godkända laveringsbilderna har 2,5–10,8 procent. Under gränsen avgör
    ögat vilken sorts grått det är.
+   - Undantag: dimman i hamnen, `morgon-mord-hamn-*`. Den är grå med flit och
+     snyggare än en hamn utan dimma (Jonas 2026-11-14: "Jag tycker dimman är
+     snyggare", "ja, vi gör undantag"). Kontrollen hoppar över grått i de två
+     bilderna.
    - Gillar, lavering: `roll-detektiv-*`, `natt-detektiv-*`,
      `roll-taxichauffor-kvinna`, `natt-lakare-*` (2026-11-14).
    - Gillar: `dom-kvinna`, `dom-man`, `roll-bartender-*`, `roll-korvgubbe-*`,
-     `morgon-mord-trappa-kvinna`, `skapa`.
+     `skapa`. (`morgon-mord-trappa-kvinna` och `morgon-mord-perrong-kvinna`
+     gillades helt svartvita och gjordes om med lavering 2026-11-14: "Jag
+     tycker att båda blev bättre. Mer enhetligt med övriga.")
    - Gillar inte (de gamla, nu bytta): `natt-detektiv-*`, `natt-lakare-*`
      (grå tvätt över hela bilden).
    - Gränsfall: `morgon-mord-telefonkiosk-man`. Gillas, eftersom det grå bara
@@ -267,6 +273,16 @@ en regel.
   Lampan ligger rätt tycker jag" (den där lampan syns tydligast, fast skärmen
   pekar bort från honom). Kvinnan gjord med den mannen som referens: "Mycket
   bra!"
+- 2026-11-14, `morgon-mord-perrong-kvinna` och `morgon-mord-trappa-kvinna`
+  omgjorda med de nya prompterna och de gamla som referens: "Jag tycker att
+  båda blev bättre. Mer enhetligt med övriga." Männen (`morgon-mord-perrong-man`,
+  `morgon-mord-trappa-man`) gjorda med kvinnornas bilder som referens: "Mycket
+  bra."
+- 2026-11-14, nya kvinnobilder till hamnen och telefonkiosken, gjorda med
+  mannens bild som referens. Hamnen utan dimma, med svarta silhuetter mot en
+  laverad himmel (bortvald): "Jag tycker dimman är snyggare". Med dimman:
+  "Kvinnans kropp är för stor i förhållande till lyktstolpen, annars bra".
+  Omgjord i samma storlek som mannen.
 
 ## Bilder att byta
 
