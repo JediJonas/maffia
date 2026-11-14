@@ -90,7 +90,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   roleBodyguardWoman: { src: roleBodyguardWoman, alt: 'En lång livvakt i bältad rock och liten hatt står med armarna i kors vid en upplyst port en natt och ser prövande på oss.', position: '90% 30%' },
   roleBodyguardMan: { src: roleBodyguardMan, alt: 'En stor livvakt med mustasch, i rock och fedora, står med armarna i kors vid en upplyst port en natt och ser rakt på oss.', position: '90% 30%' },
   roleDoctorMan: { src: roleDoctorMan, alt: 'En läkare med glasögon och mustasch, i mörk kappa med stetoskop och läkarväska, står i en upplyst dörröppning.', position: '100% 30%' },
-  roleLawyerWoman: { src: roleLawyerWoman, alt: 'En advokat i knäppt dräkt, blus med rosett och liten hatt lutar sig i dörren till sin upplysta byrå med en tjock akt under armen och glasögonen i en kedja runt halsen.', position: '100% 30%' },
+  roleLawyerWoman: { src: roleLawyerWoman, alt: 'En advokat i knäppt dräkt, blus med rosett och liten hatt står i dörren till sin upplysta byrå med en tjock akt mot sidan och glasögonen i handen.', position: '100% 30%' },
   roleLawyerMan: { src: roleLawyerMan, alt: 'En advokat i kritstrecksrandig kostym med väst och lossad slips lutar sig i dörren till sin upplysta byrå med en tjock akt under armen och ler lite slugt.', position: '100% 30%' },
   roleCitizenWoman: { src: roleCitizenWoman, alt: 'En kvinna i blommig klänning står i sin öppna ytterdörr och ser ut i mörkret med handen mot dörrkarmen.', position: '75% 30%' },
   roleCitizenMan: { src: roleCitizenMan, alt: 'En man i keps och kofta tittar misstänksamt ut genom sin ytterdörr.', position: '100% 30%' },

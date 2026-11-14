@@ -250,6 +250,9 @@ en regel.
   manliga. Det är ett återkommande problem ... Det mänskliga ögat är väldigt
   känsligt för detta, har jag märkt, man ser direkt att något är fel." Med egen
   gest och kvinnliga händer: "det ser bra ut".
+- 2026-11-14, `roll-advokat-kvinna` omgjord med den nya prompten och
+  `roll-advokat-man` som referens, med egen gest (glasögonen i handen):
+  "Mycket bra!"
 
 ## Bilder att byta
 
