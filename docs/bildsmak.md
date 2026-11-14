@@ -78,6 +78,11 @@ på `src/scenes/images/`.
      bilderna.
    - Gillar, lavering: `roll-detektiv-*`, `natt-detektiv-*`,
      `roll-taxichauffor-kvinna`, `natt-lakare-*` (2026-11-14).
+   - Lavering är ett par fläckar, inte en ton över hela bilden. De första
+     nya `roll-detektiv-*` hade grått på rocken, väggen och gatan och stack
+     ut bland rollbilderna (Jonas 2026-11-14: "mycket 'laserat' i dessa
+     bilder, men att det används sparsamt i andra rollbilder"). De ritades
+     om med vit rock och svart vägg.
    - Gillar: `dom-kvinna`, `dom-man`, `roll-bartender-*`, `roll-korvgubbe-*`,
      `skapa`. (`morgon-mord-trappa-kvinna` och `morgon-mord-perrong-kvinna`
      gillades helt svartvita och gjordes om med lavering 2026-11-14: "Jag
@@ -284,6 +289,10 @@ en regel.
   laverad himmel (bortvald): "Jag tycker dimman är snyggare". Med dimman:
   "Kvinnans kropp är för stor i förhållande till lyktstolpen, annars bra".
   Omgjord i samma storlek som mannen.
+- 2026-11-14, `roll-detektiv-*` omgjorda med mindre lavering, med de förra
+  bilderna som referens och uppmaningen att inte ta efter deras grått. Av
+  två försök valdes det med en liten fläck lavering kvar längst bak i
+  gränden: "Vi kör på A!"
 
 ## Bilder att byta
 
