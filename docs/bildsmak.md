@@ -87,7 +87,8 @@ på `src/scenes/images/`.
    - Gillar: `roll-taxichauffor-man` (grov och skissad).
    - Okej men för välgjord: `roll-taxichauffor-kvinna`,
      `roll-fonstertittare-*`, `roll-galningen-*`, `roll-borgmastare-*`,
-     `morgon-mord-hotell-*`, `morgon-mord-narbild-*`.
+     `morgon-mord-hotell-*`. (`morgon-mord-narbild-*` byttes 2026-11-14 mot
+     grövre bilder med lavering.)
 3. **Nära eller halvnära.** En serietecknare ritar inte en hel gata med alla
    detaljer i en liten ruta. Långt avstånd med mycket detaljer känns inte
    trovärdigt.
@@ -260,6 +261,12 @@ en regel.
   hus. Om första mannen: "det saknas lavering ovanför lampan och längs med
   husfasaden, som finns i kvinnans bild". Mannen omgjord med kvinnans bild som
   referens: "Det ser bra ut."
+- 2026-11-14, `morgon-mord-narbild-*` omgjorda med de nya prompterna: "De är
+  jättebra, men varför står det en lampa på golvet?" Lampan fick ligga
+  omkullvält på sidan. Av två försök med mannen: "jag gillar den undre bäst.
+  Lampan ligger rätt tycker jag" (den där lampan syns tydligast, fast skärmen
+  pekar bort från honom). Kvinnan gjord med den mannen som referens: "Mycket
+  bra!"
 
 ## Bilder att byta
 
