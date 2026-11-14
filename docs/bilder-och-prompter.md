@@ -37,6 +37,18 @@ Original characters only. No text, no speech bubbles, no captions, no panel bord
 ```
 "Composition" handlar bara om bildens upplägg; detaljer om platsen hör hemma i "Scene".
 
+### Rollbilder: porträttmall
+
+Rollbilderna är porträtt av personen, inte scener om uppgiften (Jonas 2026-11-14). Använd mallen ovan men stryk meningarna "Show a moment of action rather than a posed portrait." och "Faces are simply drawn and often partly hidden …", och regn när scenen är inomhus. Personen har en egen karaktär (ålder, ansikte, hållning) och rollen märks på en enda sak. Ansiktet ligger i ljuset och blicken går mot oss. Skicka gärna `roll-maffia-kvinna`, `roll-bartender-kvinna` och `roll-taxichauffor-man` som stilreferenser.
+
+```
+Scene: a portrait of <rollen> at night, <ålder, ansikte, kläder>. <Var personen står och den enda saken som visar rollen>. <Ljuset> falls across his/her face. He/She looks straight at us, <min>. His/Her face is clearly visible in the white light, simply drawn with a few firm lines. <Bakgrunden> dissolve(s) into solid black. Exactly one person. No other people are present.
+
+Composition: wide 4:3 frame, chest-up portrait, eye-level camera, the figure a little right of centre, strong contrast between white light and deep black shadows.
+```
+
+`scripts/generera-bild.py` bygger alltid prompten ur mallen ovan, så porträttprompten har hittills skickats som hel prompt.
+
 ## Bilder som finns
 Alla vyer har nu riktiga bilder. Alla prompter finns i `maffia/alla-bildprompter.md` i projektfilerna (den äldre `bildprompter.md` har de första versionerna).
 - Startsidan: staden ovanifrån i regn, man under gatlykta (kvadratisk, beskärs till stående).

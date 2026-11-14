@@ -187,6 +187,19 @@ en regel.
   (högklackat, litet och lite sött ansikte, fedora i stället för rollbildens
   runda hatt, bakgrunden nästan kopierad): "Dina iakttagelser är bra, men vi
   kör på denna ändå."
+- 2026-11-14, `roll-advokat-*` och `roll-livvakt-*` jämförda med de äldre
+  rollbilderna: "Jag tycker att de gamla rollbilderna mer fokuserar på
+  personen än uppgiften. Och stilmässigt tycker jag också det är en annan
+  känsla." Förslaget att rollbilderna får en egen porträttmall: "Låter bra.
+  Börja med livvakt och advokat man."
+- 2026-11-14, `roll-livvakt-man` som porträtt (armarna i kors vid en upplyst
+  port) och `roll-advokat-man` som porträtt (lutar sig i dörren till byrån med
+  akten under armen): "Jag tycker båda är bra!"
+- 2026-11-14, `natt-advokat-*` efter de nya rollporträtten: "Antar att
+  nattbilderna för advokat också måste göras om, så att rätt advokat sitter
+  där. Men annars gillar jag utseendet på dem jättemycket." `natt-advokat-man`
+  redigerades så att porträttets advokat sitter vid bordet, med resten av
+  bilden orörd.
 
 ## Bilder att byta
 
