@@ -93,9 +93,14 @@ utseendet. Det viktigaste:
   varje bild med gillar, okej eller gillar inte och skriver varför (Jonas
   2026-11-13). Omdömena ligger i artefaktens databas: samlingen `bedomning`
   med filnamnet utan `.webp` som id, och `anteckningar/allmant`. Läs dem med
-  ArtifactData. Bygg om sidan med `python3 scripts/bildbedomning/bygg.py
-  <mapp>` när bilder läggs till eller byts, och publicera den till samma
-  adress så att omdömena följer med.
+  ArtifactData. Varje ny eller bytt bild läggs alltid in på bedömningssidan,
+  i samma tråd som den läggs in i spelet (Jonas 2026-11-13): bygg om sidan
+  med `python3 scripts/bildbedomning/bygg.py <mapp>` och publicera den som
+  en ny version till samma adress, så att omdömena följer med. Skicka
+  `index.html` och de nya eller bytta bilderna under `bilder/`; övriga filer
+  ligger kvar. Läs omdömena före och efter och kontrollera att de finns kvar.
+  Bildansvarig kan inte publicera, så det gör tråden själv. Byts en bild
+  under samma filnamn står det gamla omdömet kvar; säg det till Jonas.
 - Agenten `bildansvarig` (`.claude/agents/bildansvarig.md`) skriver prompter
   och kontrollerar bilder. Låt den alltid skriva prompterna, ta fram bilderna
   med Gemini och granska varje ny bild innan den läggs in (Jonas 2026-11-13).

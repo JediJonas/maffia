@@ -31,6 +31,7 @@ WORDS = {
  'maffia': 'Maffia', 'detektiv': 'Detektiv', 'lakare': 'Läkare', 'stadsbo': 'Stadsbo',
  'taxichauffor': 'Taxichaufför', 'fonstertittare': 'Fönstertittare', 'bartender': 'Bartender',
  'korvgubbe': 'Korvgubbe', 'borgmastare': 'Borgmästare', 'galningen': 'Galningen', 'gudfadern': 'Gudfadern',
+ 'livvakt': 'Livvakt', 'advokat': 'Advokat',
  'hotell': 'hotell', 'hamn': 'hamn', 'narbild': 'närbild', 'perrong': 'perrong', 'polis': 'polis',
  'telefonkiosk': 'telefonkiosk', 'trappa': 'trappa',
 }
