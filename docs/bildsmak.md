@@ -72,12 +72,18 @@ på `src/scenes/images/`.
    mäter jämna grå ytor och godkänner högst 12 procent av bilden; de
    godkända laveringsbilderna har 2,5–10,8 procent. Under gränsen avgör
    ögat vilken sorts grått det är.
+   - Undantag: dimman i hamnen, `morgon-mord-hamn-*`. Den är grå med flit och
+     snyggare än en hamn utan dimma (Jonas 2026-11-14: "Jag tycker dimman är
+     snyggare", "ja, vi gör undantag"). Kontrollen hoppar över grått i de två
+     bilderna.
    - Gillar, lavering: `roll-detektiv-*`, `natt-detektiv-*`,
-     `roll-taxichauffor-kvinna` (2026-11-14).
+     `roll-taxichauffor-kvinna`, `natt-lakare-*` (2026-11-14).
    - Gillar: `dom-kvinna`, `dom-man`, `roll-bartender-*`, `roll-korvgubbe-*`,
-     `morgon-mord-trappa-kvinna`, `skapa`.
-   - Gillar inte: `natt-detektiv-*`, `natt-lakare-*` (grå tvätt över hela
-     bilden).
+     `skapa`. (`morgon-mord-trappa-kvinna` och `morgon-mord-perrong-kvinna`
+     gillades helt svartvita och gjordes om med lavering 2026-11-14: "Jag
+     tycker att båda blev bättre. Mer enhetligt med övriga.")
+   - Gillar inte (de gamla, nu bytta): `natt-detektiv-*`, `natt-lakare-*`
+     (grå tvätt över hela bilden).
    - Gränsfall: `morgon-mord-telefonkiosk-man`. Gillas, eftersom det grå bara
      är regn och glas och personen är svart och vit, men hade varit bättre
      utan.
@@ -87,7 +93,8 @@ på `src/scenes/images/`.
    - Gillar: `roll-taxichauffor-man` (grov och skissad).
    - Okej men för välgjord: `roll-taxichauffor-kvinna`,
      `roll-fonstertittare-*`, `roll-galningen-*`, `roll-borgmastare-*`,
-     `morgon-mord-hotell-*`, `morgon-mord-narbild-*`.
+     `morgon-mord-hotell-*`. (`morgon-mord-narbild-*` byttes 2026-11-14 mot
+     grövre bilder med lavering.)
 3. **Nära eller halvnära.** En serietecknare ritar inte en hel gata med alla
    detaljer i en liten ruta. Långt avstånd med mycket detaljer känns inte
    trovärdigt.
@@ -219,7 +226,9 @@ en regel.
 
 - 2026-11-14, bildstilen i stort: "Jag är lite nyfiken på om vi skulle kunna
   få till en enhetlig bildstil." Förslaget finns i artefakten Maffia
-  bildprompter (<https://claude.ai/artifact/VXKnzaLmQAV7CQrsZFUDh6>).
+  bildprompter (<https://claude.ai/artifact/JA714wjfNoxPD3UvankR8F>). Den gamla
+  sidan Maffias bildprompter från 2026-11-09 är borttagen, så att de inte
+  blandas ihop (Jonas 2026-11-14).
 - 2026-11-14, text och blod: "Taxi och hotel tycker jag är ok, dvs text o form
   av skyltar som är universella. Pool of black blood tycker jag är ok, annars
   blir det inte en trovärdig bild, och eftersom det är svartvitt känns det
@@ -253,14 +262,35 @@ en regel.
 - 2026-11-14, `roll-advokat-kvinna` omgjord med den nya prompten och
   `roll-advokat-man` som referens, med egen gest (glasögonen i handen):
   "Mycket bra!"
+- 2026-11-14, `natt-lakare-*`: "Jag gillar utseendet men stilen är lite för
+  murrig." Omgjorda med de gamla bilderna som referens, vit ljuskägla och svarta
+  hus. Om första mannen: "det saknas lavering ovanför lampan och längs med
+  husfasaden, som finns i kvinnans bild". Mannen omgjord med kvinnans bild som
+  referens: "Det ser bra ut."
+- 2026-11-14, `morgon-mord-narbild-*` omgjorda med de nya prompterna: "De är
+  jättebra, men varför står det en lampa på golvet?" Lampan fick ligga
+  omkullvält på sidan. Av två försök med mannen: "jag gillar den undre bäst.
+  Lampan ligger rätt tycker jag" (den där lampan syns tydligast, fast skärmen
+  pekar bort från honom). Kvinnan gjord med den mannen som referens: "Mycket
+  bra!"
+- 2026-11-14, `morgon-mord-perrong-kvinna` och `morgon-mord-trappa-kvinna`
+  omgjorda med de nya prompterna och de gamla som referens: "Jag tycker att
+  båda blev bättre. Mer enhetligt med övriga." Männen (`morgon-mord-perrong-man`,
+  `morgon-mord-trappa-man`) gjorda med kvinnornas bilder som referens: "Mycket
+  bra."
+- 2026-11-14, nya kvinnobilder till hamnen och telefonkiosken, gjorda med
+  mannens bild som referens. Hamnen utan dimma, med svarta silhuetter mot en
+  laverad himmel (bortvald): "Jag tycker dimman är snyggare". Med dimman:
+  "Kvinnans kropp är för stor i förhållande till lyktstolpen, annars bra".
+  Omgjord i samma storlek som mannen.
 
 ## Bilder att byta
 
 När bildansvarig kan ta fram bilder själv (via Gemini) byts de här först, i
 den här ordningen:
 
-1. Gillar inte: `natt-lakare-*`, `natt-maffia-1`–`3`. (`roll-detektiv-*` och
-   `natt-detektiv-*` byttes 2026-11-14.) (`ga-med` byttes 2026-11-13.)
+1. Gillar inte: `natt-maffia-1`–`3`. (`roll-detektiv-*`, `natt-detektiv-*`
+   och `natt-lakare-*` byttes 2026-11-14.) (`ga-med` byttes 2026-11-13.)
 2. `lobby` byttes 2026-11-13 mot samma bar som `skapa`, och `ga-med` mot
    barens bakdörr, så att Nytt spel, Gå med och lobbyn hänger ihop (Jonas
    2026-11-13).

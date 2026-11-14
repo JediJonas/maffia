@@ -35,6 +35,8 @@ FLAT_GREY_RANGE = (60, 195)
 FLAT_GREY_BLUR_RADIUS = 1
 FLAT_GREY_MAX_STEP = 6
 MAX_FLAT_GREY_PERCENT = 12
+# Hamnens dimma är grå med flit och får vara det (Jonas 2026-11-14).
+FLAT_GREY_EXCEPTIONS = {"morgon-mord-hamn-kvinna.webp", "morgon-mord-hamn-man.webp"}
 
 
 def check(path):
@@ -61,7 +63,7 @@ def check(path):
     if lightest < 255:
         problems.append(f"har inget rent vitt ({LIGHTEST_PERCENTILE}:e percentilen är {lightest:.0f}, ska vara 255)")
     flat = flat_grey_percent(path)
-    if flat > MAX_FLAT_GREY_PERCENT:
+    if flat > MAX_FLAT_GREY_PERCENT and path.name not in FLAT_GREY_EXCEPTIONS:
         problems.append(f"har jämna grå ytor på {flat:.1f} procent av bilden, ska vara högst {MAX_FLAT_GREY_PERCENT}")
     return problems
 

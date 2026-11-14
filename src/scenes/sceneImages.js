@@ -64,6 +64,10 @@ import morningMurderStairsWoman from './images/morgon-mord-trappa-kvinna.webp';
 import morningMurderPlatformWoman from './images/morgon-mord-perrong-kvinna.webp';
 import morningMurderDocksMan from './images/morgon-mord-hamn-man.webp';
 import morningMurderPhoneBoothMan from './images/morgon-mord-telefonkiosk-man.webp';
+import morningMurderStairsMan from './images/morgon-mord-trappa-man.webp';
+import morningMurderPlatformMan from './images/morgon-mord-perrong-man.webp';
+import morningMurderDocksWoman from './images/morgon-mord-hamn-kvinna.webp';
+import morningMurderPhoneBoothWoman from './images/morgon-mord-telefonkiosk-kvinna.webp';
 import morningNoMurder from './images/morgon-ingen.webp';
 import verdictWoman from './images/dom-kvinna.webp';
 import verdictMan from './images/dom-man.webp';
@@ -113,10 +117,10 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   nightMafia3: { src: nightMafia3, alt: 'En regnig gata med höga hus en natt. Två män i hatt står i en upplyst port, och en bil står parkerad under en gatlykta.', position: '55% 50%' },
   nightDetectiveWoman: { src: nightDetectiveWoman, alt: 'En kvinna i blus sitter vid ett skrivbord under en lampa en regnig natt, med hakan mot handen, och granskar ett fotografi med förstoringsglas.', position: '100% 40%' },
   nightDetectiveMan: { src: nightDetectiveMan, alt: 'En man i skjortärmar sitter vid ett skrivbord under en lampa en regnig natt och granskar ett fotografi med förstoringsglas.', position: '100% 40%' },
-  nightDoctorWoman: { src: nightDoctorWoman, alt: 'En kvinna i kappa med en läkarväska går ensam längs en regnig gata en natt och ser sig över axeln under en gatlykta.', position: '65% 50%' },
+  nightDoctorWoman: { src: nightDoctorWoman, alt: 'En kvinna i ljus kappa med skärp går ensam längs en regnig gata en natt med en läkarväska och ser sig över axeln. En gatlykta lyser upp gatan.', position: '65% 50%' },
   nightBodyguardWoman: { src: nightBodyguardWoman, alt: 'En livvakt i bältad rock och hatt står vakt med händerna i fickorna bredvid en stängd dörr, i ljuset från en gatlykta en regnig natt.', position: '85% 50%' },
   nightBodyguardMan: { src: nightBodyguardMan, alt: 'En stor livvakt i rock och hatt står vakt med händerna i fickorna bredvid en stängd dörr, i ljuset från en gatlykta en regnig natt.', position: '85% 50%' },
-  nightDoctorMan: { src: nightDoctorMan, alt: 'En man i hatt och rock med en läkarväska går ensam längs en regnig gata en natt under en gatlykta.', position: '65% 50%' },
+  nightDoctorMan: { src: nightDoctorMan, alt: 'En man i hatt och mörk rock går ensam bort längs en regnig gata en natt med en läkarväska och ser sig om. En gatlykta lyser upp gatan.', position: '65% 50%' },
   nightLawyerWoman: { src: nightLawyerWoman, alt: 'En advokat i dräkt, liten hatt och kattögonglasögon sitter vid ett köksbord under en hängande lampa och antecknar. Mitt emot syns bara klientens händer med en cigarett.', position: '75% 50%' },
   nightLawyerMan: { src: nightLawyerMan, alt: 'En gråsprängd advokat i kritstrecksrandig kostym sitter vid ett köksbord under en hängande lampa och antecknar. Mitt emot syns bara klientens händer med en cigarett.', position: '75% 50%' },
   nightCitizenWoman: { src: nightCitizenWoman, alt: 'En kvinna sover i sin säng. Genom fönstret syns en gestalt i hatt under en gatlykta i regnet.', position: '65% 50%' },
@@ -133,14 +137,18 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   morningMurderMan: { src: morningMurderMan, alt: 'En man ligger död på en regnvåt gata under en gatlykta. Hans hatt ligger bredvid, och en man i hatt och rock går därifrån med en pistol i handen.', position: '60% 50%' },
   morningMurderHotelWoman: { src: morningMurderHotelWoman, alt: 'En kvinna ligger död på golvet i ett hotellrum bredvid ett vältat glas. En man i hatt med en pistol i handen går ut genom den öppna dörren.', position: '50% 50%' },
   morningMurderHotelMan: { src: morningMurderHotelMan, alt: 'En man ligger död på golvet i ett hotellrum bredvid ett vältat glas. En man i hatt med en pistol i handen går ut genom den öppna dörren.', position: '50% 50%' },
-  morningMurderCloseUpWoman: { src: morningMurderCloseUpWoman, alt: 'En kvinna i dräkt ligger död på ett trägolv under en lampa. Hennes pärlhalsband har gått sönder, och glasögonen ligger bredvid.', position: '30% 50%' },
-  morningMurderCloseUpMan: { src: morningMurderCloseUpMan, alt: 'En man i kostym och slips ligger död på ett trägolv under en lampa. Glasögonen ligger bredvid honom.', position: '30% 50%' },
+  morningMurderCloseUpWoman: { src: morningMurderCloseUpWoman, alt: 'En kvinna i dräkt ligger död på ett mörkt trägolv. En nedslagen skrivbordslampa ligger på sidan bredvid henne, och glasögonen och några lösa pärlor ligger i ljuset.', position: '35% 50%' },
+  morningMurderCloseUpMan: { src: morningMurderCloseUpMan, alt: 'En man i kostym ligger död på ett mörkt trägolv. En nedslagen skrivbordslampa ligger på sidan bredvid honom, och glasögonen ligger i ljuset.', position: '35% 50%' },
   morningMurderPoliceWoman: { src: morningMurderPoliceWoman, alt: 'En kvinna ligger död på en våt gata en grå morgon. En polis sitter på huk bredvid henne, hennes sko och handväska ligger utspridda, och en bagare, en man med portfölj och en tidningspojke tittar på.', position: '40% 50%' },
   morningMurderPoliceMan: { src: morningMurderPoliceMan, alt: 'En man ligger död på en våt gata en grå morgon. En polis sitter på huk bredvid honom, hans hatt ligger på gatstenen, och en bagare, en man med portfölj och en tidningspojke tittar på.', position: '40% 50%' },
-  morningMurderStairsWoman: { src: morningMurderStairsWoman, alt: 'Sett uppifrån i ett spiraltrapphus ligger en kvinna död på det rutiga golvet längst ner. Hennes skor ligger kvar på trappstegen.', position: '50% 50%' },
+  morningMurderStairsWoman: { src: morningMurderStairsWoman, alt: 'Sett uppifrån i ett spiraltrapphus ligger en kvinna död på det rutiga golvet längst ner. En av hennes skor ligger kvar på trappstegen.', position: '50% 50%' },
   morningMurderPlatformWoman: { src: morningMurderPlatformWoman, alt: 'En kvinna i hatt ligger död på en perrong bredvid en uppbruten resväska, medan ett tåg står inne vid plattformen.', position: '35% 50%' },
   morningMurderDocksMan: { src: morningMurderDocksMan, alt: 'En man ligger död bland lårar på en kaj i dimman, under kranar och ett stort fartyg. Hans hatt flyter i vattnet.', position: '50% 50%' },
   morningMurderPhoneBoothMan: { src: morningMurderPhoneBoothMan, alt: 'En man i hatt och rock sitter död i en telefonkiosk i regnet. Luren hänger i sin sladd ovanför honom.', position: '45% 50%' },
+  morningMurderStairsMan: { src: morningMurderStairsMan, alt: 'Sett uppifrån i ett spiraltrapphus ligger en man död på det rutiga golvet längst ner. Hans hatt ligger kvar på trappstegen.', position: '50% 50%' },
+  morningMurderPlatformMan: { src: morningMurderPlatformMan, alt: 'En man i mörk rock ligger död på en perrong bredvid en uppbruten resväska och sin hatt, medan ett tåg står inne vid plattformen.', position: '35% 50%' },
+  morningMurderDocksWoman: { src: morningMurderDocksWoman, alt: 'En kvinna ligger död bland lårar på en kaj i dimman, under kranar och ett stort fartyg. Hennes hatt flyter i vattnet.', position: '50% 50%' },
+  morningMurderPhoneBoothWoman: { src: morningMurderPhoneBoothWoman, alt: 'En kvinna i ljus kappa sitter död i en telefonkiosk i regnet med hatten i knät. Luren hänger i sin sladd ovanför henne.', position: '45% 50%' },
   morningNoMurder: { src: morningNoMurder, alt: 'En regnvåt gata på morgonen. En mjölkbud ställer flaskor på en trappa, och en man i hatt läser tidningen mot en vägg.', position: '65% 50%' },
   verdictWoman: { src: verdictWoman, alt: 'Två män i hatt pekar på en rädd kvinna som står med hatten i handen vid en tegelvägg.', position: '50% 40%' },
   verdictLawyerWoman: { src: verdictLawyerWoman, alt: 'Två män i hatt pekar på en rädd kvinna, men en advokat i lång rock och hatt har klivit fram bredvid henne och håller upp handen.', position: '55% 40%' },
