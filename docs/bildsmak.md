@@ -151,6 +151,42 @@ en regel.
   prompten bad om det.
 - 2026-11-13, `roll-livvakt-kvinna` i samma mörka gata med lyktan på avstånd,
   bredvid mannen: "Det blir bra!"
+- 2026-11-13, `roll-livvakt-*` (de mörka bilderna i porten med lyktan på
+  avstånd), jämförda med rollbilderna han gillar: "Jag tycker att
+  rollbilderna för livvakt skiljer sig mycket från stil och utförande för de
+  andra rollerna (som jag markerat att jag gillar i artefakt). Kan vi börja
+  om på dessa? Annan miljö eller utseende? Gärna med mannen först."
+- 2026-11-13, `roll-livvakt-man`, ny scen (natt och regn framför en
+  hotellentré, livvakten håller upp bakdörren på en svart bil och håller ett
+  paraply, ritad med taxichauffören och bartendern som stilreferens): "Jag
+  tycker den är fin."
+- 2026-11-13, `natt-livvakt-*`, förslaget att göra om nattbilderna: livvakten
+  går ett steg bakom en klient i päls på en regnig trottoar, sedd lite på
+  avstånd, med handen innanför rocken: "Ja".
+- 2026-11-13, `natt-livvakt-man` med klienten i ljus päls under paraply och
+  livvakten som tittar bakåt (`natt-livvakt-man-klient-pals`, bortvald): "De
+  går ju åt helt olika håll? Och klienten ska inte vara så utmärkande tycker
+  jag, kanske mer som någon som går en bit framför som man bara ser
+  ryggtavlan av. vet inte om man ska börja om även här, kanske. Börja med
+  bara mannen."
+- 2026-11-13, `natt-livvakt-man`, ny version där båda går bort från oss och
+  klienten bara syns bakifrån, men livvaktens arm syns bak på ryggen: "Den är
+  bra bortsett från armen som går bakvänt, innanför rocken på ryggen. Om bara
+  armen inte syntes alls, för att den var på framsidan skulle den funkaz"
+- 2026-11-14, `natt-livvakt-man` med armen bortmålad från ryggen
+  (`natt-livvakt-man-utan-arm`, bortvald): "Jag tycker det ser ut som att han
+  saknar armar nu. Kan vl göra om?"
+- 2026-11-14, `natt-livvakt-man` med armen framför kroppen, livvakten snett
+  bakifrån på trottoaren (`natt-livvakt-man-arm-fram`): "Kam vi tänka om?
+  Göra en bild på längre avstånd, där livvakten står bredvid en port eller
+  liknande?"
+- 2026-11-14, `natt-livvakt-man`, ny scen på avstånd: livvakten står stilla
+  med händerna i fickorna vid en upplyst dörr, lyktstolpen bredvid och
+  halva bilden svart: "Vi kör på den!"
+- 2026-11-14, `natt-livvakt-kvinna`, samma scen vid porten som mannen
+  (högklackat, litet och lite sött ansikte, fedora i stället för rollbildens
+  runda hatt, bakgrunden nästan kopierad): "Dina iakttagelser är bra, men vi
+  kör på denna ändå."
 
 ## Bilder att byta
 
