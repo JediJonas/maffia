@@ -94,7 +94,11 @@ utseendet. Det viktigaste:
   2026-11-13). Sidan hette Bildbedömning och heter Bildöversikt sedan Jonas
   2026-11-14. Vid varje bild går prompten att visa och kopiera; den hämtas ur
   `maffia/alla-bildprompter.md` med raden `Fil:` under varje rubrik, så skriv
-  den raden när en bild läggs till eller byts. Omdömena ligger i artefaktens databas: samlingen `bedomning`
+  den raden när en bild läggs till eller byts. Varje bild märks med ny eller gammal prompt; ny är en prompt med
+  stilgrunden från 2026-11-14 (den nämner "ink wash"), och förslagen till
+  nya prompter finns i artefakten Nya bildprompter
+  <https://claude.ai/artifact/JA714wjfNoxPD3UvankR8F> (Jonas 2026-11-14).
+  Omdömena ligger i artefaktens databas: samlingen `bedomning`
   med filnamnet utan `.webp` som id, och `anteckningar/allmant`. Läs dem med
   ArtifactData. Varje ny eller bytt bild läggs alltid in i bildöversikten,
   i samma tråd som den läggs in i spelet (Jonas 2026-11-13): bygg om sidan

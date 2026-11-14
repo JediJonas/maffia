@@ -54,6 +54,8 @@ textarea {
 textarea::placeholder { color: var(--muted); }
 
 .filters { display: flex; flex-direction: column; gap: 10px; }
+/* Kort och grupper har display: flex, som annars tar över hidden, så att filtren inte döljer något. */
+[hidden] { display: none !important; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
   min-height: 40px; padding: 0 16px; border-radius: 999px;
@@ -75,6 +77,9 @@ textarea::placeholder { color: var(--muted); }
 .card.portrait .thumb img { max-height: 420px; width: auto; margin: 0 auto; }
 .meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 12px; min-width: 0; }
 .name { font-weight: 700; min-width: 0; overflow-wrap: anywhere; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; flex: none; justify-content: flex-end; }
+.style-tag { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; border: 1.5px dashed var(--ink); }
+.style-tag.new { background: var(--ink); color: var(--paper); border-style: solid; }
 .variant { flex: none; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border: 1.5px solid var(--ink); padding: 2px 8px; border-radius: 999px; }
 .rate { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 12px; }
 .rate button {
@@ -121,7 +126,7 @@ dialog img { display: block; max-width: 100%; max-height: calc(100dvh - 120px); 
   <header class="intro">
     <h1>Bildöversikt</h1>
     <p class="lead">Alla bilder i staden. Markera vad du gillar och vad du inte gillar, och skriv gärna ett par ord om varför. Bildansvarig läser dina omdömen och gör om dem till regler för nya bilder.</p>
-    <p class="muted">Tryck på en bild för att se den större. Tryck på samma omdöme igen för att ta bort det. Allt sparas direkt. Under varje bild finns prompten som bilden togs fram med.</p>
+    <p class="muted">Tryck på en bild för att se den större. Tryck på samma omdöme igen för att ta bort det. Allt sparas direkt. Under varje bild finns prompten som bilden togs fram med. Svart märke betyder ny prompt, med stilen från 2026-11-14 och sparsam lavering. Streckat märke betyder gammal prompt.</p>
   </header>
 
   <section class="progress" aria-label="Hur många som är bedömda">
@@ -138,6 +143,7 @@ dialog img { display: block; max-width: 100%; max-height: calc(100dvh - 120px); 
   <section class="filters" aria-label="Visa">
     <div class="chips" id="rating-filters"></div>
     <div class="chips" id="group-filters"></div>
+    <div class="chips" id="style-filters"></div>
   </section>
 
   <div id="groups" class="filters"></div>
@@ -160,6 +166,9 @@ const RATINGS = [
   { id: 'ok', label: 'Okej', className: 'ok', icon: '<path d="M3 6h10M3 10h10"/>' },
   { id: 'no', label: 'Gillar inte', className: 'no', icon: '<path d="M4 4l8 8M12 4l-8 8"/>' },
 ];
+const STYLE_FILTERS = [
+  { id: 'all', label: 'Alla prompter' }, { id: 'new', label: 'Nya prompter' }, { id: 'old', label: 'Gamla prompter' },
+];
 const RATING_FILTERS = [
   { id: 'all', label: 'Alla' }, { id: 'unrated', label: 'Obedömda' },
   { id: 'love', label: 'Gillar' }, { id: 'ok', label: 'Okej' }, { id: 'no', label: 'Gillar inte' },
@@ -173,10 +182,12 @@ const writeAgain = new Set();
 let db = null;
 let ratingFilter = 'all';
 let groupFilter = 'all';
+let styleFilter = 'all';
 let canWrite = true;
 
 const $ = (id) => document.getElementById(id);
 const imagesById = new Map(DATA.images.map((img) => [img.id, img]));
+const isNewStyle = (img) => Boolean(DATA.prompts[img.prompt]?.new);
 
 function reviewOf(id) {
   return reviews.get(id) ?? { rating: null, note: '' };
@@ -202,6 +213,14 @@ function buildFilters() {
     b.type = 'button'; b.className = 'chip'; b.dataset.group = g.id; b.textContent = g.title;
     b.addEventListener('click', () => { groupFilter = g.id; applyFilters(); });
     groupBox.append(b);
+  }
+  const styleBox = $('style-filters');
+  for (const f of STYLE_FILTERS) {
+    const count = f.id === 'all' ? DATA.images.length : DATA.images.filter((img) => isNewStyle(img) === (f.id === 'new')).length;
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.dataset.style = f.id; b.textContent = `${f.label} (${count})`;
+    b.addEventListener('click', () => { styleFilter = f.id; applyFilters(); });
+    styleBox.append(b);
   }
 }
 
@@ -239,12 +258,17 @@ function buildCard(img) {
 
   const meta = document.createElement('div'); meta.className = 'meta';
   const name = document.createElement('span'); name.className = 'name'; name.textContent = img.label;
-  meta.append(name);
+  const tags = document.createElement('span'); tags.className = 'tags';
+  const style = document.createElement('span');
+  style.className = 'style-tag' + (isNewStyle(img) ? ' new' : '');
+  style.textContent = isNewStyle(img) ? 'Ny prompt' : 'Gammal prompt';
+  tags.append(style);
   if (img.variant) {
     const v = document.createElement('span'); v.className = 'variant';
     v.textContent = img.variant === 'kvinna' ? 'Kvinna' : 'Man';
-    meta.append(v);
+    tags.append(v);
   }
+  meta.append(name, tags);
 
   const rate = document.createElement('div'); rate.className = 'rate';
   rate.setAttribute('role', 'group'); rate.setAttribute('aria-label', `Omdöme om ${img.label}`);
@@ -354,12 +378,14 @@ function renderSummary() {
 function matches(img) {
   const { rating } = reviewOf(img.id);
   const byRating = ratingFilter === 'all' || (ratingFilter === 'unrated' ? !rating : rating === ratingFilter);
-  return byRating && (groupFilter === 'all' || img.group === groupFilter);
+  const byStyle = styleFilter === 'all' || isNewStyle(img) === (styleFilter === 'new');
+  return byRating && byStyle && (groupFilter === 'all' || img.group === groupFilter);
 }
 
 function applyFilters() {
   for (const b of document.querySelectorAll('#rating-filters .chip')) b.setAttribute('aria-pressed', String(b.dataset.filter === ratingFilter));
   for (const b of document.querySelectorAll('#group-filters .chip')) b.setAttribute('aria-pressed', String(b.dataset.group === groupFilter));
+  for (const b of document.querySelectorAll('#style-filters .chip')) b.setAttribute('aria-pressed', String(b.dataset.style === styleFilter));
   let shown = 0;
   for (const section of document.querySelectorAll('.group')) {
     let inSection = 0;
