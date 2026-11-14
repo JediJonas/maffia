@@ -16,8 +16,14 @@ detaljer. Spänning och misstänksamhet, aldrig splatter.
 
 ## Alltid
 
-- **Bara svart och vitt.** Inga gråtoner, ingen färg, inga rasterpunkter.
-  Efterbehandlingen gör resten rent svart och rent vitt.
+- **Svart och vitt, med sparsam lavering.** Ingen färg, inga rasterpunkter.
+  Grått får bara finnas som lavering (ink wash), som i 60- och 70-talets
+  svartvita serietidningar: två eller tre platta toner med synliga
+  penseldrag och hårda kanter, i bakgrund och skuggor. Aldrig mjuka
+  övergångar, dimma eller grått på ansiktets ljusa sida. Det mesta av bilden
+  är rent svart och vitt (Jonas 2026-11-14: "Orginalet är bäst. Kanske vi
+  ska tillåta gråtoner."). Efterbehandlingen gör det svarta rent svart och
+  det vita rent vitt.
 - **Vitt ljus.** Skriv "white light", aldrig varmt, gult eller "golden".
   Varmt ljus ger färgade bilder.
 - **Få ljuskällor och djupa skuggor:** en gatlykta, en hängande lampa, en
@@ -27,11 +33,20 @@ detaljer. Spänning och misstänksamhet, aldrig splatter.
 - **Kläderna:** 1950-tal. Hatt (fedora), trenchcoat, kostym med slips,
   klänning och kappa, liten hatt med flor, pärlor, skärmmössa, keps.
 - **Personerna är påhittade.** Inga kända personer, inga kända seriefigurer.
-- **Ingen text i bilden.** Inga pratbubblor, rubriker, skyltar med text,
-  ramar eller signaturer. Papper och kort i bilden är tomma.
-- **Död utan blod.** Mordbilderna visar att någon är död genom läget,
-  föremål som har fallit och åskådare, aldrig sår eller blod. Avsluta Scene
-  med "No blood visible." En pistol får synas i mördarens hand, på håll.
+- **Ingen text i bilden.** Inga pratbubblor, rubriker, siffror, ramar eller
+  signaturer. Papper och kort i bilden är tomma. Undantag: korta universella
+  skyltord som hör till platsen, som TAXI och HOTEL (Jonas 2026-11-14: "Taxi
+  och hotel tycker jag är ok, dvs text o form av skyltar som är
+  universella").
+- **Död utan sår.** Mordbilderna visar att någon är död genom läget,
+  föremål som har fallit och åskådare, aldrig sår eller stänk. En liten pöl
+  av svart blod får synas (Jonas 2026-11-14: "Pool of black blood tycker jag
+  är ok, annars blir det inte en trovärdig bild, och eftersom det är
+  svartvitt känns det ändå milt."). En pistol får synas i mördarens hand, på
+  håll.
+- **Naturliga proportioner.** Huvudet är litet i förhållande till axlarna.
+  Med bröstbild och uppfälld krage blev huvudet för stort (Jonas
+  2026-11-14).
 
 ## Formatet
 
@@ -43,7 +58,7 @@ detaljer. Spänning och misstänksamhet, aldrig splatter.
   personen. Rollporträtten har oftast `100% 30%`.
 - **Lugna hörn uppe till vänster och nere till höger.** Där ligger
   berättarens textrutor.
-- **Rollporträtt:** bröstbild, kameran i ögonhöjd (maffian och gudfadern
+- **Rollporträtt:** från midjan och upp, kameran i ögonhöjd (maffian och gudfadern
   lite underifrån), personen ser in i bilden eller mot betraktaren.
   Rollbilden visar personen, inte uppgiften: ansiktet i ljuset, en egen
   karaktär och en enda sak som visar rollen. Ögonblicket och det dolda
@@ -65,6 +80,15 @@ galningens slut har det också. Spelaren väljer vilken som visas.
 - **Kläderna visar könet tydligt även i liten storlek:** hatt med flor,
   kappa, klänning, uppsatt hår för kvinnan; fedora, kostym, mustasch för
   mannen.
+- **Kvinnlig kropp och egen gest.** När kvinnan görs med mannens bild som
+  referens följer hans händer, armar och axlar lätt med, och det syns
+  direkt (Jonas 2026-11-14: "Händerna är för manliga. Det är ett
+  återkommande problem."). Be om kvinnlig kropp och små smala händer, och ge
+  henne en egen gest med händerna. Står hon i hans pose kopieras hans
+  händer ändå.
+- **Gör om hela bilden i stället för att klippa in en del.** En hatt som
+  byts med en redigering syns (Jonas 2026-11-14). Gör om bilden med samma
+  prompt och rätt referens.
 - Mordbilderna har olika scener för kvinnor och män, men lika många av
   varje.
 

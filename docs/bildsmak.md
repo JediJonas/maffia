@@ -64,11 +64,16 @@ bygger på det.
 Från första bedömningen av alla 64 bilder (Jonas 2026-11-13). Filnamnen syftar
 på `src/scenes/images/`.
 
-1. **Svart tusch och vitt papper, inga grå ytor.** Skuggor är helt svarta och
-   ljus är vitt papper. Grått i regn eller glas kan gå om det är sparsamt, men
-   det är bättre utan. `scripts/kontrollera-bilder.py` mäter jämna grå ytor
-   och godkänner högst 1,8 procent av bilden. Alla bilder som Jonas gillar
-   ligger under.
+1. **Svart tusch och vitt papper, grått bara som sparsam lavering.** Skuggor
+   är svarta och ljus är vitt papper. Grått får finnas som lavering: platta
+   toner med synliga penseldrag i bakgrund och skuggor, aldrig mjuka
+   övergångar, dimma eller grått i ansiktets ljusa sida. Helt utan grått
+   blev detektiven platt (Jonas 2026-11-14). `scripts/kontrollera-bilder.py`
+   mäter jämna grå ytor och godkänner högst 12 procent av bilden; de
+   godkända laveringsbilderna har 2,5–10,8 procent. Under gränsen avgör
+   ögat vilken sorts grått det är.
+   - Gillar, lavering: `roll-detektiv-*`, `natt-detektiv-*`,
+     `roll-taxichauffor-kvinna` (2026-11-14).
    - Gillar: `dom-kvinna`, `dom-man`, `roll-bartender-*`, `roll-korvgubbe-*`,
      `morgon-mord-trappa-kvinna`, `skapa`.
    - Gillar inte: `natt-detektiv-*`, `natt-lakare-*` (grå tvätt över hela
@@ -212,13 +217,47 @@ en regel.
   akten), med iakttagelserna: "Dina iakttagelser är helt korrekta. Jag håller
   med. Men vi behåller dessa bilder (även om de inte är perfekta)"
 
+- 2026-11-14, bildstilen i stort: "Jag är lite nyfiken på om vi skulle kunna
+  få till en enhetlig bildstil." Förslaget finns i artefakten Maffia
+  bildprompter (<https://claude.ai/artifact/VXKnzaLmQAV7CQrsZFUDh6>).
+- 2026-11-14, text och blod: "Taxi och hotel tycker jag är ok, dvs text o form
+  av skyltar som är universella. Pool of black blood tycker jag är ok, annars
+  blir det inte en trovärdig bild, och eftersom det är svartvitt känns det
+  ändå milt."
+- 2026-11-14, en referensbild per prompt: "Skulle vi kunna ha EN bild som
+  referens." Om porträttens referens: "jag tycker bartendern är bäst som
+  representation av rollbild, enkla rena linjer för ansiktet". Om mannens
+  bilder: "Borde vi ha man som referens på manbilderna?" (ja).
+- 2026-11-14, `ga-med`: "'who has just knocked' verkar ställa till det för
+  bilden 'gå med'. Mannen står alltid och knackar i luften."
+- 2026-11-14, `roll-dold` med en tunn mapp i stället för akten (bortvald): "vi
+  behåller den gamla prompten, det blev INTE bättre".
+- 2026-11-14, `roll-detektiv-man` utan grått, med ljus från sidan och färre
+  ansiktsdrag (bortvald): "det blev inte bra. Jag gillar egentligen vår förra
+  detektiv, det är gråtonerna som jag skulle vilja undvika. Men nu blir det
+  lite platt. Så vi kanske måste tillåta gråtoner till viss del." Det gamla
+  med tröskel i efterbehandlingen (bortvald): "Orginalet är bäst."
+- 2026-11-14, första detektiverna med lavering i bröstbild (bortvalda): "Huvudet
+  är oproportionerligt stort och ser konstigt ut med kragen." Taxichaufförens
+  kvinna i samma stil: "jag gillar taxichaufför kvinna".
+- 2026-11-14, `roll-detektiv-man` från midjan och upp med nedfälld krage: "Den
+  är bra!" `roll-detektiv-kvinna`: först med liten rund hatt ("jag tycker hon
+  ska ha fedora hatt också"), sedan med fedoran inredigerad (bortvald: "man ser
+  annars att den nya hatten 'klippts' in"), sist omgjord från början med
+  fedora: "Mycket bra."
+- 2026-11-14, `natt-detektiv-man` vid skrivbordet med förstoringsglas: "Ser bra
+  ut." `natt-detektiv-kvinna` i mannens pose (bortvald): "Händerna är för
+  manliga. Det är ett återkommande problem ... Det mänskliga ögat är väldigt
+  känsligt för detta, har jag märkt, man ser direkt att något är fel." Med egen
+  gest och kvinnliga händer: "det ser bra ut".
+
 ## Bilder att byta
 
 När bildansvarig kan ta fram bilder själv (via Gemini) byts de här först, i
 den här ordningen:
 
-1. Gillar inte: `natt-detektiv-*`, `natt-lakare-*`, `roll-detektiv-*`,
-   `natt-maffia-1`–`3`. (`ga-med` byttes 2026-11-13.)
+1. Gillar inte: `natt-lakare-*`, `natt-maffia-1`–`3`. (`roll-detektiv-*` och
+   `natt-detektiv-*` byttes 2026-11-14.) (`ga-med` byttes 2026-11-13.)
 2. `lobby` byttes 2026-11-13 mot samma bar som `skapa`, och `ga-med` mot
    barens bakdörr, så att Nytt spel, Gå med och lobbyn hänger ihop (Jonas
    2026-11-13).

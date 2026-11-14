@@ -26,12 +26,15 @@ MAX_CHANNEL_DIFFERENCE = 2
 DARKEST_PERCENTILE, LIGHTEST_PERCENTILE = 2, 98
 # Jämna grå ytor: mellangrå bildpunkter som knappt skiljer sig från sin
 # omgivning. Tuschlinjer och korsskraffering växlar mellan svart och vitt och
-# räknas inte. Alla bilder Jonas gillar ligger under 1,8 procent, och de han
-# sa "gråtoner" om ligger mest över (Jonas 2026-11-13).
+# räknas inte. Sparsam lavering (ink wash) är tillåten (Jonas 2026-11-14), och
+# de godkända laveringsbilderna har 2,5–10,8 procent. Över 12 procent är det
+# grå en tvätt över hela bilden. Under gränsen avgör ögat: mjuka övergångar,
+# dimma och grått i ansiktets ljusa sida ska bort även när kontrollen klarar
+# bilden (docs/bildsmak.md).
 FLAT_GREY_RANGE = (60, 195)
 FLAT_GREY_BLUR_RADIUS = 1
 FLAT_GREY_MAX_STEP = 6
-MAX_FLAT_GREY_PERCENT = 1.8
+MAX_FLAT_GREY_PERCENT = 12
 
 
 def check(path):
