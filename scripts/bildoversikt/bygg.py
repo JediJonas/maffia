@@ -9,6 +9,11 @@ databas, i samlingen `bedomning` med bildens filnamn utan .webp som id, och
 den allmänna kommentaren i `anteckningar/allmant`. Bildansvarig läser dem
 och skriver reglerna i docs/bildsmak.md.
 
+Varje bild märks med om den är gjord med de nya prompterna (stilgrunden från
+2026-11-14 med sparsam lavering) eller med de gamla, så att Jonas ser vilka
+som återstår (Jonas 2026-11-14). En prompt räknas som ny när den nämner
+"ink wash", som bara stilgrunden gör.
+
     python3 scripts/bildoversikt/bygg.py <mapp> [alla-bildprompter.md]
 
 Skriver <mapp>/index.html och <mapp>/bilder/*.webp (800 px breda). Publicera
@@ -23,6 +28,8 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent / 'src' / 'scenes'
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else sys.exit('Ange en mapp att bygga sidan i.')
 MAX_W = 800
+# Ordet som bara de nya prompterna har (se ovan).
+NEW_STYLE_MARK = 'ink wash'
 PROMPT_FILE = Path(sys.argv[2] if len(sys.argv) > 2 else '/mnt/project-files/maffia/alla-bildprompter.md')
 
 src = (REPO / 'sceneImages.js').read_text()
@@ -95,7 +102,7 @@ def read_prompts(path):
             chunk = chunk.strip()
             if chunk: parts.append({'kind': 'code' if i % 2 else 'text', 'text': chunk})
         for f in files: by_id[f] = len(prompts)
-        prompts.append({'title': title.strip(), 'parts': parts})
+        prompts.append({'title': title.strip(), 'parts': parts, 'new': NEW_STYLE_MARK in body})
     return by_id, prompts
 
 prompt_of, prompts = read_prompts(PROMPT_FILE)
@@ -118,6 +125,7 @@ items.sort(key=lambda x: (order[x['group']], x['id']))
 data = {'groups': [{'id': g, 'title': t} for g, t, _ in GROUPS], 'images': items, 'prompts': prompts}
 missing = [x['id'] for x in items if x['prompt'] is None]
 if missing: print('Utan prompt:', ', '.join(missing))
+print('Nya prompter:', sum(1 for x in items if x['prompt'] is not None and prompts[x['prompt']]['new']))
 tpl = (HERE / 'mall.html').read_text()
 (OUT / 'index.html').write_text(tpl.replace('__DATA__', json.dumps(data, ensure_ascii=False).replace('</', '<\\/')))
 print(len(items), 'bilder', sum(p.stat().st_size for p in (OUT/'bilder').glob('*')) // 1024, 'KB')

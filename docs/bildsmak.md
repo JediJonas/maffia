@@ -225,8 +225,9 @@ en regel.
   med. Men vi behåller dessa bilder (även om de inte är perfekta)"
 
 - 2026-11-14, bildstilen i stort: "Jag är lite nyfiken på om vi skulle kunna
-  få till en enhetlig bildstil." Förslaget finns i artefakten Maffia
-  bildprompter (<https://claude.ai/artifact/JA714wjfNoxPD3UvankR8F>). Den gamla
+  få till en enhetlig bildstil." Förslaget finns i artefakten Nya
+  bildprompter (<https://claude.ai/artifact/JA714wjfNoxPD3UvankR8F>), som
+  hette Maffia bildprompter till 2026-11-14. Den gamla
   sidan Maffias bildprompter från 2026-11-09 är borttagen, så att de inte
   blandas ihop (Jonas 2026-11-14).
 - 2026-11-14, text och blod: "Taxi och hotel tycker jag är ok, dvs text o form
