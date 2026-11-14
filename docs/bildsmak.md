@@ -200,6 +200,17 @@ en regel.
   där. Men annars gillar jag utseendet på dem jättemycket." `natt-advokat-man`
   redigerades så att porträttets advokat sitter vid bordet, med resten av
   bilden orörd.
+- 2026-11-14, `roll-advokat-kvinna` som porträtt med öppen kavaj, uppknäppt
+  blus, kort löst hår och glasögonen uppskjutna i håret (bortvald): "Är
+  advokatkvinnans kläder tidsenliga. Och glasögonen på huvudet. Vi behöver se
+  till att man upplever att det är 50-tal." Kläder, frisyr och gester ska vara
+  tydligt 1950-tal: knäppt midjad kavaj, blusrosett, uppsatt vågigt hår, liten
+  hatt, kattögonglasögon i kedja.
+- 2026-11-14, `roll-livvakt-kvinna` som porträtt (samma port som mannen, men
+  nästan hans rock och axlar) och `roll-advokat-kvinna` och
+  `natt-advokat-kvinna` i 50-talsstil (lite slätt ansikte, stel hand på
+  akten), med iakttagelserna: "Dina iakttagelser är helt korrekta. Jag håller
+  med. Men vi behåller dessa bilder (även om de inte är perfekta)"
 
 ## Bilder att byta
 
