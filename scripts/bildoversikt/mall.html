@@ -1,10 +1,10 @@
-<title>Bildbedömning</title>
+<title>Bildöversikt</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=Big+Shoulders+Display:wght@900&display=swap">
 <style>
-/* Layout: en kontaktbladsvägg i noir, tusch på papper; bilderna i rutnät per vy, omdömet under varje ruta. */
+/* Layout: en kontaktbladsvägg i noir, tusch på papper; bilderna i rutnät per vy, omdömet och prompten under varje ruta. */
 :root {
   --paper: #ffffff;
   --ink: #0b0b0b;
@@ -89,7 +89,23 @@ textarea::placeholder { color: var(--muted); }
 .note { padding: 0 12px; }
 .note textarea { min-height: 52px; font-size: 0.95rem; }
 
-button:focus-visible, textarea:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.prompt { padding: 0 12px; }
+.prompt summary { cursor: pointer; font-weight: 700; min-height: 32px; display: flex; align-items: center; }
+.prompt-body { display: flex; flex-direction: column; gap: 10px; padding-top: 6px; }
+.prompt-title { font-size: 0.85rem; color: var(--muted); }
+.prompt-text { font-size: 0.85rem; color: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; }
+.prompt-code { display: flex; flex-direction: column; gap: 6px; }
+.prompt-code pre {
+  margin: 0; max-height: 260px; overflow: auto; padding: 8px 10px; border: 2px solid var(--ink);
+  font: 400 0.8rem/1.45 ui-monospace, "Courier New", monospace; white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.copy {
+  align-self: flex-start; min-height: 40px; padding: 0 16px; border-radius: 999px;
+  border: 2px solid var(--ink); background: var(--ink); color: var(--paper); font: 700 0.9rem/1 var(--text); cursor: pointer;
+}
+.prompt-missing { font-size: 0.85rem; color: var(--muted); padding: 0 12px; }
+
+button:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 .empty { padding: 24px; border: 2px dashed var(--ink); }
 
 dialog { border: 0; padding: 0; background: transparent; max-width: min(1100px, 100vw - 32px); }
@@ -103,9 +119,9 @@ dialog img { display: block; max-width: 100%; max-height: calc(100dvh - 120px); 
 
 <main>
   <header class="intro">
-    <h1>Bildbedömning</h1>
-    <p class="lead">Markera vad du gillar i bilderna och vad du inte gillar, och skriv gärna ett par ord om varför. Bildansvarig läser dina omdömen och gör om dem till regler för nya bilder.</p>
-    <p class="muted">Tryck på en bild för att se den större. Tryck på samma omdöme igen för att ta bort det. Allt sparas direkt.</p>
+    <h1>Bildöversikt</h1>
+    <p class="lead">Alla bilder i staden. Markera vad du gillar och vad du inte gillar, och skriv gärna ett par ord om varför. Bildansvarig läser dina omdömen och gör om dem till regler för nya bilder.</p>
+    <p class="muted">Tryck på en bild för att se den större. Tryck på samma omdöme igen för att ta bort det. Allt sparas direkt. Under varje bild finns prompten som bilden togs fram med.</p>
   </header>
 
   <section class="progress" aria-label="Hur många som är bedömda">
@@ -257,9 +273,55 @@ function buildCard(img) {
   });
   noteBox.append(note);
 
-  card.append(thumb, meta, rate, noteBox);
+  card.append(thumb, meta, rate, noteBox, buildPrompt(img));
   cards.set(img.id, card);
   return card;
+}
+
+function buildPrompt(img) {
+  const prompt = DATA.prompts[img.prompt];
+  if (!prompt) {
+    const p = document.createElement('p'); p.className = 'prompt-missing';
+    p.textContent = 'Prompten saknas i alla-bildprompter.md.';
+    return p;
+  }
+  const details = document.createElement('details'); details.className = 'prompt';
+  const summary = document.createElement('summary'); summary.textContent = 'Prompt';
+  const body = document.createElement('div'); body.className = 'prompt-body';
+  const title = document.createElement('p'); title.className = 'prompt-title'; title.textContent = prompt.title;
+  body.append(title);
+  // Fylls först när rutan öppnas, så att sidan inte bygger alla prompter i onödan.
+  details.addEventListener('toggle', () => {
+    if (!details.open || body.childElementCount > 1) return;
+    for (const part of prompt.parts) {
+      if (part.kind === 'text') {
+        const p = document.createElement('p'); p.className = 'prompt-text'; p.textContent = part.text;
+        body.append(p);
+        continue;
+      }
+      const box = document.createElement('div'); box.className = 'prompt-code';
+      const pre = document.createElement('pre'); pre.textContent = part.text; pre.tabIndex = 0;
+      const copy = document.createElement('button'); copy.type = 'button'; copy.className = 'copy'; copy.textContent = 'Kopiera';
+      copy.addEventListener('click', () => copyText(part.text, pre, copy));
+      box.append(pre, copy);
+      body.append(box);
+    }
+  });
+  details.append(summary, body);
+  return details;
+}
+
+async function copyText(text, pre, button) {
+  try {
+    await navigator.clipboard.writeText(text);
+    button.textContent = 'Kopierad';
+  } catch {
+    // Urklipp kan vara spärrat i ramen: markera texten så att den går att kopiera för hand.
+    const range = document.createRange(); range.selectNodeContents(pre);
+    const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    button.textContent = 'Markerad, kopiera själv';
+  }
+  setTimeout(() => { button.textContent = 'Kopiera'; }, 2000);
 }
 
 function renderCard(id) {

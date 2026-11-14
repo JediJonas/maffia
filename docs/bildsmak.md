@@ -8,7 +8,7 @@ referens.
 
 ## Hur filen växer
 
-1. Jonas bedömer bilderna på bedömningssidan
+1. Jonas bedömer bilderna i bildöversikten
    (<https://claude.ai/artifact/XEMHU7vZH4ngKYGMyU7pbA>): gillar, okej eller
    gillar inte, med ett par ord om varför.
 2. Bildansvarig läser omdömena, letar efter vad favoriterna har gemensamt och

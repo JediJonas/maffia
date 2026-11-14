@@ -1,12 +1,15 @@
-"""Bygger bedömningssidan för bildrutans bilder (Jonas 2026-11-13).
+"""Bygger bildöversikten för bildrutans bilder (Jonas 2026-11-13, namnet
+Bildöversikt Jonas 2026-11-14).
 
 Sidan är en artefakt på claude.ai där Jonas markerar varje bild med gillar,
-okej eller gillar inte och skriver varför. Omdömena sparas i artefaktens
+okej eller gillar inte och skriver varför. Vid varje bild går prompten att
+visa och kopiera; den hämtas ur alla-bildprompter.md i projektfilerna med
+hjälp av raden `Fil:` under varje rubrik. Omdömena sparas i artefaktens
 databas, i samlingen `bedomning` med bildens filnamn utan .webp som id, och
 den allmänna kommentaren i `anteckningar/allmant`. Bildansvarig läser dem
 och skriver reglerna i docs/bildsmak.md.
 
-    python3 scripts/bildbedomning/bygg.py <mapp>
+    python3 scripts/bildoversikt/bygg.py <mapp> [alla-bildprompter.md]
 
 Skriver <mapp>/index.html och <mapp>/bilder/*.webp (800 px breda). Publicera
 sedan index.html med bilderna som filer till samma artefakt, så att
@@ -20,6 +23,7 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent / 'src' / 'scenes'
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else sys.exit('Ange en mapp att bygga sidan i.')
 MAX_W = 800
+PROMPT_FILE = Path(sys.argv[2] if len(sys.argv) > 2 else '/mnt/project-files/maffia/alla-bildprompter.md')
 
 src = (REPO / 'sceneImages.js').read_text()
 imports = dict(re.findall(r"^import (\w+) from './images/([^']+)';$", src, re.M))
@@ -71,6 +75,30 @@ def label_of(stem):
     label = ', '.join(words)
     return (label[0].upper() + label[1:]) if label else stem, variant
 
+def read_prompts(path):
+    """Ger {bildens id: index} och listan med promptavsnitt ({title, parts})."""
+    if not path.exists():
+        print('Hittar inte', path, '- sidan byggs utan prompter.')
+        return {}, []
+    by_id, prompts = {}, []
+    for section in re.split(r'^### ', path.read_text(), flags=re.M)[1:]:
+        title, _, body = section.partition('\n')
+        body = re.split(r'^## ', body, flags=re.M)[0]
+        files = []
+        def take(m):
+            files.extend(re.findall(r'`([^`]+)`', m.group(1)))
+            return ''
+        body = re.sub(r'^Fil: (.*)$', take, body, flags=re.M)
+        if not files: continue
+        parts = []
+        for i, chunk in enumerate(re.split(r'^```\w*$', body, flags=re.M)):
+            chunk = chunk.strip()
+            if chunk: parts.append({'kind': 'code' if i % 2 else 'text', 'text': chunk})
+        for f in files: by_id[f] = len(prompts)
+        prompts.append({'title': title.strip(), 'parts': parts})
+    return by_id, prompts
+
+prompt_of, prompts = read_prompts(PROMPT_FILE)
 items = []
 OUT.joinpath('bilder').mkdir(parents=True, exist_ok=True)
 for f in sorted((REPO / 'images').glob('*.webp')):
@@ -83,11 +111,13 @@ for f in sorted((REPO / 'images').glob('*.webp')):
     im.save(OUT / 'bilder' / f.name, 'WEBP', quality=78, method=6)
     label, variant = label_of(stem)
     items.append({'id': stem, 'file': f.name, 'group': group_of(stem), 'label': label, 'variant': variant,
-                  'alt': alts.get(f.name, ''), 'w': w, 'h': h})
+                  'alt': alts.get(f.name, ''), 'w': w, 'h': h, 'prompt': prompt_of.get(stem)})
 
 order = {gid: i for i, (gid, _, _) in enumerate(GROUPS)}
 items.sort(key=lambda x: (order[x['group']], x['id']))
-data = {'groups': [{'id': g, 'title': t} for g, t, _ in GROUPS], 'images': items}
+data = {'groups': [{'id': g, 'title': t} for g, t, _ in GROUPS], 'images': items, 'prompts': prompts}
+missing = [x['id'] for x in items if x['prompt'] is None]
+if missing: print('Utan prompt:', ', '.join(missing))
 tpl = (HERE / 'mall.html').read_text()
-(OUT / 'index.html').write_text(tpl.replace('__DATA__', json.dumps(data, ensure_ascii=False)))
+(OUT / 'index.html').write_text(tpl.replace('__DATA__', json.dumps(data, ensure_ascii=False).replace('</', '<\\/')))
 print(len(items), 'bilder', sum(p.stat().st_size for p in (OUT/'bilder').glob('*')) // 1024, 'KB')
