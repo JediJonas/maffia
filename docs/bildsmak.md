@@ -187,6 +187,30 @@ en regel.
   (högklackat, litet och lite sött ansikte, fedora i stället för rollbildens
   runda hatt, bakgrunden nästan kopierad): "Dina iakttagelser är bra, men vi
   kör på denna ändå."
+- 2026-11-14, `roll-advokat-*` och `roll-livvakt-*` jämförda med de äldre
+  rollbilderna: "Jag tycker att de gamla rollbilderna mer fokuserar på
+  personen än uppgiften. Och stilmässigt tycker jag också det är en annan
+  känsla." Förslaget att rollbilderna får en egen porträttmall: "Låter bra.
+  Börja med livvakt och advokat man."
+- 2026-11-14, `roll-livvakt-man` som porträtt (armarna i kors vid en upplyst
+  port) och `roll-advokat-man` som porträtt (lutar sig i dörren till byrån med
+  akten under armen): "Jag tycker båda är bra!"
+- 2026-11-14, `natt-advokat-*` efter de nya rollporträtten: "Antar att
+  nattbilderna för advokat också måste göras om, så att rätt advokat sitter
+  där. Men annars gillar jag utseendet på dem jättemycket." `natt-advokat-man`
+  redigerades så att porträttets advokat sitter vid bordet, med resten av
+  bilden orörd.
+- 2026-11-14, `roll-advokat-kvinna` som porträtt med öppen kavaj, uppknäppt
+  blus, kort löst hår och glasögonen uppskjutna i håret (bortvald): "Är
+  advokatkvinnans kläder tidsenliga. Och glasögonen på huvudet. Vi behöver se
+  till att man upplever att det är 50-tal." Kläder, frisyr och gester ska vara
+  tydligt 1950-tal: knäppt midjad kavaj, blusrosett, uppsatt vågigt hår, liten
+  hatt, kattögonglasögon i kedja.
+- 2026-11-14, `roll-livvakt-kvinna` som porträtt (samma port som mannen, men
+  nästan hans rock och axlar) och `roll-advokat-kvinna` och
+  `natt-advokat-kvinna` i 50-talsstil (lite slätt ansikte, stel hand på
+  akten), med iakttagelserna: "Dina iakttagelser är helt korrekta. Jag håller
+  med. Men vi behåller dessa bilder (även om de inte är perfekta)"
 
 ## Bilder att byta
 

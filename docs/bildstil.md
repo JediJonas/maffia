@@ -45,6 +45,9 @@ detaljer. Spänning och misstänksamhet, aldrig splatter.
   berättarens textrutor.
 - **Rollporträtt:** bröstbild, kameran i ögonhöjd (maffian och gudfadern
   lite underifrån), personen ser in i bilden eller mot betraktaren.
+  Rollbilden visar personen, inte uppgiften: ansiktet i ljuset, en egen
+  karaktär och en enda sak som visar rollen. Ögonblicket och det dolda
+  ansiktet hör till natt-, morgon- och dombilderna (Jonas 2026-11-14).
 - **Nattbilder:** rollen gör sin sak i natten, sedd lite på avstånd: läkaren
   går med sin väska, detektiven läser en akt, stadsbon sover.
 
