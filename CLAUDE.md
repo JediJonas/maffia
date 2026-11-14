@@ -88,14 +88,17 @@ utseendet. Det viktigaste:
   mäter jämna grå ytor. En ny bild ska klara allt. Äldre bilder med för
   mycket grått står i `docs/bildsmak.md` under "Bilder att byta".
 - Jonas smak står i `docs/bildsmak.md`, som regler med bilder som exempel.
-  Den växer ur bedömningssidan
+  Den växer ur bildöversikten
   <https://claude.ai/artifact/XEMHU7vZH4ngKYGMyU7pbA>, där Jonas markerar
   varje bild med gillar, okej eller gillar inte och skriver varför (Jonas
-  2026-11-13). Omdömena ligger i artefaktens databas: samlingen `bedomning`
+  2026-11-13). Sidan hette Bildbedömning och heter Bildöversikt sedan Jonas
+  2026-11-14. Vid varje bild går prompten att visa och kopiera; den hämtas ur
+  `maffia/alla-bildprompter.md` med raden `Fil:` under varje rubrik, så skriv
+  den raden när en bild läggs till eller byts. Omdömena ligger i artefaktens databas: samlingen `bedomning`
   med filnamnet utan `.webp` som id, och `anteckningar/allmant`. Läs dem med
-  ArtifactData. Varje ny eller bytt bild läggs alltid in på bedömningssidan,
+  ArtifactData. Varje ny eller bytt bild läggs alltid in i bildöversikten,
   i samma tråd som den läggs in i spelet (Jonas 2026-11-13): bygg om sidan
-  med `python3 scripts/bildbedomning/bygg.py <mapp>` och publicera den som
+  med `python3 scripts/bildoversikt/bygg.py <mapp>` och publicera den som
   en ny version till samma adress, så att omdömena följer med. Skicka
   `index.html` och de nya eller bytta bilderna under `bilder/`; övriga filer
   ligger kvar. Läs omdömena före och efter och kontrollera att de finns kvar.

@@ -57,7 +57,7 @@ När ägaren har bedömt bilder:
    som bryter mot den.
 4. Skriv in en regel först när ägaren har godkänt den, med datum.
 
-När en bild läggs till i spelet eller byts: bygg alltid om bedömningssidan så
+När en bild läggs till i spelet eller byts: bygg alltid om bildöversikten så
 att den kommer med (Jonas 2026-11-13), säg i svaret att sidan ska publiceras
 till samma adress (du kan inte publicera själv) och be ägaren bedöma bilden.
 
@@ -87,7 +87,7 @@ granskningen ville byta (`roll-advokat-*` och `dom-advokat-*`, 2026-11-13).
 
 ## Lära sig av ägarens svar
 
-Ägarens svar när den får se bilderna är lika viktiga som bedömningssidan.
+Ägarens svar när den får se bilderna är lika viktiga som bildöversikten.
 Varje gång ägaren säger något om en bild i en tråd, till exempel "ser ut som
 detektiven" eller "för mörkt ansikte", skriver du in det under "Omdömen i
 trådar" i smakfilen: datum, bilden och ägarens egna ord. Det är ett omdöme,
@@ -114,8 +114,10 @@ anropet lämnar du färdiga prompter för att klistras in för hand.
    regler, inte bara kontrollskriptet? Skriv vad som brister och prova igen
    med en ändrad scen eller kamera, inte en ändrad mall.
 4. Bilderna hamnar i `nya-bilder/`, som inte checkas in. Lägg en bild i
-   `src/scenes/images/` först när ägaren har sagt ja, och lägg den på
-   bedömningssidan.
+   `src/scenes/images/` först när ägaren har sagt ja, och lägg in den i
+   bildöversikten. Skriv prompten i `maffia/alla-bildprompter.md` med raden
+   `Fil: \`<filnamn utan .webp>\`` under rubriken, så att prompten syns vid
+   bilden i bildöversikten.
 
 ## Svaret
 
