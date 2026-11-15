@@ -310,6 +310,17 @@ en regel.
   filnamn, så omdömena och exemplen ovan som nämner dem gäller de gamla
   bilderna tills Jonas har bedömt de nya. Detektiverna från 2026-11-14 med
   mindre lavering är därmed också ersatta.
+- 2026-11-15, `roll-borgmastare-kvinna` omgjord: "hon behöver inte vara så
+  smal, och behöver inte heller lägga handen på trappan". Med händerna löst
+  knäppta: "hon ser osäker ut, händerna borde nog röra varandra". Prompten
+  ber nu om en kraftig kvinna med knäppta händer som ser säker ut.
+- 2026-11-15, `roll-lakare-*` i sin mottagning i stället för på gatan, med
+  bartendern som stilreferens som förut (Jonas: "kan du ändra så att han är
+  i sin klinik?").
+- 2026-11-15, `roll-stadsbo-*`: "dörren saknar handtag, nyckeln sitter i ett
+  hål och sedan är det ett till nyckelhål under". Prompten låter nu personen
+  ha handen på en rund dörrknopp, utan nyckel, och dörren är fullstor ("dörren
+  ser lite för liten ut").
 
 ## Bilder att byta
 
