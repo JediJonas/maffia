@@ -321,6 +321,14 @@ en regel.
   hål och sedan är det ett till nyckelhål under". Prompten låter nu personen
   ha handen på en rund dörrknopp, utan nyckel, och dörren är fullstor ("dörren
   ser lite för liten ut").
+- 2026-11-15, `roll-stadsbo-*` vid dörren efter sex försök med mannen. Jonas
+  valde det näst sista ("Jag gillar den näst sista bäst") men ville ha
+  gatlyktan ovanför huvudet bortmålad med svart, inte med ljus ("den skulle
+  målas över med svart"). Det inmålade regnet skulle vara glest och ljust
+  som det övriga ("ta bort det mesta av det, och gör det ljusare"). Ett
+  försök vid köksbordet var "inte bra". Kvinnan blev rätt på första försöket
+  med mannens bild som referens ("Toppen!"). Slutsatserna står under "Undvik
+  i prompter" i `docs/bilder-och-prompter.md`.
 
 ## Bilder att byta
 
