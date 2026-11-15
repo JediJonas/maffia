@@ -329,6 +329,11 @@ en regel.
   försök vid köksbordet var "inte bra". Kvinnan blev rätt på första försöket
   med mannens bild som referens ("Toppen!"). Slutsatserna står under "Undvik
   i prompter" i `docs/bilder-och-prompter.md`.
+- 2026-11-15, `roll-korvgubbe-*` och `roll-fonstertittare-*` gjorda med de
+  justerade prompterna. Korvgumman blev "sämre" första gången:
+  "schaletten borde vara knuten i nacken som på den gamla bilden".
+  Fönstertittaren var bra men skulle "stå på insidan av fönstret och titta
+  ut", så båda ses nu utifrån genom rutan ("Mycket bra", "Perfekt").
 
 ## Bilder att byta
 
