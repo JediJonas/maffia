@@ -22,6 +22,8 @@ före det som står här.
 3. Behövs en kvinna och en man, skriv båda, med samma scen, plats, ljus och
    kamera. Byt bara personen.
 4. Gå igenom prompten mot stilguidens regler innan du lämnar den ifrån dig.
+   Gå också igenom "Undvik i prompter" i `docs/bilder-och-prompter.md`:
+   inga förbud mot föremål, en sak i händerna, inga mått, en handling.
 5. Spara prompten där projektet säger att prompter sparas, under rätt rubrik,
    så att filen alltid stämmer med appen. Lämna också prompten i ditt svar,
    komplett och redo att klistras in.
