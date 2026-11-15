@@ -21,6 +21,13 @@ Stilen, och vad som gäller för kvinna och man, står i [bildstil.md](bildstil.
 - Textrutor uppe till vänster och nere till höger, så de hörnen ska vara lugna i bilden.
 
 ## Promptmall (engelska)
+Nya bilder tas fram med prompterna i artefakten Nya bildprompter
+<https://claude.ai/artifact/JA714wjfNoxPD3UvankR8F>. Där står hela prompten
+och referensbilden för varje bild, byggda på stilgrunden nedan (Jonas
+2026-11-15). Jonas tar själv fram bilder med dem; ange då filnamnet, så
+efterbehandlas bilden och läggs in som vanligt. Den som gav bilden skrivs in i
+`maffia/alla-bildprompter.md`, och bildöversikten märker bilden "Ny prompt".
+
 Ge alltid hela prompten (alla fem stycken) till Jonas, aldrig bara Scene.
 De två första styckena och det sista är alltid desamma (Jonas omarbetade version, 2026-11-09, utökad med tecknarens stil ur [bildsmak.md](bildsmak.md), Jonas 2026-11-13). Byt bara "Scene" och vid behov kameran och ljuskällan i "Composition". Välj nära eller halvnära bild. Formatet är alltid wide 4:3, eftersom bildrutan är 318 px hög och 1,15:1 (mobil) till 1,5:1 (dator) bred. Ställ in 4:3 även i Leonardo. Undantag: startsidan, som fyller hela skärmen (9:16).
 
@@ -42,10 +49,31 @@ Original characters only. Full bleed: the drawing runs off all four edges of the
 Rollbilderna är porträtt av personen, inte scener om uppgiften (Jonas 2026-11-14). Använd mallen ovan men stryk meningarna "Show a moment of action rather than a posed portrait." och "Faces are simply drawn and often partly hidden …", och regn när scenen är inomhus. Personen har en egen karaktär (ålder, ansikte, hållning) och rollen märks på en enda sak. Ansiktet ligger i ljuset och blicken går mot oss. Personen syns från midjan och upp, inte i bröstbild, så att huvudet inte blir för stort (Jonas 2026-11-14). Skicka en enda referensbild (Jonas 2026-11-14): `roll-bartender-man` för stilen när mannen görs först, eftersom bartendern har enkla, rena linjer i ansiktet, och mannens nya bild när kvinnan görs. Kvinnans prompt börjar då med en inledning om vad bilden ska användas till och slutar den med en mening om kvinnlig kropp och händer. Ge henne en egen gest. Gemini ritar ofta en tunn ram trots full bleed; beskär bort den. Exempel: `roll-detektiv-man` och `roll-detektiv-kvinna` i `maffia/alla-bildprompter.md`.
 
 ```
-Scene: a portrait of <rollen> at night, <ålder, ansikte, kläder>. <Var personen står och den enda saken som visar rollen>. <Ljuset> falls across his/her face. He/She looks straight at us, <min>. His/Her face is clearly visible in the white light, simply drawn with a few firm lines. <Bakgrunden> dissolve(s) into solid black. Exactly one person. No other people are present.
+Scene: a portrait of <rollen> at night, <ålder, ansikte, kläder>. <Var personen står och den enda saken som visar rollen>. <Ljuset> falls across his/her face. He/She looks straight at us, <min>. His/Her face is clearly visible in the white light, simply drawn with a few firm lines. <Bakgrunden i några ord: vad ljuset faller på>. Exactly one person. No other people are present.
 
 Composition: wide 4:3 frame, half-length portrait from the waist up, eye-level camera, the figure a little right of centre, strong contrast between white light and deep black shadows.
 ```
+
+### Undvik i prompter
+
+Slutsatser av sex misslyckade försök med stadsbon vid sin ytterdörr (Jonas
+2026-11-15). Gemini fick aldrig dörr, dörrknopp, lås, husvägg, gatlykta och
+en blick bakåt rätt samtidigt; varje rättelse flyttade felet till något annat.
+
+1. **Skriv inte vad som inte ska finnas.** "No keyhole" gav nyckelhål och
+   "the lamp outside the frame" gav en lampa i bild. Det som nämns ritas. Låt
+   bli att nämna det, och beskriv ljuset utan källan ("hard white light from
+   the left").
+2. **Bara en sak som händerna rör.** Rollbilder som lyckats har en person som
+   håller eller bär en enda sak (glaset, koppen, väskan).
+3. **Mått och placering går inte att styra.** "Knoppen i midjehöjd", "dörren
+   högre än han" och "halva dörren syns" följdes slumpvis. Styr vad som finns
+   i bilden, inte exakt var.
+4. **Stämningsord tas bokstavligt.** "Dissolve into solid black" gav en
+   helsvart vägg och "a narrow strip of boards" en vägg som tog över bilden.
+   Beskriv hellre vad ljuset faller på.
+5. **En handling i taget.** Personen bara är, eller gör en enda sak; inte
+   öppnar dörren, ser bakåt och är rädd på en gång.
 
 `scripts/generera-bild.py` bygger alltid prompten ur mallen ovan, så porträttprompten har hittills skickats som hel prompt.
 

@@ -304,8 +304,63 @@ en regel.
   svart) ligger i projektfilerna under
   `maffia/enhetlig-bildstil/lavering/lakare-roll/`. Arbetet vilar tills
   vidare, även mannen (Jonas 2026-11-15).
+- 2026-11-15, Jonas tog själv fram tio rollbilder med prompterna i Nya
+  bildprompter: `roll-borgmastare-*`, `roll-detektiv-*`, `roll-galningen-*`,
+  `roll-gudfadern-*` och `roll-maffia-*`. De ersätter de gamla under samma
+  filnamn, så omdömena och exemplen ovan som nämner dem gäller de gamla
+  bilderna tills Jonas har bedömt de nya. Detektiverna från 2026-11-14 med
+  mindre lavering är därmed också ersatta.
+- 2026-11-15, `roll-borgmastare-kvinna` omgjord: "hon behöver inte vara så
+  smal, och behöver inte heller lägga handen på trappan". Med händerna löst
+  knäppta: "hon ser osäker ut, händerna borde nog röra varandra". Prompten
+  ber nu om en kraftig kvinna med knäppta händer som ser säker ut.
+- 2026-11-15, `roll-lakare-*` i sin mottagning i stället för på gatan, med
+  bartendern som stilreferens som förut (Jonas: "kan du ändra så att han är
+  i sin klinik?").
+- 2026-11-15, `roll-stadsbo-*`: "dörren saknar handtag, nyckeln sitter i ett
+  hål och sedan är det ett till nyckelhål under". Prompten låter nu personen
+  ha handen på en rund dörrknopp, utan nyckel, och dörren är fullstor ("dörren
+  ser lite för liten ut").
+- 2026-11-15, `roll-stadsbo-*` vid dörren efter sex försök med mannen. Jonas
+  valde det näst sista ("Jag gillar den näst sista bäst") men ville ha
+  gatlyktan ovanför huvudet bortmålad med svart, inte med ljus ("den skulle
+  målas över med svart"). Det inmålade regnet skulle vara glest och ljust
+  som det övriga ("ta bort det mesta av det, och gör det ljusare"). Ett
+  försök vid köksbordet var "inte bra". Kvinnan blev rätt på första försöket
+  med mannens bild som referens ("Toppen!"). Slutsatserna står under "Undvik
+  i prompter" i `docs/bilder-och-prompter.md`.
+- 2026-11-15, `roll-korvgubbe-*` och `roll-fonstertittare-*` gjorda med de
+  justerade prompterna. Korvgumman blev "sämre" första gången:
+  "schaletten borde vara knuten i nacken som på den gamla bilden".
+  Fönstertittaren var bra men skulle "stå på insidan av fönstret och titta
+  ut", så båda ses nu utifrån genom rutan ("Mycket bra", "Perfekt").
+  Sedan beskurna tätare kring fönstret ("zooma in lite").
+- 2026-11-15, `roll-advokat-man` omritad i den nya stilen med den gamla
+  bilden som referens: "Den gamla advokaten var mycket bättre",
+  "kavajen blir kladdig". Kritstrecksränder blir kladdiga med lösa
+  penseldrag; den gamla bilden behålls. `roll-taxichauffor-man`: "huvudet är
+  en aning för stort", "inte litet, men normal".
+  `roll-taxichauffor-kvinna` ritad med den nya mannen som enda referens blev
+  "sämre"; med två referenser (gamla kvinnan för personen, nya mannen för
+  scen och stil) blev den "bättre".
+  `roll-livvakt-man` ritad om med den gamla bilden som referens: "Vi kör på
+  de". `roll-livvakt-kvinna` med två referenser (gamla kvinnan, nya mannen)
+  och smalare axlar: "Mycket bra".
+  `roll-bartender-man` ritad om med den gamla bilden som referens, mörkare
+  bar och färre detaljer: "Mycket bra". `roll-bartender-kvinna` med två
+  referenser: "Det ser bra ut". De nya bilderna är nu stilreferens för
+  porträtten.
 
 ## Bilder att byta
+
+Alla bilder görs om med prompterna i Nya bildprompter, så att stilen blir
+enhetlig (Jonas 2026-11-15). Rent svartvita favoriter görs också om, eftersom
+sparsam lavering nu är stilen; de görs med sin gamla bild som referens för
+motivet och byts bara om den nya blir bättre. Undantag som behålls:
+
+- `roll-dold`: en ny version prövades och blev inte bättre.
+- `roll-taxichauffor-man`, `morgon-mord-hamn-man` och
+  `morgon-mord-telefonkiosk-man`: kvinnorna gjordes med dem som referens.
 
 När bildansvarig kan ta fram bilder själv (via Gemini) byts de här först, i
 den här ordningen:
