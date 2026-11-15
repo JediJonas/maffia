@@ -313,6 +313,18 @@ en regel.
 
 ## Bilder att byta
 
+Alla bilder görs om med prompterna i Nya bildprompter, så att stilen blir
+enhetlig (Jonas 2026-11-15). Rent svartvita favoriter görs också om, eftersom
+sparsam lavering nu är stilen; de görs med sin gamla bild som referens för
+motivet och byts bara om den nya blir bättre. Undantag som behålls:
+
+- `roll-dold`: en ny version prövades och blev inte bättre.
+- `roll-taxichauffor-man`, `morgon-mord-hamn-man` och
+  `morgon-mord-telefonkiosk-man`: kvinnorna gjordes med dem som referens.
+- `roll-bartender-*` behålls tills vidare, eftersom ansiktena är
+  stilreferens för porträtten, och görs om sist. Blir de nya bättre byts
+  stilreferensen till dem.
+
 När bildansvarig kan ta fram bilder själv (via Gemini) byts de här först, i
 den här ordningen:
 
