@@ -334,6 +334,7 @@ en regel.
   "schaletten borde vara knuten i nacken som på den gamla bilden".
   Fönstertittaren var bra men skulle "stå på insidan av fönstret och titta
   ut", så båda ses nu utifrån genom rutan ("Mycket bra", "Perfekt").
+  Sedan beskurna tätare kring fönstret ("zooma in lite").
 
 ## Bilder att byta
 
