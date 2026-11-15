@@ -119,6 +119,9 @@ utseendet. Det viktigaste:
   `generativelanguage.googleapis.com` med headern `x-goog-api-key`, så att
   nätverket lägger på den och den aldrig syns (Jonas 2026-11-13). Utanför
   molnmiljön läses den från `GEMINI_API_KEY`. Aldrig i repot.
+- Var sparsam med anrop till Gemini: ta fram en bild i taget och fråga Jonas
+  om synpunkter innan nästa anrop. Bara en uppenbart felaktig bild (ram, text,
+  trasiga händer) får göras om utan att fråga (Jonas 2026-11-15).
 - Slå upp Geminis aktuella modeller och anrop i skillen `gemini-api-dev`
   (`.claude/skills/`, Googles egen, källa i `KALLA.md`) innan skriptet ändras.
   MCP-servern `geminiDocs` (`.mcp.json`) nås inte från molnmiljön. Modellen

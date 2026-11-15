@@ -43,6 +43,9 @@ bygger på det.
      `morgon-mord-trappa-kvinna`.
    - Okej: `roll-galningen-*`, `roll-lakare-*`, `roll-stadsbo-*` (personen
      står still och tittar på oss).
+   - Undantag: rollbilderna. Där är personen huvudsaken, inte en händelse
+     (Jonas 2026-11-15: "vi ska inte fokusera på händelse i rollbilden, utan
+     på personen"). Ögonblicket hör hemma i natt-, morgon- och dombilderna.
 3. **Ansiktet är inte huvudsaken.** Personen syns ofta bakifrån, i profil,
    under en hattbrätte, i skugga eller liten i bilden. Stora, detaljerade
    ansikten rakt framifrån är där det släta och perfekta syns mest.
@@ -293,6 +296,14 @@ en regel.
   bilderna som referens och uppmaningen att inte ta efter deras grått. Av
   två försök valdes det med en liten fläck lavering kvar längst bak i
   gränden: "Vi kör på A!"
+- 2026-11-15, `roll-lakare-*` i ny miljö. Av tre förslag (trapphuset,
+  medicinskåpet, sjukhuskorridoren) valde Jonas korridoren: "vi ska inte
+  fokusera på händelse i rollbilden, utan på personen. Jag gillar läkarens
+  utseende men borde ritas enligt vår nya prompt." Tre försök med mannen
+  (ljus korridor, svart korridor med ljus över svängdörrarna, nästan helt
+  svart) ligger i projektfilerna under
+  `maffia/enhetlig-bildstil/lavering/lakare-roll/`. Arbetet vilar tills
+  vidare, även mannen (Jonas 2026-11-15).
 
 ## Bilder att byta
 
