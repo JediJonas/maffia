@@ -340,6 +340,9 @@ en regel.
   "kavajen blir kladdig". Kritstrecksränder blir kladdiga med lösa
   penseldrag; den gamla bilden behålls. `roll-taxichauffor-man`: "huvudet är
   en aning för stort", "inte litet, men normal".
+  `roll-taxichauffor-kvinna` ritad med den nya mannen som enda referens blev
+  "sämre"; med två referenser (gamla kvinnan för personen, nya mannen för
+  scen och stil) blev den "bättre".
 
 ## Bilder att byta
 
