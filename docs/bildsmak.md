@@ -335,6 +335,11 @@ en regel.
   Fönstertittaren var bra men skulle "stå på insidan av fönstret och titta
   ut", så båda ses nu utifrån genom rutan ("Mycket bra", "Perfekt").
   Sedan beskurna tätare kring fönstret ("zooma in lite").
+- 2026-11-15, `roll-advokat-man` omritad i den nya stilen med den gamla
+  bilden som referens: "Den gamla advokaten var mycket bättre",
+  "kavajen blir kladdig". Kritstrecksränder blir kladdiga med lösa
+  penseldrag; den gamla bilden behålls. `roll-taxichauffor-man`: "huvudet är
+  en aning för stort", "inte litet, men normal".
 
 ## Bilder att byta
 

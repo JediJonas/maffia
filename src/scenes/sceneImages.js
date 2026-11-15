@@ -99,7 +99,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   roleCitizenWoman: { src: roleCitizenWoman, alt: 'En kvinna i sjalett och kappa står vid sin ytterdörr i regnet med handen på dörrknoppen och ser oroligt bakåt.', position: '45% 30%' },
   roleCitizenMan: { src: roleCitizenMan, alt: 'En man i keps och rock står vid sin ytterdörr i regnet med handen på dörrknoppen och ser oroligt åt sidan.', position: '45% 30%' },
   roleTaxiDriverWoman: { src: roleTaxiDriverWoman, alt: 'En taxichaufför i skärmmössa och skinnjacka lutar sig ut genom fönstret på en taxi en regnig natt utanför ett hotell.', position: '100% 30%' },
-  roleTaxiDriverMan: { src: roleTaxiDriverMan, alt: 'En taxichaufför i keps med en cigarett i munnen lutar sig ut genom bilrutan en regnig natt utanför ett hotell.', position: '85% 30%' },
+  roleTaxiDriverMan: { src: roleTaxiDriverMan, alt: 'En taxichaufför i keps och skinnjacka med en cigarett i munnen sitter i sin taxi med armen på dörren en regnig natt utanför ett hotell.', position: '70% 40%' },
   roleWindowWatcherWoman: { src: roleWindowWatcherWoman, alt: 'En kvinna i morgonrock och papiljotter håller undan gardinen och tittar ut genom sitt fönster mot oss.', position: '75% 30%' },
   roleWindowWatcherMan: { src: roleWindowWatcherMan, alt: 'En äldre man med glasögonen uppskjutna i pannan och en kikare i handen håller undan gardinen och tittar ut genom sitt fönster mot oss.', position: '75% 30%' },
   roleBartenderWoman: { src: roleBartenderWoman, alt: 'En bartender i väst och fluga ställer fram en cocktail på bardisken, med flaskor bakom sig.', position: '100% 30%' },
