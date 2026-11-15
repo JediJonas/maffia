@@ -343,6 +343,9 @@ en regel.
   `roll-taxichauffor-kvinna` ritad med den nya mannen som enda referens blev
   "sämre"; med två referenser (gamla kvinnan för personen, nya mannen för
   scen och stil) blev den "bättre".
+  `roll-livvakt-man` ritad om med den gamla bilden som referens: "Vi kör på
+  de". `roll-livvakt-kvinna` med två referenser (gamla kvinnan, nya mannen)
+  och smalare axlar: "Mycket bra".
 
 ## Bilder att byta
 

@@ -91,7 +91,7 @@ export const SCENE_IMAGES = /** @type {const} */ ({
   roleDetectiveWoman: { src: roleDetectiveWoman, alt: 'En kvinnlig detektiv i ljus trenchcoat och fedora antecknar i ett block i en regnig gränd under en gatlykta.', position: '100% 30%' },
   roleDetectiveMan: { src: roleDetectiveMan, alt: 'En manlig detektiv i ljus trenchcoat och fedora antecknar i ett block i en regnig gränd under en gatlykta.', position: '100% 30%' },
   roleDoctorWoman: { src: roleDoctorWoman, alt: 'En kvinnlig läkare i vit rock med stetoskop står med armarna i kors i sin mottagning, i ljuset från en skrivbordslampa.', position: '100% 30%' },
-  roleBodyguardWoman: { src: roleBodyguardWoman, alt: 'En lång livvakt i bältad rock och liten hatt står med armarna i kors vid en upplyst port en natt och ser prövande på oss.', position: '90% 30%' },
+  roleBodyguardWoman: { src: roleBodyguardWoman, alt: 'En lång, smal livvakt i bältad rock och liten hatt står med armarna i kors vid en upplyst port en natt och ser prövande på oss.', position: '90% 30%' },
   roleBodyguardMan: { src: roleBodyguardMan, alt: 'En stor livvakt med mustasch, i rock och fedora, står med armarna i kors vid en upplyst port en natt och ser rakt på oss.', position: '90% 30%' },
   roleDoctorMan: { src: roleDoctorMan, alt: 'En läkare med glasögon och mustasch, i vit rock med stetoskop, står vid skrivbordet i sin mottagning, i ljuset från en skrivbordslampa.', position: '100% 30%' },
   roleLawyerWoman: { src: roleLawyerWoman, alt: 'En advokat i knäppt dräkt, blus med rosett och liten hatt står i dörren till sin upplysta byrå med en tjock akt mot sidan och glasögonen i handen.', position: '100% 30%' },
