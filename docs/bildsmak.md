@@ -350,6 +350,10 @@ en regel.
   bar och färre detaljer: "Mycket bra". `roll-bartender-kvinna` med två
   referenser: "Det ser bra ut". De nya bilderna är nu stilreferens för
   porträtten.
+  `morgon-ingen` ritad om med bara den gamla bilden som referens blev först
+  för grå och sedan "inte alls bra". Den gamla har inte samma stil som de
+  andra, så den gjordes med `morgon-mord-polis-man` som stilreferens: "den
+  är bra!".
 
 ## Bilder att byta
 
