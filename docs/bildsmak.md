@@ -346,6 +346,10 @@ en regel.
   `roll-livvakt-man` ritad om med den gamla bilden som referens: "Vi kör på
   de". `roll-livvakt-kvinna` med två referenser (gamla kvinnan, nya mannen)
   och smalare axlar: "Mycket bra".
+  `roll-bartender-man` ritad om med den gamla bilden som referens, mörkare
+  bar och färre detaljer: "Mycket bra". `roll-bartender-kvinna` med två
+  referenser: "Det ser bra ut". De nya bilderna är nu stilreferens för
+  porträtten.
 
 ## Bilder att byta
 
@@ -357,9 +361,6 @@ motivet och byts bara om den nya blir bättre. Undantag som behålls:
 - `roll-dold`: en ny version prövades och blev inte bättre.
 - `roll-taxichauffor-man`, `morgon-mord-hamn-man` och
   `morgon-mord-telefonkiosk-man`: kvinnorna gjordes med dem som referens.
-- `roll-bartender-*` behålls tills vidare, eftersom ansiktena är
-  stilreferens för porträtten, och görs om sist. Blir de nya bättre byts
-  stilreferensen till dem.
 
 När bildansvarig kan ta fram bilder själv (via Gemini) byts de här först, i
 den här ordningen:
