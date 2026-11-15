@@ -21,6 +21,13 @@ Stilen, och vad som gäller för kvinna och man, står i [bildstil.md](bildstil.
 - Textrutor uppe till vänster och nere till höger, så de hörnen ska vara lugna i bilden.
 
 ## Promptmall (engelska)
+Nya bilder tas fram med prompterna i artefakten Nya bildprompter
+<https://claude.ai/artifact/JA714wjfNoxPD3UvankR8F>. Där står hela prompten
+och referensbilden för varje bild, byggda på stilgrunden nedan (Jonas
+2026-11-15). Jonas tar själv fram bilder med dem; ange då filnamnet, så
+efterbehandlas bilden och läggs in som vanligt. Den som gav bilden skrivs in i
+`maffia/alla-bildprompter.md`, och bildöversikten märker bilden "Ny prompt".
+
 Ge alltid hela prompten (alla fem stycken) till Jonas, aldrig bara Scene.
 De två första styckena och det sista är alltid desamma (Jonas omarbetade version, 2026-11-09, utökad med tecknarens stil ur [bildsmak.md](bildsmak.md), Jonas 2026-11-13). Byt bara "Scene" och vid behov kameran och ljuskällan i "Composition". Välj nära eller halvnära bild. Formatet är alltid wide 4:3, eftersom bildrutan är 318 px hög och 1,15:1 (mobil) till 1,5:1 (dator) bred. Ställ in 4:3 även i Leonardo. Undantag: startsidan, som fyller hela skärmen (9:16).
 

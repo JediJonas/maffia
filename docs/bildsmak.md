@@ -304,6 +304,12 @@ en regel.
   svart) ligger i projektfilerna under
   `maffia/enhetlig-bildstil/lavering/lakare-roll/`. Arbetet vilar tills
   vidare, även mannen (Jonas 2026-11-15).
+- 2026-11-15, Jonas tog själv fram tio rollbilder med prompterna i Nya
+  bildprompter: `roll-borgmastare-*`, `roll-detektiv-*`, `roll-galningen-*`,
+  `roll-gudfadern-*` och `roll-maffia-*`. De ersätter de gamla under samma
+  filnamn, så omdömena och exemplen ovan som nämner dem gäller de gamla
+  bilderna tills Jonas har bedömt de nya. Detektiverna från 2026-11-14 med
+  mindre lavering är därmed också ersatta.
 
 ## Bilder att byta
 
