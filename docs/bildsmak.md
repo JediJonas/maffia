@@ -354,6 +354,11 @@ en regel.
   för grå och sedan "inte alls bra". Den gamla har inte samma stil som de
   andra, så den gjordes med `morgon-mord-polis-man` som stilreferens: "den
   är bra!".
+  `dom-man`, `dom-kvinna`, `dom-advokat-kvinna` och `dom-advokat-man` ritade
+  Jonas själv om 2026-11-16 i Gemini, med en bifogad bild var: den egna
+  gamla bilden. Advokaten i domen är personen från rollbilden av motsatt
+  kön: advokaten (man) hos den anklagade kvinnan och tvärtom (Jonas
+  2026-11-15).
 
 ## Bilder att byta
 
